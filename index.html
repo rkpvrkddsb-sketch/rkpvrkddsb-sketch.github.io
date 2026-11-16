@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=21">
+  <link rel="stylesheet" href="style.css?v=22">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -37,12 +37,16 @@
     } catch (e) {}
   </script>
 </head>
-<body data-accent="orb" class="loading">
+<body data-accent="glow" class="loading">
+  <script>
+    // тема ставиться одразу, ще до першого кадру, щоб заставка була в кольорах сайту
+    try { const t = localStorage.getItem("theme"); if (t === "orb" || t === "glow") document.body.dataset.accent = t; } catch (e) {}
+  </script>
 
   <!-- Завантажувальний екран -->
   <div class="loader" id="loader" aria-hidden="true">
     <div class="ld-grid"></div>
-    <svg class="ld-logo" id="ld-logo" viewBox="0 0 377 244"><defs><filter id="ldGlow" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="14"/></filter><linearGradient id="ldFG" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#ff2a3a" stop-opacity="0"/><stop offset=".42" stop-color="#ff2a3a" stop-opacity=".55"/><stop offset=".5" stop-color="#ff7a84" stop-opacity="1"/><stop offset=".58" stop-color="#ff2a3a" stop-opacity=".55"/><stop offset="1" stop-color="#ff2a3a" stop-opacity="0"/></linearGradient><filter id="ldFB" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="1.6 2.2"/></filter></defs><path class="ld-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#ldGlow)"/><path data-o="4" class="ld-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path data-o="1" d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path data-o="2" d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path data-o="3" d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/><g class="ld-flare"><ellipse cx="185" cy="37" rx="300" ry="5" fill="url(#ldFG)" filter="url(#ldFB)"/><ellipse cx="185" cy="37" rx="120" ry="2.4" fill="url(#ldFG)"/></g></svg>
+    <svg class="ld-logo" id="ld-logo" viewBox="0 0 377 244"><defs><filter id="ldGlow" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="22"/></filter></defs><path class="ld-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#ldGlow)"/><path data-o="4" class="ld-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path data-o="1" d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path data-o="2" d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path data-o="3" d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></svg>
     <canvas class="ld-scope" id="ld-scope"></canvas>
     <div class="ld-label" id="ld-label"></div>
     <div class="ld-word"><i></i><span id="ld-word"></span><b class="ld-dots"><i></i><i></i><i></i></b></div>
@@ -53,7 +57,7 @@
 
   <nav class="nav" id="nav">
     <div class="wrap">
-      <a href="#top" class="logo" aria-label="j13"><svg class="wordmark" viewBox="0 0 377 244" role="img" aria-label="j13"><defs><filter id="wmGlow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="22"/></filter><filter id="wmGlow2" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="8"/></filter><linearGradient id="wmFG" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#ff2a3a" stop-opacity="0"/><stop offset=".42" stop-color="#ff2a3a" stop-opacity=".55"/><stop offset=".5" stop-color="#ff7a84" stop-opacity="1"/><stop offset=".58" stop-color="#ff2a3a" stop-opacity=".55"/><stop offset="1" stop-color="#ff2a3a" stop-opacity="0"/></linearGradient><filter id="wmFB" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="1.6 2.2"/></filter></defs><g fill="currentColor"><path class="wm-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-glow wm-glow2" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow2)"/><path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><g class="wm-flare"><ellipse cx="185" cy="37" rx="300" ry="5" fill="url(#wmFG)" filter="url(#wmFB)"/><ellipse cx="185" cy="37" rx="120" ry="2.4" fill="url(#wmFG)"/></g><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg></a>
+      <a href="#top" class="logo" aria-label="j13"><svg class="wordmark" viewBox="0 0 377 244" role="img" aria-label="j13"><defs><filter id="wmGlow" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="34"/></filter><filter id="wmGlow3" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="18"/></filter><filter id="wmGlow2" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="8"/></filter></defs><g fill="currentColor"><path class="wm-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-glow wm-glow3" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow3)"/><path class="wm-glow wm-glow2" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow2)"/><path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg></a>
       <ul>
         <li><a href="#projects" data-i18n="nav_projects">Проєкти</a></li>
         <li><a href="#about" data-i18n="nav_about">Про мене</a></li>
@@ -64,8 +68,8 @@
         <button data-l="uk">UA</button><button data-l="en">EN</button>
       </div>
       <div class="themes" id="themes" aria-label="Тема сайту">
+        <button data-v="glow" title="Ніч" aria-label="Ніч"></button>
         <button data-v="orb" title="Сяйво" aria-label="Сяйво"></button>
-        <button data-v="glow" title="Ніч"></button>
       </div>
       <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><i></i><i></i></button>
     </div>
@@ -174,8 +178,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=21"></script>
-  <script src="content-en.js?v=21"></script>
+  <script src="content.js?v=22"></script>
+  <script src="content-en.js?v=22"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -200,7 +204,7 @@
         task: "Задача", solution: "Рішення", result: "Результат",
         features: 'Що <span class="em">вміє</span>', next: "Наступний проєкт",
         toast_secret: "🎉 Ти знайшов секретну тему!", toast_back: "Повернулись у звичайний світ 👋",
-        themes: ["Сяйво", "Ніч"], loading: "Завантаження",
+        themes: ["Ніч", "Сяйво"], loading: "Завантаження",
         chat: ["Привіт! Хочу забронювати столик на вечір 🙌", "Звісно! На скільки осіб і о котрій?", "Нас 4, о 19:00",
                "Готово ✅ Чекаємо вас о 19:00. Нагадаю за годину!", "Змінити час", "Скасувати"]
       },
@@ -216,7 +220,7 @@
         task: "Challenge", solution: "Solution", result: "Result",
         features: 'What it <span class="em">does</span>', next: "Next project",
         toast_secret: "🎉 You found the secret theme!", toast_back: "Back to the normal world 👋",
-        themes: ["Aurora", "Night"], loading: "Loading",
+        themes: ["Night", "Aurora"], loading: "Loading",
         chat: ["Hi! I'd like to book a table for tonight 🙌", "Sure! For how many people and what time?", "4 of us, at 7 pm",
                "Done ✅ See you at 7 pm. I'll remind you an hour before!", "Change time", "Cancel"]
       }
@@ -229,10 +233,10 @@
       b.classList.toggle("on", b.dataset.l === LANG);
       b.onclick = () => {
         if (b.dataset.l === LANG) return;
-        try { localStorage.setItem("lang", b.dataset.l); sessionStorage.setItem("keepScroll", scrollY); } catch (e) {}
+        try { localStorage.setItem("lang", b.dataset.l); sessionStorage.setItem("keepScroll", scrollY); sessionStorage.setItem("drawLang", b.dataset.l); } catch (e) {}
         // екран «вмикається» як кінескоп і закриває сторінку, потім перезавантаження — і нова мова з'являється з того ж екрана
         const cover = document.createElement("div"); cover.className = "crt-cover";
-        cover.innerHTML = `<span>${b.dataset.l === "en" ? "EN" : "UA"}</span>`;
+        cover.innerHTML = "";
         document.body.appendChild(cover);
         document.documentElement.classList.add("loader-active");
         setTimeout(() => {
@@ -444,7 +448,7 @@
 
     // ---- Теми ----
     const THEMES = ["orb", "glow"];   // «Помаранч» прибрали — збережений вибір перейде на «Сяйво»
-    let theme = "orb";
+    let theme = "glow";
     function setTheme(v, save = true) {
       theme = v; document.body.dataset.accent = v;
       const tc = document.querySelector('meta[name="theme-color"]');
@@ -453,13 +457,13 @@
       if (save) try { localStorage.setItem("theme", v); } catch (e) {}
     }
     document.querySelectorAll("#themes button").forEach(b => b.onclick = () => setTheme(b.dataset.v));
-    let saved = "orb"; try { saved = localStorage.getItem("theme") || "orb"; } catch (e) {}
+    let saved = "glow"; try { saved = localStorage.getItem("theme") || "glow"; } catch (e) {}
     const q = new URLSearchParams(location.search).get("theme");
-    setTheme(THEMES.includes(q) ? q : (THEMES.includes(saved) ? saved : "orb"), false);
+    setTheme(THEMES.includes(q) ? q : (THEMES.includes(saved) ? saved : "glow"), false);
 
     // ---- Пасхалка: ↑ ↑ ↓ ↓ ← → ← → B A ----
     const KONAMI = ["arrowup","arrowup","arrowdown","arrowdown","arrowleft","arrowright","arrowleft","arrowright","b","a"];
-    let kpos = 0, beforeSecret = "orb";
+    let kpos = 0, beforeSecret = "glow";
     addEventListener("keydown", e => {
       const k = e.key.toLowerCase(), want = KONAMI[kpos];
       kpos = (k === want || (want === "b" && k === "и") || (want === "a" && k === "ф")) ? kpos + 1 : (k === KONAMI[0] ? 1 : 0);
@@ -657,34 +661,73 @@
       };
       if (html.classList.contains("no-loader")) { el.remove(); done(); html.classList.remove("loader-active"); return; }
 
-      // ---- коротка (перезавантаження / зміна мови): кінескоп вмикається, сигнал на осцилографі, «Завантаження» ----
+      // кольори заставок беремо з поточної теми — щоб не відрізнялись від сайту
+      const css = getComputedStyle(document.body);
+      const ACC = css.getPropertyValue("--accent").trim() || "#c6ff3d";
+
+      // ---- коротка (перезавантаження / зміна мови) ----
       if (html.classList.contains("loader-short")) {
         const cv = $("ld-scope"), ctx = cv.getContext("2d"), lab = $("ld-label");
         const dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, Hh = innerHeight;
         cv.width = W * dpr; cv.height = Hh * dpr; ctx.scale(dpr, dpr);
-        const GREEN = "#c6ff3d", TOTAL = 1150;
+        let drawLang = null; try { drawLang = sessionStorage.getItem("drawLang"); sessionStorage.removeItem("drawLang"); } catch (e) {}
+        const TOTAL = drawLang ? 1250 : 1100;
+        const glowLine = () => { ctx.strokeStyle = ACC; ctx.shadowColor = ACC; ctx.shadowBlur = 8; ctx.lineWidth = 2.2; ctx.lineCap = "round"; ctx.lineJoin = "round"; };
+
+        // літери для «UA» / «EN» — ламані, по яких іде промінь (той самий нахил, що в логотипі)
+        let strokes = null;
+        if (drawLang) {
+          const G = { U: [[[0,0],[0,56],[8,72],[20,80],[40,80],[52,72],[60,56],[60,0]]],
+                      A: [[[0,80],[30,0],[60,80]], [[12,50],[48,50]]],
+                      E: [[[60,0],[0,0],[0,80],[60,80]], [[0,40],[46,40]]],
+                      N: [[[0,80],[0,0],[60,80],[60,0]]] };
+          const word = drawLang === "en" ? "EN" : "UA", S = Math.min(1.1, W / 420), gap = 34, slant = .28;
+          const totalW = (word.length * 60 + (word.length - 1) * gap) * S;
+          strokes = [];
+          [...word].forEach((ch, i) => G[ch].forEach(line => strokes.push(line.map(([x, y]) => [
+            W / 2 - totalW / 2 + (i * (60 + gap) + x + slant * (80 - y)) * S - slant * 40 * S,
+            Hh / 2 - 40 * S + y * S]))));
+          lab.textContent = drawLang === "en" ? "ENGLISH" : "УКРАЇНСЬКА";
+          lab.style.top = `calc(50% + ${Math.round(40 * S + 30)}px)`;
+        }
+        const segLen = l => l.slice(1).reduce((s, p, i) => s + Math.hypot(p[0] - l[i][0], p[1] - l[i][1]), 0);
+        const totalLen = strokes ? strokes.reduce((s, l) => s + segLen(l), 0) : 0;
+
         const t0 = performance.now(); let alive = true;
         (function draw(now) {
           const t = Math.max(0, now - t0), k = Math.min(t / TOTAL, 1);
-          ctx.globalCompositeOperation = "destination-out"; ctx.fillStyle = "rgba(0,0,0,.28)"; ctx.fillRect(0, 0, W, Hh);
-          ctx.globalCompositeOperation = "source-over";
-          ctx.strokeStyle = GREEN; ctx.shadowColor = "rgba(198,255,61,.45)"; ctx.shadowBlur = 7; ctx.lineWidth = 1.8; ctx.globalAlpha = .85;
-          // маленька фігура Ліссажу посередині — як сигнал на осцилографі в режимі XY
-          const grow = Math.min(t / 260, 1), R = 26 * (1 - Math.pow(1 - grow, 3)), cx = W / 2, cy = Hh / 2;
-          const ph = t / 520;
-          ctx.beginPath();
-          for (let i = 0; i <= 160; i++) {
-            const u = i / 160 * Math.PI * 2;
-            const x = cx + R * Math.sin(2 * u + ph), y = cy + R * Math.sin(3 * u);
-            i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+          ctx.clearRect(0, 0, W, Hh);
+          glowLine();
+          if (strokes) {
+            // промінь пробігає літери, слід лишається; наприкінці — рівне світіння
+            let left = totalLen * Math.min(t / (TOTAL * .62), 1), head = null;
+            for (const l of strokes) {
+              if (left <= 0) break;
+              ctx.beginPath(); ctx.moveTo(l[0][0], l[0][1]);
+              for (let i = 1; i < l.length && left > 0; i++) {
+                const [x0, y0] = l[i - 1], [x1, y1] = l[i], d = Math.hypot(x1 - x0, y1 - y0), f = Math.min(left / d, 1);
+                const x = x0 + (x1 - x0) * f, y = y0 + (y1 - y0) * f;
+                ctx.lineTo(x, y); left -= d; head = [x, y];
+              }
+              ctx.stroke();
+            }
+            if (head && t < TOTAL * .62) { ctx.fillStyle = "#fff"; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(head[0], head[1], 2.6, 0, 7); ctx.fill(); }
+          } else {
+            // маленька фігура Ліссажу — сигнал осцилографа
+            const grow = Math.min(t / 260, 1), R = 26 * (1 - Math.pow(1 - grow, 3)), cx = W / 2, cy = Hh / 2, ph = t / 520;
+            ctx.beginPath();
+            for (let i = 0; i <= 160; i++) {
+              const u = i / 160 * Math.PI * 2, x = cx + R * Math.sin(2 * u + ph), y = cy + R * Math.sin(3 * u);
+              i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+            }
+            ctx.stroke();
+            lab.textContent = `${T.loading.toUpperCase()}  ${String(Math.round(100 * (1 - Math.pow(1 - k, 2)))).padStart(3, " ")}%`;
           }
-          ctx.stroke();
-          lab.textContent = `${T.loading.toUpperCase()}  ${String(Math.round(100 * (1 - Math.pow(1 - k, 2)))).padStart(3, " ")}%`;
           if (alive) requestAnimationFrame(draw);
         })(t0);
         el.classList.add("draw");
         setTimeout(() => {
-          el.classList.add("crt-off"); done();               // кінескоп «вимикається» в лінію і точку — під ним сайт
+          el.classList.add("crt-off"); done();
           setTimeout(() => { alive = false; el.remove(); html.classList.remove("loader-active"); }, 520);
         }, TOTAL);
         return;
@@ -695,7 +738,7 @@
       const dpr = Math.min(devicePixelRatio || 1, 2);
       cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
       ctx.scale(dpr, dpr);
-      const GREEN = "#c6ff3d";            // той самий салатовий, що в темі «Ніч»
+      const GREEN = ACC;                  // колір акценту поточної теми
       // контур логотипа -> точки на екрані (промінь іде частина за частиною, між ними — «стрибок» без сліду)
       const parts = [...svg.querySelectorAll("path[data-o]")].sort((p, q) => p.dataset.o - q.dataset.o).map(p => {
         const L = p.getTotalLength(), n = Math.max(24, Math.round(L / 3)), m = p.getScreenCTM(), pts = [];
@@ -720,7 +763,7 @@
         ctx.fillRect(0, 0, innerWidth, innerHeight);
         ctx.globalCompositeOperation = "source-over";
         ctx.lineCap = "round"; ctx.lineJoin = "round";
-        ctx.strokeStyle = GREEN; ctx.shadowColor = "rgba(198,255,61,.45)"; ctx.shadowBlur = 5 + 4 * k;
+        ctx.strokeStyle = GREEN; ctx.shadowColor = GREEN; ctx.shadowBlur = 5 + 4 * k;
         ctx.lineWidth = 1.6 + .8 * k;
         ctx.globalAlpha = hold ? .45 : .4 + .3 * (1 - k);
         const steps = hold ? N : Math.min(speedAt(t) * dt, N * 1.05);
