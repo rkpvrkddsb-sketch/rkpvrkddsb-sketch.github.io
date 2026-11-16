@@ -5,7 +5,7 @@
 // =====================================================
 
 const site_en = {
-  name: "Your Name",
+  name: "j13",
   role: "Product Developer",
   location: "Dublin, Ireland",
   available: "Open to new projects",

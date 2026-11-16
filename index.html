@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Твоє Ім'я — Розробник продуктів</title>
+  <title>j13 — Розробник продуктів</title>
 
   <!-- Опис і прев'ю, коли посилання кидають у Telegram / Instagram / Google.
        Якщо зміниш адресу сайту (свій домен) — онови og:url і og:image. -->
   <meta name="description" content="Портфоліо: веб-платформи, боти для Telegram і WhatsApp, автоматизація для бізнесу.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Твоє Ім'я — Розробник продуктів">
+  <meta property="og:title" content="j13 — Розробник продуктів">
   <meta property="og:description" content="Веб-платформи, боти для Telegram і WhatsApp, автоматизація для бізнесу.">
   <meta property="og:image" content="https://rkpvrkddsb-sketch.github.io/images/og.png">
   <meta property="og:url" content="https://rkpvrkddsb-sketch.github.io/">
@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=9">
+  <link rel="stylesheet" href="style.css?v=10">
   <script>
     // Заставка: перший візит — «привіт» різними мовами; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -44,7 +44,7 @@
 
   <nav class="nav" id="nav">
     <div class="wrap">
-      <a href="#top" class="logo"><i></i><span id="logo-name"></span></a>
+      <a href="#top" class="logo" aria-label="j13"><svg class="wordmark" viewBox="0 0 158 100" role="img" aria-label="j13"><g fill="none" stroke="currentColor" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"><path d="M34 36 V70 A22 22 0 0 1 12 92"/><path d="M58 24 L74 8 V92"/><path d="M100 8 H142 L117 42 C137 42 150 53 150 67 C150 82 138 92 122 92 C111 92 103 88 98 81"/></g><circle class="wm-dot" cx="34" cy="8" r="8"/></svg></a>
       <ul>
         <li><a href="#projects" data-i18n="nav_projects">Проєкти</a></li>
         <li><a href="#about" data-i18n="nav_about">Про мене</a></li>
@@ -167,8 +167,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=9"></script>
-  <script src="content-en.js?v=9"></script>
+  <script src="content.js?v=10"></script>
+  <script src="content-en.js?v=10"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -239,7 +239,6 @@
     const pad = i => String(i + 1).padStart(2, "0");
     const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-    $("logo-name").textContent = site.name;
     $("available").textContent = site.available;
     $("intro").textContent = site.intro;
     $("about-text").textContent = site.intro;
