@@ -29,13 +29,16 @@
     <div class="wrap">
       <a href="#top" class="logo"><i></i><span id="logo-name"></span></a>
       <ul>
-        <li><a href="#projects">Проєкти</a></li>
-        <li><a href="#about">Про мене</a></li>
-        <li><a href="#faq">Питання</a></li>
-        <li><a href="#contact">Контакти</a></li>
+        <li><a href="#projects" data-i18n="nav_projects">Проєкти</a></li>
+        <li><a href="#about" data-i18n="nav_about">Про мене</a></li>
+        <li><a href="#faq" data-i18n="nav_faq">Питання</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Контакти</a></li>
       </ul>
+      <div class="lang" id="lang" role="group" aria-label="Мова / Language">
+        <button data-l="uk">UA</button><button data-l="en">EN</button>
+      </div>
       <div class="themes" id="themes" aria-label="Тема сайту">
-        <button data-v="orb" title="Сяйво"></button>
+        <button data-v="orb" title="Сяйво" aria-label="Сяйво"></button>
         <button data-v="block" title="Помаранч"></button>
         <button data-v="glow" title="Ніч"></button>
       </div>
@@ -47,11 +50,11 @@
   <div class="m-menu" id="m-menu" aria-hidden="true">
     <div class="wrap">
       <nav class="m-links">
-        <a href="#projects">Проєкти</a>
-        <a href="#about">Про мене</a>
-        <a href="#experience">Досвід</a>
-        <a href="#faq">Питання</a>
-        <a href="#contact">Контакти</a>
+        <a href="#projects" data-i18n="nav_projects">Проєкти</a>
+        <a href="#about" data-i18n="nav_about">Про мене</a>
+        <a href="#experience" data-i18n="nav_exp">Досвід</a>
+        <a href="#faq" data-i18n="nav_faq">Питання</a>
+        <a href="#contact" data-i18n="nav_contact">Контакти</a>
       </nav>
       <div class="m-foot" id="m-foot"></div>
     </div>
@@ -68,8 +71,8 @@
         <h1 id="headline"></h1>
         <p class="intro fade-in" id="intro"></p>
         <div class="meta fade-in" id="hero-meta">
-          <a href="#projects" class="btn primary magnet">Дивитись проєкти →</a>
-          <a href="#contact" class="btn magnet">Зв'язатися</a>
+          <a href="#projects" class="btn primary magnet" data-i18n="btn_projects">Дивитись проєкти →</a>
+          <a href="#contact" class="btn magnet" data-i18n="btn_contact">Зв'язатися</a>
         </div>
       </div>
     </header>
@@ -79,7 +82,7 @@
     <section id="projects">
       <div class="wrap">
         <div class="sec-head reveal">
-          <h2>Вибрані <span class="em">проєкти</span></h2>
+          <h2 data-i18n="h_projects">Вибрані <span class="em">проєкти</span></h2>
           <span id="projects-count"></span>
         </div>
         <div class="projects" id="projects-list"></div>
@@ -91,11 +94,11 @@
         <div class="stats reveal" id="stats"></div>
         <div class="about-grid">
           <div class="reveal">
-            <span class="label">Про мене</span>
+            <span class="label" data-i18n="l_about">Про мене</span>
             <p class="big" id="about-text"></p>
           </div>
           <div class="reveal">
-            <span class="label">Навички та інструменти</span>
+            <span class="label" data-i18n="l_skills">Навички та інструменти</span>
             <div class="skills" id="skills"></div>
           </div>
         </div>
@@ -104,14 +107,14 @@
 
     <section id="experience">
       <div class="wrap">
-        <div class="sec-head reveal"><h2>Досвід</h2></div>
+        <div class="sec-head reveal"><h2 data-i18n="h_exp">Досвід</h2></div>
         <div class="timeline" id="timeline"></div>
       </div>
     </section>
 
     <section id="reviews" hidden>
       <div class="wrap">
-        <div class="sec-head reveal"><h2>Що кажуть <span class="em">клієнти</span></h2></div>
+        <div class="sec-head reveal"><h2 data-i18n="h_reviews">Що кажуть <span class="em">клієнти</span></h2></div>
         <div class="reviews" id="reviews-list"></div>
       </div>
     </section>
@@ -119,8 +122,8 @@
     <section id="faq">
       <div class="wrap faq-grid">
         <div class="reveal">
-          <span class="label">Питання</span>
-          <h2 class="faq-title">Часті <span class="em">питання</span></h2>
+          <span class="label" data-i18n="l_faq">Питання</span>
+          <h2 class="faq-title" data-i18n="h_faq">Часті <span class="em">питання</span></h2>
         </div>
         <div class="faq-list" id="faq-list"></div>
       </div>
@@ -128,8 +131,8 @@
 
     <section id="contact" class="contact">
       <div class="wrap reveal">
-        <span class="label">Контакти</span>
-        <h2>Давай зробимо<br><span class="em">щось класне</span></h2>
+        <span class="label" data-i18n="l_contact">Контакти</span>
+        <h2 data-i18n="h_contact">Давай зробимо<br><span class="em">щось класне</span></h2>
         <a class="mail" id="mail"></a>
         <div class="socials" id="socials"></div>
       </div>
@@ -142,12 +145,72 @@
   <footer><div class="wrap"><span id="foot-name"></span><span id="foot-loc"></span></div></footer>
 
   <!-- Курсор -->
-  <div class="cur" id="cur"><i class="cur-shape"></i><span class="cur-label">Дивитись →</span></div>
+  <div class="cur" id="cur"><i class="cur-shape"></i><span class="cur-label" data-i18n="cur_view">Дивитись →</span></div>
 
 
   <div class="toast" id="toast"></div>
 
   <script src="content.js"></script>
+  <script src="content-en.js"></script>
+  <script>
+    // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
+    const LANGS = ["uk", "en"];
+    let LANG = null;
+    try { LANG = localStorage.getItem("lang"); } catch (e) {}
+    const qLang = new URLSearchParams(location.search).get("lang");
+    if (LANGS.includes(qLang)) LANG = qLang;
+    if (!LANGS.includes(LANG)) LANG = /^(uk|ru|be)/i.test(navigator.language || "") ? "uk" : "en";
+    var site = LANG === "en" ? site_en : site_uk;
+
+    // Тексти інтерфейсу (заголовки, кнопки). Тексти про тебе — у content.js / content-en.js
+    const I18N = {
+      uk: {
+        nav_projects: "Проєкти", nav_about: "Про мене", nav_exp: "Досвід", nav_faq: "Питання", nav_contact: "Контакти",
+        btn_projects: "Дивитись проєкти →", btn_contact: "Зв'язатися",
+        h_projects: 'Вибрані <span class="em">проєкти</span>', projects_word: " проєкти · ",
+        l_about: "Про мене", l_skills: "Навички та інструменти", h_exp: "Досвід",
+        h_reviews: 'Що кажуть <span class="em">клієнти</span>',
+        l_faq: "Питання", h_faq: 'Часті <span class="em">питання</span>',
+        l_contact: "Контакти", h_contact: 'Давай зробимо<br><span class="em">щось класне</span>',
+        cur_view: "Дивитись →", more: "Детальніше", back: "← Усі проєкти", open: "Відкрити проєкт ↗",
+        task: "Задача", solution: "Рішення", result: "Результат",
+        features: 'Що <span class="em">вміє</span>', next: "Наступний проєкт",
+        toast_secret: "🎉 Ти знайшов секретну тему!", toast_back: "Повернулись у звичайний світ 👋",
+        themes: ["Сяйво", "Помаранч", "Ніч"],
+        chat: ["Привіт! Хочу забронювати столик на вечір 🙌", "Звісно! На скільки осіб і о котрій?", "Нас 4, о 19:00",
+               "Готово ✅ Чекаємо вас о 19:00. Нагадаю за годину!", "Змінити час", "Скасувати"]
+      },
+      en: {
+        nav_projects: "Projects", nav_about: "About", nav_exp: "Experience", nav_faq: "FAQ", nav_contact: "Contact",
+        btn_projects: "View projects →", btn_contact: "Get in touch",
+        h_projects: 'Selected <span class="em">projects</span>', projects_word: " projects · ",
+        l_about: "About me", l_skills: "Skills and tools", h_exp: "Experience",
+        h_reviews: 'What <span class="em">clients</span> say',
+        l_faq: "FAQ", h_faq: 'Common <span class="em">questions</span>',
+        l_contact: "Contact", h_contact: 'Let\'s build<br><span class="em">something great</span>',
+        cur_view: "View →", more: "Learn more", back: "← All projects", open: "Open project ↗",
+        task: "Challenge", solution: "Solution", result: "Result",
+        features: 'What it <span class="em">does</span>', next: "Next project",
+        toast_secret: "🎉 You found the secret theme!", toast_back: "Back to the normal world 👋",
+        themes: ["Aurora", "Orange", "Night"],
+        chat: ["Hi! I'd like to book a table for tonight 🙌", "Sure! For how many people and what time?", "4 of us, at 7 pm",
+               "Done ✅ See you at 7 pm. I'll remind you an hour before!", "Change time", "Cancel"]
+      }
+    };
+    const T = I18N[LANG];
+    document.documentElement.lang = LANG;
+    document.querySelectorAll("[data-i18n]").forEach(el => { if (T[el.dataset.i18n] != null) el.innerHTML = T[el.dataset.i18n]; });
+    document.querySelectorAll("#themes button").forEach((b, i) => { b.title = T.themes[i]; b.setAttribute("aria-label", T.themes[i]); });
+    document.querySelectorAll("#lang button").forEach(b => {
+      b.classList.toggle("on", b.dataset.l === LANG);
+      b.onclick = () => {
+        if (b.dataset.l === LANG) return;
+        try { localStorage.setItem("lang", b.dataset.l); sessionStorage.setItem("keepScroll", scrollY); } catch (e) {}
+        const u = new URL(location.href); u.searchParams.delete("lang");
+        location.replace(u.toString());
+      };
+    });
+  </script>
   <script>
     // ---- Збирає сторінку з content.js (тут нічого міняти не треба) ----
     const $ = id => document.getElementById(id);
@@ -161,7 +224,7 @@
     $("about-text").textContent = site.intro;
     $("foot-name").textContent = "© " + new Date().getFullYear() + " " + site.name;
     $("foot-loc").textContent = site.location;
-    $("projects-count").textContent = site.projects.length + " проєкти · " + site.role;
+    $("projects-count").textContent = site.projects.length + T.projects_word + site.role;
 
     // Анімований заголовок: кожне слово виїжджає знизу по черзі
     const words = site.headline.split(" ");
@@ -189,16 +252,16 @@
       <div class="chart"></div><b></b><b style="width:80%"></b></div></div></div></div>`;
 
     const chatMock = `<div class="mock"><div class="phone"><div class="ph-top"><i></i><div><b></b><b style="width:50%"></b></div></div>
-      <div class="msgs"><div class="m in">Привіт! Хочу забронювати столик на вечір 🙌</div>
-      <div class="m out">Звісно! На скільки осіб і о котрій?</div>
-      <div class="m in">Нас 4, о 19:00</div>
-      <div class="m out">Готово ✅ Чекаємо вас о 19:00. Нагадаю за годину!</div>
-      <div class="btns"><span>Змінити час</span><span>Скасувати</span></div></div></div></div>`;
+      <div class="msgs"><div class="m in">${T.chat[0]}</div>
+      <div class="m out">${T.chat[1]}</div>
+      <div class="m in">${T.chat[2]}</div>
+      <div class="m out">${T.chat[3]}</div>
+      <div class="btns"><span>${T.chat[4]}</span><span>${T.chat[5]}</span></div></div></div></div>`;
 
     const visual = p => p.image ? `<img src="${esc(p.image)}" alt="${esc(p.title)}">` : (p.mock === "chat" ? chatMock : mock);
     const pills = (p, i) => `
       <span class="num">${pad(i)}</span>
-      <span class="pill ${p.status === 'в розробці' ? 'live' : ''}">${esc(p.status)}</span>
+      <span class="pill ${p.live || p.status === 'в розробці' ? 'live' : ''}">${esc(p.status)}</span>
       <span class="pill">${esc(p.year)}</span>`;
 
     $("projects-list").innerHTML = site.projects.map((p, i) => `
@@ -207,7 +270,7 @@
           <div class="row">${pills(p, i)}</div>
           <h3>${esc(p.title)}</h3>
           <p>${esc(p.description)}</p>
-          <span class="more">Детальніше <b>→</b></span>
+          <span class="more">${T.more} <b>→</b></span>
           <div class="tags">${(p.tech || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
         </div>
         <div class="visual">${visual(p)}</div>
@@ -257,30 +320,30 @@
       $("project-page").innerHTML = `
         <section class="pp">
           <div class="wrap">
-            <a href="#projects" class="back">← Усі проєкти</a>
+            <a href="#projects" class="back">${T.back}</a>
             <div class="row reveal">${pills(p, i)}</div>
             <h1 class="pp-title reveal">${esc(p.title)}</h1>
             <p class="pp-lead reveal">${esc(p.description)}</p>
             <div class="row reveal" style="margin-top:28px">
               <div class="tags" style="padding:0;margin:0">${(p.tech || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
-              ${p.link ? `<a class="btn primary magnet" href="${esc(p.link)}" target="_blank">Відкрити проєкт ↗</a>` : ''}
+              ${p.link ? `<a class="btn primary magnet" href="${esc(p.link)}" target="_blank">${T.open}</a>` : ''}
             </div>
             <div class="pp-visual reveal">${visual(p)}</div>
 
             <div class="pp-story">
-              ${[["Задача", d.task], ["Рішення", d.solution], ["Результат", d.result]].filter(([, t]) => t).map(([h, t], k) => `
+              ${[[T.task, d.task], [T.solution, d.solution], [T.result, d.result]].filter(([, t]) => t).map(([h, t], k) => `
                 <div class="reveal"><span class="label">${pad(k)} — ${h}</span><p>${esc(t)}</p></div>`).join('')}
             </div>
 
             ${(d.features || []).length ? `
-              <div class="sec-head reveal" style="margin-top:110px"><h2>Що <span class="em">вміє</span></h2></div>
+              <div class="sec-head reveal" style="margin-top:110px"><h2>${T.features}</h2></div>
               <div class="features">${d.features.map(f => `<div class="feat reveal"><i>✦</i>${esc(f)}</div>`).join('')}</div>` : ''}
 
             ${(d.gallery || []).length ? `
               <div class="gallery">${d.gallery.map(src => `<img class="reveal" src="${esc(src)}" alt="">`).join('')}</div>` : ''}
 
             <a class="next reveal" href="#p-${esc(next.slug)}">
-              <span class="label">Наступний проєкт</span>
+              <span class="label">${T.next}</span>
               <span class="nt">${esc(next.title)} <b>→</b></span>
             </a>
           </div>
@@ -358,9 +421,9 @@
       kpos = (k === want || (want === "b" && k === "и") || (want === "a" && k === "ф")) ? kpos + 1 : (k === KONAMI[0] ? 1 : 0);
       if (kpos < KONAMI.length) return;
       kpos = 0;
-      if (theme === "secret") { setTheme(beforeSecret, false); toast("Повернулись у звичайний світ 👋"); return; }
+      if (theme === "secret") { setTheme(beforeSecret, false); toast(T.toast_back); return; }
       beforeSecret = theme; setTheme("secret", false);
-      toast("🎉 Ти знайшов секретну тему!"); confetti();
+      toast(T.toast_secret); confetti();
     });
     function toast(msg) {
       const t = $("toast"); t.textContent = msg; t.classList.add("show");
@@ -431,7 +494,7 @@
       // Магніт: якщо курсор зовсім поруч з кнопкою — він «прилипає» до неї, щоб легше влучити
       const SNAP_ZONE = 26;     // з якої відстані до краю кнопки (px) курсор примагнічує
       const SNAP_FOLLOW = .18;  // наскільки курсор ще ворушиться всередині кнопки (0 — стоїть по центру)
-      const SNAP_TARGETS = ".magnet, .nav ul a, .themes button, .back, .mail, .socials a, .skills span";
+      const SNAP_TARGETS = ".magnet, .nav ul a, .themes button, .lang button, .back, .mail, .socials a, .skills span";
       let snap = null;
       function findSnap(x, y) {
         let best = null, bestD = Infinity;
@@ -523,6 +586,10 @@
     })();
 
     route();
+    try {
+      const ks = sessionStorage.getItem("keepScroll");
+      if (ks !== null) { sessionStorage.removeItem("keepScroll"); requestAnimationFrame(() => scrollTo(0, +ks)); }
+    } catch (e) {}
   </script>
 </body>
 </html>

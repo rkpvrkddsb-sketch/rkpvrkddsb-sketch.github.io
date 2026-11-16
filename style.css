@@ -319,15 +319,25 @@ footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; g
 .themes [data-v="glow"] { background: #0d0d0f; box-shadow: inset 0 0 0 5px #0d0d0f, inset 0 0 0 11px #c6ff3d; }
 
 /* ---------- Скляні перемикачі (теми + курсор) ---------- */
-.themes {
+.themes, .lang {
   background: color-mix(in srgb, var(--card) 45%, transparent);
   backdrop-filter: blur(14px) saturate(1.5); -webkit-backdrop-filter: blur(14px) saturate(1.5);
   border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 8px 24px -14px rgba(0,0,0,.35);
 }
-body[data-accent="glow"] .themes, body[data-accent="secret"] .themes {
+body[data-accent="glow"] .themes, body[data-accent="secret"] .themes,
+body[data-accent="glow"] .lang, body[data-accent="secret"] .lang {
   box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 8px 24px -14px rgba(0,0,0,.6);
 }
+
+/* ---------- Перемикач мови ---------- */
+.lang { display: flex; gap: 2px; padding: 4px; border-radius: 99px; margin-right: 8px; height: 34px; align-items: center; }
+.lang button {
+  border: 0; background: transparent; color: var(--muted); font: 800 12px/1 var(--font); letter-spacing: .04em;
+  height: 24px; padding: 0 10px; border-radius: 99px; cursor: pointer; transition: background .25s, color .25s;
+}
+.lang button:hover { color: var(--text); }
+.lang button.on { background: var(--text); color: var(--bg); }
 
 /* ---------- Прогрес прокрутки ---------- */
 .progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); z-index: 70; transform-origin: 0 50%; transform: scaleX(0); }
@@ -472,7 +482,12 @@ body[data-accent="glow"] .marquee .track > a:hover { color: #0d0d0f; background:
   .burger i { display: block; width: 16px; height: 2px; border-radius: 2px; background: var(--bg); transition: transform .4s cubic-bezier(.2,.8,.2,1); }
   .menu-open .burger i:first-child { transform: translateY(4px) rotate(45deg); }
   .menu-open .burger i:last-child { transform: translateY(-4px) rotate(-45deg); }
-  .themes { margin-left: auto; }
+  .lang { margin-left: auto; margin-right: 6px; flex: none; }
+  .themes { flex: none; }
+  .logo { min-width: 0; flex: 1 1 auto; margin-right: 8px; }
+  .logo span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .logo i { flex: none; }
+  .lang button { padding: 0 8px; }
   .m-menu {
     display: flex; position: fixed; inset: 0; z-index: 45; padding: 100px 0 36px;
     background: color-mix(in srgb, var(--bg) 88%, transparent);
