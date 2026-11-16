@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Твоє Ім'я — Розробник продуктів</title>
+
+  <!-- Опис і прев'ю, коли посилання кидають у Telegram / Instagram / Google.
+       Після запуску заміни og:url і og:image на повну адресу сайту (див. README). -->
+  <meta name="description" content="Портфоліо: веб-платформи, боти для Telegram і WhatsApp, автоматизація для бізнесу.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Твоє Ім'я — Розробник продуктів">
+  <meta property="og:description" content="Веб-платформи, боти для Telegram і WhatsApp, автоматизація для бізнесу.">
+  <meta property="og:image" content="https://rkpvrkddsb-sketch.github.io/images/og.png">
+  <meta property="og:url" content="https://rkpvrkddsb-sketch.github.io/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#f6f5f1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%235b4bff'/%3E%3Cstop offset='1' stop-color='%23ff6ad5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='18' fill='%23121212'/%3E%3Ccircle cx='32' cy='32' r='14' fill='url(%23g)'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-accent="orb">
+
+  <div class="progress" id="progress"></div>
+
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a href="#top" class="logo"><i></i><span id="logo-name"></span></a>
+      <ul>
+        <li><a href="#projects">Проєкти</a></li>
+        <li><a href="#about">Про мене</a></li>
+        <li><a href="#faq">Питання</a></li>
+        <li><a href="#contact">Контакти</a></li>
+      </ul>
+      <div class="cur-switch" id="cur-switch" tabindex="0" aria-label="Вигляд курсора">
+        <div class="cs-panel">
+          <span class="cs-arrow"><svg viewBox="0 0 24 24" width="15" height="15"><path d="M5 3l14 7.5-6.2 1.7L10 19z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+          <button data-c="stretch" aria-label="Розтяжка"><i class="ic-stretch"></i></button>
+          <button data-c="invert" aria-label="Інверсія"><i class="ic-invert"></i></button>
+        </div>
+      </div>
+      <div class="themes" id="themes" aria-label="Тема сайту">
+        <button data-v="orb" title="Сяйво"></button>
+        <button data-v="block" title="Помаранч"></button>
+        <button data-v="glow" title="Ніч"></button>
+      </div>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><i></i><i></i></button>
+    </div>
+  </nav>
+
+  <!-- Мобільне меню -->
+  <div class="m-menu" id="m-menu" aria-hidden="true">
+    <div class="wrap">
+      <nav class="m-links">
+        <a href="#projects">Проєкти</a>
+        <a href="#about">Про мене</a>
+        <a href="#experience">Досвід</a>
+        <a href="#faq">Питання</a>
+        <a href="#contact">Контакти</a>
+      </nav>
+      <div class="m-foot" id="m-foot"></div>
+    </div>
+  </div>
+
+  <!-- ============ ГОЛОВНА ============ -->
+  <div id="home">
+    <header class="hero" id="top">
+      <div class="orb"></div>
+      <div class="shape"><div class="sq"></div><div class="ring"></div><div class="dot"></div></div>
+      <div class="grid-bg"></div><div class="spot"></div>
+      <div class="wrap">
+        <span class="badge fade-in" style="--d:0s"><i></i><span id="available"></span></span>
+        <h1 id="headline"></h1>
+        <p class="intro fade-in" id="intro"></p>
+        <div class="meta fade-in" id="hero-meta">
+          <a href="#projects" class="btn primary magnet">Дивитись проєкти →</a>
+          <a href="#contact" class="btn magnet">Зв'язатися</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="marquee"><div class="track" id="marquee"></div></div>
+
+    <section id="projects">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <h2>Вибрані <span class="em">проєкти</span></h2>
+          <span id="projects-count"></span>
+        </div>
+        <div class="projects" id="projects-list"></div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="stats reveal" id="stats"></div>
+        <div class="about-grid">
+          <div class="reveal">
+            <span class="label">Про мене</span>
+            <p class="big" id="about-text"></p>
+          </div>
+          <div class="reveal">
+            <span class="label">Навички та інструменти</span>
+            <div class="skills" id="skills"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="wrap">
+        <div class="sec-head reveal"><h2>Досвід</h2></div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </section>
+
+    <section id="reviews" hidden>
+      <div class="wrap">
+        <div class="sec-head reveal"><h2>Що кажуть <span class="em">клієнти</span></h2></div>
+        <div class="reviews" id="reviews-list"></div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap faq-grid">
+        <div class="reveal">
+          <span class="label">Питання</span>
+          <h2 class="faq-title">Часті <span class="em">питання</span></h2>
+        </div>
+        <div class="faq-list" id="faq-list"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="wrap reveal">
+        <span class="label">Контакти</span>
+        <h2>Давай зробимо<br><span class="em">щось класне</span></h2>
+        <a class="mail" id="mail"></a>
+        <div class="socials" id="socials"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ СТОРІНКА ПРОЄКТУ ============ -->
+  <main id="project-page" hidden></main>
+
+  <footer><div class="wrap"><span id="foot-name"></span><span id="foot-loc"></span></div></footer>
+
+  <!-- Курсор -->
+  <div class="cur" id="cur"><i class="cur-shape"></i><span class="cur-label">Дивитись →</span></div>
+
+
+  <div class="toast" id="toast"></div>
+
+  <script src="content.js"></script>
+  <script>
+    // ---- Збирає сторінку з content.js (тут нічого міняти не треба) ----
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    const pad = i => String(i + 1).padStart(2, "0");
+    const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    $("logo-name").textContent = site.name;
+    $("available").textContent = site.available;
+    $("intro").textContent = site.intro;
+    $("about-text").textContent = site.intro;
+    $("foot-name").textContent = "© " + new Date().getFullYear() + " " + site.name;
+    $("foot-loc").textContent = site.location;
+    $("projects-count").textContent = site.projects.length + " проєкти · " + site.role;
+
+    // Анімований заголовок: кожне слово виїжджає знизу по черзі
+    const words = site.headline.split(" ");
+    $("headline").innerHTML = words.map((w, i) => `<span class="w"><span style="--i:${i}">${esc(w)}</span></span>`).join(" ");
+    const afterTitle = (words.length * 70 + 500) / 1000;
+    $("intro").style.setProperty("--d", afterTitle + "s");
+    $("hero-meta").style.setProperty("--d", (afterTitle + .15) + "s");
+
+    // Біжучий рядок
+    const mq = (site.marquee || []).map(m => {
+      const t = typeof m === "string" ? { text: m } : m;
+      const p = t.project && site.projects.find(x => x.slug === t.project);
+      return (p ? `<a href="#p-${esc(p.slug)}" title="${esc(p.title)}">${esc(t.text)}</a>` : `<span>${esc(t.text)}</span>`) + `<i>✦</i>`;
+    }).join("");
+    $("marquee").innerHTML = [mq, mq, mq, mq].map((h, k) => k ? h.replace(/<a /g, '<a tabindex="-1" ') : h).join("");
+
+    // Лічильники
+    $("stats").innerHTML = (site.stats || []).map(s => `
+      <div class="stat"><div class="n"><span data-to="${+s.value}">0</span><em>${esc(s.suffix)}</em></div>
+      <p>${esc(s.label)}</p></div>`).join("");
+
+    const mock = `<div class="mock"><div class="win"><div class="bar"><i></i><i></i><i></i></div>
+      <div class="body"><div class="side"><b></b><b></b><b style="width:70%"></b><b></b></div>
+      <div class="main"><b style="width:45%;height:12px"></b><div class="cards"><div></div><div></div><div></div></div>
+      <div class="chart"></div><b></b><b style="width:80%"></b></div></div></div></div>`;
+
+    const chatMock = `<div class="mock"><div class="phone"><div class="ph-top"><i></i><div><b></b><b style="width:50%"></b></div></div>
+      <div class="msgs"><div class="m in">Привіт! Хочу забронювати столик на вечір 🙌</div>
+      <div class="m out">Звісно! На скільки осіб і о котрій?</div>
+      <div class="m in">Нас 4, о 19:00</div>
+      <div class="m out">Готово ✅ Чекаємо вас о 19:00. Нагадаю за годину!</div>
+      <div class="btns"><span>Змінити час</span><span>Скасувати</span></div></div></div></div>`;
+
+    const visual = p => p.image ? `<img src="${esc(p.image)}" alt="${esc(p.title)}">` : (p.mock === "chat" ? chatMock : mock);
+    const pills = (p, i) => `
+      <span class="num">${pad(i)}</span>
+      <span class="pill ${p.status === 'в розробці' ? 'live' : ''}">${esc(p.status)}</span>
+      <span class="pill">${esc(p.year)}</span>`;
+
+    $("projects-list").innerHTML = site.projects.map((p, i) => `
+      <a class="project reveal" href="#p-${esc(p.slug)}">
+        <div class="info">
+          <div class="row">${pills(p, i)}</div>
+          <h3>${esc(p.title)}</h3>
+          <p>${esc(p.description)}</p>
+          <span class="more">Детальніше <b>→</b></span>
+          <div class="tags">${(p.tech || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+        </div>
+        <div class="visual">${visual(p)}</div>
+      </a>`).join('');
+
+    $("skills").innerHTML = site.skills.map(s => `<span>${esc(s)}</span>`).join('');
+
+    $("timeline").innerHTML = site.experience.map(e => `
+      <div class="tl-row reveal"><span class="p">${esc(e.period)}</span>
+      <span class="t">${esc(e.title)}</span><span class="pl">${esc(e.place)}</span></div>`).join('');
+
+    // Відгуки (секція з'являється, тільки коли є хоч один)
+    if ((site.testimonials || []).length) {
+      $("reviews").hidden = false;
+      $("reviews-list").innerHTML = site.testimonials.map(t => `
+        <figure class="review reveal"><span class="q">“</span>
+          <blockquote>${esc(t.text)}</blockquote>
+          <figcaption><b>${esc(t.name)}</b><span>${esc(t.role)}</span></figcaption></figure>`).join('');
+    }
+
+    // FAQ
+    $("faq-list").innerHTML = (site.faq || []).map(f => `
+      <details class="qa reveal"><summary>${esc(f.q)}<i></i></summary><div class="a"><p>${esc(f.a)}</p></div></details>`).join('');
+
+    const c = site.contacts;
+    $("mail").textContent = c.email; $("mail").href = "mailto:" + c.email;
+    $("socials").innerHTML = [["GitHub", c.github], ["LinkedIn", c.linkedin], ["Telegram", c.telegram]]
+      .filter(([, u]) => u).map(([n, u]) => `<a class="btn magnet" href="${esc(u)}" target="_blank">${n} ↗</a>`).join('');
+
+    // ---- Мобільне меню ----
+    $("m-foot").innerHTML = `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` +
+      [["GitHub", c.github], ["LinkedIn", c.linkedin], ["Telegram", c.telegram]].filter(([, u]) => u)
+        .map(([n, u]) => `<a href="${esc(u)}" target="_blank">${n} ↗</a>`).join("");
+    function setMenu(open) {
+      document.body.classList.toggle("menu-open", open);
+      $("burger").setAttribute("aria-expanded", open);
+      $("m-menu").setAttribute("aria-hidden", !open);
+    }
+    $("burger").onclick = () => setMenu(!document.body.classList.contains("menu-open"));
+    document.querySelectorAll("#m-menu a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+    addEventListener("keydown", e => e.key === "Escape" && setMenu(false));
+
+    // ---- Сторінка окремого проєкту ----
+    function renderProject(p, i) {
+      const d = p.details || {};
+      const next = site.projects[(i + 1) % site.projects.length];
+      $("project-page").innerHTML = `
+        <section class="pp">
+          <div class="wrap">
+            <a href="#projects" class="back">← Усі проєкти</a>
+            <div class="row reveal">${pills(p, i)}</div>
+            <h1 class="pp-title reveal">${esc(p.title)}</h1>
+            <p class="pp-lead reveal">${esc(p.description)}</p>
+            <div class="row reveal" style="margin-top:28px">
+              <div class="tags" style="padding:0;margin:0">${(p.tech || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+              ${p.link ? `<a class="btn primary magnet" href="${esc(p.link)}" target="_blank">Відкрити проєкт ↗</a>` : ''}
+            </div>
+            <div class="pp-visual reveal">${visual(p)}</div>
+
+            <div class="pp-story">
+              ${[["Задача", d.task], ["Рішення", d.solution], ["Результат", d.result]].filter(([, t]) => t).map(([h, t], k) => `
+                <div class="reveal"><span class="label">${pad(k)} — ${h}</span><p>${esc(t)}</p></div>`).join('')}
+            </div>
+
+            ${(d.features || []).length ? `
+              <div class="sec-head reveal" style="margin-top:110px"><h2>Що <span class="em">вміє</span></h2></div>
+              <div class="features">${d.features.map(f => `<div class="feat reveal"><i>✦</i>${esc(f)}</div>`).join('')}</div>` : ''}
+
+            ${(d.gallery || []).length ? `
+              <div class="gallery">${d.gallery.map(src => `<img class="reveal" src="${esc(src)}" alt="">`).join('')}</div>` : ''}
+
+            <a class="next reveal" href="#p-${esc(next.slug)}">
+              <span class="label">Наступний проєкт</span>
+              <span class="nt">${esc(next.title)} <b>→</b></span>
+            </a>
+          </div>
+        </section>`;
+      observeReveal($("project-page"));
+    }
+
+    // ---- Навігація між головною і сторінками проєктів ----
+    function route() {
+      const h = location.hash.slice(1);
+      const i = site.projects.findIndex(p => "p-" + p.slug === h);
+      const page = i >= 0 ? $("project-page") : $("home");
+      if (i >= 0) {
+        $("home").hidden = true; $("project-page").hidden = false;
+        renderProject(site.projects[i], i);
+        document.title = site.projects[i].title + " — " + site.name;
+        scrollTo(0, 0);
+      } else {
+        const wasHidden = $("home").hidden;
+        $("home").hidden = false; $("project-page").hidden = true;
+        document.title = site.name + " — " + site.role;
+        const el = h && document.getElementById(h);
+        if (el && wasHidden) requestAnimationFrame(() => el.scrollIntoView());
+        if (!wasHidden) return;
+      }
+      page.classList.remove("page-in"); void page.offsetWidth; page.classList.add("page-in");
+    }
+    addEventListener("hashchange", () => { route(); $("cur").classList.remove("view", "hover"); });
+
+    // Перехід: картинка проєкту «розгортається» на весь екран
+    document.addEventListener("click", e => {
+      const card = e.target.closest("a.project");
+      if (!card || e.metaKey || e.ctrlKey || e.shiftKey || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      e.preventDefault();
+      const v = card.querySelector(".visual"), r = v.getBoundingClientRect();
+      const ov = document.createElement("div");
+      ov.className = "morph"; ov.innerHTML = v.innerHTML;
+      Object.assign(ov.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
+      document.body.appendChild(ov);
+      ov.getBoundingClientRect();
+      Object.assign(ov.style, { left: "0px", top: "0px", width: innerWidth + "px", height: innerHeight + "px", borderRadius: "0px" });
+      setTimeout(() => {
+        location.hash = card.getAttribute("href");
+        requestAnimationFrame(() => {
+          const target = document.querySelector(".pp-visual");
+          if (!target) return ov.remove();
+          target.classList.add("in");
+          const t = target.getBoundingClientRect();
+          Object.assign(ov.style, { left: t.left + "px", top: t.top + "px", width: t.width + "px", height: t.height + "px", borderRadius: "22px" });
+          setTimeout(() => { ov.style.opacity = 0; setTimeout(() => ov.remove(), 300); }, 560);
+        });
+      }, 560);
+    });
+
+    // ---- Теми ----
+    const THEMES = ["orb", "block", "glow"];
+    let theme = "orb";
+    function setTheme(v, save = true) {
+      theme = v; document.body.dataset.accent = v;
+      const tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(document.body).getPropertyValue("--bg").trim() || "#f6f5f1";
+      document.querySelectorAll("#themes button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+      if (save) try { localStorage.setItem("theme", v); } catch (e) {}
+    }
+    document.querySelectorAll("#themes button").forEach(b => b.onclick = () => setTheme(b.dataset.v));
+    let saved = "orb"; try { saved = localStorage.getItem("theme") || "orb"; } catch (e) {}
+    const q = new URLSearchParams(location.search).get("theme");
+    setTheme(THEMES.includes(q) ? q : (THEMES.includes(saved) ? saved : "orb"), false);
+
+    // ---- Пасхалка: ↑ ↑ ↓ ↓ ← → ← → B A ----
+    const KONAMI = ["arrowup","arrowup","arrowdown","arrowdown","arrowleft","arrowright","arrowleft","arrowright","b","a"];
+    let kpos = 0, beforeSecret = "orb";
+    addEventListener("keydown", e => {
+      const k = e.key.toLowerCase(), want = KONAMI[kpos];
+      kpos = (k === want || (want === "b" && k === "и") || (want === "a" && k === "ф")) ? kpos + 1 : (k === KONAMI[0] ? 1 : 0);
+      if (kpos < KONAMI.length) return;
+      kpos = 0;
+      if (theme === "secret") { setTheme(beforeSecret, false); toast("Повернулись у звичайний світ 👋"); return; }
+      beforeSecret = theme; setTheme("secret", false);
+      toast("🎉 Ти знайшов секретну тему!"); confetti();
+    });
+    function toast(msg) {
+      const t = $("toast"); t.textContent = msg; t.classList.add("show");
+      clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 2600);
+    }
+    function confetti() {
+      const colors = ["#ff2fd0", "#00e5ff", "#ffe600", "#7c4dff", "#00ff9c"];
+      for (let i = 0; i < 90; i++) {
+        const s = document.createElement("i"); s.className = "confetti";
+        s.style.left = Math.random() * 100 + "vw";
+        s.style.background = colors[i % colors.length];
+        s.style.setProperty("--dx", (Math.random() * 200 - 100) + "px");
+        s.style.setProperty("--r", (Math.random() * 720 - 360) + "deg");
+        s.style.animationDuration = (1.8 + Math.random() * 1.6) + "s";
+        s.style.animationDelay = Math.random() * .4 + "s";
+        document.body.appendChild(s); setTimeout(() => s.remove(), 4000);
+      }
+    }
+
+    // ---- Ефекти ----
+    const nav = $("nav"), prog = $("progress");
+    function onScroll() {
+      nav.classList.toggle("scrolled", scrollY > 20);
+      const max = document.documentElement.scrollHeight - innerHeight;
+      prog.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    }
+    addEventListener("scroll", onScroll, { passive: true }); addEventListener("resize", onScroll); onScroll();
+
+    const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add("in")), { threshold: .12 });
+    function observeReveal(root) { root.querySelectorAll(".reveal").forEach(el => io.observe(el)); }
+    observeReveal(document);
+
+    // Лічильники
+    const countIO = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      countIO.unobserve(e.target);
+      const el = e.target, to = +el.dataset.to, t0 = performance.now(), dur = 1600;
+      (function tick(t) {
+        const k = Math.min((t - t0) / dur, 1), ease = 1 - Math.pow(1 - k, 4);
+        el.textContent = Math.round(to * ease);
+        if (k < 1) requestAnimationFrame(tick);
+      })(t0);
+    }), { threshold: .6 });
+    document.querySelectorAll("[data-to]").forEach(el => countIO.observe(el));
+
+    // Нахил карток проєктів у 3D
+    const TILT = 5; // максимальний нахил у градусах
+    function tiltAt(x, y, el) {
+      const card = el && el.closest && el.closest(".project");
+      document.querySelectorAll(".project.tilting").forEach(c => { if (c !== card) { c.classList.remove("tilting"); c.style.transform = ""; } });
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      const px = (x - r.left) / r.width - .5, py = (y - r.top) / r.height - .5;
+      card.classList.add("tilting");
+      card.style.transform = `perspective(1200px) rotateX(${-py * TILT}deg) rotateY(${px * TILT}deg) translateY(-4px)`;
+    }
+    if (finePointer) document.addEventListener("mousemove", e => tiltAt(e.clientX, e.clientY, e.target), { passive: true });
+
+    // Власний курсор. Варіанти: "invert" — інверсія, "stretch" — розтяжка
+    let CURSOR = "invert";
+    try { CURSOR = localStorage.getItem("cursor") || CURSOR; } catch (e) {}
+    if (!["invert", "stretch"].includes(CURSOR)) CURSOR = "invert";
+    const cur = $("cur");
+    function setCursor(v) {
+      CURSOR = v; document.documentElement.dataset.cursor = v;
+      document.querySelectorAll("#cur-switch button").forEach(b => b.classList.toggle("on", b.dataset.c === v));
+      try { localStorage.setItem("cursor", v); } catch (e) {}
+    }
+    document.querySelectorAll("#cur-switch button").forEach(b => b.onclick = () => setCursor(b.dataset.c));
+    if (finePointer) {
+      document.documentElement.classList.add("has-cursor");
+      setCursor(CURSOR);
+      const shape = cur.querySelector(".cur-shape");
+      let mx = -100, my = -100, rx = -100, ry = -100, lastSY = scrollY, moved = false;
+
+      // Магніт: якщо курсор зовсім поруч з кнопкою — він «прилипає» до неї, щоб легше влучити
+      const SNAP_ZONE = 26;     // з якої відстані до краю кнопки (px) курсор примагнічує
+      const SNAP_FOLLOW = .18;  // наскільки курсор ще ворушиться всередині кнопки (0 — стоїть по центру)
+      const SNAP_TARGETS = ".magnet, .nav ul a, .themes button, .back, .mail, .socials a, .skills span";
+      let snap = null;
+      function findSnap(x, y) {
+        let best = null, bestD = Infinity;
+        document.querySelectorAll(SNAP_TARGETS).forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (!r.width || !r.height) return;
+          const ex = Math.max(r.left - x, 0, x - r.right), ey = Math.max(r.top - y, 0, y - r.bottom);
+          const d = Math.hypot(ex, ey);
+          if (d <= SNAP_ZONE && d < bestD) { bestD = d; best = { el, cx: r.left + r.width / 2, cy: r.top + r.height / 2 }; }
+        });
+        if (snap && snap.el !== (best && best.el)) snap.el.classList.remove("snapped");
+        snap = best;
+        if (snap) snap.el.classList.add("snapped");
+      }
+      // клік поруч з кнопкою, коли курсор до неї прилип, — натискає кнопку
+      addEventListener("click", e => {
+        if (!snap || snap.el.contains(e.target)) return;
+        if (e.target.closest && e.target.closest("a, button, summary, .project, input, textarea")) return;
+        e.preventDefault(); snap.el.click();
+      }, true);
+
+      // що зараз під курсором: проєкт → «Дивитись», кнопка/посилання → збільшення
+      function stateAt(el) {
+        const view = !snap && !!(el && el.closest && el.closest("a.project"));
+        cur.classList.toggle("view", view);
+        cur.classList.toggle("hover", !!snap || (!view && !!(el && el.closest && el.closest("a, button, summary, .skills span"))));
+      }
+      addEventListener("mousemove", e => {
+        mx = e.clientX; my = e.clientY; moved = true;
+        findSnap(mx, my);
+        stateAt(e.target);
+        document.documentElement.classList.remove("cur-hidden");
+      }, { passive: true });
+
+      // прокрутка без руху миші: оновлюємо стан і даємо курсору «відстати», як при русі
+      let scrollQueued = false;
+      addEventListener("scroll", () => {
+        const d = scrollY - lastSY; lastSY = scrollY;
+        if (moved) ry -= Math.max(-45, Math.min(45, d * .45));
+        if (scrollQueued || !moved) return;
+        scrollQueued = true;
+        requestAnimationFrame(() => {
+          scrollQueued = false;
+          const el = document.elementFromPoint(mx, my);
+          findSnap(mx, my); stateAt(el); tiltAt(mx, my, el);
+        });
+      }, { passive: true });
+
+      document.addEventListener("mouseleave", () => document.documentElement.classList.add("cur-hidden"));
+      addEventListener("mousedown", () => cur.classList.add("down"));
+      addEventListener("mouseup", () => cur.classList.remove("down"));
+      (function loop() {
+        const ease = snap ? .26 : CURSOR === "stretch" ? .22 : .2;
+        let gx = mx, gy = my;
+        if (snap) {
+          const r = snap.el.getBoundingClientRect();
+          const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+          gx = cx + (mx - cx) * SNAP_FOLLOW; gy = cy + (my - cy) * SNAP_FOLLOW;
+        }
+        const vx = gx - rx, vy = gy - ry;
+        rx += vx * ease; ry += vy * ease;
+        cur.style.translate = `${rx}px ${ry}px`;
+        if (CURSOR === "stretch") {
+          const speed = Math.hypot(vx, vy), ang = Math.atan2(vy, vx);
+          const sx = 1 + Math.min(speed / 70, .9), sy = 1 - Math.min(speed / 180, .4);
+          shape.style.transform = snap ? "" : `rotate(${ang}rad) scale(${sx}, ${sy})`;
+        } else shape.style.transform = "";
+        requestAnimationFrame(loop);
+      })();
+    }
+
+    // «Сяйво»: куля плавно летить за курсором
+    const hero = document.querySelector(".hero"), orb = document.querySelector(".orb");
+    let ox = 0, oy = 0, tx = 0, ty = 0, hovering = false;
+    const rest = () => { const r = hero.getBoundingClientRect(); return [r.width - orb.offsetWidth * 0.3, r.height / 2]; };
+    [ox, oy] = rest();
+    hero.addEventListener("mousemove", e => {
+      const r = hero.getBoundingClientRect(); hovering = true;
+      tx = e.clientX - r.left; ty = e.clientY - r.top;
+      hero.style.setProperty("--mx", tx + "px");
+      hero.style.setProperty("--my", ty + "px");
+    });
+    hero.addEventListener("mouseleave", () => hovering = false);
+    (function loop() {
+      if (!hovering) [tx, ty] = rest();
+      ox += (tx - ox) * 0.05; oy += (ty - oy) * 0.05;
+      orb.style.translate = `${ox - orb.offsetWidth / 2}px ${oy - orb.offsetHeight / 2}px`;
+      requestAnimationFrame(loop);
+    })();
+
+    route();
+  </script>
+</body>
+</html>
