@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20">
+  <link rel="stylesheet" href="style.css?v=21">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -42,7 +42,7 @@
   <!-- Завантажувальний екран -->
   <div class="loader" id="loader" aria-hidden="true">
     <div class="ld-grid"></div>
-    <svg class="ld-logo" id="ld-logo" viewBox="0 0 377 244"><defs><filter id="ldGlow" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="14"/></filter></defs><path class="ld-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#ldGlow)"/><path data-o="4" class="ld-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path data-o="1" d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path data-o="2" d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path data-o="3" d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/><path class="ld-blik" d="M165 45 L182 24"/></svg>
+    <svg class="ld-logo" id="ld-logo" viewBox="0 0 377 244"><defs><filter id="ldGlow" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="14"/></filter><linearGradient id="ldFG" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#ff2a3a" stop-opacity="0"/><stop offset=".42" stop-color="#ff2a3a" stop-opacity=".55"/><stop offset=".5" stop-color="#ff7a84" stop-opacity="1"/><stop offset=".58" stop-color="#ff2a3a" stop-opacity=".55"/><stop offset="1" stop-color="#ff2a3a" stop-opacity="0"/></linearGradient><filter id="ldFB" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="1.6 2.2"/></filter></defs><path class="ld-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#ldGlow)"/><path data-o="4" class="ld-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path data-o="1" d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path data-o="2" d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path data-o="3" d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/><g class="ld-flare"><ellipse cx="185" cy="37" rx="300" ry="5" fill="url(#ldFG)" filter="url(#ldFB)"/><ellipse cx="185" cy="37" rx="120" ry="2.4" fill="url(#ldFG)"/></g></svg>
     <canvas class="ld-scope" id="ld-scope"></canvas>
     <div class="ld-label" id="ld-label"></div>
     <div class="ld-word"><i></i><span id="ld-word"></span><b class="ld-dots"><i></i><i></i><i></i></b></div>
@@ -53,7 +53,7 @@
 
   <nav class="nav" id="nav">
     <div class="wrap">
-      <a href="#top" class="logo" aria-label="j13"><svg class="wordmark" viewBox="0 0 377 244" role="img" aria-label="j13"><defs><filter id="wmGlow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="22"/></filter><filter id="wmGlow2" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="8"/></filter></defs><g fill="currentColor"><path class="wm-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-glow wm-glow2" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow2)"/><path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path class="wm-blik" d="M165 45 L182 24"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg></a>
+      <a href="#top" class="logo" aria-label="j13"><svg class="wordmark" viewBox="0 0 377 244" role="img" aria-label="j13"><defs><filter id="wmGlow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="22"/></filter><filter id="wmGlow2" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="8"/></filter><linearGradient id="wmFG" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#ff2a3a" stop-opacity="0"/><stop offset=".42" stop-color="#ff2a3a" stop-opacity=".55"/><stop offset=".5" stop-color="#ff7a84" stop-opacity="1"/><stop offset=".58" stop-color="#ff2a3a" stop-opacity=".55"/><stop offset="1" stop-color="#ff2a3a" stop-opacity="0"/></linearGradient><filter id="wmFB" x="-20%" y="-300%" width="140%" height="700%"><feGaussianBlur stdDeviation="1.6 2.2"/></filter></defs><g fill="currentColor"><path class="wm-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-glow wm-glow2" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow2)"/><path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><g class="wm-flare"><ellipse cx="185" cy="37" rx="300" ry="5" fill="url(#wmFG)" filter="url(#wmFB)"/><ellipse cx="185" cy="37" rx="120" ry="2.4" fill="url(#wmFG)"/></g><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg></a>
       <ul>
         <li><a href="#projects" data-i18n="nav_projects">Проєкти</a></li>
         <li><a href="#about" data-i18n="nav_about">Про мене</a></li>
@@ -174,8 +174,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=20"></script>
-  <script src="content-en.js?v=20"></script>
+  <script src="content.js?v=21"></script>
+  <script src="content-en.js?v=21"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];

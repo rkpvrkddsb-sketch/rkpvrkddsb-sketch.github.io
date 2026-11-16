@@ -70,16 +70,17 @@ a { color: inherit; text-decoration: none; }
 .wm-dot { animation: implantPulse 2.6s ease-in-out infinite; }
 .wm-glow { opacity: .95; animation: implantGlow 2.6s ease-in-out infinite; }
 .wm-glow2 { animation-name: implantGlow2; }
-/* маленький блік на імпланті */
-.wm-blik, .ld-blik { fill: none; stroke: #fff; stroke-width: 9; stroke-linecap: round; opacity: .85; pointer-events: none; }
-.logo.glitch .wm-blik { opacity: .15; }
+/* анаморфний блік: тонка горизонтальна червона смуга світла крізь імплант */
+.wm-flare { pointer-events: none; transform-box: fill-box; transform-origin: center; animation: flare 2.6s ease-in-out infinite; }
+@keyframes flare { 0%, 100% { opacity: .95; transform: scaleX(1); } 50% { opacity: .55; transform: scaleX(.8); } }
+.logo.glitch .wm-flare { animation: none; opacity: 0; }
 @keyframes implantPulse { 0%, 100% { opacity: 1; } 50% { opacity: .78; } }
 @keyframes implantGlow { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
 @keyframes implantGlow2 { 0%, 100% { opacity: .9; } 50% { opacity: .55; } }
 .logo.glitch .wm-dot { animation: none; opacity: .12; }
 .logo.glitch .wm-glow { animation: none; opacity: 0; }
 .logo:hover .wm-dot, .logo:hover .wm-glow { animation-duration: .5s; }
-@media (prefers-reduced-motion: reduce) { .wm-dot, .wm-glow { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .wm-dot, .wm-glow, .wm-flare { animation: none; } }
 .nav ul { display: flex; gap: 30px; margin-left: auto; margin-right: 28px; list-style: none; font-size: 15px; color: var(--muted); }
 .nav ul a:hover { color: var(--text); }
 
@@ -429,8 +430,9 @@ html.loader-draft .loader.gone { opacity: 0; }
 .loader.filled .ld-logo path[data-o] { fill-opacity: 1; filter: drop-shadow(0 0 10px rgba(198,255,61,.3)); }
 .loader.filled .ld-logo .ld-dot { filter: none; }
 .loader.filled .ld-logo .ld-glow { opacity: 1; }
-.ld-blik { opacity: 0; transition: opacity .4s ease; }
-.loader.filled .ld-blik { opacity: .85; }
+.ld-flare { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scaleX(.2); transition: opacity .5s ease, transform .7s cubic-bezier(.2,.8,.2,1); }
+.loader.filled .ld-flare { opacity: 1; transform: scaleX(1); }
+.loader.fly .ld-flare { opacity: 0; }
 /* у польоті зелений стає кольором теми */
 .loader.fly .ld-logo path[data-o]:not(.ld-dot) { fill: var(--text); filter: none; }
 html.loader-draft:not(.logo-landed) .nav .logo { visibility: hidden; }
