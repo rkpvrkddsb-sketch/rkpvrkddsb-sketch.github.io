@@ -19,14 +19,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=15">
   <script>
-    // Заставка: перший візит — «привіт» різними мовами; перезавантаження / зміна мови — коротке «Завантаження…»
+    // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
       const forceIntro = new URLSearchParams(location.search).has("intro"); // ?intro — завжди повна заставка
       const html = document.documentElement;
       if (matchMedia("(prefers-reduced-motion: reduce)").matches && !forceIntro) html.classList.add("no-loader");
       else if (!forceIntro && (sessionStorage.getItem("seenLoader") || window.name === "seenLoader")) html.classList.add("loader-short");
+      else html.classList.add("loader-draft");
       // ?intro спрацьовує один раз — прибираємо його з адреси, щоб перезавантаження показувало «Завантаження…»
       if (forceIntro) { const u = new URL(location.href); u.searchParams.delete("intro"); history.replaceState(null, "", u); }
     } catch (e) {}
@@ -36,6 +37,9 @@
 
   <!-- Завантажувальний екран -->
   <div class="loader" id="loader" aria-hidden="true">
+    <div class="ld-grid"></div>
+    <svg class="ld-logo" id="ld-logo" viewBox="0 0 377 244"><defs><filter id="ldGlow" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="14"/></filter></defs><path class="ld-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#ldGlow)"/><path data-o="4" class="ld-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path data-o="1" d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path data-o="2" d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path data-o="3" d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></svg>
+    <i class="ld-pen" id="ld-pen"></i>
     <div class="ld-word"><i></i><span id="ld-word"></span><b class="ld-dots"><i></i><i></i><i></i></b></div>
     <div class="ld-count"><span id="ld-count">0</span>%</div>
   </div>
@@ -167,8 +171,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=14"></script>
-  <script src="content-en.js?v=14"></script>
+  <script src="content.js?v=15"></script>
+  <script src="content-en.js?v=15"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -625,32 +629,88 @@
     // ---- Завантажувальний екран: «привіт» різними мовами + лічильник ----
     (function loader() {
       const el = $("loader");
+      const html = document.documentElement;
       const done = () => {
         document.body.classList.remove("loading");
         try { sessionStorage.setItem("seenLoader", 1); } catch (e) {}
         try { if (!window.name) window.name = "seenLoader"; } catch (e) {}
       };
-      if (document.documentElement.classList.contains("no-loader")) { el.remove(); done(); return; }
-      const short = document.documentElement.classList.contains("loader-short");
-      const hello = ["Dia duit", "Hola", "Bonjour", "Ciao", "Hallo", "Olá", "Cześć"];
-      const words = short ? [T.loading] : LANG === "en" ? ["Hello", "Привіт", ...hello] : ["Привіт", "Hello", ...hello];
-      const STEP = 170, FIRST = short ? 750 : 520;
-      const total = FIRST + STEP * (words.length - 1);
-      const w = $("ld-word"), cnt = $("ld-count");
-      w.textContent = words[0];
-      words.slice(1).forEach((word, i) => setTimeout(() => {
-        w.textContent = word; w.parentNode.classList.remove("tick"); void w.offsetWidth; w.parentNode.classList.add("tick");
-      }, FIRST + STEP * i));
-      const t0 = performance.now();
-      (function count(t) {
-        const k = Math.min((t - t0) / total, 1);
-        cnt.textContent = Math.round(100 * (1 - Math.pow(1 - k, 2)));
-        if (k < 1) requestAnimationFrame(count);
-      })(t0);
-      setTimeout(() => {
-        el.classList.add("out"); done();
-        setTimeout(() => el.remove(), 1100);
-      }, total + (short ? 80 : 250));
+      if (html.classList.contains("no-loader")) { el.remove(); done(); return; }
+
+      // ---- коротка: «Завантаження…» ----
+      if (html.classList.contains("loader-short")) {
+        const total = 750, cnt = $("ld-count");
+        $("ld-word").textContent = T.loading;
+        const t0 = performance.now();
+        (function count(t) {
+          const k = Math.min((t - t0) / total, 1);
+          cnt.textContent = Math.round(100 * (1 - Math.pow(1 - k, 2)));
+          if (k < 1) requestAnimationFrame(count);
+        })(t0);
+        setTimeout(() => { el.classList.add("out"); done(); setTimeout(() => el.remove(), 1100); }, total + 80);
+        return;
+      }
+
+      // ---- повна: «креслення» логотипа ----
+      const svg = $("ld-logo"), pen = $("ld-pen");
+      const paths = [...svg.querySelectorAll("path[data-o]")].sort((p, q) => p.dataset.o - q.dataset.o);
+      const SPEED = 1.15;      // одиниць логотипа за мс (швидкість пера)
+      const HOP = 140;         // мс на переліт пера між частинами
+      const toScreen = (p, x, y) => new DOMPoint(x, y).matrixTransform(p.getScreenCTM());
+      paths.forEach(p => { const L = p.getTotalLength(); p._L = L; p.style.strokeDasharray = L; p.style.strokeDashoffset = L; });
+
+      // перо рухається як курсор-крапля: тягнеться за ціллю і розтягується від швидкості
+      let tx = innerWidth / 2, ty = innerHeight / 2, px = tx, py = ty, penOn = true;
+      (function penLoop() {
+        const vx = tx - px, vy = ty - py;
+        px += vx * .55; py += vy * .55;
+        const sp = Math.hypot(vx, vy), ang = Math.atan2(vy, vx);
+        pen.style.transform = `translate(${px}px, ${py}px) rotate(${ang}rad) scale(${1 + Math.min(sp / 22, 1.1)}, ${1 - Math.min(sp / 60, .4)})`;
+        if (penOn) requestAnimationFrame(penLoop);
+      })();
+
+      const wait = ms => new Promise(r => setTimeout(r, ms));
+      const tween = (ms, fn) => new Promise(r => {
+        const t0 = performance.now();
+        (function f(t) { const k = Math.min((t - t0) / ms, 1); fn(k); k < 1 ? requestAnimationFrame(f) : r(); })(t0);
+      });
+      const ease = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+
+      (async () => {
+        el.classList.add("draw");
+        await wait(380);
+        for (const p of paths) {
+          const p0 = p.getPointAtLength(0), s = toScreen(p, p0.x, p0.y);
+          const fx = tx, fy = ty;
+          await tween(HOP, k => { const e = ease(k); tx = fx + (s.x - fx) * e; ty = fy + (s.y - fy) * e; });
+          await tween(p._L / SPEED, k => {
+            const len = p._L * k, pt = p.getPointAtLength(len), sp2 = toScreen(p, pt.x, pt.y);
+            p.style.strokeDashoffset = p._L - len; tx = sp2.x; ty = sp2.y;
+          });
+        }
+        // перо «встановлює» імплант: ховається в крапку над j, логотип заливається
+        el.classList.add("filled");
+        await wait(140);
+        pen.classList.add("gone");
+        await wait(420);                        // застигає на мить
+        penOn = false;
+
+        // переліт у меню
+        const target = document.querySelector(".nav .wordmark").getBoundingClientRect();
+        const from = svg.getBoundingClientRect();
+        const sc = target.height / from.height;
+        svg.style.transformOrigin = "0 0";
+        svg.style.transition = "transform .85s cubic-bezier(.7,0,.2,1)";
+        svg.style.transform = `translate(${target.left - from.left}px, ${target.top - from.top}px) scale(${sc})`;
+        el.classList.add("fly");
+        done();
+        await wait(870);
+        html.classList.add("logo-landed");        // показуємо справжній логотип у меню
+        el.classList.add("gone");
+        await wait(500);
+        el.remove();
+        html.classList.remove("loader-draft", "logo-landed");
+      })();
     })();
 
     try {

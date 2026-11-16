@@ -141,7 +141,10 @@ body[data-accent="block"] .shape { display: block; }
 
 /* Акцент C — «Ніч»: сітка + світло за курсором */
 .grid-bg, .spot { display: none; position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-body[data-accent="glow"] .grid-bg, body[data-accent="glow"] .spot { display: block; }
+/* сітка-«креслення» лишається на першому екрані після заставки (у світлих темах ледь помітна) */
+.grid-bg { display: block; opacity: .55; }
+body[data-accent="glow"] .grid-bg { opacity: 1; }
+body[data-accent="glow"] .spot { display: block; }
 .grid-bg {
   background-image:
     linear-gradient(var(--line) 1px, transparent 1px),
@@ -390,6 +393,41 @@ html.loader-short .ld-word { opacity: 1; animation: none; }
 .loader.cover::after { top: auto; bottom: 99.9%; border-radius: 50% 50% 0 0; height: 14vh; }
 .loader.cover.in { transform: none; }
 .loader.cover.in::after { height: 0; }
+
+/* ---------- Заставка «креслення» ---------- */
+.ld-grid, .ld-logo, .ld-pen { display: none; }
+html.loader-draft .loader { background: var(--bg); color: var(--text); place-items: center; transition: background-color .6s ease, opacity .5s ease; }
+html.loader-draft .loader::after { display: none; }
+html.loader-draft .ld-word, html.loader-draft .ld-count { display: none; }
+html.loader-draft .ld-grid, html.loader-draft .ld-logo, html.loader-draft .ld-pen { display: block; }
+/* аркуш у клітинку: та сама сітка 64px, що й на першому екрані, але чітка */
+.ld-grid {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .9s ease;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--text) 13%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--text) 13%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.loader.draw .ld-grid { opacity: 1; }
+.loader.fly .ld-grid { opacity: 0; }
+html.loader-draft .loader.fly { background-color: transparent; }
+html.loader-draft .loader.gone { opacity: 0; }
+.ld-logo { position: relative; width: min(56vw, 400px); height: auto; overflow: visible; z-index: 2; }
+.ld-logo path[data-o] { fill: var(--text); fill-opacity: 0; stroke: var(--text); stroke-width: 3; stroke-linejoin: miter; transition: fill-opacity .35s ease, stroke-opacity .35s ease; }
+.ld-logo .ld-dot { fill: #ff2a3a; stroke: #ff2a3a; }
+.ld-logo .ld-glow { fill: #ff2a3a; opacity: 0; transition: opacity .4s ease; }
+.loader.filled .ld-logo path[data-o] { fill-opacity: 1; stroke-opacity: 0; }
+.loader.filled .ld-logo .ld-glow { opacity: .8; }
+/* перо — як курсор-крапля */
+.ld-pen {
+  position: fixed; left: 0; top: 0; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%;
+  background: var(--accent); z-index: 3; pointer-events: none; opacity: 0; transition: opacity .3s ease;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.loader.draw .ld-pen { opacity: 1; }
+.ld-pen.gone { opacity: 0 !important; transition: opacity .25s ease; }
+/* поки логотип летить — справжній у меню схований */
+html.loader-draft:not(.logo-landed) .nav .logo { visibility: hidden; }
 
 /* поки триває заставка — анімації першого екрана чекають */
 .loading .hero h1 .w > span, .loading .fade-in { animation-play-state: paused; }
