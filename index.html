@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=24">
+  <link rel="stylesheet" href="style.css?v=25">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -94,7 +94,6 @@
     <header class="hero" id="top">
       <div class="orb"></div>
       <div class="grid-bg"></div><div class="spot"></div>
-      <div class="hero-mark" aria-hidden="true"><svg viewBox="0 0 377 244"><defs><filter id="hmGlow" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="16"/></filter><filter id="hmLine" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.2"/></filter></defs><path class="hm-glowline" d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z" filter="url(#hmLine)"/><path class="hm-glowline" d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z" filter="url(#hmLine)"/><path class="hm-glowline" d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z" filter="url(#hmLine)"/><path class="hm-line" d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path class="hm-line" d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path class="hm-line" d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/><path class="hm-implant-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#hmGlow)"/><path class="hm-implant" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/></svg></div>
       <div class="wrap">
         <span class="badge fade-in" style="--d:0s"><i></i><span id="available"></span></span>
         <h1 id="headline"></h1>
@@ -179,8 +178,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=24"></script>
-  <script src="content-en.js?v=24"></script>
+  <script src="content.js?v=25"></script>
+  <script src="content-en.js?v=25"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -493,7 +492,7 @@
     }
 
     // ---- «Кібер-імплант»: крапка над j час від часу збоїть і мерехтить ----
-    document.querySelectorAll(".logo, .hero-mark").forEach(function implant(logo, n) {
+    document.querySelectorAll(".logo").forEach(function implant(logo, n) {
       if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const glitch = () => {
         let n = 2 + Math.floor(Math.random() * 4), i = 0;
@@ -640,14 +639,7 @@
       hero.style.setProperty("--mx", tx + "px");
       hero.style.setProperty("--my", ty + "px");
     });
-    hero.addEventListener("mouseleave", () => { hovering = false; mark.style.transform = ""; });
-    // великий j13 праворуч ледь повертається за курсором
-    const mark = document.querySelector(".hero-mark");
-    hero.addEventListener("mousemove", e => {
-      if (!mark) return;
-      const r = hero.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-      mark.style.transform = `translateY(-50%) perspective(900px) rotateY(${x * 10}deg) rotateX(${-y * 8}deg) translate(${x * 14}px, ${y * 10}px)`;
-    });
+    hero.addEventListener("mouseleave", () => hovering = false);
     (function loop() {
       if (!hovering) [tx, ty] = rest();
       ox += (tx - ox) * 0.05; oy += (ty - oy) * 0.05;
