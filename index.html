@@ -19,11 +19,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=7">
   <script>
     // Завантажувальний екран показуємо раз за відвідування (і не показуємо тим, хто вимкнув анімації)
     try {
-      if (sessionStorage.getItem("seenLoader") || matchMedia("(prefers-reduced-motion: reduce)").matches)
+      // ?intro у посиланні — показати заставку завжди (щоб подивитись ще раз)
+      const forceIntro = new URLSearchParams(location.search).has("intro");
+      if (!forceIntro && (sessionStorage.getItem("seenLoader") || matchMedia("(prefers-reduced-motion: reduce)").matches))
         document.documentElement.classList.add("no-loader");
     } catch (e) {}
   </script>
@@ -163,8 +165,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js"></script>
-  <script src="content-en.js"></script>
+  <script src="content.js?v=7"></script>
+  <script src="content-en.js?v=7"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
