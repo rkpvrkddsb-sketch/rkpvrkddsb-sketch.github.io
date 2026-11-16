@@ -19,14 +19,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=8">
+  <link rel="stylesheet" href="style.css?v=9">
   <script>
     // Заставка: перший візит — «привіт» різними мовами; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
       const forceIntro = new URLSearchParams(location.search).has("intro"); // ?intro — завжди повна заставка
       const html = document.documentElement;
       if (matchMedia("(prefers-reduced-motion: reduce)").matches && !forceIntro) html.classList.add("no-loader");
-      else if (sessionStorage.getItem("seenLoader") && !forceIntro) html.classList.add("loader-short");
+      else if (!forceIntro && (sessionStorage.getItem("seenLoader") || window.name === "seenLoader")) html.classList.add("loader-short");
+      // ?intro спрацьовує один раз — прибираємо його з адреси, щоб перезавантаження показувало «Завантаження…»
+      if (forceIntro) { const u = new URL(location.href); u.searchParams.delete("intro"); history.replaceState(null, "", u); }
     } catch (e) {}
   </script>
 </head>
@@ -165,8 +167,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=8"></script>
-  <script src="content-en.js?v=8"></script>
+  <script src="content.js?v=9"></script>
+  <script src="content-en.js?v=9"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -612,6 +614,7 @@
       const done = () => {
         document.body.classList.remove("loading");
         try { sessionStorage.setItem("seenLoader", 1); } catch (e) {}
+        try { if (!window.name) window.name = "seenLoader"; } catch (e) {}
       };
       if (document.documentElement.classList.contains("no-loader")) { el.remove(); done(); return; }
       const short = document.documentElement.classList.contains("loader-short");
