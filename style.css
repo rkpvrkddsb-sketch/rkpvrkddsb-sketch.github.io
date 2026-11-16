@@ -396,7 +396,7 @@ html.loader-short .ld-word { opacity: 1; animation: none; }
 
 /* ---------- Заставка «осцилограф» ---------- */
 .ld-grid, .ld-logo, .ld-scope { display: none; }
-html.loader-draft .loader { background: #040806; color: #57ff8c; place-items: center; transition: background-color .7s ease, opacity .5s ease; }
+html.loader-draft .loader { background: #0b0c0a; color: #c6ff3d; place-items: center; transition: background-color .7s ease, opacity .5s ease; }
 html.loader-draft .loader::after { display: none; }
 html.loader-draft .ld-word, html.loader-draft .ld-count { display: none; }
 html.loader-draft .ld-grid, html.loader-draft .ld-logo, html.loader-draft .ld-scope { display: block; }
@@ -406,8 +406,8 @@ html.loader-draft .ld-grid, html.loader-draft .ld-logo, html.loader-draft .ld-sc
   background-image:
     radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%),
     repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px),
-    linear-gradient(rgba(87,255,140,.11) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(87,255,140,.11) 1px, transparent 1px);
+    linear-gradient(rgba(198,255,61,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(198,255,61,.07) 1px, transparent 1px);
   background-size: auto, auto, 64px 64px, 64px 64px;
 }
 .loader.draw .ld-grid { opacity: 1; }
@@ -418,10 +418,10 @@ html.loader-draft .loader.fly { background-color: transparent; }
 html.loader-draft .loader.gone { opacity: 0; }
 .ld-logo { position: relative; width: min(56vw, 400px); height: auto; overflow: visible; z-index: 2; }
 /* під час малювання справжній логотип невидимий — його «малює» промінь на canvas */
-.ld-logo path[data-o] { fill: #57ff8c; fill-opacity: 0; stroke: none; transition: fill-opacity .35s ease, fill .8s ease; }
+.ld-logo path[data-o] { fill: #c6ff3d; fill-opacity: 0; stroke: none; transition: fill-opacity .35s ease, fill .8s ease; }
 .ld-logo .ld-dot { fill: #ff2a3a; }
 .ld-logo .ld-glow { fill: #ff2a3a; opacity: 0; transition: opacity .4s ease; }
-.loader.filled .ld-logo path[data-o] { fill-opacity: 1; filter: drop-shadow(0 0 10px rgba(87,255,140,.55)); }
+.loader.filled .ld-logo path[data-o] { fill-opacity: 1; filter: drop-shadow(0 0 10px rgba(198,255,61,.3)); }
 .loader.filled .ld-logo .ld-dot { filter: none; }
 .loader.filled .ld-logo .ld-glow { opacity: .85; }
 /* у польоті зелений стає кольором теми */
@@ -431,7 +431,7 @@ html.loader-draft:not(.logo-landed) .nav .logo { visibility: hidden; }
 /* ---------- Коротка заставка: кінескоп + сигнал ---------- */
 .ld-label { display: none; }
 html.loader-short .loader {
-  background: #040806; color: #57ff8c; transform: none !important; transition: none;
+  background: #0b0c0a; color: #c6ff3d; transform: none !important; transition: none;
 }
 html.loader-short .loader::after, html.loader-short .ld-word, html.loader-short .ld-count { display: none; }
 html.loader-short .ld-grid, html.loader-short .ld-scope, html.loader-short .ld-label { display: block; }
@@ -440,7 +440,7 @@ html.loader-short .ld-scope { position: fixed; inset: 0; width: 100vw; height: 1
 .ld-label {
   position: absolute; left: 0; right: 0; top: calc(50% + min(9vh, 70px) + 46px); text-align: center; z-index: 4;
   font: 600 13px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .32em; white-space: pre;
-  color: #57ff8c; text-shadow: 0 0 8px rgba(87,255,140,.7); opacity: .85;
+  color: #c6ff3d; text-shadow: 0 0 8px rgba(198,255,61,.35); opacity: .85;
 }
 /* кінескоп вимикається: екран стискається в лінію, потім у точку */
 .loader.crt-off { animation: crtOff .5s cubic-bezier(.7,0,.3,1) forwards; }
@@ -451,16 +451,16 @@ html.loader-short .ld-scope { position: fixed; inset: 0; width: 100vw; height: 1
 }
 /* перемикання мови: кінескоп вмикається — з точки в лінію, з лінії на весь екран */
 .crt-cover {
-  position: fixed; inset: 0; z-index: 190; background: #040806; pointer-events: all;
+  position: fixed; inset: 0; z-index: 190; background: #0b0c0a; pointer-events: all;
   display: grid; place-items: center; animation: crtOn .5s cubic-bezier(.7,0,.3,1) forwards;
   background-image:
-    linear-gradient(rgba(87,255,140,.11) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(87,255,140,.11) 1px, transparent 1px);
+    linear-gradient(rgba(198,255,61,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(198,255,61,.07) 1px, transparent 1px);
   background-size: 64px 64px;
 }
 .crt-cover span {
   font: 600 13px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .4em;
-  color: #57ff8c; text-shadow: 0 0 10px rgba(87,255,140,.8); opacity: 0; animation: ldIn .3s .3s forwards;
+  color: #c6ff3d; text-shadow: 0 0 10px rgba(198,255,61,.4); opacity: 0; animation: ldIn .3s .3s forwards;
 }
 @keyframes crtOn {
   0%   { clip-path: inset(calc(50% - 1px) 50% calc(50% - 1px) 50%); filter: brightness(3); }

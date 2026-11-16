@@ -70,7 +70,6 @@ testimonials: [
 
 У `style.css` на самому початку є блоки з кольорами для кожної теми:
 - `body[data-accent="orb"]` — «Сяйво»
-- `body[data-accent="block"]` — «Помаранч»
 - `body[data-accent="glow"]` — «Ніч»
 
 `--accent` — головний колір, `--accent-2` — другий.

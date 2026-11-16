@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="style.css?v=18">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -65,7 +65,6 @@
       </div>
       <div class="themes" id="themes" aria-label="Тема сайту">
         <button data-v="orb" title="Сяйво" aria-label="Сяйво"></button>
-        <button data-v="block" title="Помаранч"></button>
         <button data-v="glow" title="Ніч"></button>
       </div>
       <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><i></i><i></i></button>
@@ -90,7 +89,6 @@
   <div id="home">
     <header class="hero" id="top">
       <div class="orb"></div>
-      <div class="shape"><div class="sq"></div><div class="ring"></div><div class="dot"></div></div>
       <div class="grid-bg"></div><div class="spot"></div>
       <div class="wrap">
         <span class="badge fade-in" style="--d:0s"><i></i><span id="available"></span></span>
@@ -176,8 +174,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=17"></script>
-  <script src="content-en.js?v=17"></script>
+  <script src="content.js?v=18"></script>
+  <script src="content-en.js?v=18"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -202,7 +200,7 @@
         task: "Задача", solution: "Рішення", result: "Результат",
         features: 'Що <span class="em">вміє</span>', next: "Наступний проєкт",
         toast_secret: "🎉 Ти знайшов секретну тему!", toast_back: "Повернулись у звичайний світ 👋",
-        themes: ["Сяйво", "Помаранч", "Ніч"], loading: "Завантаження",
+        themes: ["Сяйво", "Ніч"], loading: "Завантаження",
         chat: ["Привіт! Хочу забронювати столик на вечір 🙌", "Звісно! На скільки осіб і о котрій?", "Нас 4, о 19:00",
                "Готово ✅ Чекаємо вас о 19:00. Нагадаю за годину!", "Змінити час", "Скасувати"]
       },
@@ -218,7 +216,7 @@
         task: "Challenge", solution: "Solution", result: "Result",
         features: 'What it <span class="em">does</span>', next: "Next project",
         toast_secret: "🎉 You found the secret theme!", toast_back: "Back to the normal world 👋",
-        themes: ["Aurora", "Orange", "Night"], loading: "Loading",
+        themes: ["Aurora", "Night"], loading: "Loading",
         chat: ["Hi! I'd like to book a table for tonight 🙌", "Sure! For how many people and what time?", "4 of us, at 7 pm",
                "Done ✅ See you at 7 pm. I'll remind you an hour before!", "Change time", "Cancel"]
       }
@@ -445,7 +443,7 @@
     });
 
     // ---- Теми ----
-    const THEMES = ["orb", "block", "glow"];
+    const THEMES = ["orb", "glow"];   // «Помаранч» прибрали — збережений вибір перейде на «Сяйво»
     let theme = "orb";
     function setTheme(v, save = true) {
       theme = v; document.body.dataset.accent = v;
@@ -664,13 +662,13 @@
         const cv = $("ld-scope"), ctx = cv.getContext("2d"), lab = $("ld-label");
         const dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, Hh = innerHeight;
         cv.width = W * dpr; cv.height = Hh * dpr; ctx.scale(dpr, dpr);
-        const GREEN = "#57ff8c", TOTAL = 1150;
+        const GREEN = "#c6ff3d", TOTAL = 1150;
         const t0 = performance.now(); let alive = true;
         (function draw(now) {
           const t = Math.max(0, now - t0), k = Math.min(t / TOTAL, 1);
           ctx.globalCompositeOperation = "destination-out"; ctx.fillStyle = "rgba(0,0,0,.28)"; ctx.fillRect(0, 0, W, Hh);
-          ctx.globalCompositeOperation = "lighter";
-          ctx.strokeStyle = GREEN; ctx.shadowColor = GREEN; ctx.shadowBlur = 14; ctx.lineWidth = 2;
+          ctx.globalCompositeOperation = "source-over";
+          ctx.strokeStyle = GREEN; ctx.shadowColor = "rgba(198,255,61,.45)"; ctx.shadowBlur = 7; ctx.lineWidth = 1.8; ctx.globalAlpha = .85;
           const grow = Math.min(t / 220, 1);                     // спершу лінія розгортається з центру
           const amp = Math.min(Math.max((t - 200) / 500, 0), 1) * Math.min(Hh * .09, 70);
           const half = W * .42 * grow, cy = Hh / 2;
@@ -697,7 +695,7 @@
       const dpr = Math.min(devicePixelRatio || 1, 2);
       cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
       ctx.scale(dpr, dpr);
-      const GREEN = "#57ff8c";
+      const GREEN = "#c6ff3d";            // той самий салатовий, що в темі «Ніч»
       // контур логотипа -> точки на екрані (промінь іде частина за частиною, між ними — «стрибок» без сліду)
       const parts = [...svg.querySelectorAll("path[data-o]")].sort((p, q) => p.dataset.o - q.dataset.o).map(p => {
         const L = p.getTotalLength(), n = Math.max(24, Math.round(L / 3)), m = p.getScreenCTM(), pts = [];
@@ -720,11 +718,11 @@
         ctx.globalCompositeOperation = "destination-out";
         ctx.fillStyle = `rgba(0,0,0,${hold ? .06 : .16 - .1 * k})`;
         ctx.fillRect(0, 0, innerWidth, innerHeight);
-        ctx.globalCompositeOperation = "lighter";
+        ctx.globalCompositeOperation = "source-over";
         ctx.lineCap = "round"; ctx.lineJoin = "round";
-        ctx.strokeStyle = GREEN; ctx.shadowColor = GREEN; ctx.shadowBlur = 10 + 8 * k;
+        ctx.strokeStyle = GREEN; ctx.shadowColor = "rgba(198,255,61,.45)"; ctx.shadowBlur = 5 + 4 * k;
         ctx.lineWidth = 1.6 + .8 * k;
-        ctx.globalAlpha = hold ? .55 : .5 + .35 * (1 - k);
+        ctx.globalAlpha = hold ? .45 : .4 + .3 * (1 - k);
         const steps = hold ? N : Math.min(speedAt(t) * dt, N * 1.05);
         const from = pos, to = pos + steps;
         ctx.beginPath();
@@ -737,7 +735,7 @@
         ctx.stroke();
         // яскрава «голова» променя
         if (!hold) {
-          ctx.globalAlpha = 1; ctx.shadowBlur = 24; ctx.fillStyle = "#d9ffe6";
+          ctx.globalAlpha = .9; ctx.shadowBlur = 12; ctx.fillStyle = "#e9ffb8";
           ctx.beginPath(); ctx.arc(head[0], head[1], 2.6 + 1.5 * (1 - k), 0, 7); ctx.fill();
         }
         ctx.globalAlpha = 1;
