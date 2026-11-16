@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
   <script>
     // Заставка: перший візит — «привіт» різними мовами; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -44,7 +44,7 @@
 
   <nav class="nav" id="nav">
     <div class="wrap">
-      <a href="#top" class="logo" aria-label="j13"><svg class="wordmark" viewBox="0 0 377 244" role="img" aria-label="j13"><g fill="currentColor"><path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg></a>
+      <a href="#top" class="logo" aria-label="j13"><svg class="wordmark" viewBox="0 0 377 244" role="img" aria-label="j13"><defs><filter id="wmGlow" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="14"/></filter></defs><g fill="currentColor"><path class="wm-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg></a>
       <ul>
         <li><a href="#projects" data-i18n="nav_projects">Проєкти</a></li>
         <li><a href="#about" data-i18n="nav_about">Про мене</a></li>
@@ -167,8 +167,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=13"></script>
-  <script src="content-en.js?v=13"></script>
+  <script src="content.js?v=14"></script>
+  <script src="content-en.js?v=14"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -462,6 +462,21 @@
         document.body.appendChild(s); setTimeout(() => s.remove(), 4000);
       }
     }
+
+    // ---- «Кібер-імплант»: крапка над j час від часу збоїть і мерехтить ----
+    (function implant() {
+      const logo = document.querySelector(".logo");
+      if (!logo || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const glitch = () => {
+        let n = 2 + Math.floor(Math.random() * 4), i = 0;
+        (function step() {
+          logo.classList.toggle("glitch");
+          if (++i < n * 2) setTimeout(step, 40 + Math.random() * 90);
+          else { logo.classList.remove("glitch"); setTimeout(glitch, 1200 + Math.random() * 4200); }
+        })();
+      };
+      setTimeout(glitch, 1500);
+    })();
 
     // ---- Ефекти ----
     const nav = $("nav"), prog = $("progress");
