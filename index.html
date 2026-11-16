@@ -20,8 +20,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script>
+    // Завантажувальний екран показуємо раз за відвідування (і не показуємо тим, хто вимкнув анімації)
+    try {
+      if (sessionStorage.getItem("seenLoader") || matchMedia("(prefers-reduced-motion: reduce)").matches)
+        document.documentElement.classList.add("no-loader");
+    } catch (e) {}
+  </script>
 </head>
-<body data-accent="orb">
+<body data-accent="orb" class="loading">
+
+  <!-- Завантажувальний екран -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="ld-word"><i></i><span id="ld-word">Привіт</span></div>
+    <div class="ld-count"><span id="ld-count">0</span>%</div>
+  </div>
 
   <div class="progress" id="progress"></div>
 
@@ -586,6 +599,36 @@
     })();
 
     route();
+
+    // ---- Завантажувальний екран: «привіт» різними мовами + лічильник ----
+    (function loader() {
+      const el = $("loader");
+      const done = () => {
+        document.body.classList.remove("loading");
+        try { sessionStorage.setItem("seenLoader", 1); } catch (e) {}
+      };
+      if (document.documentElement.classList.contains("no-loader")) { el.remove(); done(); return; }
+      const hello = ["Dia duit", "Hola", "Bonjour", "Ciao", "Hallo", "Olá", "Cześć"];
+      const words = LANG === "en" ? ["Hello", "Привіт", ...hello] : ["Привіт", "Hello", ...hello];
+      const STEP = 170, FIRST = 520;
+      const total = FIRST + STEP * (words.length - 1);
+      const w = $("ld-word"), cnt = $("ld-count");
+      w.textContent = words[0];
+      words.slice(1).forEach((word, i) => setTimeout(() => {
+        w.textContent = word; w.parentNode.classList.remove("tick"); void w.offsetWidth; w.parentNode.classList.add("tick");
+      }, FIRST + STEP * i));
+      const t0 = performance.now();
+      (function count(t) {
+        const k = Math.min((t - t0) / total, 1);
+        cnt.textContent = Math.round(100 * (1 - Math.pow(1 - k, 2)));
+        if (k < 1) requestAnimationFrame(count);
+      })(t0);
+      setTimeout(() => {
+        el.classList.add("out"); done();
+        setTimeout(() => el.remove(), 1100);
+      }, total + 250);
+    })();
+
     try {
       const ks = sessionStorage.getItem("keepScroll");
       if (ks !== null) { sessionStorage.removeItem("keepScroll"); requestAnimationFrame(() => scrollTo(0, +ks)); }
