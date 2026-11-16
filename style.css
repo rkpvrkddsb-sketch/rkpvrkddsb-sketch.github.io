@@ -163,7 +163,7 @@ body[data-accent="glow"] .spot { display: block; }
 /* ---------- Великий j13 праворуч на першому екрані ---------- */
 .hero-mark {
   position: absolute; z-index: 1; right: max(28px, calc((100vw - var(--max)) / 2 + 28px)); top: 50%;
-  width: min(24vw, 340px); transform: translateY(-50%); pointer-events: none;
+  width: min(19vw, 270px); transform: translateY(-50%); pointer-events: none;
   transition: transform .6s cubic-bezier(.2,.8,.2,1);
   opacity: 0; animation: fadeUp 1.2s cubic-bezier(.2,.8,.2,1) .9s forwards;
 }
@@ -175,6 +175,9 @@ body[data-accent="glow"] .spot { display: block; }
 body:not([data-accent="glow"]) .hm-glowline { opacity: .18; }
 .hm-implant { fill: #ff2a3a; animation: implantPulse 2.6s ease-in-out infinite; }
 .hm-implant-glow { fill: #ff2a3a; animation: implantGlow 2.6s ease-in-out infinite; }
+/* збої імпланту — як у логотипі в меню */
+.hero-mark.glitch .hm-implant { animation: none; opacity: .12; }
+.hero-mark.glitch .hm-implant-glow { animation: none; opacity: 0; }
 .hero .wrap { position: relative; z-index: 2; }
 
 /* ---------- Секції ---------- */
@@ -674,7 +677,7 @@ body[data-accent="glow"] .marquee .track > a:hover { color: #0d0d0f; background:
   .menu-open .m-foot { opacity: 1; }
 
   /* перший екран */
-  .hero-mark { width: 62vw; right: -6vw; top: 30%; opacity: .22 !important; animation: none; }
+  .hero-mark { width: 52vw; right: -4vw; top: 30%; opacity: .22 !important; animation: none; }
   .hero { min-height: auto; padding: 108px 0 72px; align-items: flex-start; }
   body[data-accent="block"] .hero { padding-top: 250px; }
   .shape { width: 150px; height: 150px; right: 24px; top: 82px; translate: none; }
