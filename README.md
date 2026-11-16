@@ -75,7 +75,7 @@ testimonials: [
 
 ---
 
-## Запуск на GitHub Pages (безкоштовно)
+## Як запускали на GitHub Pages (для довідки)
 
 1. Зареєструйся на **github.com** (якщо ще немає акаунта).
 2. Натисни **New repository**. Назва: `ТВІЙ-НІК.github.io`
@@ -86,12 +86,11 @@ testimonials: [
    гілка **main**, папка **/ (root)** → **Save**.
 5. Через 1–2 хвилини сайт буде на адресі **https://ТВІЙ-НІК.github.io**
 
-### Після запуску
-- У `index.html` вгорі заміни `https://example.github.io/` на свою адресу,
-  а `images/og.png` — на повну: `https://ТВІЙ-НІК.github.io/images/og.png`.
-  Тоді в Telegram/Instagram посилання показуватиметься з гарною картинкою.
-- Оновлювати сайт: відкриваєш файл на GitHub → значок олівця ✏️ → редагуєш → **Commit changes**.
-  Через хвилину зміни вже на сайті.
+### Сайт уже запущено
+Адреса: **https://rkpvrkddsb-sketch.github.io**
+
+Оновлювати сайт: відкриваєш файл на GitHub → значок олівця ✏️ → редагуєш → **Commit changes**.
+Через хвилину-дві зміни вже на сайті.
 
 ### Свій домен (за бажанням)
 Купуєш домен (напр. на Namecheap / Cloudflare, ~10 $/рік), у **Settings → Pages → Custom domain**
