@@ -19,14 +19,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="style.css?v=8">
   <script>
-    // Завантажувальний екран показуємо раз за відвідування (і не показуємо тим, хто вимкнув анімації)
+    // Заставка: перший візит — «привіт» різними мовами; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
-      // ?intro у посиланні — показати заставку завжди (щоб подивитись ще раз)
-      const forceIntro = new URLSearchParams(location.search).has("intro");
-      if (!forceIntro && (sessionStorage.getItem("seenLoader") || matchMedia("(prefers-reduced-motion: reduce)").matches))
-        document.documentElement.classList.add("no-loader");
+      const forceIntro = new URLSearchParams(location.search).has("intro"); // ?intro — завжди повна заставка
+      const html = document.documentElement;
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches && !forceIntro) html.classList.add("no-loader");
+      else if (sessionStorage.getItem("seenLoader") && !forceIntro) html.classList.add("loader-short");
     } catch (e) {}
   </script>
 </head>
@@ -34,7 +34,7 @@
 
   <!-- Завантажувальний екран -->
   <div class="loader" id="loader" aria-hidden="true">
-    <div class="ld-word"><i></i><span id="ld-word">Привіт</span></div>
+    <div class="ld-word"><i></i><span id="ld-word"></span><b class="ld-dots"><i></i><i></i><i></i></b></div>
     <div class="ld-count"><span id="ld-count">0</span>%</div>
   </div>
 
@@ -165,8 +165,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=7"></script>
-  <script src="content-en.js?v=7"></script>
+  <script src="content.js?v=8"></script>
+  <script src="content-en.js?v=8"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -191,7 +191,7 @@
         task: "Задача", solution: "Рішення", result: "Результат",
         features: 'Що <span class="em">вміє</span>', next: "Наступний проєкт",
         toast_secret: "🎉 Ти знайшов секретну тему!", toast_back: "Повернулись у звичайний світ 👋",
-        themes: ["Сяйво", "Помаранч", "Ніч"],
+        themes: ["Сяйво", "Помаранч", "Ніч"], loading: "Завантаження",
         chat: ["Привіт! Хочу забронювати столик на вечір 🙌", "Звісно! На скільки осіб і о котрій?", "Нас 4, о 19:00",
                "Готово ✅ Чекаємо вас о 19:00. Нагадаю за годину!", "Змінити час", "Скасувати"]
       },
@@ -207,7 +207,7 @@
         task: "Challenge", solution: "Solution", result: "Result",
         features: 'What it <span class="em">does</span>', next: "Next project",
         toast_secret: "🎉 You found the secret theme!", toast_back: "Back to the normal world 👋",
-        themes: ["Aurora", "Orange", "Night"],
+        themes: ["Aurora", "Orange", "Night"], loading: "Loading",
         chat: ["Hi! I'd like to book a table for tonight 🙌", "Sure! For how many people and what time?", "4 of us, at 7 pm",
                "Done ✅ See you at 7 pm. I'll remind you an hour before!", "Change time", "Cancel"]
       }
@@ -221,8 +221,12 @@
       b.onclick = () => {
         if (b.dataset.l === LANG) return;
         try { localStorage.setItem("lang", b.dataset.l); sessionStorage.setItem("keepScroll", scrollY); } catch (e) {}
-        const u = new URL(location.href); u.searchParams.delete("lang");
-        location.replace(u.toString());
+        const u = new URL(location.href); u.searchParams.delete("lang"); u.searchParams.delete("intro");
+        // завіса заїжджає знизу, а після перезавантаження заставка «Loading…» їде вгору — виходить один плавний перехід
+        const cover = document.createElement("div"); cover.className = "loader cover";
+        document.body.appendChild(cover);
+        requestAnimationFrame(() => requestAnimationFrame(() => cover.classList.add("in")));
+        setTimeout(() => location.replace(u.toString()), 650);
       };
     });
   </script>
@@ -610,9 +614,10 @@
         try { sessionStorage.setItem("seenLoader", 1); } catch (e) {}
       };
       if (document.documentElement.classList.contains("no-loader")) { el.remove(); done(); return; }
+      const short = document.documentElement.classList.contains("loader-short");
       const hello = ["Dia duit", "Hola", "Bonjour", "Ciao", "Hallo", "Olá", "Cześć"];
-      const words = LANG === "en" ? ["Hello", "Привіт", ...hello] : ["Привіт", "Hello", ...hello];
-      const STEP = 170, FIRST = 520;
+      const words = short ? [T.loading] : LANG === "en" ? ["Hello", "Привіт", ...hello] : ["Привіт", "Hello", ...hello];
+      const STEP = 170, FIRST = short ? 750 : 520;
       const total = FIRST + STEP * (words.length - 1);
       const w = $("ld-word"), cnt = $("ld-count");
       w.textContent = words[0];
@@ -628,7 +633,7 @@
       setTimeout(() => {
         el.classList.add("out"); done();
         setTimeout(() => el.remove(), 1100);
-      }, total + 250);
+      }, total + (short ? 80 : 250));
     })();
 
     try {
