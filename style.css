@@ -438,8 +438,8 @@ html.loader-short .ld-grid, html.loader-short .ld-scope, html.loader-short .ld-l
 html.loader-short .ld-grid { opacity: 1; transition: none; }
 html.loader-short .ld-scope { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 3; }
 .ld-label {
-  position: absolute; left: 0; right: 0; top: calc(50% + min(9vh, 70px) + 46px); text-align: center; z-index: 4;
-  font: 600 13px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .32em; white-space: pre;
+  position: absolute; left: 0; right: 0; top: calc(50% + 52px); text-align: center; z-index: 4;
+  font: 600 11px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .32em; white-space: pre;
   color: #c6ff3d; text-shadow: 0 0 8px rgba(198,255,61,.35); opacity: .85;
 }
 /* кінескоп вимикається: екран стискається в лінію, потім у точку */

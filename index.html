@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=18">
+  <link rel="stylesheet" href="style.css?v=19">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -174,8 +174,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=18"></script>
-  <script src="content-en.js?v=18"></script>
+  <script src="content.js?v=19"></script>
+  <script src="content-en.js?v=19"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -669,14 +669,14 @@
           ctx.globalCompositeOperation = "destination-out"; ctx.fillStyle = "rgba(0,0,0,.28)"; ctx.fillRect(0, 0, W, Hh);
           ctx.globalCompositeOperation = "source-over";
           ctx.strokeStyle = GREEN; ctx.shadowColor = "rgba(198,255,61,.45)"; ctx.shadowBlur = 7; ctx.lineWidth = 1.8; ctx.globalAlpha = .85;
-          const grow = Math.min(t / 220, 1);                     // спершу лінія розгортається з центру
-          const amp = Math.min(Math.max((t - 200) / 500, 0), 1) * Math.min(Hh * .09, 70);
-          const half = W * .42 * grow, cy = Hh / 2;
+          // маленька фігура Ліссажу посередині — як сигнал на осцилографі в режимі XY
+          const grow = Math.min(t / 260, 1), R = 26 * (1 - Math.pow(1 - grow, 3)), cx = W / 2, cy = Hh / 2;
+          const ph = t / 520;
           ctx.beginPath();
-          for (let x = -half; x <= half; x += 3) {
-            const env = Math.cos((x / (half || 1)) * Math.PI / 2);   // до країв сигнал затухає
-            const y = cy + Math.sin(x / 38 + t / 70) * amp * env + Math.sin(x / 11 - t / 45) * amp * .18 * env;
-            x === -half ? ctx.moveTo(W / 2 + x, y) : ctx.lineTo(W / 2 + x, y);
+          for (let i = 0; i <= 160; i++) {
+            const u = i / 160 * Math.PI * 2;
+            const x = cx + R * Math.sin(2 * u + ph), y = cy + R * Math.sin(3 * u);
+            i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
           }
           ctx.stroke();
           lab.textContent = `${T.loading.toUpperCase()}  ${String(Math.round(100 * (1 - Math.pow(1 - k, 2)))).padStart(3, " ")}%`;
