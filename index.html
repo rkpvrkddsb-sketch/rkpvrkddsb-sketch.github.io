@@ -34,13 +34,6 @@
         <li><a href="#faq">Питання</a></li>
         <li><a href="#contact">Контакти</a></li>
       </ul>
-      <div class="cur-switch" id="cur-switch" tabindex="0" aria-label="Вигляд курсора">
-        <div class="cs-panel">
-          <span class="cs-arrow"><svg viewBox="0 0 24 24" width="15" height="15"><path d="M5 3l14 7.5-6.2 1.7L10 19z" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-          <button data-c="stretch" aria-label="Розтяжка"><i class="ic-stretch"></i></button>
-          <button data-c="invert" aria-label="Інверсія"><i class="ic-invert"></i></button>
-        </div>
-      </div>
       <div class="themes" id="themes" aria-label="Тема сайту">
         <button data-v="orb" title="Сяйво"></button>
         <button data-v="block" title="Помаранч"></button>
@@ -426,20 +419,12 @@
     }
     if (finePointer) document.addEventListener("mousemove", e => tiltAt(e.clientX, e.clientY, e.target), { passive: true });
 
-    // Власний курсор. Варіанти: "invert" — інверсія, "stretch" — розтяжка
-    let CURSOR = "invert";
-    try { CURSOR = localStorage.getItem("cursor") || CURSOR; } catch (e) {}
-    if (!["invert", "stretch"].includes(CURSOR)) CURSOR = "invert";
+    // Власний курсор: крапля, що розтягується в бік руху
+    const CURSOR = "stretch";
     const cur = $("cur");
-    function setCursor(v) {
-      CURSOR = v; document.documentElement.dataset.cursor = v;
-      document.querySelectorAll("#cur-switch button").forEach(b => b.classList.toggle("on", b.dataset.c === v));
-      try { localStorage.setItem("cursor", v); } catch (e) {}
-    }
-    document.querySelectorAll("#cur-switch button").forEach(b => b.onclick = () => setCursor(b.dataset.c));
     if (finePointer) {
       document.documentElement.classList.add("has-cursor");
-      setCursor(CURSOR);
+      document.documentElement.dataset.cursor = CURSOR;
       const shape = cur.querySelector(".cur-shape");
       let mx = -100, my = -100, rx = -100, ry = -100, lastSY = scrollY, moved = false;
 
@@ -499,7 +484,7 @@
       addEventListener("mousedown", () => cur.classList.add("down"));
       addEventListener("mouseup", () => cur.classList.remove("down"));
       (function loop() {
-        const ease = snap ? .26 : CURSOR === "stretch" ? .22 : .2;
+        const ease = snap ? .26 : .22;
         let gx = mx, gy = my;
         if (snap) {
           const r = snap.el.getBoundingClientRect();
@@ -509,11 +494,11 @@
         const vx = gx - rx, vy = gy - ry;
         rx += vx * ease; ry += vy * ease;
         cur.style.translate = `${rx}px ${ry}px`;
-        if (CURSOR === "stretch") {
+        {
           const speed = Math.hypot(vx, vy), ang = Math.atan2(vy, vx);
           const sx = 1 + Math.min(speed / 70, .9), sy = 1 - Math.min(speed / 180, .4);
           shape.style.transform = snap ? "" : `rotate(${ang}rad) scale(${sx}, ${sy})`;
-        } else shape.style.transform = "";
+        }
         requestAnimationFrame(loop);
       })();
     }
