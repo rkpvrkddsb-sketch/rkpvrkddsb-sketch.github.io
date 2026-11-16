@@ -19,15 +19,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=16">
+  <link rel="stylesheet" href="style.css?v=17">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
       const forceIntro = new URLSearchParams(location.search).has("intro"); // ?intro — завжди повна заставка
       const html = document.documentElement;
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";   // самі вирішуємо, куди скролити
       if (matchMedia("(prefers-reduced-motion: reduce)").matches && !forceIntro) html.classList.add("no-loader");
-      else if (!forceIntro && (sessionStorage.getItem("seenLoader") || window.name === "seenLoader")) html.classList.add("loader-short");
-      else html.classList.add("loader-draft");
+      else {
+        html.classList.add("loader-active");                                        // поки заставка — курсор схований
+        if (!forceIntro && (sessionStorage.getItem("seenLoader") || window.name === "seenLoader")) html.classList.add("loader-short");
+        else html.classList.add("loader-draft");
+      }
       // ?intro спрацьовує один раз — прибираємо його з адреси, щоб перезавантаження показувало «Завантаження…»
       if (forceIntro) { const u = new URL(location.href); u.searchParams.delete("intro"); history.replaceState(null, "", u); }
     } catch (e) {}
@@ -40,6 +44,7 @@
     <div class="ld-grid"></div>
     <svg class="ld-logo" id="ld-logo" viewBox="0 0 377 244"><defs><filter id="ldGlow" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="14"/></filter></defs><path class="ld-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#ldGlow)"/><path data-o="4" class="ld-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path data-o="1" d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path data-o="2" d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path data-o="3" d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></svg>
     <canvas class="ld-scope" id="ld-scope"></canvas>
+    <div class="ld-label" id="ld-label"></div>
     <div class="ld-word"><i></i><span id="ld-word"></span><b class="ld-dots"><i></i><i></i><i></i></b></div>
     <div class="ld-count"><span id="ld-count">0</span>%</div>
   </div>
@@ -171,8 +176,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=16"></script>
-  <script src="content-en.js?v=16"></script>
+  <script src="content.js?v=17"></script>
+  <script src="content-en.js?v=17"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -227,12 +232,16 @@
       b.onclick = () => {
         if (b.dataset.l === LANG) return;
         try { localStorage.setItem("lang", b.dataset.l); sessionStorage.setItem("keepScroll", scrollY); } catch (e) {}
-        const u = new URL(location.href); u.searchParams.delete("lang"); u.searchParams.delete("intro");
-        // завіса заїжджає знизу, а після перезавантаження заставка «Loading…» їде вгору — виходить один плавний перехід
-        const cover = document.createElement("div"); cover.className = "loader cover";
+        // екран «вмикається» як кінескоп і закриває сторінку, потім перезавантаження — і нова мова з'являється з того ж екрана
+        const cover = document.createElement("div"); cover.className = "crt-cover";
+        cover.innerHTML = `<span>${b.dataset.l === "en" ? "EN" : "UA"}</span>`;
         document.body.appendChild(cover);
-        requestAnimationFrame(() => requestAnimationFrame(() => cover.classList.add("in")));
-        setTimeout(() => location.replace(u.toString()), 650);
+        document.documentElement.classList.add("loader-active");
+        setTimeout(() => {
+          const u = new URL(location.href); u.searchParams.delete("lang"); u.searchParams.delete("intro"); u.hash = "";
+          if (u.toString() === location.href.split("#")[0] || u.toString() === location.href) location.reload();
+          else location.replace(u.toString());
+        }, 520);
       };
     });
   </script>
@@ -395,6 +404,19 @@
       }
       page.classList.remove("page-in"); void page.offsetWidth; page.classList.add("page-in");
     }
+    document.addEventListener("click", e => {
+      const a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || a.matches("a.project, .marquee a, .next")) return;
+      const id = a.getAttribute("href").slice(1);
+      if (!id || id.startsWith("p-")) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      const fromProject = !$("home").hidden ? false : true;
+      if (fromProject) { $("home").hidden = false; $("project-page").hidden = true; document.title = site.name + " — " + site.role; history.replaceState(null, "", location.pathname + location.search); }
+      if (id === "top") scrollTo({ top: 0, behavior: fromProject ? "auto" : "smooth" });
+      else target.scrollIntoView({ behavior: fromProject ? "auto" : "smooth" });
+    });
     addEventListener("hashchange", () => { route(); $("cur").classList.remove("view", "hover"); });
 
     // Перехід: картинка проєкту «розгортається» на весь екран
@@ -635,19 +657,38 @@
         try { sessionStorage.setItem("seenLoader", 1); } catch (e) {}
         try { if (!window.name) window.name = "seenLoader"; } catch (e) {}
       };
-      if (html.classList.contains("no-loader")) { el.remove(); done(); return; }
+      if (html.classList.contains("no-loader")) { el.remove(); done(); html.classList.remove("loader-active"); return; }
 
-      // ---- коротка: «Завантаження…» ----
+      // ---- коротка (перезавантаження / зміна мови): кінескоп вмикається, сигнал на осцилографі, «Завантаження» ----
       if (html.classList.contains("loader-short")) {
-        const total = 750, cnt = $("ld-count");
-        $("ld-word").textContent = T.loading;
-        const t0 = performance.now();
-        (function count(t) {
-          const k = Math.min((t - t0) / total, 1);
-          cnt.textContent = Math.round(100 * (1 - Math.pow(1 - k, 2)));
-          if (k < 1) requestAnimationFrame(count);
+        const cv = $("ld-scope"), ctx = cv.getContext("2d"), lab = $("ld-label");
+        const dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, Hh = innerHeight;
+        cv.width = W * dpr; cv.height = Hh * dpr; ctx.scale(dpr, dpr);
+        const GREEN = "#57ff8c", TOTAL = 1150;
+        const t0 = performance.now(); let alive = true;
+        (function draw(now) {
+          const t = Math.max(0, now - t0), k = Math.min(t / TOTAL, 1);
+          ctx.globalCompositeOperation = "destination-out"; ctx.fillStyle = "rgba(0,0,0,.28)"; ctx.fillRect(0, 0, W, Hh);
+          ctx.globalCompositeOperation = "lighter";
+          ctx.strokeStyle = GREEN; ctx.shadowColor = GREEN; ctx.shadowBlur = 14; ctx.lineWidth = 2;
+          const grow = Math.min(t / 220, 1);                     // спершу лінія розгортається з центру
+          const amp = Math.min(Math.max((t - 200) / 500, 0), 1) * Math.min(Hh * .09, 70);
+          const half = W * .42 * grow, cy = Hh / 2;
+          ctx.beginPath();
+          for (let x = -half; x <= half; x += 3) {
+            const env = Math.cos((x / (half || 1)) * Math.PI / 2);   // до країв сигнал затухає
+            const y = cy + Math.sin(x / 38 + t / 70) * amp * env + Math.sin(x / 11 - t / 45) * amp * .18 * env;
+            x === -half ? ctx.moveTo(W / 2 + x, y) : ctx.lineTo(W / 2 + x, y);
+          }
+          ctx.stroke();
+          lab.textContent = `${T.loading.toUpperCase()}  ${String(Math.round(100 * (1 - Math.pow(1 - k, 2)))).padStart(3, " ")}%`;
+          if (alive) requestAnimationFrame(draw);
         })(t0);
-        setTimeout(() => { el.classList.add("out"); done(); setTimeout(() => el.remove(), 1100); }, total + 80);
+        el.classList.add("draw");
+        setTimeout(() => {
+          el.classList.add("crt-off"); done();               // кінескоп «вимикається» в лінію і точку — під ним сайт
+          setTimeout(() => { alive = false; el.remove(); html.classList.remove("loader-active"); }, 520);
+        }, TOTAL);
         return;
       }
 
@@ -729,13 +770,17 @@
         el.classList.add("gone");
         await wait(500);
         el.remove();
-        html.classList.remove("loader-draft", "logo-landed");
+        html.classList.remove("loader-draft", "logo-landed", "loader-active");
       })();
     })();
 
     try {
       const ks = sessionStorage.getItem("keepScroll");
       if (ks !== null) { sessionStorage.removeItem("keepScroll"); requestAnimationFrame(() => scrollTo(0, +ks)); }
+      else if (!/^#p-/.test(location.hash)) {
+        if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+        scrollTo(0, 0);
+      }
     } catch (e) {}
   </script>
 </body>

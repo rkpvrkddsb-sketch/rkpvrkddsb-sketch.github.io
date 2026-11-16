@@ -428,6 +428,48 @@ html.loader-draft .loader.gone { opacity: 0; }
 .loader.fly .ld-logo path[data-o]:not(.ld-dot) { fill: var(--text); filter: none; }
 html.loader-draft:not(.logo-landed) .nav .logo { visibility: hidden; }
 
+/* ---------- Коротка заставка: кінескоп + сигнал ---------- */
+.ld-label { display: none; }
+html.loader-short .loader {
+  background: #040806; color: #57ff8c; transform: none !important; transition: none;
+}
+html.loader-short .loader::after, html.loader-short .ld-word, html.loader-short .ld-count { display: none; }
+html.loader-short .ld-grid, html.loader-short .ld-scope, html.loader-short .ld-label { display: block; }
+html.loader-short .ld-grid { opacity: 1; transition: none; }
+html.loader-short .ld-scope { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 3; }
+.ld-label {
+  position: absolute; left: 0; right: 0; top: calc(50% + min(9vh, 70px) + 46px); text-align: center; z-index: 4;
+  font: 600 13px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .32em; white-space: pre;
+  color: #57ff8c; text-shadow: 0 0 8px rgba(87,255,140,.7); opacity: .85;
+}
+/* кінескоп вимикається: екран стискається в лінію, потім у точку */
+.loader.crt-off { animation: crtOff .5s cubic-bezier(.7,0,.3,1) forwards; }
+@keyframes crtOff {
+  0%   { clip-path: inset(0 0 0 0); filter: brightness(1); }
+  55%  { clip-path: inset(calc(50% - 1px) 0 calc(50% - 1px) 0); filter: brightness(2.2); }
+  100% { clip-path: inset(calc(50% - 1px) 50% calc(50% - 1px) 50%); filter: brightness(3); }
+}
+/* перемикання мови: кінескоп вмикається — з точки в лінію, з лінії на весь екран */
+.crt-cover {
+  position: fixed; inset: 0; z-index: 190; background: #040806; pointer-events: all;
+  display: grid; place-items: center; animation: crtOn .5s cubic-bezier(.7,0,.3,1) forwards;
+  background-image:
+    linear-gradient(rgba(87,255,140,.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(87,255,140,.11) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.crt-cover span {
+  font: 600 13px/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: .4em;
+  color: #57ff8c; text-shadow: 0 0 10px rgba(87,255,140,.8); opacity: 0; animation: ldIn .3s .3s forwards;
+}
+@keyframes crtOn {
+  0%   { clip-path: inset(calc(50% - 1px) 50% calc(50% - 1px) 50%); filter: brightness(3); }
+  45%  { clip-path: inset(calc(50% - 1px) 0 calc(50% - 1px) 0); filter: brightness(2); }
+  100% { clip-path: inset(0 0 0 0); filter: brightness(1); }
+}
+/* під час будь-якої заставки курсор схований */
+html.loader-active .cur { opacity: 0 !important; visibility: hidden; }
+
 /* поки триває заставка — анімації першого екрана чекають */
 .loading .hero h1 .w > span, .loading .fade-in { animation-play-state: paused; }
 .loading { overflow: hidden; }
