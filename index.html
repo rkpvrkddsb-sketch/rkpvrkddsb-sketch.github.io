@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=41">
+  <link rel="stylesheet" href="style.css?v=42">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -151,6 +151,13 @@
       </div>
     </section>
 
+    <section id="process">
+      <div class="wrap">
+        <div class="sec-head reveal"><h2 data-i18n="h_process">Як ми <span class="em">працюємо</span></h2></div>
+        <ol class="steps" id="steps"></ol>
+      </div>
+    </section>
+
     <section id="reviews" hidden>
       <div class="wrap">
         <div class="sec-head reveal"><h2 data-i18n="h_reviews">Що кажуть <span class="em">клієнти</span></h2></div>
@@ -174,6 +181,7 @@
         <h2 data-i18n="h_contact">Давайте зробимо<br><span class="em">щось класне</span></h2>
         <a class="mail" id="mail"></a>
         <div class="socials" id="socials"></div>
+        <p class="soon" id="contact-soon" hidden data-i18n="contact_soon">Контакти для замовлень з'являться тут зовсім скоро.</p>
       </div>
     </section>
   </div>
@@ -207,7 +215,7 @@
         nav_projects: "Проєкти", nav_about: "Про нас", nav_exp: "Досвід", nav_faq: "Питання", nav_contact: "Контакти",
         btn_order: "Замовити", btn_work: "Проєкти",
         h_projects: 'Вибрані <span class="em">проєкти</span>', projects_word: " проєкти · ",
-        l_about: "Про нас", l_skills: "Навички та інструменти", h_exp: "Досвід",
+        l_about: "Про нас", l_skills: "Навички та інструменти", contact_soon: "Контакти для замовлень з'являться тут зовсім скоро.", h_exp: "Досвід", h_process: 'Як ми <span class="em">працюємо</span>',
         h_reviews: 'Що кажуть <span class="em">клієнти</span>',
         l_faq: "Питання", h_faq: 'Часті <span class="em">питання</span>',
         l_contact: "Контакти", h_contact: 'Давайте зробимо<br><span class="em">щось класне</span>',
@@ -223,7 +231,7 @@
         nav_projects: "Projects", nav_about: "About", nav_exp: "Experience", nav_faq: "FAQ", nav_contact: "Contact",
         btn_order: "Order", btn_work: "Projects",
         h_projects: 'Selected <span class="em">projects</span>', projects_word: " projects · ",
-        l_about: "About us", l_skills: "Skills and tools", h_exp: "Experience",
+        l_about: "About us", l_skills: "Skills and tools", contact_soon: "Contacts for orders will appear here very soon.", h_exp: "Experience", h_process: 'How we <span class="em">work</span>',
         h_reviews: 'What <span class="em">clients</span> say',
         l_faq: "FAQ", h_faq: 'Common <span class="em">questions</span>',
         l_contact: "Contact", h_contact: 'Let\'s build<br><span class="em">something great</span>',
@@ -337,17 +345,28 @@
           <figcaption><b>${esc(t.name)}</b><span>${esc(t.role)}</span></figcaption></figure>`).join('');
     }
 
+    // Як ми працюємо
+    $("steps").innerHTML = (site.process || []).map((s, i) => `
+      <li class="step reveal" style="transition-delay:${i * .08}s"><span class="step-n">0${i + 1}</span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></li>`).join('');
+    if (!(site.process || []).length) $("process").hidden = true;
+
     // FAQ
     $("faq-list").innerHTML = (site.faq || []).map(f => `
       <details class="qa reveal"><summary>${esc(f.q)}<i></i></summary><div class="a"><p>${esc(f.a)}</p></div></details>`).join('');
 
-    const c = site.contacts;
-    $("mail").textContent = c.email; $("mail").href = "mailto:" + c.email;
+    // Контакти: заглушки (example.com, посилання без імені користувача) не показуємо
+    const c = Object.assign({}, site.contacts);
+    const realUrl = u => { try { return new URL(u).pathname.replace(/\/+$/, "").length > 1; } catch (e) { return false; } };
+    ["github", "linkedin", "telegram"].forEach(k => { if (!realUrl(c[k])) c[k] = ""; });
+    if (!c.email || /@example\./i.test(c.email)) c.email = "";
+    $("mail").textContent = c.email; $("mail").href = "mailto:" + c.email; $("mail").hidden = !c.email;
     $("socials").innerHTML = [["GitHub", c.github], ["LinkedIn", c.linkedin], ["Telegram", c.telegram]]
       .filter(([, u]) => u).map(([n, u]) => `<a class="btn magnet" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${n} ↗</a>`).join('');
 
+    $("contact-soon").hidden = !!(c.email || c.github || c.linkedin || c.telegram);
+
     // ---- Мобільне меню ----
-    $("m-foot").innerHTML = `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` +
+    $("m-foot").innerHTML = (c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : "") +
       [["GitHub", c.github], ["LinkedIn", c.linkedin], ["Telegram", c.telegram]].filter(([, u]) => u)
         .map(([n, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${n} ↗</a>`).join("");
     function setMenu(open) {

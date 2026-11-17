@@ -116,6 +116,14 @@ const site_en = {
   testimonials: [
   ],
 
+  // How we work
+  process: [
+    { title: "Request",    text: "You hit “Order” and tell us briefly what you need." },
+    { title: "Discussion", text: "We clarify the task, propose a solution and agree on price and timeline." },
+    { title: "Development", text: "We build the project and show progress along the way." },
+    { title: "Launch",     text: "We launch, show you how to use it and stay in touch for support." }
+  ],
+
   faq: [
     {
       q: "How much does a bot cost?",
