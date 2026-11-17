@@ -29,9 +29,10 @@
     @keyframes pulse { 50% { opacity: .78; } }
     @keyframes glow { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
     canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 1; }
+    #scope { z-index: 2; }
     .info {
       position: fixed; left: 0; right: 0; top: calc(50% + min(15vw, 120px)); z-index: 2;
-      text-align: center; padding: 0 24px; opacity: 0; animation: in .8s cubic-bezier(.2,.8,.2,1) 1.4s forwards;
+      text-align: center; padding: 0 24px; opacity: 0; animation: in .8s cubic-bezier(.2,.8,.2,1) 2.6s forwards;
     }
     .label { font-size: 11px; font-weight: 700; letter-spacing: .32em; color: var(--muted); text-transform: uppercase; }
     h1 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -.02em; margin: 14px 0 26px; }
@@ -63,6 +64,7 @@
     </a>
   </header>
 
+  <canvas id="fill"></canvas>
   <canvas id="scope"></canvas>
 
   <div class="info">
@@ -83,31 +85,37 @@
       document.getElementById("home").textContent = "Back to home →";
     }
 
-    // ---- осцилограф: промінь набирає оберти і малює «404» ----
+    // ---- осцилограф: промінь набирає оберти, обводить об'ємні «404», потім цифри заливаються ----
     const cv = document.getElementById("scope"), ctx = cv.getContext("2d");
-    const ACC = getComputedStyle(document.body).getPropertyValue("--accent").trim() || "#b5d65a";
-    let W, H, route = [], N = 0;
-    // знаки «4» і «0» — ламані, з тим самим нахилом, що в логотипі j13
+    const fcv = document.getElementById("fill"), fctx = fcv.getContext("2d");
+    const css = getComputedStyle(document.body);
+    const ACC = css.getPropertyValue("--accent").trim() || "#b5d65a";
+    const TXT = css.getPropertyValue("--text").trim() || "#e4e4dc";
+    // цифри як суцільні фігури в стилі j13: товсті штрихи, скошені кути; кожна — зовнішній контур + «дірки»
     const G = {
-      "4": [[[42,80],[42,0],[0,54],[60,54]]],
-      "0": [[[12,0],[48,0],[60,12],[60,68],[48,80],[12,80],[0,68],[0,12],[12,0]], [[44,18],[16,62]]]
+      "4": [ [[40,0],[50,0],[56,6],[56,48],[64,48],[64,64],[56,64],[56,80],[40,80],[40,64],[6,64],[0,58],[0,48]],
+             [[40,24],[40,48],[21,48]] ],
+      "0": [ [[16,0],[64,0],[64,64],[48,80],[0,80],[0,16]],
+             [[23,16],[48,16],[48,57],[41,64],[16,64],[16,23]] ]
     };
+    let W, H, route = [], N = 0, shapes = [];
     function build() {
       const dpr = Math.min(devicePixelRatio || 1, 2);
       W = innerWidth; H = innerHeight;
-      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const word = "404", S = Math.min(2.6, W / 300), gap = 30, slant = .3;
-      const totalW = (word.length * 60 + (word.length - 1) * gap) * S;
+      for (const c of [cv, fcv]) { c.width = W * dpr; c.height = H * dpr; c.getContext("2d").setTransform(dpr, 0, 0, dpr, 0, 0); }
+      const word = "404", S = Math.min(2.5, W / 300), gap = 22, slant = .3, gw = 64;
+      const totalW = (word.length * gw + (word.length - 1) * gap) * S;
       const ox = W / 2 - totalW / 2 - slant * 40 * S, oy = H / 2 - 40 * S - Math.min(W * .05, 40);
-      route = [];
-      [...word].forEach((ch, i) => G[ch].forEach(line => {
-        // точки вздовж ліній (щільно), перша точка кожної лінії — «стрибок» без сліду
-        for (let j = 1; j < line.length; j++) {
-          const [x0, y0] = line[j - 1], [x1, y1] = line[j], n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 2));
+      const P = (i, [x, y]) => [ox + (i * (gw + gap) + x + slant * (80 - y)) * S, oy + y * S];
+      route = []; shapes = [];
+      [...word].forEach((ch, i) => G[ch].forEach(poly => {
+        const pts = poly.map(p => P(i, p)); shapes.push(pts);
+        const loop = [...pts, pts[0]];
+        for (let j = 1; j < loop.length; j++) {
+          const [x0, y0] = loop[j - 1], [x1, y1] = loop[j], n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 3));
           for (let k = 0; k <= n; k++) {
             if (j > 1 && k === 0) continue;
-            const x = x0 + (x1 - x0) * k / n, y = y0 + (y1 - y0) * k / n;
-            route.push([ox + (i * (60 + gap) + x + slant * (80 - y)) * S, oy + y * S, !(j === 1 && k === 0)]);
+            route.push([x0 + (x1 - x0) * k / n, y0 + (y1 - y0) * k / n, !(j === 1 && k === 0)]);
           }
         }
       }));
@@ -117,22 +125,29 @@
     addEventListener("resize", build);
 
     const at = f => { const i = ((Math.floor(f) % N) + N) % N, j = (i + 1) % N, t = f - Math.floor(f), a = route[i], b = route[j]; return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, t === 0 ? a[2] : b[2]]; };
-    const RAMP = 2400, reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const RAMP = 2600, FILL = 600, reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     let pos = 0, last = performance.now(), start = last;
     function frame(now) {
       const dt = Math.max(0, Math.min(now - last, 40)); last = Math.max(now, last);
       const t = Math.max(0, now - start), k = reduce ? 1 : Math.min(t / RAMP, 1);
-      // люмінофор згасає; що швидше промінь — то стабільніша картинка
+      const fillK = reduce ? 1 : Math.min(Math.max((t - RAMP) / FILL, 0), 1);
+      // заливка цифр — плавно після розгону
+      fctx.clearRect(0, 0, W, H);
+      if (fillK > 0) {
+        fctx.globalAlpha = fillK; fctx.fillStyle = TXT;
+        fctx.beginPath();
+        for (const s of shapes) { fctx.moveTo(s[0][0], s[0][1]); for (const p of s.slice(1)) fctx.lineTo(p[0], p[1]); fctx.closePath(); }
+        fctx.fill("evenodd");
+      }
+      // промінь: люмінофор згасає, що швидше — то стабільніший контур; після заливки лишається легке світіння краю
       ctx.globalCompositeOperation = "destination-out";
       ctx.fillStyle = `rgba(0,0,0,${.18 - .11 * k})`; ctx.fillRect(0, 0, W, H);
       ctx.globalCompositeOperation = "source-over";
       ctx.lineCap = "round"; ctx.lineJoin = "round";
-      ctx.strokeStyle = ACC; ctx.shadowColor = ACC; ctx.shadowBlur = 6 + 5 * k; ctx.lineWidth = 2.2 + k;
-      ctx.globalAlpha = .45 + .25 * (1 - k);
-      const speed = .015 * Math.pow(220, k);                // точок за мс
-      const steps = Math.min(speed * dt, N * 1.02);
-      // ледь помітне тремтіння сигналу
-      const jit = () => (Math.random() - .5) * .9 * k;
+      ctx.strokeStyle = ACC; ctx.shadowColor = ACC; ctx.shadowBlur = 6 + 6 * k; ctx.lineWidth = 2 + .6 * k;
+      ctx.globalAlpha = (.45 + .25 * (1 - k)) * (1 - .55 * fillK);
+      const speed = .015 * Math.pow(240, k), steps = Math.min(speed * dt, N * 1.02);
+      const jit = () => (Math.random() - .5) * .7 * k;
       ctx.beginPath();
       let p = at(pos); ctx.moveTo(p[0], p[1]);
       for (let f = Math.floor(pos) + 1; f <= pos + steps; f++) {
