@@ -6,7 +6,7 @@
 
 const site_en = {
   name: "j13",
-  role: "Product Developer",
+  role: "Development team",
   location: "Dublin, Ireland",
   available: "Open to new projects",
 
@@ -14,7 +14,7 @@ const site_en = {
   headline: "Apps, platforms & bots.",
   // Short line under the main phrase ("" — none)
   tagline: "From idea to launch.",
-  intro: "A couple of sentences about you: what you do, what you care about and how you help the people you work with.",
+  intro: "We are a small development team. We build web platforms, apps and bots for businesses — from idea to launch, and we stay around for support.",
 
   // Running line under the first screen
   marquee: [
@@ -28,9 +28,9 @@ const site_en = {
 
   // Counters
   stats: [
+    { value: 15, suffix: "+",  label: "social media bots built by our team" },
     { value: 3,  suffix: "+",  label: "major projects in the portfolio" },
-    { value: 2,  suffix: "",   label: "messengers for bots — Telegram and WhatsApp" },
-    { value: 24, suffix: "/7", label: "my bots work without days off" }
+    { value: 24, suffix: "/7", label: "our bots work without days off" }
   ],
 
   projects: [
@@ -106,9 +106,9 @@ const site_en = {
   skills: ["JavaScript", "React", "Node.js", "Python", "SQL", "Telegram Bot API", "WhatsApp API", "Git"],
 
   experience: [
-    { period: "2025 — now", title: "Hotel platform", place: "Own project" },
-    { period: "2025 — now", title: "Bots for Telegram and WhatsApp", place: "Freelance / made to order" },
-    { period: "2024 — 2025", title: "App development", place: "Team / company" }
+    { period: "2025 — now", title: "Hotel platform", place: "Team project" },
+    { period: "2025 — now", title: "Bots for Telegram and WhatsApp", place: "Made to order" },
+    { period: "2024 — 2025", title: "App development", place: "For a client" }
   ],
 
   // Testimonials — the section stays hidden while the list is empty.
@@ -119,7 +119,7 @@ const site_en = {
   faq: [
     {
       q: "How much does a bot cost?",
-      a: "It depends on the task: a simple bot for requests and FAQs is affordable; a complex one with payments, a CRM and several flows costs more. Tell me what you need and I'll give you an exact price."
+      a: "It depends on the task: a simple bot for requests and FAQs is affordable; a complex one with payments, a CRM and several flows costs more. Tell us what you need and we'll give you an exact price."
     },
     {
       q: "How long does development take?",
@@ -127,11 +127,11 @@ const site_en = {
     },
     {
       q: "Can things be changed later?",
-      a: "Yes. Texts, buttons, flows and new features can be added after launch — I stay in touch and help with updates."
+      a: "Yes. Texts, buttons, flows and new features can be added after launch — we stay in touch and help with updates."
     },
     {
       q: "Do you only work with Telegram and WhatsApp?",
-      a: "Bots — mostly for those, because that's where customers already talk. I also build web platforms and apps for specific businesses."
+      a: "Bots — mostly for those, because that's where customers already talk. We also build web platforms and apps for specific businesses."
     }
   ],
 
