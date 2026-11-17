@@ -766,3 +766,15 @@ html[data-cursor="stretch"] body[data-accent="glow"] .cur-shape {
 html[data-cursor="stretch"] body[data-accent="glow"] .cur.hover .cur-shape {
   box-shadow: 0 0 8px var(--accent), 0 0 22px color-mix(in srgb, var(--accent) 40%, transparent), inset 0 0 10px color-mix(in srgb, var(--accent) 40%, transparent);
 }
+
+/* перший екран: наводиш на «Дивитись проєкти» — сяйво фону розгорається */
+.spot::after {
+  content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease;
+  background: radial-gradient(760px circle at var(--mx, 70%) var(--my, 40%),
+    color-mix(in srgb, var(--accent) 34%, transparent), color-mix(in srgb, var(--accent) 8%, transparent) 45%, transparent 68%);
+}
+.grid-bg { transition: opacity .6s ease; }
+.orb { transition: opacity .6s ease; }
+.hero:has(.btn.primary:hover, .btn.primary.snapped) .spot::after { opacity: 1; }
+body[data-accent="glow"] .hero:has(.btn.primary:hover, .btn.primary.snapped) .grid-bg { opacity: 1.0; filter: brightness(1.6); }
+body[data-accent="orb"] .hero:has(.btn.primary:hover, .btn.primary.snapped) .orb { opacity: .95; }
