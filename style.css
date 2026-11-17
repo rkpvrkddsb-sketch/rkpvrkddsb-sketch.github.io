@@ -790,3 +790,8 @@ html[data-cursor="stretch"] body .cur.red.hover .cur-shape, html[data-cursor="st
   background: rgba(255,42,58,.14); border-color: #ff2a3a;
   box-shadow: 0 0 12px #ff2a3a, 0 0 30px rgba(255,42,58,.55), 0 0 70px rgba(255,42,58,.25), inset 0 0 14px rgba(255,42,58,.45);
 }
+
+/* Головна кнопка «Замовити» — як «Купити» в Apple: заливка кольором акценту */
+.hero .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; padding-left: 34px; padding-right: 34px; }
+body[data-accent="glow"] .hero .btn.primary { color: #10120f; }
+.hero .btn.primary:hover { filter: brightness(1.08); }

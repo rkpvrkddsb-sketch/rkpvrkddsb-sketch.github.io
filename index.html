@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=38">
+  <link rel="stylesheet" href="style.css?v=39">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -110,8 +110,8 @@
         <h1 id="headline"></h1>
         <p class="intro fade-in" id="intro"></p>
         <div class="meta fade-in" id="hero-meta">
-          <a href="#projects" class="btn primary magnet" data-i18n="btn_projects">Дивитись проєкти →</a>
-          <a href="#contact" class="btn magnet" data-i18n="btn_contact">Зв'язатися</a>
+          <a href="#contact" class="btn primary magnet" data-i18n="btn_order">Замовити</a>
+          <a href="#projects" class="btn magnet" data-i18n="btn_work">Проєкти</a>
         </div>
       </div>
     </header>
@@ -189,8 +189,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=38"></script>
-  <script src="content-en.js?v=38"></script>
+  <script src="content.js?v=39"></script>
+  <script src="content-en.js?v=39"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -205,7 +205,7 @@
     const I18N = {
       uk: {
         nav_projects: "Проєкти", nav_about: "Про мене", nav_exp: "Досвід", nav_faq: "Питання", nav_contact: "Контакти",
-        btn_projects: "Дивитись проєкти →", btn_contact: "Зв'язатися",
+        btn_order: "Замовити", btn_work: "Проєкти",
         h_projects: 'Вибрані <span class="em">проєкти</span>', projects_word: " проєкти · ",
         l_about: "Про мене", l_skills: "Навички та інструменти", h_exp: "Досвід",
         h_reviews: 'Що кажуть <span class="em">клієнти</span>',
@@ -221,7 +221,7 @@
       },
       en: {
         nav_projects: "Projects", nav_about: "About", nav_exp: "Experience", nav_faq: "FAQ", nav_contact: "Contact",
-        btn_projects: "View projects →", btn_contact: "Get in touch",
+        btn_order: "Order", btn_work: "Projects",
         h_projects: 'Selected <span class="em">projects</span>', projects_word: " projects · ",
         l_about: "About me", l_skills: "Skills and tools", h_exp: "Experience",
         h_reviews: 'What <span class="em">clients</span> say',
