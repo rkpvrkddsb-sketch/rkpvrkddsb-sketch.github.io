@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=37">
+  <link rel="stylesheet" href="style.css?v=38">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -189,8 +189,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=37"></script>
-  <script src="content-en.js?v=37"></script>
+  <script src="content.js?v=38"></script>
+  <script src="content-en.js?v=38"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -266,7 +266,7 @@
     const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
     $("available").textContent = site.available;
-    $("intro").textContent = site.intro;
+    $("intro").textContent = site.tagline || ""; if (!site.tagline) $("intro").hidden = true;
     $("about-text").textContent = site.intro;
     $("foot-name").textContent = "© " + new Date().getFullYear() + " " + site.name;
     $("foot-loc").textContent = site.location;

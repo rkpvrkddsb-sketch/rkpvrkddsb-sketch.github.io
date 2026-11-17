@@ -11,7 +11,9 @@ const site_en = {
   available: "Open to new projects",
 
   // Main phrase on the first screen
-  headline: "I build apps and platforms that are a pleasure to use.",
+  headline: "Apps, platforms & bots.",
+  // Short line under the main phrase ("" — none)
+  tagline: "From idea to launch.",
   intro: "A couple of sentences about you: what you do, what you care about and how you help the people you work with.",
 
   // Running line under the first screen
