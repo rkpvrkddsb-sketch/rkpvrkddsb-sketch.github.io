@@ -64,7 +64,7 @@ a { color: inherit; text-decoration: none; }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
 .logo { display: flex; align-items: center; color: var(--text); }
 /* логотип j13: усі знаки між двома уявними лініями — однакова висота, нічого не вилазить */
-.wordmark { height: 26px; width: auto; display: block; overflow: visible; }
+.wordmark { height: 32px; width: auto; display: block; overflow: visible; }
 /* крапка над j — червоний «кібер-імплант»: повільно пульсує і час від часу збоїть */
 .logo { --implant: #ff2a3a; }
 .wm-dot, .wm-glow { fill: var(--implant); transform-box: fill-box; transform-origin: center; }
@@ -72,8 +72,8 @@ a { color: inherit; text-decoration: none; }
 .wm-glow { opacity: .95; animation: implantGlow 2.6s ease-in-out infinite; }
 .wm-glow2, .wm-glow3 { animation-name: implantGlow2; }
 @keyframes implantPulse { 0%, 100% { opacity: 1; } 50% { opacity: .78; } }
-@keyframes implantGlow { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
-@keyframes implantGlow2 { 0%, 100% { opacity: .9; } 50% { opacity: .55; } }
+@keyframes implantGlow { 0%, 100% { opacity: 1; } 50% { opacity: .7; } }
+@keyframes implantGlow2 { 0%, 100% { opacity: 1; } 50% { opacity: .75; } }
 .logo.glitch .wm-dot { animation: none; opacity: .12; }
 .logo.glitch .wm-glow { animation: none; opacity: 0; }
 .logo:hover .wm-dot, .logo:hover .wm-glow { animation-duration: .5s; }
@@ -631,6 +631,7 @@ body[data-accent="glow"] .marquee .track > a:hover { text-shadow: 0 0 18px color
   .menu-open .burger i:first-child { transform: translateY(4px) rotate(45deg); }
   .menu-open .burger i:last-child { transform: translateY(-4px) rotate(-45deg); }
   .lang { margin-left: auto; margin-right: 6px; flex: none; }
+  .wordmark { height: 28px; }
   .themes { flex: none; }
   .logo { min-width: 0; flex: 1 1 auto; margin-right: 8px; }
   .lang button { padding: 0 8px; }
