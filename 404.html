@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — j13</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ті самі кольори, що на сайті */
+    body { --bg: #131513; --text: #e4e4dc; --muted: #8e938a; --line: #252925; --card: #1a1d1a; --accent: #b5d65a; }
+    body[data-accent="orb"] { --bg: #f3f2ee; --text: #1d1d1b; --muted: #6f6d67; --line: #e2e0d9; --card: #fbfaf7; --accent: #6a5cf0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg); color: var(--text); font-family: "Manrope", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased; overflow: hidden;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    a { color: inherit; text-decoration: none; }
+    .top { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; height: 68px; padding: 0 28px; max-width: 1180px; margin: 0 auto; z-index: 3; }
+    .logo svg { height: 26px; width: auto; display: block; overflow: visible; }
+    .wm-dot, .wm-glow { fill: #ff2a3a; }
+    .wm-dot { animation: pulse 2.6s ease-in-out infinite; }
+    .wm-glow { animation: glow 2.6s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: .78; } }
+    @keyframes glow { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+    canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 1; }
+    .info {
+      position: fixed; left: 0; right: 0; top: calc(50% + min(15vw, 120px)); z-index: 2;
+      text-align: center; padding: 0 24px; opacity: 0; animation: in .8s cubic-bezier(.2,.8,.2,1) 1.4s forwards;
+    }
+    .label { font-size: 11px; font-weight: 700; letter-spacing: .32em; color: var(--muted); text-transform: uppercase; }
+    h1 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; letter-spacing: -.02em; margin: 14px 0 26px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 99px;
+      background: var(--text); color: var(--bg); font-weight: 700; font-size: 15px; transition: transform .25s, background .25s, color .25s;
+    }
+    .btn:hover { transform: translateY(-2px); background: var(--accent); color: #131513; }
+    @keyframes in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .info { animation: none; opacity: 1; } }
+  </style>
+</head>
+<body>
+  <script>
+    try { const t = localStorage.getItem("theme"); if (t === "orb") document.body.dataset.accent = "orb"; } catch (e) {}
+  </script>
+
+  <header class="top">
+    <a href="/" class="logo" aria-label="j13 — на головну">
+      <svg viewBox="0 0 377 244"><defs><filter id="g" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="30"/></filter></defs>
+        <g fill="currentColor">
+          <path class="wm-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#g)"/>
+          <path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/>
+          <path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/>
+          <path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/>
+          <path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/>
+        </g>
+      </svg>
+    </a>
+  </header>
+
+  <canvas id="scope"></canvas>
+
+  <div class="info">
+    <div class="label" id="label">Помилка 404</div>
+    <h1 id="title">Такої сторінки немає — сигнал загубився</h1>
+    <a class="btn" href="/" id="home">На головну →</a>
+  </div>
+
+  <script>
+    // ---- мова як на сайті ----
+    let lang = null;
+    try { lang = localStorage.getItem("lang"); } catch (e) {}
+    if (lang !== "uk" && lang !== "en") lang = /^(uk|ru|be)/i.test(navigator.language || "") ? "uk" : "en";
+    if (lang === "en") {
+      document.documentElement.lang = "en";
+      document.getElementById("label").textContent = "Error 404";
+      document.getElementById("title").textContent = "This page doesn’t exist — the signal got lost";
+      document.getElementById("home").textContent = "Back to home →";
+    }
+
+    // ---- осцилограф: промінь набирає оберти і малює «404» ----
+    const cv = document.getElementById("scope"), ctx = cv.getContext("2d");
+    const ACC = getComputedStyle(document.body).getPropertyValue("--accent").trim() || "#b5d65a";
+    let W, H, route = [], N = 0;
+    // знаки «4» і «0» — ламані, з тим самим нахилом, що в логотипі j13
+    const G = {
+      "4": [[[42,80],[42,0],[0,54],[60,54]]],
+      "0": [[[12,0],[48,0],[60,12],[60,68],[48,80],[12,80],[0,68],[0,12],[12,0]], [[44,18],[16,62]]]
+    };
+    function build() {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      W = innerWidth; H = innerHeight;
+      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const word = "404", S = Math.min(2.6, W / 300), gap = 30, slant = .3;
+      const totalW = (word.length * 60 + (word.length - 1) * gap) * S;
+      const ox = W / 2 - totalW / 2 - slant * 40 * S, oy = H / 2 - 40 * S - Math.min(W * .05, 40);
+      route = [];
+      [...word].forEach((ch, i) => G[ch].forEach(line => {
+        // точки вздовж ліній (щільно), перша точка кожної лінії — «стрибок» без сліду
+        for (let j = 1; j < line.length; j++) {
+          const [x0, y0] = line[j - 1], [x1, y1] = line[j], n = Math.max(2, Math.round(Math.hypot(x1 - x0, y1 - y0) / 2));
+          for (let k = 0; k <= n; k++) {
+            if (j > 1 && k === 0) continue;
+            const x = x0 + (x1 - x0) * k / n, y = y0 + (y1 - y0) * k / n;
+            route.push([ox + (i * (60 + gap) + x + slant * (80 - y)) * S, oy + y * S, !(j === 1 && k === 0)]);
+          }
+        }
+      }));
+      N = route.length;
+    }
+    build();
+    addEventListener("resize", build);
+
+    const at = f => { const i = ((Math.floor(f) % N) + N) % N, j = (i + 1) % N, t = f - Math.floor(f), a = route[i], b = route[j]; return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, t === 0 ? a[2] : b[2]]; };
+    const RAMP = 2400, reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let pos = 0, last = performance.now(), start = last;
+    function frame(now) {
+      const dt = Math.max(0, Math.min(now - last, 40)); last = Math.max(now, last);
+      const t = Math.max(0, now - start), k = reduce ? 1 : Math.min(t / RAMP, 1);
+      // люмінофор згасає; що швидше промінь — то стабільніша картинка
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.fillStyle = `rgba(0,0,0,${.18 - .11 * k})`; ctx.fillRect(0, 0, W, H);
+      ctx.globalCompositeOperation = "source-over";
+      ctx.lineCap = "round"; ctx.lineJoin = "round";
+      ctx.strokeStyle = ACC; ctx.shadowColor = ACC; ctx.shadowBlur = 6 + 5 * k; ctx.lineWidth = 2.2 + k;
+      ctx.globalAlpha = .45 + .25 * (1 - k);
+      const speed = .015 * Math.pow(220, k);                // точок за мс
+      const steps = Math.min(speed * dt, N * 1.02);
+      // ледь помітне тремтіння сигналу
+      const jit = () => (Math.random() - .5) * .9 * k;
+      ctx.beginPath();
+      let p = at(pos); ctx.moveTo(p[0], p[1]);
+      for (let f = Math.floor(pos) + 1; f <= pos + steps; f++) {
+        const q = at(f);
+        q[2] ? ctx.lineTo(q[0] + jit(), q[1] + jit()) : ctx.moveTo(q[0], q[1]);
+      }
+      const head = at(pos + steps); head[2] ? ctx.lineTo(head[0], head[1]) : ctx.moveTo(head[0], head[1]); ctx.stroke();
+      if (k < 1) { ctx.globalAlpha = .95; ctx.shadowBlur = 14; ctx.fillStyle = "#fff"; ctx.beginPath(); ctx.arc(head[0], head[1], 2.4, 0, 7); ctx.fill(); }
+      ctx.globalAlpha = 1;
+      pos = (pos + steps) % N;
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  </script>
+</body>
+</html>
