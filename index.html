@@ -16,10 +16,20 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#f6f5f1">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-60 -126 497 497'%3E%3Crect x='-60' y='-126' width='497' height='497' rx='110' fill='%23121212'/%3E%3Cg fill='%23f6f5f1'%3E%3Cpath d='M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z'/%3E%3Cpath d='M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z'/%3E%3Cpath d='M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z'/%3E%3Cpath d='M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z'/%3E%3C/g%3E%3C/svg%3E">
+  <!-- Захист: що сторінці дозволено завантажувати (лише свої файли + шрифти Google), без чужих скриптів і плагінів -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <script>
+    // Захист від «клікджекінгу»: сайт не можна непомітно вбудувати в чужу сторінку
+    if (/github\.io$/.test(location.hostname) && window.top !== window.self) {
+      try { window.top.location = window.self.location.href; } catch (e) { document.documentElement.style.display = "none"; }
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=34">
+  <link rel="stylesheet" href="style.css?v=35">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -179,8 +189,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=34"></script>
-  <script src="content-en.js?v=34"></script>
+  <script src="content.js?v=35"></script>
+  <script src="content-en.js?v=35"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -334,12 +344,12 @@
     const c = site.contacts;
     $("mail").textContent = c.email; $("mail").href = "mailto:" + c.email;
     $("socials").innerHTML = [["GitHub", c.github], ["LinkedIn", c.linkedin], ["Telegram", c.telegram]]
-      .filter(([, u]) => u).map(([n, u]) => `<a class="btn magnet" href="${esc(u)}" target="_blank">${n} ↗</a>`).join('');
+      .filter(([, u]) => u).map(([n, u]) => `<a class="btn magnet" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${n} ↗</a>`).join('');
 
     // ---- Мобільне меню ----
     $("m-foot").innerHTML = `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` +
       [["GitHub", c.github], ["LinkedIn", c.linkedin], ["Telegram", c.telegram]].filter(([, u]) => u)
-        .map(([n, u]) => `<a href="${esc(u)}" target="_blank">${n} ↗</a>`).join("");
+        .map(([n, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${n} ↗</a>`).join("");
     function setMenu(open) {
       document.body.classList.toggle("menu-open", open);
       $("burger").setAttribute("aria-expanded", open);
@@ -362,7 +372,7 @@
             <p class="pp-lead reveal">${esc(p.description)}</p>
             <div class="row reveal" style="margin-top:28px">
               <div class="tags" style="padding:0;margin:0">${(p.tech || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
-              ${p.link ? `<a class="btn primary magnet" href="${esc(p.link)}" target="_blank">${T.open}</a>` : ''}
+              ${p.link ? `<a class="btn primary magnet" href="${esc(p.link)}" target="_blank" rel="noopener noreferrer">${T.open}</a>` : ''}
             </div>
             <div class="pp-visual reveal">${visual(p)}</div>
 
