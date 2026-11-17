@@ -750,3 +750,19 @@ body[data-accent="glow"] .skills span:hover, body[data-accent="glow"] .skills sp
 /* у «Сяйві» — лише м'який відблиск без неону */
 body[data-accent="orb"] .em { text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 18%, transparent); }
 @media (prefers-reduced-motion: reduce) { body[data-accent="glow"] .contact .reveal.in .em { animation: none; } }
+
+/* неоновий курсор-крапля */
+[data-cursor="stretch"] .cur-shape {
+  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 70%, transparent), 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+[data-cursor="stretch"] .cur.hover .cur-shape {
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 45%, transparent), inset 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
+  border-color: var(--accent);
+}
+.cur-label { box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 38px color-mix(in srgb, var(--accent) 30%, transparent); }
+html[data-cursor="stretch"] body[data-accent="glow"] .cur-shape {
+  box-shadow: 0 0 6px 1px var(--accent), 0 0 18px 4px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 44px 10px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+html[data-cursor="stretch"] body[data-accent="glow"] .cur.hover .cur-shape {
+  box-shadow: 0 0 8px var(--accent), 0 0 22px color-mix(in srgb, var(--accent) 40%, transparent), inset 0 0 10px color-mix(in srgb, var(--accent) 40%, transparent);
+}
