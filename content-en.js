@@ -7,7 +7,7 @@
 const site_en = {
   name: "j13",
   role: "Development team",
-  location: "Dublin, Ireland",
+  location: "Planet Earth",
   available: "Open to new projects",
 
   // Main phrase on the first screen
