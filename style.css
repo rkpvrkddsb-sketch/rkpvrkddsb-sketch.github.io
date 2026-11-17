@@ -716,3 +716,36 @@ body[data-accent="glow"] .marquee .track > a:hover { text-shadow: 0 0 18px color
 
   .toast { width: max-content; max-width: calc(100vw - 40px); text-align: center; }
 }
+
+/* ================= НЕОН (тема «Ніч») ================= */
+body[data-accent="glow"] { --neon: color-mix(in srgb, var(--accent) 55%, transparent); --neon-soft: color-mix(in srgb, var(--accent) 22%, transparent); }
+/* акцентні слова світяться, як неонова трубка */
+body[data-accent="glow"] .em {
+  text-shadow: 0 0 6px var(--neon), 0 0 22px var(--neon-soft), 0 0 48px var(--neon-soft);
+}
+/* напис «щось класне» вмикається, як неонова вивіска: кілька блимань при появі, далі ледь «дихає» */
+body[data-accent="glow"] .contact .reveal.in .em { animation: neonOn 1.6s steps(1) .3s both, neonBreath 4s ease-in-out 2s infinite; }
+@keyframes neonOn {
+  0% { opacity: .15; text-shadow: none; } 8% { opacity: 1; } 12% { opacity: .2; text-shadow: none; }
+  20% { opacity: 1; } 24% { opacity: .35; text-shadow: none; } 40% { opacity: 1; } 100% { opacity: 1; }
+}
+@keyframes neonBreath { 50% { text-shadow: 0 0 4px var(--neon), 0 0 14px var(--neon-soft), 0 0 30px var(--neon-soft); } }
+/* цифри-лічильники */
+body[data-accent="glow"] .stat .n em { text-shadow: 0 0 8px var(--neon), 0 0 26px var(--neon-soft); }
+/* статус «в розробці» */
+body[data-accent="glow"] .pill.live { box-shadow: 0 0 10px var(--neon-soft), inset 0 0 8px var(--neon-soft); text-shadow: 0 0 8px var(--neon); }
+/* картки проєктів: неонова рамка при наведенні */
+body[data-accent="glow"] .project { transition: transform .35s, box-shadow .35s, border-color .35s; }
+body[data-accent="glow"] .project:hover, body[data-accent="glow"] .project.tilting {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 0 0 1px var(--neon-soft), 0 0 28px -4px var(--neon-soft), 0 30px 60px -30px rgba(0,0,0,.6);
+}
+/* головна кнопка при наведенні */
+body[data-accent="glow"] .btn.primary:hover { box-shadow: 0 0 18px var(--neon), 0 0 46px var(--neon-soft); }
+/* підсвічене слово в біжучому рядку */
+body[data-accent="glow"] .marquee .track > a:hover { text-shadow: 0 0 8px var(--neon), 0 0 26px var(--neon-soft); }
+/* навички при наведенні */
+body[data-accent="glow"] .skills span:hover, body[data-accent="glow"] .skills span.snapped { box-shadow: 0 0 16px var(--neon), 0 0 36px var(--neon-soft); }
+/* у «Сяйві» — лише м'який відблиск без неону */
+body[data-accent="orb"] .em { text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 18%, transparent); }
+@media (prefers-reduced-motion: reduce) { body[data-accent="glow"] .contact .reveal.in .em { animation: none; } }
