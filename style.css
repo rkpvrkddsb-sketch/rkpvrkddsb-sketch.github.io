@@ -520,7 +520,7 @@ html.cur-hidden .cur { opacity: 0; }
 .cur-shape {
   position: absolute; left: 0; top: 0; --s: 20px; --k: 1;
   width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
-  border-radius: 50%; scale: var(--k); will-change: transform, scale;
+  border-radius: 50%; scale: var(--k);
   transition: scale .5s cubic-bezier(.22,1,.36,1), background .3s, border-color .3s, opacity .25s;
 }
 .cur.down .cur-shape { scale: calc(var(--k) * .8); transition-duration: .15s; }
@@ -540,8 +540,9 @@ body[data-accent="glow"] .cur-label { color: #0d0d0f; }
 .nav ul a.snapped, .back.snapped { color: var(--text); }
 
 /* Курсор-крапля (розтяжка) */
-[data-cursor="stretch"] .cur-shape { --s: 16px; background: var(--accent); border: 0 solid var(--text); }
-[data-cursor="stretch"] .cur.hover .cur-shape { --k: 2.9; background: color-mix(in srgb, var(--text) 18%, transparent); border-width: .8px; }
+/* курсор малюється великим (46px) і зменшується — так він чіткий і в маленькому, і в збільшеному стані */
+[data-cursor="stretch"] .cur-shape { --s: 46px; --k: .348; background: var(--accent); border: 0 solid var(--accent); }
+[data-cursor="stretch"] .cur.hover .cur-shape { --k: 1; background: color-mix(in srgb, var(--accent) 12%, transparent); border-width: 2px; }
 [data-cursor="stretch"] .cur.view .cur-shape { --k: 0; opacity: 0; }
 [data-cursor="stretch"] .cur.view .cur-label { scale: 1; opacity: 1; }
 
@@ -751,22 +752,20 @@ body[data-accent="glow"] .skills span:hover, body[data-accent="glow"] .skills sp
 body[data-accent="orb"] .em { text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 18%, transparent); }
 @media (prefers-reduced-motion: reduce) { body[data-accent="glow"] .contact .reveal.in .em { animation: none; } }
 
-/* неоновий курсор-крапля */
+/* неоновий курсор-крапля (значення тіней — для великої 46px форми, яка зменшена до 16px) */
 [data-cursor="stretch"] .cur-shape {
-  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 70%, transparent), 0 0 22px color-mix(in srgb, var(--accent) 35%, transparent);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--accent) 70%, transparent), 0 0 62px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 [data-cursor="stretch"] .cur.hover .cur-shape {
-  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 45%, transparent), inset 0 0 8px color-mix(in srgb, var(--accent) 30%, transparent);
-  border-color: var(--accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent), inset 0 0 12px color-mix(in srgb, var(--accent) 30%, transparent);
 }
 .cur-label { box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 38px color-mix(in srgb, var(--accent) 30%, transparent); }
 html[data-cursor="stretch"] body[data-accent="glow"] .cur-shape {
-  box-shadow: 0 0 6px 1px var(--accent), 0 0 18px 4px color-mix(in srgb, var(--accent) 60%, transparent), 0 0 44px 10px color-mix(in srgb, var(--accent) 28%, transparent);
+  box-shadow: 0 0 17px 3px var(--accent), 0 0 50px 11px color-mix(in srgb, var(--accent) 55%, transparent), 0 0 110px 26px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 html[data-cursor="stretch"] body[data-accent="glow"] .cur.hover .cur-shape {
-  box-shadow: 0 0 8px var(--accent), 0 0 22px color-mix(in srgb, var(--accent) 40%, transparent), inset 0 0 10px color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow: 0 0 10px var(--accent), 0 0 26px color-mix(in srgb, var(--accent) 40%, transparent), inset 0 0 12px color-mix(in srgb, var(--accent) 40%, transparent);
 }
-
 /* перший екран: наводиш на «Дивитись проєкти» — сяйво фону розгорається */
 .spot::after {
   content: ""; position: absolute; inset: 0; opacity: 0; transition: opacity .6s ease;
