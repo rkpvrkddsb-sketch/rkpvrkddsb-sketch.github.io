@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=33">
+  <link rel="stylesheet" href="style.css?v=34">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -179,8 +179,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="content.js?v=33"></script>
-  <script src="content-en.js?v=33"></script>
+  <script src="content.js?v=34"></script>
+  <script src="content-en.js?v=34"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -584,6 +584,7 @@
         const view = !snap && !!(el && el.closest && el.closest("a.project"));
         cur.classList.toggle("view", view);
         cur.classList.toggle("hover", !!snap || (!view && !!(el && el.closest && el.closest("a, button, summary, .skills span"))));
+        cur.classList.toggle("red", !snap && !!(el && el.closest && el.closest(".nav .logo")));   // над j13 — червоне світіння, як в імпланта
       }
       addEventListener("mousemove", e => {
         mx = e.clientX; my = e.clientY; moved = true;

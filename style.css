@@ -777,3 +777,9 @@ html[data-cursor="stretch"] body[data-accent="glow"] .cur.hover .cur-shape {
 .hero:has(.btn.primary:hover, .btn.primary.snapped) .spot::after { opacity: 1; }
 body[data-accent="glow"] .hero:has(.btn.primary:hover, .btn.primary.snapped) .grid-bg { opacity: 1.0; filter: brightness(1.6); }
 body[data-accent="orb"] .hero:has(.btn.primary:hover, .btn.primary.snapped) .orb { opacity: .95; }
+
+/* над логотипом j13 курсор світиться червоним, як імплант */
+html[data-cursor="stretch"] body .cur.red.hover .cur-shape, html[data-cursor="stretch"] body .cur.red .cur-shape {
+  background: rgba(255,42,58,.14); border-color: #ff2a3a;
+  box-shadow: 0 0 12px #ff2a3a, 0 0 30px rgba(255,42,58,.55), 0 0 70px rgba(255,42,58,.25), inset 0 0 14px rgba(255,42,58,.45);
+}
