@@ -237,6 +237,28 @@
   @media (max-width:520px){ .by-j13{display:none} }
   footer .made{margin-bottom:6px}
   footer .made b{color:var(--text);font-weight:600}
+  /* ---------- заставка ---------- */
+  .boot{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;
+        transition:transform .55s cubic-bezier(.7,0,.2,1), opacity .55s;cursor:pointer}
+  .boot.out{transform:translateY(-100%);opacity:.6}
+  .boot.gone{display:none}
+  .boot .typed{font:500 44px var(--mono);color:var(--text);height:56px;display:flex;align-items:center;letter-spacing:.02em}
+  .boot .typed .c{width:3px;height:42px;background:var(--accent);border-radius:2px;margin-left:3px;animation:blink 1s step-end infinite}
+  .boot .typed .ch{animation:chIn .12s ease-out}
+  @keyframes chIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .boot .caps{display:flex;gap:8px}
+  .boot .cap{width:52px;height:52px;border-radius:9px;background:var(--panel);border-bottom:4px solid #111317;display:grid;place-items:center;
+             font:500 18px var(--mono);color:var(--dim);transition:background .3s,color .3s,transform .06s,border-width .06s}
+  .boot .cap.down{transform:translateY(3px);border-bottom-width:1px;background:#3a3423;color:var(--accent);transition:none}
+  .boot .cap.done{color:var(--text)}
+  .boot .cap.k1{background:var(--accent);color:#16181d;border-bottom-color:#b8862c}
+  .boot .meta{display:flex;gap:22px;align-items:center;font:13px var(--mono);color:var(--dim);height:20px}
+  .boot .meta b{color:var(--accent);font-weight:500;min-width:2ch;display:inline-block;text-align:right}
+  .boot .sig{position:absolute;bottom:34px;display:flex;align-items:center;gap:8px;font:12px var(--mono);color:var(--dim);opacity:0;transition:opacity .3s}
+  .boot .sig.show{opacity:1}
+  .boot .sig .j13{--h:16px}
+  .boot .skip{position:absolute;top:22px;right:26px;font:11px var(--mono);color:#3d424d}
+  @media (max-width:600px){ .boot .cap{width:34px;height:38px;font-size:14px;border-radius:7px} .boot .caps{gap:5px} .boot .typed{font-size:32px} }
   footer{color:var(--dim);font-size:12px;text-align:center;font-family:var(--mono);margin-top:auto}
   @media (max-width:760px){
     .words-box{font-size:20px}
@@ -250,6 +272,13 @@
 </style>
 </head>
 <body>
+<div class="boot" id="boot" aria-hidden="true">
+  <span class="skip">будь-яка клавіша — пропустити</span>
+  <div class="typed" id="bootTyped"><span class="c"></span></div>
+  <div class="caps" id="bootCaps"></div>
+  <div class="meta"><span><b id="bootWpm">0</b> wpm</span><span><b id="bootAcc">100</b>%</span><span id="bootState">розігріваємо пальці…</span></div>
+  <div class="sig" id="bootSig"><span>by</span><span class="j13" id="bootJ13"></span></div>
+</div>
 <div class="zen-toast" id="zenToast">чистий екран · <kbd>Esc</kbd> — вийти · <kbd>Tab</kbd> — заново</div>
 <div class="wrap">
   <header>
@@ -1093,6 +1122,7 @@ box.addEventListener('mousedown', e=>{ e.preventDefault(); focusBox(); });
 hidden.addEventListener('blur', ()=>setTimeout(()=>{ if(document.activeElement!==hidden && !S.done && $('stage').style.display!=='none') box.classList.add('blurred'); },50));
 
 document.addEventListener('keydown', e=>{
+  if (booting){ e.preventDefault(); endBoot(true); return; }
   if (e.target && ['SELECT','TEXTAREA'].includes(e.target.tagName)) return;
   if (progOpen){ if (e.key==='Escape'){ e.preventDefault(); closeProgress(); } return; }
   const lessonList = cfg.mode==='lesson' && lessonIdx==null;
@@ -1116,8 +1146,47 @@ let rz; window.addEventListener('resize', ()=>{ clearTimeout(rz); rz=setTimeout(
 
 initLessons(); initCustom(); renderBar(); reset();
 initJ13();
+
+/* ---------- заставка: клавіші самі набирають «клавогін» ---------- */
+var booting = true, bootTimers = [];
+function endBoot(fast){
+  if (!booting) return; booting = false;
+  bootTimers.forEach(clearTimeout);
+  const b = $('boot');
+  b.classList.add('out');
+  setTimeout(()=>{ b.classList.add('gone'); if (!S.done) { placeCaret(); focusBox(); } }, fast ? 380 : 560);
+  if (fast) b.style.transitionDuration = '.35s';
+}
+(function boot(){
+  const b = $('boot');
+  const word = [...'клавогін'];
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches){ b.classList.add('gone'); booting = false; return; }
+  // підпис j13 — копія вордмарку з шапки
+  const src = document.querySelector('header .j13');
+  if (src) $('bootJ13').innerHTML = src.innerHTML;
+  $('bootCaps').innerHTML = word.map(c=>`<div class="cap">${c}</div>`).join('');
+  const caps = [...$('bootCaps').children], typed = $('bootTyped'), cur = typed.querySelector('.c');
+  b.addEventListener('click', ()=>endBoot(true));
+  const T = (fn, ms) => bootTimers.push(setTimeout(fn, ms));
+  let t = 380;
+  word.forEach((c,i)=>{
+    const gap = 85 + Math.random()*70;     // живий, нерівний ритм
+    T(()=>{
+      caps[i].classList.add('down', i===0 ? 'k1' : 'x');
+      const ch = document.createElement('span'); ch.className='ch'; ch.textContent=c; typed.insertBefore(ch, cur);
+      $('bootWpm').textContent = Math.round(40 + i*9 + Math.random()*6);
+    }, t);
+    T(()=>{ caps[i].classList.remove('down'); caps[i].classList.add('done'); }, t+90);
+    t += gap;
+  });
+  T(()=>{ $('bootState').textContent = 'готово'; $('bootState').style.color = 'var(--ok)'; $('bootSig').classList.add('show'); }, t+60);
+  // чекаємо і анімацію, і шрифти (але не довше ніж 2,6 с)
+  const animDone = new Promise(r=>T(r, t+520));
+  const fonts = Promise.race([(document.fonts ? document.fonts.ready : Promise.resolve()), new Promise(r=>setTimeout(r, 2600))]);
+  Promise.all([animDone, fonts]).then(()=>endBoot(false));
+})();
 function initJ13(){
-  const logo = document.querySelector('.j13');
+  const logo = document.querySelector('header .j13');
   if (!logo || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const R = (a,b) => a + Math.random()*(b-a);
   // крапка над j — «імплант» час від часу збоїть
