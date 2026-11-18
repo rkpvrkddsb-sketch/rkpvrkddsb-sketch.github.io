@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=46">
+  <link rel="stylesheet" href="style.css?v=47">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -204,8 +204,8 @@
     <svg viewBox="0 0 48 48" aria-hidden="true"><circle class="t" cx="24" cy="24" r="21"/><circle class="p" cx="24" cy="24" r="21" pathLength="1"/><path d="M24 31V17m-6 6 6-6 6 6"/></svg>
   </button>
 
-  <script src="content.js?v=46"></script>
-  <script src="content-en.js?v=46"></script>
+  <script src="content.js?v=47"></script>
+  <script src="content-en.js?v=47"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -319,7 +319,10 @@
       <div class="m out">${T.chat[3]}</div>
       <div class="btns"><span>${T.chat[4]}</span><span>${T.chat[5]}</span></div></div></div></div>`;
 
-    const visual = p => p.image ? `<img src="${esc(p.image)}" alt="${esc(p.title)}">` : (p.mock === "chat" ? chatMock : mock);
+    // скріншот показуємо у «вікні браузера» на тому ж кольоровому фоні, що й заглушки
+    const shot = p => `<div class="mock"><div class="win shot"><div class="bar"><i></i><i></i><i></i><span class="addr">${esc(p.title)}</span></div>
+      <img src="${esc(p.image)}" alt="${esc(p.title)}" loading="lazy" decoding="async"></div></div>`;
+    const visual = p => p.image ? shot(p) : (p.mock === "chat" ? chatMock : mock);
     const pills = (p, i) => `
       <span class="num">${pad(i)}</span>
       <span class="pill ${p.live || p.status === 'в розробці' ? 'live' : ''}">${esc(p.status)}</span>

@@ -861,3 +861,21 @@ body[data-accent="glow"] .nav ul a.here::after { box-shadow: 0 0 8px var(--accen
 body[data-accent="glow"] .to-top circle.p { filter: drop-shadow(0 0 3px var(--accent)); }
 @media (max-width: 860px) { .to-top { right: 16px; bottom: 16px; width: 46px; height: 46px; } }
 @media (prefers-reduced-motion: reduce) { .to-top, .nav ul a::after { transition: none; } }
+
+
+/* Справжній скріншот у рамці вікна */
+.win.shot { aspect-ratio: auto; max-width: 520px; width: 90%; background: var(--card); border: 1px solid var(--line);
+  box-shadow: 0 40px 70px -24px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.02); }
+.win.shot .bar { position: relative; }
+.win.shot .addr { position: absolute; left: 50%; transform: translateX(-50%); max-width: 55%; height: 18px; padding: 0 12px; border-radius: 9px;
+  background: var(--bg); color: var(--muted); font-size: 10.5px; line-height: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.project .visual .win.shot img, .pp-visual .win.shot img { width: 100%; height: auto; display: block; object-fit: initial; }
+.project:hover .win.shot { transform: translateY(-6px) scale(1.03) rotate(-1deg); }
+body[data-accent="glow"] .project:hover .win.shot { box-shadow: 0 40px 70px -24px rgba(0,0,0,.55), 0 0 40px -10px color-mix(in srgb, var(--accent) 45%, transparent); }
+.pp-visual .win.shot { max-width: 980px; width: 84%; }
+.pp-visual .win.shot .bar { height: 38px; padding: 0 16px; }
+.pp-visual .win.shot .bar i { width: 11px; height: 11px; }
+.pp-visual .win.shot .addr { height: 22px; line-height: 22px; font-size: 12px; }
+.pp-visual:has(.shot) { height: auto; }
+.pp-visual:has(.shot) .mock { position: relative; padding: clamp(28px, 6vw, 80px) 20px; }
+@media (max-width: 860px) { .win.shot { width: 92%; } .pp-visual .win.shot { width: 94%; } }
