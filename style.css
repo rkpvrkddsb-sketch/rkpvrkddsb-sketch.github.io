@@ -74,17 +74,18 @@ a { color: inherit; text-decoration: none; }
 .wordmark { height: 32px; width: auto; display: block; overflow: visible; }
 /* крапка над j — червоний «кібер-імплант»: повільно пульсує і час від часу збоїть */
 .logo { --implant: #ff2a3a; }
-.wm-dot, .wm-glow { fill: var(--implant); transform-box: fill-box; transform-origin: center; }
-.wm-dot { animation: implantPulse 2.6s ease-in-out infinite; }
-.wm-glow { opacity: .95; animation: implantGlow 2.6s ease-in-out infinite; }
-.wm-glow2, .wm-glow3 { animation-name: implantGlow2; }
-@keyframes implantPulse { 0%, 100% { opacity: 1; } 50% { opacity: .78; } }
-@keyframes implantGlow { 0%, 100% { opacity: 1; } 50% { opacity: .7; } }
-@keyframes implantGlow2 { 0%, 100% { opacity: 1; } 50% { opacity: .75; } }
-.logo.glitch .wm-dot { animation: none; opacity: .12; }
-.logo.glitch .wm-glow { animation: none; opacity: 0; }
-.logo:hover .wm-dot, .logo:hover .wm-glow { animation-duration: .5s; }
-@media (prefers-reduced-motion: reduce) { .wm-dot, .wm-glow { animation: none; } }
+/* імплант (крапка + світіння) — окремий шар над словом; пульсує прозорістю всього шару,
+   тож браузер не перемальовує розмиття щокадру (економія процесора) */
+.wm-implant { position: absolute; left: 0; top: 50%; height: 32px; width: auto; margin-top: -16px; overflow: visible; pointer-events: none; z-index: 0;
+  animation: implantPulse 2.6s ease-in-out infinite; will-change: opacity; }
+.wordmark { z-index: 1; }
+.wm-dot, .wm-glow { fill: var(--implant); }
+.wm-glow { opacity: .95; }
+@keyframes implantPulse { 0%, 100% { opacity: 1; } 50% { opacity: .74; } }
+.logo.glitch .wm-implant { animation: none; opacity: .12; }
+.logo:hover .wm-implant { animation-duration: .5s; }
+@media (max-width: 860px) { .wm-implant { height: 28px; margin-top: -14px; } }
+@media (prefers-reduced-motion: reduce) { .wm-implant { animation: none; } }
 .nav ul { display: flex; gap: 30px; margin-left: auto; margin-right: 28px; list-style: none; font-size: 15px; color: var(--muted); }
 .nav ul a:hover { color: var(--text); }
 
@@ -124,11 +125,8 @@ body[data-accent="glow"] .btn.primary:hover { color: #0d0d0f; }
 }
 body[data-accent="orb"] .orb { display: block; }
 @keyframes spin { to { rotate: 360deg; } }
-@keyframes morph {
-  0% { border-radius: 50% 50% 50% 50%; scale: 1; }
-  50% { border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%; scale: 1.06; }
-  100% { border-radius: 58% 42% 38% 62% / 55% 61% 39% 45%; scale: .96; }
-}
+/* під розмиттям форма майже не видна, тож анімуємо лише масштаб — це не змушує браузер перемальовувати кулю */
+@keyframes morph { 0% { scale: 1; } 50% { scale: 1.06; } 100% { scale: .96; } }
 
 /* Акцент B — «Помаранч»: велика геометрична форма */
 .shape { display: none; position: absolute; z-index: 1; right: -2%; top: 50%; translate: 0 -50%; width: 400px; height: 400px; }
@@ -505,7 +503,8 @@ html.loader-active .cur { opacity: 0 !important; visibility: hidden; }
 @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 
 /* ---------- Нахил карток ---------- */
-.project { transform-style: preserve-3d; will-change: transform; }
+.project { transform-style: preserve-3d; }
+.project:hover { will-change: transform; }
 .project.tilting { transition: transform .15s ease-out, box-shadow .35s; box-shadow: 0 40px 70px -35px rgba(0,0,0,.35); }
 
 /* ---------- Перехід на сторінку проєкту ---------- */
@@ -738,7 +737,8 @@ body[data-accent="glow"] .contact .reveal.in .em { animation: neonOn 1.6s steps(
   0% { opacity: .15; text-shadow: none; } 8% { opacity: 1; } 12% { opacity: .2; text-shadow: none; }
   20% { opacity: 1; } 24% { opacity: .35; text-shadow: none; } 40% { opacity: 1; } 100% { opacity: 1; }
 }
-@keyframes neonBreath { 50% { text-shadow: 0 0 4px var(--neon), 0 0 14px var(--neon-soft), 0 0 30px var(--neon-soft); } }
+/* «дихання» — лише прозорість (дешево для процесора) */
+@keyframes neonBreath { 50% { opacity: .8; } }
 /* цифри-лічильники */
 body[data-accent="glow"] .stat .n em { text-shadow: 0 0 8px var(--neon), 0 0 26px var(--neon-soft); }
 /* статус «в розробці» */
@@ -819,3 +819,45 @@ body[data-accent="glow"] .step.in::before { box-shadow: 0 0 10px var(--accent); 
   .step-n { margin-bottom: 14px; }
 }
 .contact .soon { color: var(--muted); font-size: 18px; margin-top: 34px; }
+
+
+/* ============ Оптимізація ============ */
+/* анімації поза екраном на паузі */
+.off, .off *, .off::before, .off::after, .off *::before, .off *::after { animation-play-state: paused !important; }
+
+/* ============ Мікродеталі ============ */
+/* виділення тексту й смуга прокрутки в кольорах сайту */
+::selection { background: var(--accent); color: var(--bg); }
+html { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; border: 3px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* кнопки «втискаються» при натисканні */
+.btn, .to-top, .themes button, .lang button { transition-property: transform, background, color, border-color, box-shadow, filter, opacity; }
+.btn:active, .lang button:active, .themes button:active { transform: scale(.96); transition-duration: .08s; }
+
+/* меню: крапка під розділом, який зараз на екрані */
+.nav ul a { position: relative; transition: color .3s; }
+.nav ul a::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: var(--accent); opacity: 0; transform: scale(0); transition: opacity .3s, transform .4s cubic-bezier(.3,1.6,.5,1); }
+.nav ul a.here { color: var(--text); }
+.nav ul a.here::after { opacity: 1; transform: none; }
+body[data-accent="glow"] .nav ul a.here::after { box-shadow: 0 0 8px var(--accent); }
+
+
+/* кнопка «вгору» з кільцем прогресу */
+.to-top { position: fixed; right: 28px; bottom: 28px; z-index: 60; width: 52px; height: 52px; border-radius: 50%; border: 0; padding: 0; cursor: pointer;
+  background: color-mix(in srgb, var(--card) 80%, transparent); color: var(--text);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  opacity: 0; transform: translateY(16px) scale(.9); pointer-events: none; transition: opacity .35s, transform .45s cubic-bezier(.3,1.4,.5,1), background .3s; }
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top.show:active { transform: scale(.92); }
+.to-top svg { width: 100%; height: 100%; display: block; }
+.to-top circle { fill: none; stroke-width: 2; }
+.to-top circle.t { stroke: var(--line); }
+.to-top circle.p { stroke: var(--accent); stroke-dasharray: 1; stroke-dashoffset: 1; stroke-linecap: round; transform: rotate(-90deg); transform-origin: center; }
+.to-top path { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .35s cubic-bezier(.3,1.4,.5,1); }
+.to-top:hover path { transform: translateY(-3px); }
+body[data-accent="glow"] .to-top circle.p { filter: drop-shadow(0 0 3px var(--accent)); }
+@media (max-width: 860px) { .to-top { right: 16px; bottom: 16px; width: 46px; height: 46px; } }
+@media (prefers-reduced-motion: reduce) { .to-top, .nav ul a::after { transition: none; } }
