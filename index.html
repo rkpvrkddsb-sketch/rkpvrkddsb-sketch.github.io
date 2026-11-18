@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=43">
+  <link rel="stylesheet" href="style.css?v=44">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -204,8 +204,8 @@
     <svg viewBox="0 0 48 48" aria-hidden="true"><circle class="t" cx="24" cy="24" r="21"/><circle class="p" cx="24" cy="24" r="21" pathLength="1"/><path d="M24 31V17m-6 6 6-6 6 6"/></svg>
   </button>
 
-  <script src="content.js?v=43"></script>
-  <script src="content-en.js?v=43"></script>
+  <script src="content.js?v=44"></script>
+  <script src="content-en.js?v=44"></script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
     const LANGS = ["uk", "en"];
@@ -600,7 +600,7 @@
 
     // Безкінечні анімації ставимо на паузу, коли їх не видно (менше навантаження на процесор і батарею)
     const pauseIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("off", !e.isIntersecting)), { rootMargin: "100px" });
-    document.querySelectorAll(".hero, .marquee, #contact").forEach(el => pauseIO.observe(el));
+    document.querySelectorAll(".hero").forEach(el => pauseIO.observe(el));
 
     // Коли користувач іде на іншу вкладку — «сигнал втрачено»
     const realTitle = () => document.title;

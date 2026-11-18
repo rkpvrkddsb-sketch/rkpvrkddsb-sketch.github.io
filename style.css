@@ -823,7 +823,7 @@ body[data-accent="glow"] .step.in::before { box-shadow: 0 0 10px var(--accent); 
 
 /* ============ Оптимізація ============ */
 /* анімації поза екраном на паузі */
-.off, .off *, .off::before, .off::after, .off *::before, .off *::after { animation-play-state: paused !important; }
+.hero.off .orb { animation-play-state: paused; }   /* лише куля «Сяйва»; біжучий рядок не чіпаємо — Safari після паузи його не перемальовував */
 
 /* ============ Мікродеталі ============ */
 /* виділення тексту й смуга прокрутки в кольорах сайту */
