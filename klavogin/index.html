@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Клавогін — тренажер швидкості друку</title>
+<meta name="description" content="Тренажер сліпого друку: уроки, теплокарта помилок і повільних клавіш, 8 мов і розкладок, прислів'я, свій текст, чистий екран.">
+<meta property="og:title" content="Клавогін — тренажер швидкості друку">
+<meta property="og:description" content="Уроки сліпого друку, теплокарта помилок, 8 мов. Безкоштовно, без реєстрації.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#16181d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='2' y='2' width='28' height='26' rx='6' fill='%23f2b84b'/%3E%3Crect x='2' y='24' width='28' height='6' rx='3' fill='%23b8862c'/%3E%3Ctext x='16' y='21' font-family='monospace' font-size='17' font-weight='700' text-anchor='middle' fill='%2316181d'%3E%D0%BA%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#16181d; --panel:#1e2128; --panel2:#23262e; --line:#2a2e37;
+    --dim:#5d6472; --text:#d7dae0; --accent:#f2b84b; --err:#ef5f5f; --ok:#7fd18b;
+    --mono:'JetBrains Mono',ui-monospace,monospace; --sans:'Manrope',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100%}
+  body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:28px 20px 40px}
+  .wrap{width:100%;max-width:980px;display:flex;flex-direction:column;gap:26px;flex:1}
+  header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-.02em}
+  .logo .k{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:8px;background:var(--accent);color:#16181d;font-family:var(--mono);font-size:18px;box-shadow:0 3px 0 #b8862c}
+  .logo small{font-weight:400;color:var(--dim);font-size:13px;margin-left:4px}
+
+  .bar{display:flex;flex-wrap:wrap;gap:4px;background:var(--panel);border-radius:10px;padding:6px 8px;align-items:center}
+  .bar .sep{width:1px;height:18px;background:var(--line);margin:0 6px}
+  .bar button{background:none;border:0;color:var(--dim);font:500 13px var(--mono);padding:6px 9px;border-radius:6px;cursor:pointer;transition:color .15s}
+  .bar button:hover{color:var(--text)}
+  .bar button.on{color:var(--accent)}
+  .langsel{background:var(--panel);color:var(--accent);border:0;border-radius:999px;font:500 13px var(--mono);padding:9px 12px;cursor:pointer;outline:none}
+  .bar select{background:var(--bg);color:var(--accent);border:1px solid var(--line);border-radius:6px;font:500 13px var(--mono);padding:5px 8px;cursor:pointer;outline:none}
+  .bar select:hover{border-color:var(--dim)}
+  .focus-chip{display:none;align-items:center;gap:6px;font:500 12px var(--mono);color:#16181d;background:var(--accent);border-radius:6px;padding:5px 6px 5px 10px;margin-left:4px}
+  .focus-chip.show{display:inline-flex}
+  .focus-chip button{color:#16181d!important;padding:0 4px!important;font-size:14px!important}
+
+  .stage{display:flex;flex-direction:column;gap:18px}
+  .live{display:flex;gap:28px;font-family:var(--mono);color:var(--accent);font-size:26px;height:34px;opacity:0;transition:opacity .2s}
+  .live.show{opacity:1}
+  .live small{font-size:13px;color:var(--dim);margin-left:4px}
+
+  .words-box{position:relative;height:calc(3 * 2.2em);overflow:hidden;font-family:var(--mono);font-size:27px;line-height:2.2em;cursor:text}
+  .words{display:flex;flex-wrap:wrap;transition:transform .12s ease-out;user-select:none}
+  .word{position:relative;margin-right:.6em;color:var(--dim);white-space:nowrap}
+  .word.bad{text-decoration:underline;text-decoration-color:var(--err);text-underline-offset:8px;text-decoration-thickness:2px}
+  .l.ok{color:var(--text)} .l.no{color:var(--err)} .l.extra{color:#a84242}
+  .caret{position:absolute;width:2.5px;background:var(--accent);border-radius:2px;top:0;left:0;transition:left .08s linear,top .08s linear;pointer-events:none}
+  .caret.blink{animation:blink 1s step-end infinite}
+  @keyframes blink{50%{opacity:0}}
+  .blur-note{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:16px;backdrop-filter:blur(5px);background:rgba(22,24,29,.35);border-radius:8px;cursor:pointer}
+  .words-box.blurred .blur-note{display:flex}
+  #hidden{position:absolute;opacity:0;width:1px;height:1px;left:-9999px}
+
+  /* keyboard */
+  .kb{display:flex;flex-direction:column;gap:6px;align-items:center;user-select:none}
+  .kb .r{display:flex;gap:6px}
+  .key{position:relative;width:46px;height:44px;border-radius:7px;background:var(--panel);border-bottom:3px solid #111317;
+       display:grid;place-items:center;font:500 15px var(--mono);color:var(--dim);transition:background .25s,color .25s,transform .05s,border-width .05s}
+  .key.space{width:300px}
+  .key.next{box-shadow:inset 0 0 0 1.5px rgba(242,184,75,.45);color:var(--text)}
+  .key.hit{transform:translateY(2px);border-bottom-width:1px;background:#3a3423;color:var(--accent);transition:none}
+  .key.miss{transform:translateY(2px);border-bottom-width:1px;background:#4a2626;color:var(--err);transition:none}
+  .key .pct{position:absolute;bottom:2px;right:4px;font-size:9px;color:rgba(255,255,255,.75)}
+  .kb.kb-live{opacity:.8}
+  .kb.heat .key{color:var(--text)}
+
+  .hint{color:var(--dim);font-size:13px;text-align:center;font-family:var(--mono)}
+  kbd{background:var(--panel);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;font:12px var(--mono);color:var(--text)}
+  .btn{align-self:center;background:var(--panel);border:0;color:var(--text);cursor:pointer;padding:10px 18px;border-radius:8px;font:500 14px var(--mono)}
+  .btn:hover{background:var(--panel2);color:var(--accent)}
+  .btn.acc{background:var(--accent);color:#16181d;font-weight:700}
+  .btn.acc:hover{background:#ffc75f;color:#16181d}
+
+  /* results */
+  .results{display:none;flex-direction:column;gap:20px}
+  .results.show{display:flex}
+  .res-top{display:grid;grid-template-columns:170px 1fr;gap:24px}
+  .big{display:flex;flex-direction:column;gap:14px;justify-content:center}
+  .big .lab{color:var(--dim);font-size:15px}
+  .big .val{font:700 58px/1 var(--mono);color:var(--accent)}
+  .big .pb{font:12px var(--mono);color:var(--ok);margin-top:4px}
+  .card{background:var(--panel);border-radius:12px;padding:14px 16px;position:relative}
+  .chart svg{width:100%;height:190px;display:block}
+  .chart svg text{font-family:var(--mono)}
+  .legend{position:absolute;top:12px;right:16px;display:flex;gap:14px;font:11px var(--mono);color:var(--dim)}
+  .legend i{display:inline-block;width:10px;height:3px;border-radius:2px;margin-right:5px;vertical-align:middle}
+  .tip{position:absolute;pointer-events:none;background:#0f1115;border:1px solid var(--line);border-radius:6px;padding:6px 9px;font:12px var(--mono);display:none;white-space:nowrap;z-index:5}
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+  .stat{background:var(--panel);border-radius:10px;padding:12px 14px}
+  .stat .lab{color:var(--dim);font-size:12px}
+  .stat .val{font:600 22px var(--mono);margin-top:4px}
+  .ok{color:var(--ok)} .no{color:var(--err)}
+
+  .heat-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+  .heat-head h3{margin:0;font-size:16px}
+  .heat-head h3 small{color:var(--dim);font-weight:400;font-size:13px;margin-left:8px}
+  .seg{display:flex;background:var(--bg);border-radius:8px;padding:3px}
+  .seg button{background:none;border:0;color:var(--dim);font:500 12px var(--mono);padding:6px 10px;border-radius:6px;cursor:pointer}
+  .seg button.on{background:var(--panel2);color:var(--accent)}
+  .weak{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+  .weak .list{display:flex;gap:10px;flex-wrap:wrap;font:13px var(--mono);color:var(--dim)}
+  .weak .list.pairs span b{min-width:40px}
+  .weak .list span b.slow{background:#4a3d1c;color:var(--accent)}
+  .weak .list span b{display:inline-grid;place-items:center;min-width:26px;height:26px;border-radius:6px;background:#4a2626;color:var(--err);margin-right:6px;font-size:14px}
+  .scale{display:flex;align-items:center;gap:8px;font:11px var(--mono);color:var(--dim)}
+  .scale i{width:90px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--panel),#7a3a2a,#ef5f5f)}
+
+  .history h3{margin:0 0 10px;font-size:14px;color:var(--dim);font-weight:600;display:flex;justify-content:space-between}
+  .history h3 button{background:none;border:0;color:var(--dim);font:12px var(--mono);cursor:pointer}
+  .history h3 button:hover{color:var(--err)}
+  .history table{width:100%;border-collapse:collapse;font:13px var(--mono)}
+  .history td,.history th{padding:6px 4px;text-align:left;border-top:1px solid var(--line)}
+  .history th{color:var(--dim);font-weight:400;border-top:0}
+
+  /* lessons */
+  .lessons{display:none;flex-direction:column;gap:18px}
+  .lessons.show{display:flex}
+  .lessons .top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+  .lessons h2{margin:0;font-size:24px;letter-spacing:-.02em}
+  .lessons .top p{margin:6px 0 0;color:var(--dim);font-size:14px}
+  .progress{font:13px var(--mono);color:var(--dim);display:flex;align-items:center;gap:10px}
+  .progress .pbar{width:160px;height:6px;border-radius:3px;background:var(--panel);overflow:hidden}
+  .progress .pbar i{display:block;height:100%;background:var(--accent);border-radius:3px}
+  .lgroup{color:var(--dim);font:600 12px var(--mono);text-transform:uppercase;letter-spacing:.08em;margin:8px 0 -6px}
+  .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+  .lcard{background:var(--panel);border:0;border-radius:10px;padding:14px 14px 12px;text-align:left;color:var(--text);cursor:pointer;display:flex;flex-direction:column;gap:9px;font-family:var(--sans);position:relative;transition:background .15s,transform .1s}
+  .lcard:hover{background:var(--panel2)}
+  .lcard:active{transform:translateY(1px)}
+  .lcard .n{font:500 11px var(--mono);color:var(--dim)}
+  .lcard .t{font-weight:600;font-size:14.5px}
+  .lcard .ks{display:flex;gap:4px;flex-wrap:wrap;min-height:24px}
+  .lcard .ks b{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 4px;border-radius:5px;background:var(--bg);font:500 12px var(--mono);color:var(--accent)}
+  .lcard .ks span{font:12px var(--mono);color:var(--dim);align-self:center}
+  .lcard .stars{font-size:14px;letter-spacing:2px;color:var(--line)}
+  .lcard .stars .on{color:var(--accent)}
+  .lcard.next{box-shadow:inset 0 0 0 1.5px var(--accent)}
+  .lcard.locked{cursor:not-allowed;background:#1a1d23;color:var(--dim)}
+  .lcard.locked .t{color:#7a808c}
+  .lcard.locked .ks b{color:#6b6450;background:#16181d}
+  .lcard.locked:hover{background:#1a1d23}
+  .lcard .lock{position:absolute;top:12px;right:12px;font-size:12px;color:var(--dim)}
+  .lhead{display:none;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);border-radius:10px;padding:10px 12px;font-size:14px}
+  .lhead.show{display:flex}
+  .lhead .back{background:none;border:0;color:var(--dim);font:500 13px var(--mono);cursor:pointer;padding:4px 6px;border-radius:6px}
+  .lhead .back:hover{color:var(--text);background:var(--panel2)}
+  .lhead b{font-weight:600}
+  .lhead .ks b{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 5px;border-radius:5px;background:#3a3423;color:var(--accent);font:500 13px var(--mono);margin-right:3px}
+  .lhead .goal{margin-left:auto;color:var(--dim);font:12px var(--mono)}
+  .key.newk{background:#3a3423;color:var(--accent)}
+  .key.offk{opacity:.28}
+  .verdict{display:none;align-items:center;gap:18px;flex-wrap:wrap;border-radius:12px;padding:18px 20px;background:var(--panel)}
+  .verdict.show{display:flex}
+  .verdict .big-stars{font-size:34px;letter-spacing:4px;color:var(--line);line-height:1}
+  .verdict .big-stars .on{color:var(--accent)}
+  .verdict .msg{flex:1;min-width:220px}
+  .verdict .msg b{font-size:18px;display:block;margin-bottom:4px}
+  .verdict .msg span{color:var(--dim);font-size:13.5px}
+  .verdict .acts{display:flex;gap:8px;flex-wrap:wrap}
+  /* кнопка прогресу */
+  header{flex-direction:column;align-items:stretch!important}
+  .brand{display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .bar{align-self:flex-start}
+  .streak{display:flex;align-items:center;gap:8px;background:var(--panel);border:0;border-radius:999px;padding:9px 14px;color:var(--text);cursor:pointer;font:500 13px var(--mono)}
+  .streak:hover{background:var(--panel2)}
+  .streak svg{display:block}
+  /* progress */
+  .prog{display:none;flex-direction:column;gap:18px}
+  .prog.show{display:flex}
+  .prog .top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .prog h2{margin:0;font-size:24px;letter-spacing:-.02em}
+  .prog .back{background:var(--panel);border:0;color:var(--dim);font:500 13px var(--mono);cursor:pointer;padding:8px 12px;border-radius:8px}
+  .prog .back:hover{color:var(--text)}
+  .pcards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .pcards .stat .val{font-size:26px}
+  .pcards .stat .sub{font:12px var(--mono);color:var(--dim);margin-top:4px}
+  .goalsel{display:flex;gap:4px;margin-top:8px}
+  .goalsel button{background:var(--bg);border:0;color:var(--dim);font:500 12px var(--mono);padding:4px 8px;border-radius:5px;cursor:pointer}
+  .goalsel button.on{color:#16181d;background:var(--accent)}
+  .cal{display:flex;gap:3px;overflow-x:auto;padding-bottom:4px}
+  .cal .col{display:flex;flex-direction:column;gap:3px}
+  .cal i{width:13px;height:13px;border-radius:3px;background:var(--bg);display:block}
+  .cal i.l1{background:#3d3420} .cal i.l2{background:#7a6230} .cal i.l3{background:#c4923b} .cal i.l4{background:#f2b84b}
+  .cal i.today{outline:1.5px solid var(--text);outline-offset:1px}
+  .cal i.fut{background:transparent}
+  .calrow{display:flex;gap:10px}
+  .calrow .dn{display:flex;flex-direction:column;gap:3px;font:10px var(--mono);color:var(--dim)}
+  .calrow .dn span{height:13px;line-height:13px}
+  .calleg{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font:11px var(--mono);color:var(--dim);gap:10px;flex-wrap:wrap}
+  .calleg .sw{display:flex;gap:3px;align-items:center}
+  .calleg .sw i{width:11px;height:11px;border-radius:2px;display:block}
+  .lprog{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px 24px}
+  .lprog div{font:13px var(--mono);display:flex;flex-direction:column;gap:6px}
+  .lprog div span{display:flex;justify-content:space-between;color:var(--dim)}
+  .lprog div span b{color:var(--text);font-weight:500}
+  .lprog .pbar{height:6px;border-radius:3px;background:var(--bg);overflow:hidden}
+  .lprog .pbar i{display:block;height:100%;background:var(--accent)}
+  .card h3{margin:0 0 14px;font-size:15px}
+  .card h3 small{color:var(--dim);font-weight:400;font-size:12.5px;margin-left:8px}
+  /* custom text */
+  .custom{display:none;flex-direction:column;gap:12px}
+  .custom.show{display:flex}
+  .custom textarea{width:100%;min-height:220px;resize:vertical;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--text);font:15px/1.6 var(--mono);padding:14px 16px;outline:none}
+  .custom textarea:focus{border-color:var(--dim)}
+  .custom .row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font:13px var(--mono);color:var(--dim)}
+  .custom label{display:flex;gap:8px;align-items:center;cursor:pointer}
+  .custom input[type=checkbox]{accent-color:var(--accent)}
+  .custom h2{margin:0;font-size:22px}
+  .custom p{margin:0;color:var(--dim);font-size:14px}
+  @media (max-width:760px){ .pcards{grid-template-columns:repeat(2,1fr)} }
+  /* чистий екран */
+  body.zen header, body.zen .hint, body.zen #kbLive, body.zen .live, body.zen footer, body.zen .lhead{display:none!important}
+  body.zen .wrap{justify-content:center}
+  body.zen .stage{flex:1;justify-content:center}
+  body.zen .words-box{font-size:30px}
+  .zen-toast{position:fixed;left:50%;top:22px;transform:translateX(-50%);background:var(--panel);color:var(--dim);font:12.5px var(--mono);padding:8px 14px;border-radius:999px;opacity:0;pointer-events:none;transition:opacity .4s;z-index:20}
+  .zen-toast.show{opacity:1}
+  /* j13 — як на портфоліо: кібер-імплант + глюк */
+  .by-j13{display:flex;align-items:center;gap:8px;padding-left:16px;border-left:1px solid var(--line);height:26px}
+  .by-j13 .by{font:12px var(--mono);color:var(--dim)}
+  .j13{--implant:#ff2a3a;--h:19px;position:relative;isolation:isolate;display:flex;align-items:center;color:var(--text)}
+  .j13 .wordmark{height:var(--h);width:auto;display:block;overflow:visible;position:relative;z-index:1}
+  .j13 .wm-ghost,.j13 .wm-implant{position:absolute;left:0;top:50%;height:var(--h);width:auto;margin-top:calc(var(--h) / -2);overflow:visible;pointer-events:none}
+  .j13 .wm-ghost{opacity:0}
+  .j13 .wm-ghost-y{z-index:-1} .j13 .wm-ghost-c{z-index:-2} .j13 .wm-slice{z-index:2;color:var(--text)}
+  .j13 .wm-implant{z-index:0;animation:implantPulse 2.6s ease-in-out infinite;will-change:opacity}
+  .j13 .wm-dot,.j13 .wm-glow{fill:var(--implant)}
+  .j13 .wm-glow{opacity:.95}
+  @keyframes implantPulse{0%,100%{opacity:1}50%{opacity:.74}}
+  .j13.glitch .wm-implant{animation:none;opacity:.12}
+  .j13:hover .wm-implant{animation-duration:.5s}
+  @media (prefers-reduced-motion: reduce){ .j13 .wm-implant{animation:none} }
+  @media (max-width:520px){ .by-j13{display:none} }
+  footer .made{margin-bottom:6px}
+  footer .made b{color:var(--text);font-weight:600}
+  footer{color:var(--dim);font-size:12px;text-align:center;font-family:var(--mono);margin-top:auto}
+  @media (max-width:760px){
+    .words-box{font-size:20px}
+    .res-top{grid-template-columns:1fr}
+    .big{flex-direction:row;justify-content:space-around}
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .key{width:24px;height:30px;font-size:11px;border-radius:5px}
+    .key.space{width:150px}
+    .kb .r,.kb{gap:3px}
+  }
+</style>
+</head>
+<body>
+<div class="zen-toast" id="zenToast">чистий екран · <kbd>Esc</kbd> — вийти · <kbd>Tab</kbd> — заново</div>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div style="display:flex;align-items:center;gap:16px">
+        <div class="logo"><span class="k">к</span>клавогін<small>тренажер друку</small></div>
+        <span class="by-j13"><span class="by">by</span><span class="j13" aria-label="j13"><svg class="wm-ghost wm-ghost-y" viewBox="0 0 377 244" aria-hidden="true"><g fill="#fcee0a"><path d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-ghost wm-ghost-c" viewBox="0 0 377 244" aria-hidden="true"><g fill="#2b7fff"><path d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-ghost wm-slice" viewBox="0 0 377 244" aria-hidden="true"><g fill="currentColor"><path fill="#ff2a3a" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-implant" viewBox="0 0 377 244" aria-hidden="true"><defs><filter id="wmGlow" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="40"/></filter><filter id="wmGlow3" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="20"/></filter><filter id="wmGlow2" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="8"/></filter></defs><g><path class="wm-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-glow wm-glow-x" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-glow wm-glow3" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow3)"/><path class="wm-glow wm-glow2" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow2)"/><path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/></g></svg><svg class="wordmark" viewBox="0 0 377 244" role="img" aria-label="j13"><g fill="currentColor"><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg></span></span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center">
+        <select id="langSel" class="langsel" title="Мова"></select>
+        <button class="streak" id="zenBtn" title="Тільки текст. Esc — вийти">◻ чистий екран</button>
+        <button class="streak" id="progBtn" title="Прогрес">📈 прогрес</button>
+      </div>
+    </div>
+    <nav class="bar" id="bar">
+      <button data-opt="punct">@ розділові</button>
+      <button data-opt="nums"># цифри</button>
+      <button data-opt="kb">⌨ клавіатура</button>
+      <span class="sep"></span>
+      <button data-mode="lesson">★ уроки</button>
+      <span class="sep"></span>
+      <button data-mode="time">час</button>
+      <button data-mode="words">слова</button>
+      <button data-mode="quote">прислів'я</button>
+      <button data-mode="custom">свій текст</button>
+      <span class="sep"></span>
+      <span id="amounts"></span>
+
+      <span class="focus-chip" id="focusChip"><span id="focusTxt"></span><button id="focusOff" title="Прибрати фокус">×</button></span>
+    </nav>
+  </header>
+
+  <section class="lessons" id="lessons"></section>
+  <section class="prog" id="prog"></section>
+  <section class="custom" id="custom">
+    <div><h2>Свій текст</h2><p>Встав будь-який уривок — статтю, код, улюблену книжку — і надрукуй його. Текст збережеться в цьому браузері.</p></div>
+    <textarea id="customTa" spellcheck="false" placeholder="Встав або напиши текст тут…"></textarea>
+    <div class="row">
+      <label><input type="checkbox" id="customNorm" checked> спростити лапки «», тире — і три крапки …</label>
+      <span id="customCount"></span>
+    </div>
+    <div class="row" style="justify-content:flex-end"><span><kbd>Ctrl</kbd>+<kbd>Enter</kbd></span><button class="btn acc" id="customGo">почати →</button></div>
+  </section>
+
+  <section class="stage" id="stage">
+    <div class="lhead" id="lhead"></div>
+    <div class="live" id="live"><span id="liveMain">30</span><span id="liveWpm">0<small>wpm</small></span></div>
+    <div class="words-box" id="box">
+      <div class="words" id="words"></div>
+      <div class="caret blink" id="caret"></div>
+      <div class="blur-note">клікни або натисни будь-яку клавішу, щоб продовжити</div>
+    </div>
+    <input id="hidden" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <div class="kb kb-live" id="kbLive"></div>
+    <div class="hint">розкладка: <span id="kbName" style="color:var(--text)"></span> &nbsp;·&nbsp; <kbd>Tab</kbd> — заново &nbsp;·&nbsp; <kbd>Esc</kbd> — нові слова &nbsp;·&nbsp; <kbd>Ctrl</kbd>+<kbd>⌫</kbd> — стерти слово</div>
+  </section>
+
+  <section class="results" id="results">
+    <div class="verdict" id="verdict"></div>
+    <div class="res-top">
+      <div class="big">
+        <div><div class="lab">wpm</div><div class="val" id="rWpm">0</div><div class="pb" id="rPb"></div></div>
+        <div><div class="lab">точність</div><div class="val" id="rAcc">0%</div></div>
+      </div>
+      <div class="card chart">
+        <div class="legend"><span><i style="background:var(--accent)"></i>wpm</span><span><i style="background:var(--dim)"></i>raw</span><span><i style="background:var(--err);height:6px;width:6px;border-radius:50%"></i>помилки</span></div>
+        <svg id="svg"></svg><div class="tip" id="tip"></div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="lab">тест</div><div class="val" id="sType" style="font-size:15px"></div></div>
+      <div class="stat"><div class="lab">raw wpm</div><div class="val" id="sRaw"></div></div>
+      <div class="stat"><div class="lab">символи ок/пом/зайві/проп</div><div class="val" id="sChars" style="font-size:18px"></div></div>
+      <div class="stat"><div class="lab">знаків за хв</div><div class="val" id="sCpm"></div></div>
+      <div class="stat"><div class="lab">час</div><div class="val" id="sTime"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="heat-head">
+        <h3 id="heatTitle">Де ти помиляєшся<small id="heatSub"></small></h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="seg" id="metricSeg"><button data-m="err" class="on">помилки</button><button data-m="slow">повільні</button></div>
+          <div class="seg" id="heatSeg"><button data-h="test" class="on">цей тест</button><button data-h="all">за весь час</button></div>
+        </div>
+      </div>
+      <div class="kb heat" id="kbHeat"></div>
+      <div class="weak">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="list" id="weakList"></div>
+          <div class="list" id="pairList"></div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:center">
+          <span class="scale" id="scale"></span>
+          <button class="btn acc" id="trainWeak">тренувати ці літери →</button>
+        </div>
+      </div>
+      <div class="tip" id="ktip"></div>
+    </div>
+
+    <div style="display:flex;gap:10px;justify-content:center"><button class="btn" id="again">↻ ще раз</button></div>
+    <div class="card history" id="history"></div>
+  </section>
+
+  <footer><div class="made">зроблено командою <b>j13</b></div>wpm = (правильні символи ÷ 5) за хвилину · результати зберігаються лише в цьому браузері</footer>
+</div>
+
+<script>
+(() => {
+const WORDS = {
+  uk: `і в не на що я з він як це та ти бути до ми все так але вона вони за її його мене від тут ще вже коли там де хто може треба було якщо тому дуже чи сказав час рік людина день життя рука око голова слово справа місто країна світ земля вода дім робота питання сторона частина кінець раз дорога друг сила місце двері вікно стіл книга мова школа світло голос серце ніч ранок вечір весна літо осінь зима сонце небо море ліс поле річка гора дерево квітка хліб молоко сіль чай кава гроші ціна шлях думка правда пам'ять історія музика пісня гра кіно фото лист новина зустріч розмова відповідь приклад причина результат знати думати бачити говорити робити хотіти могти йти жити писати читати слухати чекати шукати знайти почати любити працювати грати вчити пам'ятати розуміти питати відкрити закрити новий старий великий малий добрий гарний перший останній довгий короткий швидкий повільний теплий холодний легкий важкий білий чорний червоний зелений синій жовтий завжди ніколи сьогодні завтра вчора разом далеко близько швидко тихо голосно знову тепер потім трохи багато мало також навіть тільки просто майже зараз ось тоді через після перед між біля проти без для про над під їжа їхати їхній країна шість щастя щоденний ще щука жовтень жити журнал щирий юнак юний ювілей юшка яблуко ясний яйце єдиний євро єнот гуцул фарба фільм фрукт цукор ціль цвіт цибуля чудовий чемпіон шапка шафа хмара хвиля хата ґудзик ґанок`.split(/\s+/),
+  en: `the be to of and a in that have it for not on with he as you do at this but his by from they we say her she or an will my one all would there their what so up out if about who get which go me when make can like time no just him know take people into year your good some could them see other than then now look only come its over think also back after use two how our work first well way even new want because any these give day most us life hand world place case week company system program question night point home water room mother area money story fact month lot right study book eye job word business issue side kind head house service friend father power hour game line end member law car city community name team minute idea kid body information school face others level office door health person art war history party result change morning reason research girl guy moment air teacher force education keep never always often small large great little old young long short fast slow light heavy open close begin start show hear play run move live believe hold bring happen write provide sit stand lose pay meet include continue learn lead understand watch follow stop create speak read spend grow quick quiet quite zone zero jazz jump join just box mix next fix wax yes yet young yellow`.split(/\s+/),
+  es: "de la que el en y a los se del las un por con no una su para es al lo como más pero sus le ya o este sí porque esta entre cuando muy sin sobre también me hasta hay donde quien desde todo nos durante todos uno les ni contra otros ese eso ante ellos esto antes algunos qué unos yo otro otras otra él tanto esa estos mucho quienes nada muchos cual poco ella estar estas algunas algo nosotros mi mis tú te ti tu tus ellas casa tiempo vida día mundo año hombre mujer parte país trabajo ciudad agua noche mano historia momento forma lugar caso persona familia palabra amigo libro escuela cosa ojo tierra puerta calle luz camino padre madre hijo nombre ser hacer poder decir ir ver dar saber querer llegar pasar deber poner parecer quedar creer hablar llevar dejar seguir encontrar llamar venir pensar salir volver tomar conocer vivir sentir mirar contar empezar esperar buscar entrar trabajar escribir perder entender pedir recibir recordar terminar aparecer conseguir comenzar servir necesitar leer caer cambiar crear abrir oír acabar grande nuevo bueno mismo primero último largo pequeño mejor alto claro siempre ahora bien aquí así luego hoy mañana nunca tarde pronto niño corazón canción".split(/\s+/),
+  de: "der die und in den von zu das mit sich des auf für ist im dem nicht ein eine als auch es an werden aus er hat dass sie nach wird bei einer um am sind noch wie einem über einen so zum war haben nur oder aber vor zur bis mehr durch man sein wurde hier ich du wir ihr was wer wo wann warum heute morgen gestern immer nie oft schon jetzt dann gut neu groß klein alt jung lang kurz schnell langsam hoch weit nah viel wenig ganz gleich richtig falsch einfach schwer schön müde grün Haus Zeit Jahr Tag Mensch Kind Frau Mann Welt Leben Hand Auge Stadt Land Wasser Arbeit Schule Freund Buch Wort Frage Antwort Weg Tür Fenster Tisch Licht Nacht Morgen Abend Sonne Himmel Baum Blume Brot Milch Geld Musik Spiel Bild Brief Name Familie Straße Woche Monat Stunde Minute Mädchen Käse Übung machen gehen kommen sehen sagen geben nehmen wissen denken finden stehen liegen bleiben heißen spielen lernen arbeiten leben lesen schreiben hören sprechen fragen antworten kaufen essen trinken schlafen fahren laufen helfen brauchen glauben zeigen öffnen schließen beginnen verstehen vergessen fühlen bringen halten tragen ziehen setzen".split(/\s+/),
+  fr: "le de un être et à il avoir ne je son que se qui ce dans en du elle au pour pas vous par sur faire plus dire me on mon lui nous comme mais pouvoir avec tout y aller voir bien où sans tu ou leur homme si deux moi vouloir te femme venir quand grand celui notre devoir là jour prendre même votre rien petit encore aussi quelque dont mer trouver donner temps ça peu falloir sous parler alors main chose ton mettre vie savoir yeux passer autre après regarder toujours avant mot rester bon an monde ville pays maison école enfant père mère ami livre eau nuit matin soir soleil ciel arbre fleur pain lait argent musique jeu image lettre nom famille rue semaine mois heure minute travail porte fenêtre table lumière chemin histoire question réponse tête aimer penser croire demander sentir attendre vivre chercher sortir comprendre partir entendre connaître appeler tenir jouer lire écrire ouvrir fermer commencer finir apprendre manger boire dormir courir aider porter montrer oublier beau nouveau vieux jeune long court rapide lent haut fort facile difficile vrai faux déjà jamais souvent ici demain hier très beaucoup été café élève fête garçon français".split(/\s+/),
+  pl: "i w nie na się z że do to jest jak o co ale po tak za od już jego jej ich mnie mi go tylko czy może przez bardzo jeszcze jeśli kiedy gdzie który która które być mieć móc chcieć wiedzieć robić iść mówić widzieć dać wziąć musieć myśleć znać stać żyć pisać czytać słuchać czekać szukać znaleźć zacząć kochać pracować grać uczyć pamiętać rozumieć pytać otworzyć zamknąć dom czas rok człowiek dzień życie ręka oko głowa słowo sprawa miasto kraj świat ziemia woda praca pytanie strona część koniec raz droga przyjaciel siła miejsce drzwi okno stół książka język szkoła światło głos serce noc rano wieczór wiosna lato jesień zima słońce niebo morze las pole rzeka góra drzewo kwiat chleb mleko sól herbata kawa pieniądze cena myśl prawda pamięć historia muzyka piosenka gra kino zdjęcie list nowy stary duży mały dobry ładny pierwszy ostatni długi krótki szybki wolny ciepły zimny łatwy trudny biały czarny czerwony zielony niebieski żółty zawsze nigdy dzisiaj jutro wczoraj razem daleko blisko szybko cicho głośno znowu teraz potem trochę dużo mało także nawet prawie zaraz".split(/\s+/),
+  pt: "de a o que e do da em um para é com não uma os no se na por mais as dos como mas foi ao ele das tem à seu sua ou ser quando muito há nos já está eu também só pelo pela até isso ela entre era depois sem mesmo aos ter seus quem nas me esse eles estão você tinha foram essa num nem suas meu minha têm numa pelos elas havia seja qual será nós tenho lhe deles essas esses pelas este dele tu te vocês meus minhas teu tua casa tempo vida dia mundo ano homem mulher parte país trabalho cidade água noite mão história momento forma lugar caso pessoa família palavra amigo livro escola coisa olho terra porta rua luz caminho pai mãe filho nome fazer poder dizer ir ver dar saber querer chegar passar dever parecer ficar falar levar deixar seguir encontrar chamar vir pensar sair voltar tomar conhecer viver sentir olhar contar começar esperar procurar entrar trabalhar escrever perder entender pedir receber lembrar terminar abrir ouvir acabar grande novo bom primeiro último longo pequeno melhor alto sempre agora bem aqui assim hoje amanhã nunca tarde cedo coração ação canção".split(/\s+/),
+  it: "di e il la che in a per un è non del una sono le da con si al i gli lo ha come ma più anche se ci io tu lui lei noi voi loro questo quello molto tutto dove quando perché cosa chi già ancora sempre mai ora poi qui là oggi domani ieri bene male essere avere fare dire andare potere vedere dare sapere volere venire dovere stare trovare parlare pensare prendere guardare sentire vivere mettere lasciare portare credere chiamare tenere capire aprire chiudere leggere scrivere mangiare bere dormire correre giocare imparare lavorare aspettare cercare entrare uscire tornare amare casa tempo vita giorno mondo anno uomo donna parte paese lavoro città acqua notte mano storia momento modo luogo persona famiglia parola amico libro scuola occhio terra porta strada luce padre madre figlio nome cuore testa sole cielo mare albero fiore pane latte soldi musica gioco lettera settimana mese minuto grande nuovo buono primo ultimo lungo piccolo migliore alto bello vecchio giovane facile difficile vero caffè però così può".split(/\s+/)
+};
+const PUNCT = [',', '.', '!', '?', ':', ';'];
+const AMOUNTS = { time:[15,30,60,120], words:[10,25,50,100], quote:[1,3,6] };
+AMOUNTS.lesson = []; AMOUNTS.custom = [];
+const AMOUNT_LABEL = { quote:{1:'коротко',3:'середньо',6:'довго'} };
+const PROVERBS = {
+  uk: `Без труда нема плода.|Вік живи - вік учись.|Діла говорять голосніше за слова.|Добре ім'я - найкраще багатство.|Друзі пізнаються в біді.|Як дбаєш, так і маєш.|Що посієш, те й пожнеш.|Хто рано встає, тому Бог дає.|Тихіше їдеш - далі будеш.|Слово не горобець: вилетить - не впіймаєш.|Не все те золото, що блищить.|Яблуко від яблуні недалеко падає.|Краще синиця в жмені, ніж журавель у небі.|Не кажи "гоп", поки не перескочиш.|Терпи, козаче, отаманом будеш.|Вовків боятися - в ліс не ходити.|Сім раз відміряй, а раз відріж.|Під лежачий камінь вода не тече.|Апетит приходить під час їди.|Ранок вечора мудріший.|Згода будує, а незгода руйнує.|Хто питає, той не блукає.|Не святі горшки ліплять.|Шила в мішку не сховаєш.|Без вогню диму не буває.|Кінь на чотирьох ногах, та й то спотикається.|Хліб - усьому голова.|Говори мало, слухай багато, а думай ще більше.|Вчення - світ, а невчення - тьма.|Праця чоловіка годує, а лінь марнує.|Поспішиш - людей насмішиш.|Хто шукає, той знаходить.|Риба шукає, де глибше, а людина - де краще.|Не той друг, хто медом маже, а той, хто правду каже.|Одна бджола меду не наносить.|Гарна пташка своїм пір'ям, а людина - своїм знанням.|Не одежа красить людину, а добрі діла.|Де хотіння, там і вміння.|Чим далі в ліс, тим більше дров.|Ласкаве слово краще за м'який пиріг.`.split('|'),
+  en: `Actions speak louder than words.|The early bird catches the worm.|Practice makes perfect.|Better late than never.|A journey of a thousand miles begins with a single step.|Don't count your chickens before they hatch.|When in Rome, do as the Romans do.|The pen is mightier than the sword.|Where there's a will, there's a way.|Rome wasn't built in a day.|Slow and steady wins the race.|Knowledge is power.|Every cloud has a silver lining.|Two heads are better than one.|Look before you leap.|Honesty is the best policy.|All that glitters is not gold.|A picture is worth a thousand words.|Don't judge a book by its cover.|Fortune favors the bold.|Haste makes waste.|Many hands make light work.|No pain, no gain.|The best things in life are free.|Time flies when you're having fun.|You can't have your cake and eat it too.|Curiosity killed the cat.|Birds of a feather flock together.|An apple a day keeps the doctor away.|Still waters run deep.|Necessity is the mother of invention.|Absence makes the heart grow fonder.|Beggars can't be choosers.|Easy come, easy go.|If it ain't broke, don't fix it.|Laughter is the best medicine.|Old habits die hard.|Out of sight, out of mind.|The squeaky wheel gets the grease.|You reap what you sow.`.split('|'),
+  es: "No hay mal que por bien no venga.|Más vale tarde que nunca.|A quien madruga, Dios le ayuda.|Dime con quién andas y te diré quién eres.|En boca cerrada no entran moscas.|Más vale pájaro en mano que ciento volando.|Poco a poco se va lejos.|El que busca, encuentra.|No todo lo que brilla es oro.|Ojos que no ven, corazón que no siente.|Camarón que se duerme se lo lleva la corriente.|Al mal tiempo, buena cara.|Querer es poder.|La práctica hace al maestro.|Donde hay humo, hay fuego.|Cada loco con su tema.".split('|'),
+  de: "Übung macht den Meister.|Morgenstund hat Gold im Mund.|Aller Anfang ist schwer.|Wer rastet, der rostet.|Ende gut, alles gut.|Ohne Fleiß kein Preis.|Lügen haben kurze Beine.|Was du heute kannst besorgen, das verschiebe nicht auf morgen.|Der Apfel fällt nicht weit vom Stamm.|Reden ist Silber, Schweigen ist Gold.|Wer zuletzt lacht, lacht am besten.|Viele Köche verderben den Brei.|Es ist nicht alles Gold, was glänzt.|Kleider machen Leute.|Wo ein Wille ist, ist auch ein Weg.|Zeit ist Geld.".split('|'),
+  fr: "Petit à petit, l'oiseau fait son nid.|Qui ne risque rien n'a rien.|Mieux vaut tard que jamais.|L'habit ne fait pas le moine.|Tout ce qui brille n'est pas or.|Après la pluie, le beau temps.|Il ne faut pas vendre la peau de l'ours avant de l'avoir tué.|Qui va lentement va sûrement.|Les murs ont des oreilles.|C'est en forgeant qu'on devient forgeron.|Vouloir, c'est pouvoir.|La nuit porte conseil.|Rien ne sert de courir, il faut partir à point.|Chacun voit midi à sa porte.|Pierre qui roule n'amasse pas mousse.|Il n'y a pas de fumée sans feu.".split('|'),
+  pl: "Kto rano wstaje, temu Pan Bóg daje.|Lepszy wróbel w garści niż gołąb na dachu.|Nie chwal dnia przed zachodem słońca.|Gdzie kucharek sześć, tam nie ma co jeść.|Prawdziwych przyjaciół poznaje się w biedzie.|Bez pracy nie ma kołaczy.|Co ma wisieć, nie utonie.|Kto pyta, nie błądzi.|Nie wszystko złoto, co się świeci.|Jaki pan, taki kram.|Darowanemu koniowi nie zagląda się w zęby.|Ziarnko do ziarnka, a zbierze się miarka.|Mowa jest srebrem, a milczenie złotem.|Czego Jaś się nie nauczy, tego Jan nie będzie umiał.|Apetyt rośnie w miarę jedzenia.|Kropla drąży skałę.".split('|'),
+  pt: "Devagar se vai ao longe.|Quem espera sempre alcança.|Água mole em pedra dura, tanto bate até que fura.|Mais vale um pássaro na mão do que dois voando.|Quem não arrisca não petisca.|A pressa é inimiga da perfeição.|Deus ajuda quem cedo madruga.|Nem tudo que reluz é ouro.|Em boca fechada não entra mosca.|Quem procura acha.|De grão em grão, a galinha enche o papo.|A prática leva à perfeição.|Antes tarde do que nunca.|Cada macaco no seu galho.|Onde há fumaça, há fogo.|Olho por olho, dente por dente.".split('|'),
+  it: "Chi va piano va sano e va lontano.|Meglio tardi che mai.|Chi dorme non piglia pesci.|L'abito non fa il monaco.|Non tutto il male vien per nuocere.|Chi cerca trova.|Tra il dire e il fare c'è di mezzo il mare.|Il tempo è denaro.|Chi trova un amico trova un tesoro.|Volere è potere.|Roma non fu fatta in un giorno.|Meglio un uovo oggi che una gallina domani.|Chi ben comincia è a metà dell'opera.|Can che abbaia non morde.|L'appetito vien mangiando.|Non è tutto oro quel che luccica.".split('|')
+};
+const isFixed = () => cfg.mode !== 'time';
+/* ---------- lessons ---------- */
+let lessonIdx = null;          // null = список уроків
+const isL = c => /\p{L}/u.test(c) && !'ºª'.includes(c);
+function buildLessons(lang){
+  const rows = LAYOUT[lang], seen = new Set();
+  const row = i => [...rows[i]];
+  const pick = (r, cols) => cols.map(i => r[i]).filter(c => c && isL(c));
+  const rest = r => r.slice(10).filter(isL);
+  const top=row(1), home=row(2), bot=row(3);
+  const raw = [
+    {g:'Основний ряд', t:'Вказівні пальці', keys:pick(home,[3,6])},
+    {g:'Основний ряд', t:'Середні пальці', keys:pick(home,[2,7])},
+    {g:'Основний ряд', t:'Безіменні пальці', keys:pick(home,[1,8])},
+    {g:'Основний ряд', t:'Мізинці', keys:[...pick(home,[0,9]), ...rest(home)]},
+    {g:'Основний ряд', t:'Центр ряду', keys:pick(home,[4,5])},
+    {g:'Верхній ряд', t:'Верхній ряд: вказівні', keys:pick(top,[3,4,5,6])},
+    {g:'Верхній ряд', t:'Верхній ряд: решта', keys:[...pick(top,[0,1,2,7,8,9]), ...rest(top)]},
+    {g:'Нижній ряд', t:'Нижній ряд: вказівні', keys:pick(bot,[3,4,5,6])},
+    {g:'Нижній ряд', t:'Нижній ряд: решта', keys:[...pick(bot,[0,1,2,7,8,9]), ...rest(bot)]},
+    {g:'Нижній ряд', t:'Літери в ряду цифр', keys:row(0).filter(isL)},
+  ];
+  const L = [];
+  for (const x of raw){
+    const keys = x.keys.filter(c => !seen.has(c));
+    keys.forEach(c => seen.add(c));
+    if (keys.length) L.push({...x, kind:'letters', keys, allowed:[...seen]});
+  }
+  // літери з діакритикою, яких немає окремою клавішею
+  const special = [...new Set(WORDS[lang].join('').toLowerCase())].filter(c => isL(c) && !seen.has(c));
+  if (special.length) L.push({g:'Особливе', t:'Особливі літери', kind:'special', keys:special, allowed:[...seen, ...special]});
+  L.push({g:'Особливе', t:'Справжні слова', kind:'review', keys:[]});
+  L.push({g:'Особливе', t:'Великі літери', kind:'caps', keys:['⇧']});
+  L.push({g:'Особливе', t:'Розділові знаки', kind:'punct', keys:[',', '.', '?', '!']});
+  L.push({g:'Особливе', t:'Цифри', kind:'nums', keys:['1','5','0']});
+  L.push({g:'Іспит', t:"Іспит: прислів'я", kind:'quote', keys:[]});
+  L.forEach((l,i) => { const late = i>=L.length-5; l.goal = i<4 ? [12,20] : late ? [25,35] : [18,28]; });
+  return L;
+}
+const lessonsFor = {};
+const lessons = () => lessonsFor[cfg.lang] || (lessonsFor[cfg.lang] = buildLessons(cfg.lang));
+const progress = () => store.get('lessons-'+cfg.lang, {});
+const unlocked = i => i===0 || (progress()[i-1]||0) > 0;
+
+function lessonText(l){
+  const N = 30, out = [];
+  const lower = [...new Set(WORDS[cfg.lang].map(w => w.toLowerCase()))];
+  if (l.kind==='letters' || l.kind==='special'){
+    const A = new Set(l.allowed);
+    const real = lower.filter(w => [...w].every(c => A.has(c)) && l.keys.some(k => w.includes(k)));
+    const drill = () => { const n = 2 + Math.floor(Math.random()*4); let w='';
+      for (let i=0;i<n;i++) w += Math.random()<.55 ? rnd(l.keys) : rnd(l.allowed); return w; };
+    const useReal = real.length >= 5 ? (l.kind==='special' ? .85 : .6) : 0;
+    while (out.length < N){ const w = Math.random()<useReal ? rnd(real) : drill(); if (w!==out[out.length-1]) out.push(w); }
+    return out;
+  }
+  if (l.kind==='quote') return PROVERBS[cfg.lang].slice().sort(()=>Math.random()-.5).slice(0,3).join(' ').split(/\s+/);
+  while (out.length < N){
+    let w = rnd(lower);
+    if (l.kind==='caps' && Math.random()<.55) w = w[0].toUpperCase() + w.slice(1);
+    if (l.kind==='punct'){ const r=Math.random(); if (r<.3) w += rnd(PUNCT); else if (r<.36) w = '"'+w+'"'; }
+    if (l.kind==='nums' && Math.random()<.4) w = String(Math.floor(Math.random()*(Math.random()<.5?100:10000)));
+    if (w!==out[out.length-1]) out.push(w);
+  }
+  return out;
+}
+function starsFor(l, wpm, acc){
+  if (acc < 92) return 0;
+  if (acc >= 97 && wpm >= l.goal[1]) return 3;
+  if (acc >= 95 && wpm >= l.goal[0]) return 2;
+  return 1;
+}
+const starHTML = n => [0,1,2].map(i=>`<span class="${i<n?'on':''}">★</span>`).join('');
+
+function renderLessons(){
+  const L = lessons(), P = progress();
+  const total = L.length*3, got = L.reduce((a,_,i)=>a+(P[i]||0),0);
+  let nextI = L.findIndex((_,i)=>!(P[i]>0)); if (nextI<0) nextI = -1;
+  let html = `<div class="top"><div><h2>Уроки сліпого друку</h2><p>${LANGS[cfg.lang].name} · ${LANGS[cfg.lang].kb}. Клади пальці на основний ряд і не дивись на руки — клавіатура підкаже.</p></div>
+    <div class="progress">${got} / ${total} ★<span class="pbar"><i style="width:${got/total*100}%"></i></span></div></div>`;
+  let g = null;
+  L.forEach((l,i)=>{
+    if (l.g!==g){ if (g!==null) html += `</div>`; g=l.g; html += `<div class="lgroup">${g}</div><div class="lgrid">`; }
+    const lock = !unlocked(i);
+    const ks = l.keys.length ? l.keys.map(k=>`<b>${escA(k)}</b>`).join('') : `<span>${l.kind==='quote'?'3 прислів\'я':'усі літери'}</span>`;
+    html += `<button class="lcard ${lock?'locked':''} ${i===nextI?'next':''}" data-l="${i}" ${lock?'disabled':''}>
+      <span class="n">урок ${i+1}</span><span class="t">${l.t}</span><span class="ks">${ks}</span>
+      <span class="stars">${starHTML(P[i]||0)}</span>${lock?'<span class="lock">🔒</span>':''}</button>`;
+  });
+  html += `</div>`;
+  $('lessons').innerHTML = html;
+}
+function initLessons(){ $('lessons').addEventListener('click', e=>{
+  const c = e.target.closest('.lcard'); if (!c || c.disabled) return;
+  startLesson(+c.dataset.l);
+}); }
+function startLesson(i){ lessonIdx = i; reset(); }
+function backToLessons(){ lessonIdx = null; reset(); }
+
+function genTest(){
+  if (cfg.mode==='lesson') return lessonIdx==null ? ['…'] : lessonText(lessons()[lessonIdx]);
+  if (cfg.mode==='custom') return customWords();
+  if (cfg.mode==='quote'){
+    const src = PROVERBS[cfg.lang].slice().sort(()=>Math.random()-.5).slice(0, cfg.amount);
+    return src.join(' ').split(/\s+/);
+  }
+  return genList(cfg.mode==='words' ? cfg.amount : 120);
+}
+
+/* ---------- keyboard layouts ---------- */
+const LAYOUT = {
+  uk: ["'1234567890-", "йцукенгшщзхї", "фівапролджє", "ячсмитьбю."],
+  en: ["`1234567890-", "qwertyuiop[]", "asdfghjkl;'", "zxcvbnm,./"],
+  es: ["º1234567890'¡", "qwertyuiop`+", "asdfghjklñ´ç", "zxcvbnm,.-"],
+  de: ["^1234567890ß´", "qwertzuiopü+", "asdfghjklöä#", "yxcvbnm,.-"],
+  fr: ["²&é\"'(-è_çà)=", "azertyuiop^$", "qsdfghjklmù*", "wxcvbn,;:!"],
+  pl: ["`1234567890-=", "qwertyuiop[]", "asdfghjkl;'", "zxcvbnm,./"],
+  pt: ["'1234567890-=", "qwertyuiop´[", "asdfghjklç~]", "zxcvbnm,.;/"],
+  it: ["\\1234567890'ì", "qwertyuiopè+", "asdfghjklòàù", "zxcvbnm,.-"]
+};
+const LANGS = {"uk": {"name": "українська", "short": "укр", "kb": "ЙЦУКЕН"}, "en": {"name": "english", "short": "eng", "kb": "QWERTY"}, "es": {"name": "español", "short": "esp", "kb": "QWERTY (ES)"}, "de": {"name": "deutsch", "short": "deu", "kb": "QWERTZ"}, "fr": {"name": "français", "short": "fra", "kb": "AZERTY"}, "pl": {"name": "polski", "short": "pol", "kb": "QWERTY (PL, діакритика через AltGr)"}, "pt": {"name": "português", "short": "por", "kb": "ABNT2 (BR)"}, "it": {"name": "italiano", "short": "ita", "kb": "QWERTY (IT)"}};
+const SHIFTMAP = {
+  uk: {'!':'1','"':'2',';':'4','%':'5',':':'6','?':'7','*':'8','(':'9',')':'0','_':'-',',':'.','ґ':'г'},
+  en: {'!':'1','@':'2','#':'3','$':'4','%':'5','^':'6','&':'7','*':'8','(':'9',')':'0','_':'-',':':';','"':"'",'<':',','>':'.','?':'/','{':'[','}':']'},
+  es: {"!": "1", "\"": "2", "·": "3", "$": "4", "%": "5", "&": "6", "/": "7", "(": "8", ")": "9", "=": "0", "?": "'", "¿": "¡", ":": ".", ";": ",", "_": "-"},
+  de: {"!": "1", "\"": "2", "§": "3", "$": "4", "%": "5", "&": "6", "/": "7", "(": "8", ")": "9", "=": "0", "?": "ß", ":": ".", ";": ",", "_": "-", "'": "#", "*": "+"},
+  fr: {"1": "&", "2": "é", "3": "\"", "4": "'", "5": "(", "6": "-", "7": "è", "8": "_", "9": "ç", "0": "à", "°": ")", "+": "=", ".": ";", "?": ",", "/": ":", "§": "!", "%": "ù", "µ": "*"},
+  pl: {"!": "1", "@": "2", "#": "3", "$": "4", "%": "5", "^": "6", "&": "7", "*": "8", "(": "9", ")": "0", "_": "-", ":": ";", "\"": "'", "<": ",", ">": ".", "?": "/", "ą": "a", "ć": "c", "ę": "e", "ł": "l", "ń": "n", "ó": "o", "ś": "s", "ź": "x", "ż": "z"},
+  pt: {"!": "1", "@": "2", "#": "3", "$": "4", "%": "5", "&": "7", "*": "8", "(": "9", ")": "0", "_": "-", "\"": "'", "<": ",", ">": ".", ":": ";", "?": "/"},
+  it: {"!": "1", "\"": "2", "£": "3", "$": "4", "%": "5", "&": "6", "/": "7", "(": "8", ")": "9", "=": "0", "?": "'", ":": ".", ";": ",", "_": "-", "é": "è", "*": "+"}
+};
+function keyOf(ch){
+  if (ch===' ') return ' ';
+  const c = ch.toLowerCase();
+  if (SHIFTMAP[cfg.lang][c]) return SHIFTMAP[cfg.lang][c];
+  if (c==='’'||c==='ʼ') return "'";
+  const has = x => LAYOUT[cfg.lang].some(r=>r.includes(x));
+  if (has(c)) return c;
+  const base = c.normalize('NFD').replace(/\p{M}/gu,'');  // á → a, ê → e
+  return base && has(base) ? base : null;
+}
+
+const store = {
+  get(k,d){ try{ const v=localStorage.getItem('klavogin:'+k); return v==null?d:JSON.parse(v);}catch(e){return d;} },
+  set(k,v){ try{ localStorage.setItem('klavogin:'+k, JSON.stringify(v)); }catch(e){} }
+};
+const cfg = Object.assign({mode:'time', amount:30, lang:'uk', punct:false, nums:false, kb:true, focus:[]}, store.get('cfg', {}));
+const $ = id => document.getElementById(id);
+const wordsEl=$('words'), box=$('box'), caret=$('caret'), live=$('live'), hidden=$('hidden');
+let S, heatView='test';
+
+/* ---------- word generation ---------- */
+function rnd(a){ return a[Math.floor(Math.random()*a.length)]; }
+function pool(){
+  const all = WORDS[cfg.lang];
+  if (!cfg.focus.length || cfg.mode==='quote') return all;
+  const f = all.filter(w => cfg.focus.some(l => w.includes(l)));
+  return f.length >= 8 ? f : all;
+}
+function genWord(prev, P){
+  let w;
+  if (cfg.nums && Math.random()<0.12) w = String(Math.floor(Math.random()*(Math.random()<.5?100:10000)));
+  else { const src = (cfg.focus.length && Math.random()<0.15) ? WORDS[cfg.lang] : P; do { w = rnd(src); } while (w===prev && src.length>1); }
+  if (cfg.punct){
+    if (Math.random()<0.1) w = w[0].toUpperCase()+w.slice(1);
+    const r=Math.random();
+    if (r<0.18) w += rnd(PUNCT); else if (r<0.22) w = '"'+w+'"'; else if (r<0.25) w = '('+w+')';
+  }
+  return w;
+}
+function genList(n, start=[]){ const P=pool(), out=start.slice(); while(out.length<n) out.push(genWord(out[out.length-1], P)); return out; }
+
+/* ---------- keyboard ---------- */
+const escA = c => c.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+function buildKb(el){
+  const rows = LAYOUT[cfg.lang];
+  el.innerHTML = rows.map((r,i)=>`<div class="r" style="margin-left:${[0,22,40,62][i]}px">${[...r].map(c=>`<div class="key" data-k="${escA(c)}">${escA(c)}</div>`).join('')}</div>`).join('')
+    + `<div class="r"><div class="key space" data-k=" ">пробіл</div></div>`;
+  const map = {}; el.querySelectorAll('.key').forEach(k=>map[k.dataset.k]=k);
+  return map;
+}
+let kbMap = {};
+function flash(ch, ok){
+  const k = kbMap[keyOf(ch)]; if (!k) return;
+  k.classList.remove('hit','miss'); void k.offsetWidth;
+  k.classList.add(ok?'hit':'miss');
+  clearTimeout(k._t); k._t = setTimeout(()=>k.classList.remove('hit','miss'), 110);
+}
+let nextKeyEl=null;
+function markNext(){
+  if (!cfg.kb) return;
+  if (nextKeyEl) nextKeyEl.classList.remove('next');
+  const t=[...(S.words[S.cur]||'')], y=[...(S.typed[S.cur]||'')];
+  const ch = y.length<t.length ? t[y.length] : ' ';
+  nextKeyEl = kbMap[keyOf(ch)] || null;
+  if (nextKeyEl) nextKeyEl.classList.add('next');
+}
+
+/* ---------- per-key stats ---------- */
+function track(expected, ok, prev){
+  const now = performance.now();
+  const dt = S.lastT ? now - S.lastT : 0; S.lastT = now;
+  const timed = ok && dt>0 && dt<1500;
+  const k = keyOf(expected);
+  if (k){
+    const e = S.keyStats[k] || (S.keyStats[k]={n:0,e:0,t:0,c:0});
+    e.n++; if (!ok) e.e++;
+    if (timed){ e.t+=dt; e.c++; }
+  }
+  const isL = c => c && /\p{L}/u.test(c);
+  if (isL(prev) && isL(expected)){
+    const pair = (prev+expected).toLowerCase();
+    const b = S.bi[pair] || (S.bi[pair]={n:0,e:0,t:0,c:0});
+    b.n++; if (!ok) b.e++;
+    if (timed){ b.t+=dt; b.c++; }
+  }
+}
+
+/* ---------- daily log ---------- */
+const pad = n => String(n).padStart(2,'0');
+const dkey = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const addDays = (d,n) => { const x=new Date(d); x.setDate(x.getDate()+n); return x; };
+function logPractice(secs, wpm, acc, chars){
+  const days = store.get('days',{}), k = dkey(new Date());
+  const d = days[k] || (days[k] = {sec:0, tests:0, wpm:0, acc:0, best:0, chars:0});
+  d.sec += secs; d.tests++; d.wpm += wpm; d.acc += acc; d.chars += chars; d.best = Math.max(d.best, Math.round(wpm));
+  store.set('days', days);
+}
+/* ---------- progress page ---------- */
+let progOpen = false;
+function openProgress(){ progOpen = true; clearInterval(S && S.timer);
+  ['lessons','custom'].forEach(id=>$(id).classList.remove('show'));
+  $('stage').style.display='none'; $('results').classList.remove('show');
+  $('prog').classList.add('show'); renderProgress(); hidden.blur(); }
+function closeProgress(){ progOpen = false; $('prog').classList.remove('show'); reset(); }
+function renderProgress(){
+  const days = store.get('days',{}), today0 = days[dkey(new Date())] || {sec:0, tests:0};
+  const keys = Object.keys(days).sort();
+  const totSec = keys.reduce((a,k)=>a+days[k].sec,0), totTests = keys.reduce((a,k)=>a+days[k].tests,0);
+  const last30 = keys.filter(k => k >= dkey(addDays(new Date(),-29)));
+  const t30 = last30.reduce((a,k)=>a+days[k].tests,0);
+  const avgW = t30 ? last30.reduce((a,k)=>a+days[k].wpm,0)/t30 : 0;
+  const avgA = t30 ? last30.reduce((a,k)=>a+days[k].acc,0)/t30 : 0;
+  const bestW = keys.reduce((a,k)=>Math.max(a,days[k].best),0);
+  const fmtT = s => s>=3600 ? `${Math.floor(s/3600)} год ${Math.round(s%3600/60)} хв` : s>=60 || !s ? `${Math.round(s/60)} хв` : `${Math.round(s)} с`;
+
+  // календар: 52 тижні, колонки з понеділка
+  const today = new Date(); const dow = (today.getDay()+6)%7;
+  const WEEKS = window.innerWidth < 760 ? 18 : 52;
+  const start = addDays(today, -((WEEKS-1)*7 + dow));
+  let cal = '<div class="calrow"><div class="dn"><span>пн</span><span></span><span>ср</span><span></span><span>пт</span><span></span><span>нд</span></div><div class="cal">';
+  for (let w=0; w<WEEKS; w++){
+    cal += '<div class="col">';
+    for (let d=0; d<7; d++){
+      const day = addDays(start, w*7+d), k = dkey(day), v = days[k];
+      if (day > today){ cal += '<i class="fut"></i>'; continue; }
+      const sec = v ? v.sec : 0, m = sec/60;
+      const lvl = !sec ? '' : m<5 ? 'l1' : m<15 ? 'l2' : m<30 ? 'l3' : 'l4';
+      const tip = `${day.toLocaleDateString('uk-UA',{day:'numeric',month:'long'})}: ${sec?`${fmtT(sec)}, ${v.tests} тест., найкраще ${v.best} wpm`:'без практики'}`;
+      cal += `<i class="${lvl} ${k===dkey(today)?'today':''}" title="${tip}"></i>`;
+    }
+    cal += '</div>';
+  }
+  cal += '</div></div>';
+
+  // уроки по мовах
+  const lp = Object.keys(LANGS).map(l=>{
+    const P = store.get('lessons-'+l,{}), got = Object.values(P).reduce((a,b)=>a+b,0);
+    if (!got) return '';
+    const total = buildLessons(l).length*3;
+    return `<div><span><b>${LANGS[l].name}</b>${got}/${total} ★</span><span class="pbar"><i style="width:${got/total*100}%"></i></span></div>`;
+  }).join('');
+
+  $('prog').innerHTML = `
+    <div class="top"><button class="back" id="pBack">← назад</button><h2>Прогрес</h2></div>
+    <div class="pcards">
+      <div class="stat"><div class="lab">сьогодні</div><div class="val">${fmtT(today0.sec)}</div><div class="sub">${today0.tests} тестів${today0.best?` · найкраще ${today0.best} wpm`:''}</div></div>
+      <div class="stat"><div class="lab">днів із практикою</div><div class="val">${keys.length}</div><div class="sub">за весь час</div></div>
+      <div class="stat"><div class="lab">за 30 днів</div><div class="val">${Math.round(avgW)} <small style="font-size:14px;color:var(--dim)">wpm</small></div><div class="sub">${Math.round(avgA)}% точність · ${t30} тестів</div></div>
+      <div class="stat"><div class="lab">усього</div><div class="val">${fmtT(totSec)}</div><div class="sub">${totTests} тестів · рекорд ${bestW} wpm</div></div>
+    </div>
+    <div class="card"><h3>Активність<small>останній рік · колір = хвилини практики</small></h3>${cal}
+      <div class="calleg"><span></span><span class="sw">0 <i style="background:var(--bg)"></i><i style="background:#3d3420"></i><i style="background:#7a6230"></i><i style="background:#c4923b"></i><i style="background:#f2b84b"></i> 30+ хв</span></div></div>
+    <div class="card chart"><h3>Швидкість по днях<small>середня і найкраща, останні 60 днів</small></h3><svg id="pSvg"></svg><div class="tip" id="pTip"></div></div>
+    ${lp ? `<div class="card"><h3>Уроки</h3><div class="lprog">${lp}</div></div>` : ''}`;
+  $('pBack').onclick = closeProgress;
+  drawDaily(days);
+}
+function drawDaily(days){
+  const svg=$('pSvg'), W=svg.clientWidth||900, H=180, pl=34, pr=16, pt=14, pb=24;
+  const from = addDays(new Date(),-59);
+  const pts = Object.keys(days).sort().filter(k=>k>=dkey(from)).map(k=>({k, d:new Date(k+'T12:00'), avg:days[k].wpm/days[k].tests, best:days[k].best}));
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  if (!pts.length){ svg.innerHTML = `<text x="${W/2}" y="${H/2}" text-anchor="middle" fill="#5d6472" font-size="13">Пройди кілька тестів — тут з'явиться графік</text>`; return; }
+  const span = 59*864e5, X = d => pl + ((d - from)/span)*(W-pl-pr);
+  const maxW = Math.max(20,...pts.map(p=>p.best))*1.12, Y = v => pt+(1-v/maxW)*(H-pt-pb);
+  const step = maxW>150?50:maxW>60?20:10;
+  let g='';
+  for (let v=0; v<=maxW; v+=step) g+=`<line x1="${pl}" x2="${W-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="#2a2e37"/><text x="${pl-8}" y="${Y(v)+4}" text-anchor="end" fill="#5d6472" font-size="10">${v}</text>`;
+  for (let i=0;i<=59;i+=10){ const d=addDays(from,i); g+=`<text x="${X(d)}" y="${H-6}" text-anchor="middle" fill="#5d6472" font-size="10">${d.getDate()}.${pad(d.getMonth()+1)}</text>`; }
+  const line = k => pts.map((p,i)=>`${i?'L':'M'}${X(p.d).toFixed(1)},${Y(p[k]).toFixed(1)}`).join('');
+  svg.innerHTML = `${g}<path d="${line('best')}" fill="none" stroke="#5d6472" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <path d="${line('avg')}" fill="none" stroke="#f2b84b" stroke-width="2.5" stroke-linejoin="round"/>
+    ${pts.map(p=>`<circle cx="${X(p.d)}" cy="${Y(p.avg)}" r="3.5" fill="#f2b84b"/>`).join('')}
+    <rect x="${pl}" y="0" width="${W-pl-pr}" height="${H}" fill="transparent" id="pHit"/>`;
+  const tip=$('pTip');
+  svg.querySelector('#pHit').onmousemove = e => {
+    const r=svg.getBoundingClientRect(), sx=(e.clientX-r.left)*(W/r.width);
+    let b=pts[0]; pts.forEach(p=>{ if(Math.abs(X(p.d)-sx)<Math.abs(X(b.d)-sx)) b=p; });
+    tip.style.display='block';
+    tip.innerHTML=`${b.d.toLocaleDateString('uk-UA',{day:'numeric',month:'long'})}<br><span style="color:#f2b84b">середня ${Math.round(b.avg)} wpm</span> · найкраща ${b.best}`;
+    tip.style.left=Math.min((X(b.d)/W)*r.width+20, r.width-200)+'px'; tip.style.top='50px';
+  };
+  svg.querySelector('#pHit').onmouseleave = () => tip.style.display='none';
+}
+
+/* ---------- custom text ---------- */
+let customEditing = false;
+function normText(t, simplify){
+  if (simplify) t = t.replace(/[«»“”„‟″]/g,'"').replace(/[‘’‚‛′ʼ]/g,"'").replace(/[—–―−]/g,'-').replace(/…/g,'...').replace(/ /g,' ');
+  return t.trim().split(/\s+/).filter(Boolean);
+}
+function customWords(){ const c = store.get('custom', null); return c && c.text ? normText(c.text, c.norm!==false) : []; }
+function showCustom(){
+  const c = store.get('custom', {text:'', norm:true});
+  $('customTa').value = c.text||''; $('customNorm').checked = c.norm!==false;
+  updateCount(); $('custom').classList.add('show');
+  setTimeout(()=>$('customTa').focus(), 0);
+}
+function updateCount(){ const n = normText($('customTa').value, true).length; $('customCount').textContent = n ? `${n} слів` : ''; }
+function startCustom(){
+  const text = $('customTa').value.slice(0, 20000);
+  if (!normText(text,true).length){ $('customTa').focus(); return; }
+  store.set('custom', {text, norm: $('customNorm').checked});
+  customEditing = false; reset();
+}
+function initCustom(){
+  $('customTa').addEventListener('input', updateCount);
+  $('customTa').addEventListener('keydown', e=>{ if (e.key==='Enter' && (e.ctrlKey||e.metaKey)){ e.preventDefault(); startCustom(); } });
+  $('customGo').onclick = startCustom;
+  $('progBtn').onclick = () => progOpen ? closeProgress() : openProgress();
+  $('progBtn').onmousedown = e => e.preventDefault();
+  $('zenBtn').onmousedown = e => e.preventDefault();
+  $('zenBtn').onclick = () => { if (progOpen) closeProgress(); else if (S.done && $('results').classList.contains('show')) reset(); setZen(true); };
+}
+
+/* ---------- zen ---------- */
+let zen = false, zenT;
+function applyZen(){
+  const on = zen && $('stage').style.display!=='none';
+  document.body.classList.toggle('zen', on);
+  if (!S || S.done) return;
+  requestAnimationFrame(()=>placeCaret());
+}
+function setZen(v){
+  zen = v; applyZen();
+  const t = $('zenToast');
+  clearTimeout(zenT);
+  if (v){ t.classList.add('show'); zenT = setTimeout(()=>t.classList.remove('show'), 2600); } else t.classList.remove('show');
+  if (v) focusBox();
+}
+
+/* ---------- test lifecycle ---------- */
+function reset(newWords=true){
+  clearInterval(S && S.timer);
+  const inLesson = cfg.mode==='lesson';
+  progOpen = false; $('prog').classList.remove('show');
+  $('lessons').classList.toggle('show', inLesson && lessonIdx==null);
+  $('custom').classList.remove('show');
+  $('verdict').classList.remove('show');
+  if (cfg.mode==='custom' && (customEditing || !customWords().length)){
+    S = {done:true, words:[], typed:[], samples:[], keyStats:{}, bi:{}};
+    $('results').classList.remove('show'); $('stage').style.display='none'; $('lhead').classList.remove('show');
+    showCustom(); return;
+  }
+  if (inLesson && lessonIdx==null){
+    S = {done:true, words:[], typed:[], samples:[], keyStats:{}, bi:{}};
+    $('results').classList.remove('show'); $('stage').style.display='none';
+    renderLessons(); hidden.blur(); return;
+  }
+  S = { words: genTest(), typed:[''], cur:0, started:false, done:false, t0:0, timer:null,
+        keys:0, goodKeys:0, samples:[], errSec:0, shift:0, keyStats:{}, bi:{}, lastT:0 };
+  $('results').classList.remove('show');
+  $('stage').style.display='';
+  live.classList.remove('show');
+  $('liveMain').textContent = cfg.mode==='time' ? cfg.amount : `0/${S.words.length}`;
+  $('liveWpm').innerHTML = `0<small>wpm</small>`;
+  caret.classList.add('blink');
+  $('kbLive').style.display = cfg.kb ? '' : 'none';
+  kbMap = buildKb($('kbLive')); nextKeyEl=null;
+  const lh = $('lhead');
+  if (inLesson){
+    const l = lessons()[lessonIdx];
+    lh.classList.add('show');
+    lh.innerHTML = `<button class="back" id="lback">← уроки</button><span>урок ${lessonIdx+1} · <b>${l.t}</b></span>
+      ${l.keys.length?`<span class="ks">нові: ${l.keys.map(k=>`<b>${escA(k)}</b>`).join('')}</span>`:''}
+      <span class="goal">мета: точність 92%+ · ★★ ${l.goal[0]} wpm · ★★★ ${l.goal[1]} wpm і 97%</span>`;
+    $('lback').onclick = backToLessons;
+    if (l.allowed){
+      const A = new Set(l.allowed.map(c=>keyOf(c)));
+      for (const [k,el] of Object.entries(kbMap)){
+        if (k===' ') continue;
+        if (l.keys.some(c=>keyOf(c)===k)) el.classList.add('newk');
+        else if (!A.has(k)) el.classList.add('offk');
+      }
+    }
+  } else lh.classList.remove('show');
+  wordsEl.innerHTML = S.words.map(wordHTML).join('');
+  placeCaret(); markNext(); focusBox(); applyZen();
+}
+function esc(c){ return c==='<'?'&lt;':c==='>'?'&gt;':c==='&'?'&amp;':c; }
+function wordHTML(w){ return `<div class="word">${[...w].map(c=>`<span class="l">${esc(c)}</span>`).join('')}</div>`; }
+
+function renderWord(i){
+  const el=wordsEl.children[i]; if(!el) return;
+  const t=[...S.words[i]], y=[...(S.typed[i]||'')];
+  let html='';
+  for (let k=0;k<Math.max(t.length,y.length);k++){
+    if (k>=t.length){ html+=`<span class="l extra">${esc(y[k])}</span>`; continue; }
+    html+=`<span class="l ${k<y.length?(y[k]===t[k]?'ok':'no'):''}">${esc(t[k])}</span>`;
+  }
+  el.innerHTML=html;
+  el.classList.toggle('bad', i<S.cur && S.typed[i]!==S.words[i]);
+}
+function placeCaret(){
+  const el=wordsEl.children[S.cur]; if(!el) return;
+  const L=el.children, n=[...(S.typed[S.cur]||'')].length;
+  let x = n<L.length ? L[n].offsetLeft : L[L.length-1].offsetLeft+L[L.length-1].offsetWidth;
+  x += el.offsetLeft;
+  const lh=el.offsetHeight, line=Math.round(el.offsetTop/lh);
+  S.shift = line>=1 ? (line-1)*lh : 0;
+  wordsEl.style.transform=`translateY(${-S.shift}px)`;
+  const ch = lh*0.52;
+  caret.style.height=ch+'px'; caret.style.left=(x-1)+'px';
+  caret.style.top=(el.offsetTop - S.shift + (lh-ch)/2 + 1)+'px';
+}
+
+function start(){ S.started=true; S.t0=performance.now(); caret.classList.remove('blink'); live.classList.add('show'); S.timer=setInterval(tick,1000); }
+function elapsed(){ return (performance.now()-S.t0)/1000; }
+function goodChars(includeCur){
+  let g=0;
+  for (let i=0;i<S.cur;i++) if (S.typed[i]===S.words[i]) g += [...S.words[i]].length+1;
+  if (includeCur && S.typed[S.cur]===S.words[S.cur]) g += [...S.words[S.cur]].length;
+  return g;
+}
+function tick(){
+  const sec=Math.round(elapsed()), min=Math.max(elapsed(),.5)/60;
+  const wpm=goodChars(true)/5/min, raw=S.keys/5/min;
+  S.samples.push({s:sec,wpm,raw,err:S.errSec}); S.errSec=0;
+  $('liveWpm').innerHTML=`${Math.round(wpm)}<small>wpm</small>`;
+  if (cfg.mode==='time'){ const left=cfg.amount-sec; $('liveMain').textContent=Math.max(0,left); if(left<=0) finish(); }
+}
+function count(ok){ S.keys++; if(ok) S.goodKeys++; else S.errSec++; }
+
+function onChar(ch){
+  if (S.done) return;
+  if (!S.started) start();
+  const t=S.words[S.cur], y=S.typed[S.cur]||'';
+  if (ch===' '){
+    if (!y.length) return;
+    const ok = y===t;
+    count(ok); flash(' ', ok);
+    if ([...y].length>=[...t].length) track(' ', ok, null); else S.lastT = performance.now();
+    S.cur++; S.typed[S.cur]='';
+    renderWord(S.cur-1);
+    if (cfg.mode==='time' && S.cur > S.words.length-40){
+      const add=genList(60,[S.words[S.words.length-1]]).slice(1);
+      S.words.push(...add); wordsEl.insertAdjacentHTML('beforeend', add.map(wordHTML).join(''));
+    }
+    if (isFixed()){ $('liveMain').textContent=`${S.cur}/${S.words.length}`; if (S.cur>=S.words.length) return finish(); }
+  } else {
+    const ya=[...y], ta=[...t];
+    if (ya.length >= ta.length+12) return;
+    const exp = ya.length<ta.length ? ta[ya.length] : ' ';
+    const ok = ya.length<ta.length && exp===ch;
+    count(ok); flash(ch, ok); track(exp, ok, ya.length>0 && ya.length<=ta.length ? ta[ya.length-1] : null);
+    S.typed[S.cur]=y+ch; renderWord(S.cur);
+    if (isFixed() && S.cur===S.words.length-1 && S.typed[S.cur]===t){ S.cur++; return finish(); }
+  }
+  placeCaret(); markNext();
+}
+function onBack(ctrl){
+  if (S.done) return;
+  const y=S.typed[S.cur]||'';
+  if (!y.length){
+    if (S.cur>0 && S.typed[S.cur-1]!==S.words[S.cur-1]){
+      S.typed.pop(); S.cur--; if (ctrl) S.typed[S.cur]='';
+      renderWord(S.cur); wordsEl.children[S.cur].classList.remove('bad');
+      if (isFixed()) $('liveMain').textContent=`${S.cur}/${S.words.length}`;
+    }
+  } else { S.typed[S.cur] = ctrl ? '' : [...y].slice(0,-1).join(''); renderWord(S.cur); }
+  S.lastT = performance.now();
+  placeCaret(); markNext();
+}
+
+function finish(){
+  if (S.done) return;
+  S.done=true; clearInterval(S.timer);
+  const secs = cfg.mode==='time' ? cfg.amount : elapsed();
+  let ok=0,no=0,extra=0,missed=0;
+  for (let i=0;i<=Math.min(S.cur,S.words.length-1);i++){
+    const done=i<S.cur, y=[...(S.typed[i]||'')], t=[...S.words[i]];
+    if (!done && !y.length) continue;
+    y.forEach((c,k)=>{ if(k>=t.length) extra++; else if(c===t[k]) ok++; else no++; });
+    if (done && y.length<t.length) missed += t.length-y.length;
+  }
+  let good = goodChars(cfg.mode==='time'); if (isFixed()) good=Math.max(0,good-1);
+  const min=secs/60, wpm=good/5/min, raw=S.keys/5/min, acc=S.keys?S.goodKeys/S.keys*100:0;
+  if (isFixed()) S.samples.push({s:Math.round(secs*10)/10,wpm,raw,err:S.errSec});
+
+  const key = cfg.mode==='lesson' ? `${cfg.lang}-lesson-${lessonIdx}` : cfg.mode==='custom' ? `${cfg.lang}-custom` : `${cfg.lang}-${cfg.mode}-${cfg.amount}${cfg.mode!=='quote'&&cfg.punct?'-p':''}${cfg.mode!=='quote'&&cfg.nums?'-n':''}${cfg.mode!=='quote'&&cfg.focus.length?'-f':''}`;
+  const best=store.get('best',{}), prev=best[key]||0, isPb=S.keys>0 && wpm>prev;
+  if (isPb){ best[key]=Math.round(wpm*100)/100; store.set('best',best); }
+  if (S.keys>0){
+    const h=store.get('history',[]);
+    h.unshift({d:Date.now(), wpm:Math.round(wpm), acc:Math.round(acc), raw:Math.round(raw), type:label()});
+    store.set('history', h.slice(0,30));
+    const merge=(name, src)=>{ const all=store.get(name,{});
+      for (const [k,v] of Object.entries(src)){ const a=all[k]||(all[k]={n:0,e:0,t:0,c:0}); a.n+=v.n; a.e+=v.e; a.t=(a.t||0)+v.t; a.c=(a.c||0)+v.c; }
+      store.set(name, all); };
+    merge('keys-'+cfg.lang, S.keyStats); merge('bi-'+cfg.lang, S.bi);
+    logPractice(secs, wpm, acc, S.keys);
+  }
+
+  $('stage').style.display='none';
+  $('results').classList.add('show');
+  $('rWpm').textContent=Math.round(wpm); $('rWpm').title=wpm.toFixed(2);
+  $('rAcc').textContent=Math.round(acc)+'%';
+  $('rPb').textContent = isPb ? '★ новий рекорд' : prev ? `рекорд: ${Math.round(prev)}` : '';
+  $('sType').textContent=label();
+  $('sRaw').textContent=Math.round(raw);
+  $('sChars').innerHTML=`<span class="ok">${ok}</span>/<span class="no">${no}</span>/${extra}/${missed}`;
+  $('sCpm').textContent=Math.round(wpm*5);
+  $('sTime').textContent=(Math.round(secs*10)/10)+' с';
+  drawChart(S.samples);
+  heatView='test'; drawHeat();
+  drawHistory();
+  if (cfg.mode==='lesson') showVerdict(wpm, acc);
+  document.body.classList.remove('zen');
+  hidden.blur();
+}
+function showVerdict(wpm, acc){
+  const L = lessons(), l = L[lessonIdx], P = progress();
+  const st = S.keys ? starsFor(l, wpm, acc) : 0;
+  const before = P[lessonIdx]||0;
+  if (st > before){ P[lessonIdx] = st; store.set('lessons-'+cfg.lang, P); }
+  const hasNext = lessonIdx < L.length-1;
+  let msg, sub;
+  if (st===0){ msg='Ще трохи'; sub=`Точність ${Math.round(acc)}% — для зарахування потрібно 92%. Сповільнись: точність важливіша за швидкість.`; }
+  else if (st===3){ msg='Відмінно!'; sub='Урок пройдено на всі три зірки.'; }
+  else { msg='Урок зараховано'; sub = st===1 ? `Для ★★: ${l.goal[0]} wpm і 95% точності.` : `Для ★★★: ${l.goal[1]} wpm і 97% точності.`; }
+  if (st>0 && st>before && before>0) sub += ' Новий найкращий результат.';
+  const v = $('verdict');
+  v.innerHTML = `<div class="big-stars">${starHTML(st)}</div><div class="msg"><b>${msg}</b><span>${sub}</span></div>
+    <div class="acts"><button class="btn" id="vList">← уроки</button><button class="btn" id="vAgain">↻ повторити</button>
+    ${hasNext && (st>0 || before>0) ? `<button class="btn acc" id="vNext">наступний урок →</button>`:''}</div>`;
+  v.classList.add('show');
+  $('vList').onclick = backToLessons;
+  $('vAgain').onclick = () => reset();
+  const n = $('vNext'); if (n) n.onclick = () => startLesson(lessonIdx+1);
+}
+function label(){ if (cfg.mode==='custom') return `свій текст · ${S.words.length} слів`; if (cfg.mode==='lesson') return `урок ${lessonIdx+1} · ${LANGS[cfg.lang].short}`; if (cfg.mode==='quote') return `прислів'я · ${AMOUNT_LABEL.quote[cfg.amount]} · ${LANGS[cfg.lang].short}`; return `${cfg.mode==='time'?cfg.amount+' с':cfg.amount+' слів'} · ${LANGS[cfg.lang].short}${cfg.punct?' · розд.':''}${cfg.nums?' · цифри':''}${cfg.focus.length?' · фокус '+cfg.focus.join(''):''}`; }
+
+/* ---------- heatmap ---------- */
+function ramp(stops, x){
+  const t=Math.max(0,Math.min(1,x))*(stops.length-1), i=Math.min(stops.length-2,Math.floor(t)), f=t-i;
+  const a=stops[i], b=stops[i+1];
+  return `rgb(${a.map((v,j)=>Math.round(v+(b[j]-v)*f)).join(',')})`;
+}
+const ERR_RAMP=[[30,33,40],[122,58,42],[239,95,95]], SLOW_RAMP=[[30,33,40],[95,78,34],[242,184,75]];
+let heatMetric='err', focusPick=[];
+function median(a){ const b=a.slice().sort((x,y)=>x-y); return b.length ? b[Math.floor(b.length/2)] : 0; }
+function drawHeat(){
+  document.querySelectorAll('#heatSeg button').forEach(b=>b.classList.toggle('on', b.dataset.h===heatView));
+  document.querySelectorAll('#metricSeg button').forEach(b=>b.classList.toggle('on', b.dataset.m===heatMetric));
+  const all = heatView==='all';
+  const data = all ? store.get('keys-'+cfg.lang,{}) : S.keyStats;
+  const bi   = all ? store.get('bi-'+cfg.lang,{})   : S.bi;
+  const minN = all ? 6 : 2, minC = all ? 6 : 2, minP = all ? 4 : 2;
+  const slow = heatMetric==='slow';
+  const avg = s => s.c ? s.t/s.c : 0;
+  const med = median(Object.values(data).filter(s=>s.c>=minC).map(avg));
+  const map = buildKb($('kbHeat'));
+  let total=0, errs=0;
+  for (const [k,el] of Object.entries(map)){
+    const s=data[k];
+    if (!s || !s.n){ el.style.opacity=.45; continue; }
+    total+=s.n; errs+=s.e;
+    const rate=s.e/s.n, a=avg(s);
+    if (slow){
+      if (s.c<minC || !med){ el.style.opacity=.6; }
+      else {
+        el.style.background = ramp(SLOW_RAMP, (a/med-1)/0.8);
+        if (a/med>1.1) el.insertAdjacentHTML('beforeend', `<span class="pct">${Math.round(a)}</span>`);
+      }
+    } else {
+      el.style.background = ramp(ERR_RAMP, rate/0.25);
+      if (s.e) el.insertAdjacentHTML('beforeend', `<span class="pct">${Math.round(rate*100)}</span>`);
+    }
+    el.onmouseenter=()=>{ const tip=$('ktip'), r=el.getBoundingClientRect(), pr=el.closest('.card').getBoundingClientRect();
+      tip.style.display='block';
+      tip.innerHTML=`«${k===' '?'пробіл':k}» · ${s.e} пом. з ${s.n} (${Math.round(rate*100)}%)${s.c?` · ~${Math.round(a)} мс`:''}`;
+      tip.style.left=(r.left-pr.left)+'px'; tip.style.top=(r.top-pr.top-34)+'px'; };
+    el.onmouseleave=()=>$('ktip').style.display='none';
+  }
+  $('heatTitle').firstChild.textContent = slow ? 'Де ти вагаєшся' : 'Де ти помиляєшся';
+  $('heatSub').textContent = total ? (slow ? `середньо ${Math.round(med)} мс на клавішу` : `${errs} помилок на ${total} натискань`) : '';
+  $('scale').innerHTML = slow ? `швидко<i style="background:linear-gradient(90deg,#1e2128,#5f4e22,#f2b84b)"></i>повільно` : `0%<i></i>25%+`;
+
+  const letter = k => /\p{L}/u.test(k);
+  let weak, pairs;
+  if (slow){
+    weak = Object.entries(data).filter(([k,s])=>letter(k) && s.c>=minC && med && avg(s)/med>1.1)
+      .map(([k,s])=>({k, v:avg(s)})).sort((a,b)=>b.v-a.v).slice(0,4);
+    const pmed = median(Object.values(bi).filter(s=>s.c>=minP).map(avg));
+    pairs = Object.entries(bi).filter(([p,s])=>s.c>=minP && pmed && avg(s)/pmed>1.15)
+      .map(([k,s])=>({k, v:avg(s)})).sort((a,b)=>b.v-a.v).slice(0,3);
+  } else {
+    weak = Object.entries(data).filter(([k,s])=>letter(k) && s.e>0 && s.n>=minN)
+      .map(([k,s])=>({k, v:s.e/s.n, e:s.e})).sort((a,b)=>b.v-a.v || b.e-a.e).slice(0,4);
+    pairs = Object.entries(bi).filter(([p,s])=>s.e>0 && s.n>=minP)
+      .map(([k,s])=>({k, v:s.e/s.n, e:s.e})).sort((a,b)=>b.v-a.v || b.e-a.e).slice(0,3);
+  }
+  const fmt = w => slow ? `${Math.round(w.v)} мс` : `${Math.round(w.v*100)}%`;
+  const cls = slow ? 'slow' : '';
+  $('weakList').innerHTML = weak.length
+    ? `<span style="align-self:center;min-width:92px">${slow?'найповільніші':'найслабші'}:</span>` + weak.map(w=>`<span><b class="${cls}">${w.k}</b>${fmt(w)}</span>`).join('')
+    : `<span>${total ? (slow ? 'Темп рівний — явних гальм немає.' : 'Помилок на літерах майже немає — чисто!') : 'Ще немає даних.'}</span>`;
+  $('pairList').className = 'list pairs';
+  $('pairList').innerHTML = pairs.length
+    ? `<span style="align-self:center;min-width:92px">складні пари:</span>` + pairs.map(w=>`<span><b class="${cls}">${w.k}</b>${fmt(w)}</span>`).join('')
+    : '';
+  focusPick = [...weak.slice(0,3).map(w=>w.k), ...pairs.slice(0,2).map(w=>w.k)];
+  $('trainWeak').style.display = focusPick.length ? '' : 'none';
+}
+$('heatSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; heatView=b.dataset.h; drawHeat(); });
+$('metricSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; heatMetric=b.dataset.m; drawHeat(); });
+$('trainWeak').onclick = () => { cfg.focus = focusPick.slice(); if (!['time','words'].includes(cfg.mode)){ cfg.mode='time'; cfg.amount=30; } renderBar(); reset(); };
+$('focusOff').onclick = e => { e.stopPropagation(); cfg.focus=[]; renderBar(); reset(); };
+
+/* ---------- chart & history ---------- */
+function drawChart(data){
+  const svg=$('svg'), W=svg.clientWidth||700, H=190, pl=34, pr=16, pt=26, pb=22;
+  if (!data.length){ svg.innerHTML=''; return; }
+  const maxS=data[data.length-1].s||1, maxW=Math.max(10,...data.map(d=>Math.max(d.wpm,d.raw)))*1.1;
+  const X=s=>pl+(s/maxS)*(W-pl-pr), Y=v=>pt+(1-v/maxW)*(H-pt-pb);
+  const step=maxW>600?200:maxW>300?100:maxW>150?50:maxW>60?20:10;
+  let g='';
+  for (let v=0;v<=maxW;v+=step) g+=`<line x1="${pl}" x2="${W-pr}" y1="${Y(v)}" y2="${Y(v)}" stroke="#2a2e37"/><text x="${pl-8}" y="${Y(v)+4}" text-anchor="end" fill="#5d6472" font-size="10">${v}</text>`;
+  const seen=new Set();
+  data.forEach((d,i)=>{ const r=Math.round(d.s); if(seen.has(r)||(data.length>12&&i%Math.ceil(data.length/10))) return; seen.add(r); g+=`<text x="${X(d.s)}" y="${H-4}" text-anchor="middle" fill="#5d6472" font-size="10">${r}</text>`; });
+  const path=k=>data.map((d,i)=>`${i?'L':'M'}${X(d.s).toFixed(1)},${Y(d[k]).toFixed(1)}`).join('');
+  const area=path('wpm')+`L${X(data[data.length-1].s)},${Y(0)}L${X(data[0].s)},${Y(0)}Z`;
+  let errs=''; data.forEach(d=>{ if(d.err) errs+=`<circle cx="${X(d.s)}" cy="${pt-12}" r="${2.5+Math.min(3,d.err)}" fill="#ef5f5f" opacity=".85"/>`; });
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  svg.innerHTML=`<defs><linearGradient id="ga" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f2b84b" stop-opacity=".22"/><stop offset="1" stop-color="#f2b84b" stop-opacity="0"/></linearGradient></defs>${g}
+    <path d="${area}" fill="url(#ga)"/><path d="${path('raw')}" fill="none" stroke="#5d6472" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <path d="${path('wpm')}" fill="none" stroke="#f2b84b" stroke-width="2.5" stroke-linejoin="round"/>${errs}
+    <line id="hov" x1="0" x2="0" y1="${pt}" y2="${H-pb}" stroke="#d7dae0" stroke-opacity=".25" style="display:none"/>
+    <rect x="${pl}" y="0" width="${W-pl-pr}" height="${H}" fill="transparent" id="hit"/>`;
+  const tip=$('tip'), hov=svg.querySelector('#hov'), hit=svg.querySelector('#hit');
+  hit.onmousemove=e=>{
+    const r=svg.getBoundingClientRect(), sx=(e.clientX-r.left)*(W/r.width);
+    let b=data[0]; data.forEach(d=>{ if(Math.abs(X(d.s)-sx)<Math.abs(X(b.s)-sx)) b=d; });
+    hov.style.display=''; hov.setAttribute('x1',X(b.s)); hov.setAttribute('x2',X(b.s));
+    tip.style.display='block';
+    tip.innerHTML=`${Math.round(b.s)} с<br><span style="color:#f2b84b">wpm ${Math.round(b.wpm)}</span> · raw ${Math.round(b.raw)}${b.err?`<br><span style="color:#ef5f5f">помилок: ${b.err}</span>`:''}`;
+    tip.style.left=Math.min((X(b.s)/W)*r.width+24, r.width-130)+'px'; tip.style.top='44px';
+  };
+  hit.onmouseleave=()=>{ tip.style.display='none'; hov.style.display='none'; };
+}
+function drawHistory(){
+  const h=store.get('history',[]), best=store.get('best',{}), el=$('history');
+  if (!h.length){ el.innerHTML='<h3>Історія</h3><div style="color:var(--dim);font-size:13px">Поки порожньо.</div>'; return; }
+  const top=Math.max(0,...Object.values(best));
+  el.innerHTML=`<h3>Історія <span>найкращий: ${Math.round(top)} wpm &nbsp; <button id="clr">очистити все</button></span></h3>
+  <table><tr><th>коли</th><th>wpm</th><th>raw</th><th>точність</th><th>тест</th></tr>
+  ${h.slice(0,10).map(r=>`<tr><td>${new Date(r.d).toLocaleString('uk-UA',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}</td><td style="color:var(--accent)">${r.wpm}</td><td>${r.raw}</td><td>${r.acc}%</td><td style="color:var(--dim)">${r.type}</td></tr>`).join('')}</table>`;
+  $('clr').onclick=()=>{ ['history','best',...Object.keys(LANGS).flatMap(l=>['keys-'+l,'bi-'+l])].forEach(k=>store.set(k, k==='history'?[]:{})); drawHistory(); drawHeat(); };
+}
+
+/* ---------- controls ---------- */
+function renderBar(){
+  $('amounts').innerHTML=AMOUNTS[cfg.mode].map(a=>`<button data-amount="${a}" class="${a===cfg.amount?'on':''}">${(AMOUNT_LABEL[cfg.mode]||{})[a]||a}</button>`).join('');
+  document.querySelectorAll('[data-opt=punct],[data-opt=nums]').forEach(b=>b.style.display = ['quote','lesson','custom'].includes(cfg.mode)?'none':'');
+  document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===cfg.mode));
+  if (cfg.mode==='custom') $('amounts').innerHTML = `<button id="editText">✎ змінити текст</button>`;
+  $('amounts').previousElementSibling.style.display = (AMOUNTS[cfg.mode].length || cfg.mode==='custom') ? '' : 'none';
+  $('langSel').innerHTML = Object.entries(LANGS).map(([k,v])=>`<option value="${k}" ${k===cfg.lang?'selected':''}>${v.name}</option>`).join('');
+  $('kbName').textContent = LANGS[cfg.lang].kb;
+  document.querySelectorAll('[data-opt]').forEach(b=>b.classList.toggle('on',!!cfg[b.dataset.opt]));
+  $('focusChip').classList.toggle('show', cfg.focus.length>0 && ['time','words'].includes(cfg.mode));
+  $('focusTxt').textContent = 'фокус: '+cfg.focus.join(' ');
+  store.set('cfg',cfg);
+}
+$('bar').addEventListener('click', e=>{
+  const b=e.target.closest('button'); if(!b || b.id==='focusOff') return;
+  if (b.id==='editText'){ b.blur(); customEditing = true; reset(); return; }
+  if (b.dataset.mode){ cfg.mode=b.dataset.mode; cfg.amount={time:30,words:25,quote:3,lesson:0,custom:0}[cfg.mode]; customEditing=false; if (cfg.mode==='lesson') lessonIdx=null; }
+  if (b.dataset.amount) cfg.amount=+b.dataset.amount;
+  if (b.dataset.opt) cfg[b.dataset.opt]=!cfg[b.dataset.opt];
+  b.blur(); renderBar(); reset();
+});
+$('again').onclick=()=>reset();
+$('langSel').addEventListener('change', e=>{ cfg.lang=e.target.value; cfg.focus=[]; lessonIdx=null; e.target.blur(); renderBar(); reset(); });
+
+function focusBox(){ try{ hidden.focus({preventScroll:true}); }catch(e){} box.classList.remove('blurred'); }
+box.addEventListener('mousedown', e=>{ e.preventDefault(); focusBox(); });
+hidden.addEventListener('blur', ()=>setTimeout(()=>{ if(document.activeElement!==hidden && !S.done && $('stage').style.display!=='none') box.classList.add('blurred'); },50));
+
+document.addEventListener('keydown', e=>{
+  if (e.target && ['SELECT','TEXTAREA'].includes(e.target.tagName)) return;
+  if (progOpen){ if (e.key==='Escape'){ e.preventDefault(); closeProgress(); } return; }
+  const lessonList = cfg.mode==='lesson' && lessonIdx==null;
+  if (lessonList){
+    if (e.key==='Enter'){ const L=lessons(), P=progress(); let i=L.findIndex((_,j)=>!(P[j]>0)); if(i<0) i=0; e.preventDefault(); startLesson(i); }
+    return;
+  }
+  if (e.key==='Escape' && zen){ e.preventDefault(); setZen(false); return; }
+  if (e.key==='Tab'){ e.preventDefault(); reset(); return; }
+  if (e.key==='Escape'){ e.preventDefault(); if (cfg.mode==='lesson') backToLessons(); else if (cfg.mode==='custom'){ customEditing=true; reset(); } else reset(); return; }
+  if (S.done){ if (e.key==='Enter'){ e.preventDefault(); reset(); } return; }
+  const altGr = (e.getModifierState && e.getModifierState('AltGraph')) || (e.ctrlKey && e.altKey);
+  if (document.activeElement!==hidden){ if (e.key.length===1 && (altGr || (!e.ctrlKey && !e.metaKey))) focusBox(); else return; }
+  if (e.key==='Backspace'){ e.preventDefault(); onBack(e.ctrlKey||e.altKey||e.metaKey); return; }
+  if ((e.ctrlKey||e.metaKey) && !(altGr && e.key.length===1)) return;  // Option/AltGr дають літери з діакритикою
+  if (e.key.length===1){ e.preventDefault(); onChar(e.key); }
+});
+hidden.addEventListener('input', ()=>{ const v=hidden.value; hidden.value=''; for (const ch of v) onChar(ch); });
+
+let rz; window.addEventListener('resize', ()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if (progOpen) return renderProgress(); if(!S.done) placeCaret(); else if (S.samples.length) drawChart(S.samples); },120); });
+
+initLessons(); initCustom(); renderBar(); reset();
+initJ13();
+function initJ13(){
+  const logo = document.querySelector('.j13');
+  if (!logo || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const R = (a,b) => a + Math.random()*(b-a);
+  // крапка над j — «імплант» час від часу збоїть
+  const implant = () => { const n = 2 + Math.floor(Math.random()*4); let i = 0;
+    (function step(){ logo.classList.toggle('glitch');
+      if (++i < n*2) setTimeout(step, 40 + Math.random()*90);
+      else { logo.classList.remove('glitch'); setTimeout(implant, 1200 + Math.random()*4200); } })(); };
+  setTimeout(implant, 1500);
+  // кіберпанк-глюк: жовта/синя копія зі зсувом + «роз'їзд» смужок
+  const yel = logo.querySelector('.wm-ghost-y'), cy = logo.querySelector('.wm-ghost-c'), sl = logo.querySelector('.wm-slice'), wm = logo.querySelector('.wordmark');
+  const band = () => { const t = R(0,80), h = R(8,28); return `inset(${t}% 0 ${Math.max(0,100-t-h)}% 0)`; };
+  let mode = 0;
+  const frame = on => {
+    if (!on){ [yel,cy,sl].forEach(e=>{ e.style.opacity = 0; }); wm.style.transform = ''; return; }
+    const dx = R(1,3) * (Math.random()<.5?-1:1), dy = R(-1,1);
+    const show = (e, v, x) => { e.style.opacity = v?1:0; e.style.transform = `translate(${x.toFixed(1)}px, ${dy.toFixed(1)}px)`; e.style.clipPath = Math.random()<.5 ? band() : 'none'; };
+    show(yel, mode!==1, dx); show(cy, mode!==0, mode===2 ? -dx : dx);
+    sl.style.opacity = 1; sl.style.transform = `translate(${R(-3,3).toFixed(1)}px, 0)`; sl.style.clipPath = band();
+    wm.style.transform = Math.random()<.5 ? `translate(${R(-1,1).toFixed(1)}px, 0)` : '';
+  };
+  const burst = () => { mode = Math.floor(Math.random()*3); const n = 3 + Math.floor(Math.random()*5); let i = 0;
+    (function step(){ frame(i%2===0 || Math.random()<.4);
+      if (++i < n) setTimeout(step, R(35,85)); else { frame(false); setTimeout(burst, R(2200,6500)); } })(); };
+  setTimeout(burst, 2600);
+  logo.addEventListener('mouseenter', () => { mode = Math.floor(Math.random()*3); frame(true); setTimeout(()=>frame(false),90); setTimeout(()=>frame(true),140); setTimeout(()=>frame(false),220); });
+}
+document.fonts && document.fonts.ready.then(()=>{ if(!S.done) placeCaret(); });
+})();
+</script>
+</body>
+</html>
