@@ -23,13 +23,14 @@ const site_en = {
     { text: "WhatsApp bots",     project: "bots" },
     { text: "Automation",        project: "bots" },
     { text: "Booking systems",   project: "hotel" },
+    { text: "Typing trainer",    project: "klavogin" },
     { text: "Turnkey apps",      project: "app" }
   ],
 
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "social media bots built by our team" },
-    { value: 3,  suffix: "+",  label: "major projects in the portfolio" },
+    { value: 4,  suffix: "+",  label: "major projects in the portfolio" },
     { value: 24, suffix: "/7", label: "our bots work without days off" }
   ],
 
@@ -54,6 +55,32 @@ const site_en = {
           "Room availability calendar",
           "Admin and staff dashboard",
           "Room statuses: free, cleaning, occupied"
+        ],
+        gallery: []
+      }
+    },
+    {
+      slug: "klavogin",
+      title: "Klavogin",
+      year: "2026",
+      status: "live",
+      live: true,
+      description:
+        "An online typing speed trainer: touch-typing lessons, an error heatmap and 8 languages. Free, no sign-up.",
+      tech: ["JavaScript", "HTML", "CSS"],
+      image: "images/klavogin.jpg",
+      link: "klavogin/",
+      details: {
+        task: "Most typing trainers are full of ads, require an account or handle non-English layouts poorly.",
+        solution: "A lightweight trainer that opens instantly: type words, proverbs or your own text, and it shows your speed and mistakes and points out which keys to work on.",
+        result: "Runs right in the browser on any computer, nothing to install. Progress is saved on the device, so you can watch your speed grow.",
+        features: [
+          "Step-by-step touch-typing lessons",
+          "Heatmap of mistakes and slow keys",
+          "8 languages and layouts",
+          "Modes: time, words, proverbs, custom text",
+          "Progress statistics",
+          "Distraction-free mode"
         ],
         gallery: []
       }
