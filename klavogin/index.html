@@ -13,8 +13,20 @@
 /* тема ставиться ще до малювання сторінки — без спалаху */
 (function(){
   var c = {}; try { c = JSON.parse(localStorage.getItem('klavogin:cfg')) || {}; } catch(e){}
-  var tone = { dark:'dark', midnight:'dark', j13:'dark', light:'light', paper:'light' };
-  window.applyTheme = function(theme, accent, fs){
+  var tone = { dark:'dark', midnight:'dark', j13:'dark', terminal:'dark', coffee:'dark', contrast:'dark', light:'light', paper:'light', sakura:'light' };
+  var FONTS = { jetbrains:["'JetBrains Mono'", ''], plex:["'IBM Plex Mono'", 'IBM+Plex+Mono:wght@400;500'], roboto:["'Roboto Mono'", 'Roboto+Mono:wght@400;500'],
+    fira:["'Fira Code'", 'Fira+Code:wght@400;500'], source:["'Source Code Pro'", 'Source+Code+Pro:wght@400;500'], ptmono:["'PT Mono'", 'PT+Mono'], ubuntu:["'Ubuntu Mono'", 'Ubuntu+Mono:wght@400;700'] };
+  window.FONTS = FONTS;
+  window.applyFont = function(key){
+    var f = FONTS[key] || FONTS.jetbrains, r = document.documentElement;
+    if (f[1] && !document.getElementById('font-'+key)){
+      var l = document.createElement('link'); l.rel='stylesheet'; l.id='font-'+key;
+      l.href='https://fonts.googleapis.com/css2?family='+f[1]+'&display=swap'; document.head.appendChild(l);
+    }
+    r.style.setProperty('--tfont', f[0]+", 'JetBrains Mono', ui-monospace, monospace");
+  };
+  window.applyTheme = function(theme, accent, fs, font){
+    window.applyFont(font);
     var t = theme || 'dark';
     if (t === 'auto') t = (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
     var r = document.documentElement;
@@ -22,10 +34,10 @@
     r.style.setProperty('--fs', ({s:'22px', m:'27px', l:'33px'})[fs || 'm']);
     var m = document.querySelector('meta[name=theme-color]'); if (m) m.setAttribute('content', getComputedStyle(r).getPropertyValue('--bg').trim() || '#16181d');
   };
-  applyTheme(c.theme, c.accent, c.fs);
+  applyTheme(c.theme, c.accent, c.fs, c.font);
   if (window.matchMedia) matchMedia('(prefers-color-scheme: light)').addEventListener('change', function(){
     var cc = {}; try { cc = JSON.parse(localStorage.getItem('klavogin:cfg')) || {}; } catch(e){}
-    if ((cc.theme||'dark') === 'auto') applyTheme('auto', cc.accent, cc.fs);
+    if ((cc.theme||'dark') === 'auto') applyTheme('auto', cc.accent, cc.fs, cc.font);
   });
 })();
 </script>
@@ -44,6 +56,11 @@
   :root[data-theme=midnight]{--bg:#0f1626;--panel:#162036;--panel2:#1b2842;--line:#243252;--dim:#5d6d94;--text:#d6def2;--keyb:#0a1020;--err:#ff6b7a;--ok:#6fdc9b;--tip:#0a0f1c}
   /* «Ніч j13» — палітра з портфоліо */
   :root[data-theme=j13]{--bg:#131513;--panel:#1a1d1a;--panel2:#20241f;--line:#252925;--dim:#8e938a;--text:#e4e4dc;--keyb:#0c0e0c;--err:#ef6a5f;--ok:#5fb59b;--tip:#0e100e}
+  :root[data-theme=terminal]{--bg:#070b07;--panel:#0d140d;--panel2:#111b11;--line:#1a291a;--dim:#3d7347;--text:#a6f5b4;--keyb:#030503;--err:#ff5f56;--ok:#39ff88;--tip:#040704}
+  :root[data-theme=coffee]{--bg:#1c1612;--panel:#251d18;--panel2:#2d241e;--line:#3a2e26;--dim:#8a7563;--text:#eadccb;--keyb:#120e0b;--err:#e8695a;--ok:#9cc77a;--tip:#120e0b}
+  :root[data-theme=contrast]{--bg:#000000;--panel:#111111;--panel2:#1c1c1c;--line:#3a3a3a;--dim:#a0a0a0;--text:#ffffff;--keyb:#000000;--err:#ff5050;--ok:#50ff8a;--tip:#000000}
+  :root[data-theme=sakura]{--bg:#fbf1f3;--panel:#f3e2e7;--panel2:#ecd5dc;--line:#e3c6cf;--dim:#a3838d;--text:#3d2a31;--keyb:#dab7c2;--err:#d23b4f;--ok:#3b9466;--tip:#ffffff}
+  :root[data-theme=terminal] .words-box{text-shadow:0 0 6px color-mix(in srgb, var(--text) 35%, transparent)}
   :root[data-theme=light]{--bg:#f4f2ed;--panel:#e9e6df;--panel2:#e0dcd3;--line:#d7d2c7;--dim:#8c877a;--text:#2b2925;--keyb:#c8c2b5;--err:#d6453b;--ok:#2f9a52;--tip:#ffffff}
   :root[data-theme=paper]{--bg:#f0e8d6;--panel:#e6dbc4;--panel2:#ddd0b5;--line:#d2c3a6;--dim:#8a7c62;--text:#3b3226;--keyb:#c4b391;--err:#c0392b;--ok:#3c8d4a;--tip:#fbf6ec}
   :root[data-tone=dark][data-accent=amber]{--accent:#f2b84b} :root[data-tone=light][data-accent=amber]{--accent:#b97c0c}
@@ -64,7 +81,7 @@
     --err-soft:color-mix(in srgb, var(--err) 24%, var(--panel));
     --err-dim:color-mix(in srgb, var(--err) 60%, var(--bg));
     --shade:color-mix(in srgb, var(--bg) 40%, transparent);
-    --fs:27px;
+    --fs:27px; --tfont:var(--mono);
   }
   html,body{transition:background-color .25s,color .25s}
   *{box-sizing:border-box}
@@ -93,7 +110,7 @@
   .live.show{opacity:1}
   .live small{font-size:13px;color:var(--dim);margin-left:4px}
 
-  .words-box{position:relative;height:calc(3 * 2.2em);overflow:hidden;font-family:var(--mono);font-size:var(--fs);line-height:2.2em;cursor:text}
+  .words-box{position:relative;height:calc(3 * 2.2em);overflow:hidden;font-family:var(--tfont);font-size:var(--fs);line-height:2.2em;cursor:text}
   .words{display:flex;flex-wrap:wrap;transition:transform .12s ease-out;user-select:none}
   .word{position:relative;margin-right:.6em;color:var(--dim);white-space:nowrap}
   .word.bad{text-decoration:underline;text-decoration-color:var(--err);text-underline-offset:8px;text-decoration-thickness:2px}
@@ -350,7 +367,7 @@
   .sgroup{background:var(--panel);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:14px}
   .sgroup h3{margin:0;font-size:15px}
   .sgroup h3 small{color:var(--dim);font-weight:400;font-size:12.5px;margin-left:8px}
-  .themes{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  .themes{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
   .tile{background:none;border:2px solid var(--line);border-radius:12px;padding:0;cursor:pointer;overflow:hidden;color:var(--text);font:500 12.5px var(--mono);text-align:left}
   .tile.on{border-color:var(--accent)}
   .tile .pv{height:74px;padding:10px;display:flex;flex-direction:column;gap:6px;position:relative}
@@ -367,7 +384,7 @@
   .srow{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
   .srow .lab{font-size:14px}
   .srow .lab small{display:block;color:var(--dim);font-size:12.5px;margin-top:2px}
-  .preview{font:var(--fs) var(--mono);background:var(--bg);border-radius:10px;padding:14px 18px;position:relative;white-space:nowrap;overflow:hidden}
+  .preview{font:var(--fs) var(--tfont);background:var(--bg);border-radius:10px;padding:14px 18px;position:relative;white-space:nowrap;overflow:hidden}
   .preview .t{color:var(--text)} .preview .u{color:var(--dim)}
   .preview .pc{display:inline-block;vertical-align:middle;background:var(--accent);animation:blink 1s step-end infinite}
   .pc.line{width:2.5px;height:1.05em;border-radius:2px}
@@ -381,7 +398,58 @@
   .danger:hover{background:var(--err-soft)}
   .danger.sure{background:var(--err);color:#fff}
   .caret.cs-block{opacity:.38;border-radius:3px}
+  .caret.nosmooth{transition:none}
+  .caret.shake{animation:shake .2s}
+  @keyframes shake{0%,100%{translate:0}25%{translate:-4px}75%{translate:4px}}
+  .words-box.blind .l.no,.words-box.blind .l.extra{color:var(--text)}
+  .words-box.blind .word.bad{text-decoration:none}
+  .fonts{display:flex;gap:8px;flex-wrap:wrap}
+  .fonts button{background:var(--bg);border:1.5px solid transparent;color:var(--text);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:15px}
+  .fonts button.on{border-color:var(--accent);color:var(--accent)}
+  .range{accent-color:var(--accent);width:160px}
+  .sbtn{background:var(--bg);border:0;color:var(--text);font:500 12.5px var(--mono);padding:8px 12px;border-radius:8px;cursor:pointer}
+  .sbtn:hover{color:var(--accent)}
   @media (max-width:820px){ .themes{grid-template-columns:repeat(2,1fr)} }
+  /* ---------- запис ---------- */
+  .liverow{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .recbtn{display:flex;align-items:center;gap:8px;background:var(--panel);border:0;border-radius:999px;padding:7px 13px;font:500 12.5px var(--mono);color:var(--dim);cursor:pointer;flex:none}
+  .recbtn:hover{color:var(--text)}
+  .recbtn i{width:9px;height:9px;border-radius:50%;background:var(--dim);display:block}
+  .recbtn.armed i{background:color-mix(in srgb, var(--err) 60%, var(--panel))}
+  .recbtn.on{color:var(--err);background:var(--err-soft)}
+  .recbtn.on i{background:var(--err);animation:recp 1s ease-in-out infinite}
+  @keyframes recp{50%{opacity:.25}}
+  body.zen .recbtn{display:none}
+  .modal{position:fixed;inset:0;z-index:60;background:var(--bg);overflow:auto;display:none;padding:28px 20px 40px}
+  .modal.show{display:block}
+  .modal .in{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+  .modal .top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .modal h2{margin:0;font-size:24px;letter-spacing:-.02em}
+  .modal .meta{color:var(--dim);font:13px var(--mono)}
+  .pbox{display:flex;flex-direction:column;gap:18px;padding:22px 24px}
+  .plive{display:flex;gap:26px;font:500 24px var(--mono);color:var(--accent);align-items:baseline}
+  .plive small{font-size:12.5px;color:var(--dim);margin-left:4px}
+  .pctrl{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .pctrl .pbtn{width:42px;height:42px;border-radius:50%;border:0;background:var(--accent);color:var(--on-accent);font-size:16px;cursor:pointer;display:grid;place-items:center}
+  .pctrl .pbtn.sec{background:var(--panel2);color:var(--text);width:36px;height:36px;font-size:14px}
+  .pbarw{flex:1;min-width:160px;height:8px;border-radius:4px;background:var(--bg);cursor:pointer;position:relative}
+  .pbarw i{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:4px;width:0}
+  .pdur{font:12.5px var(--mono);color:var(--dim);min-width:84px;text-align:right}
+  .reclist{display:flex;flex-direction:column;gap:8px}
+  .recrow{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;background:var(--panel);border-radius:12px;padding:12px 14px}
+  .recrow .t{font-size:14.5px;font-weight:600}
+  .recrow .s{font:12.5px var(--mono);color:var(--dim);margin-top:3px}
+  .recrow .w{font:600 20px var(--mono);color:var(--accent);text-align:right}
+  .recrow .w small{font-size:11.5px;color:var(--dim);font-weight:400;display:block}
+  .recrow .acts{display:flex;gap:6px}
+  .recrow .acts button{background:var(--bg);border:0;color:var(--text);border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:14px}
+  .recrow .acts button:hover{color:var(--accent)}
+  .recrow .acts button.del:hover{color:var(--err)}
+  .sharebox{display:none;gap:8px;align-items:center}
+  .sharebox.show{display:flex}
+  .sharebox input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--text);font:12px var(--mono);padding:9px 10px}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);font:500 13px var(--mono);padding:10px 16px;border-radius:999px;opacity:0;transition:.25s;z-index:90;pointer-events:none}
+  .toast.show{opacity:1;transform:translateX(-50%)}
   footer{color:var(--dim);font-size:12px;text-align:center;font-family:var(--mono);margin-top:auto}
   @media (max-width:760px){
     .words-box{font-size:calc(var(--fs) * .74)}
@@ -450,7 +518,7 @@
 
   <section class="stage" id="stage">
     <div class="lhead" id="lhead"></div>
-    <div class="live" id="live"><span id="liveMain">30</span><span id="liveWpm">0<small>wpm</small></span></div>
+    <div class="liverow"><div class="live" id="live"><span id="liveMain">30</span><span id="liveWpm">0<small>wpm</small></span></div><button class="recbtn" id="recBtn" title="Запис друку"><i></i><span id="recTxt">запис</span></button></div>
     <div class="words-box" id="box">
       <div class="words" id="words"></div>
       <div class="caret blink" id="caret"></div>
@@ -503,10 +571,30 @@
       <div class="tip" id="ktip"></div>
     </div>
 
-    <div style="display:flex;gap:10px;justify-content:center"><button class="btn" id="again">↻ ще раз</button></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap" id="resActs"><button class="btn" id="again">↻ ще раз</button><button class="btn acc" id="watchRec" style="display:none">▶ переглянути запис</button></div>
     <div class="card history" id="history"></div>
   </section>
 
+  <div class="modal" id="recsM"><div class="in" id="recsIn"></div></div>
+  <div class="modal" id="playM"><div class="in">
+    <div class="top"><button class="back-home" id="pBack">← назад</button><h2>Повтор друку</h2><span class="meta" id="pMeta"></span></div>
+    <div class="card pbox">
+      <div class="plive"><span id="pTime">0:00</span><span><span id="pWpm">0</span><small>wpm</small></span><span><span id="pAcc">100</span><small>%</small></span></div>
+      <div class="words-box" id="pBox"><div class="words" id="pWords"></div><div class="caret" id="pCaret"></div></div>
+      <div class="kb" id="pKb"></div>
+      <div class="pctrl">
+        <button class="pbtn" id="pPlay" title="Пауза / грати (пробіл)">❚❚</button>
+        <button class="pbtn sec" id="pRe" title="Спочатку">↺</button>
+        <div class="pbarw" id="pBar"><i id="pFill"></i></div>
+        <span class="pdur" id="pDur"></span>
+        <div class="seg" id="pSpeed"><button data-s=".5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
+        <button class="sbtn" id="pShare">🔗 поділитися</button>
+        <button class="sbtn" id="pSave" style="display:none">💾 зберегти собі</button>
+      </div>
+      <div class="sharebox" id="shareBox"><input id="shareIn" readonly><button class="sbtn" id="shareCopy">копіювати</button></div>
+    </div>
+  </div></div>
+  <div class="toast" id="toast"></div>
   <footer><div class="made">зроблено командою <b>j13</b></div>wpm = (правильні символи ÷ 5) за хвилину · результати зберігаються лише в цьому браузері</footer>
 </div>
 
@@ -722,6 +810,7 @@ function buildKb(el){
 }
 let kbMap = {};
 function flash(ch, ok){
+  if (cfg.blind) ok = true;
   const k = kbMap[keyOf(ch)]; if (!k) return;
   k.classList.remove('hit','miss'); void k.offsetWidth;
   k.classList.add(ok?'hit':'miss');
@@ -930,6 +1019,7 @@ function renderHome(){
     <div class="hlinks">
       <button data-go="custom">✎ свій текст <span>— встав будь-який уривок</span></button>
       <button data-go="prog">📈 прогрес</button>
+      <button data-go="recs">🎬 записи</button>
       <button data-go="settings">⚙ налаштування <span>— тема й кольори</span></button>
     </div>`;
 }
@@ -942,15 +1032,19 @@ const THEME_LIST = [
   ['j13','Ніч j13','портфоліо'],
   ['light','Світла','день'],
   ['paper','Папір','тепла'],
+  ['sakura','Сакура','рожева'],
+  ['terminal','Термінал','ретро CRT'],
+  ['coffee','Кава','тепла темна'],
+  ['contrast','Контраст','максимальна'],
 ];
-const THEME_PV = { dark:['#16181d','#1e2128','#5d6472','#d7dae0'], midnight:['#0f1626','#162036','#5d6d94','#d6def2'], j13:['#131513','#1a1d1a','#8e938a','#e4e4dc'], light:['#f4f2ed','#e9e6df','#8c877a','#2b2925'], paper:['#f0e8d6','#e6dbc4','#8a7c62','#3b3226'] };
+const THEME_PV = { dark:['#16181d','#1e2128','#5d6472','#d7dae0'], midnight:['#0f1626','#162036','#5d6d94','#d6def2'], j13:['#131513','#1a1d1a','#8e938a','#e4e4dc'], light:['#f4f2ed','#e9e6df','#8c877a','#2b2925'], paper:['#f0e8d6','#e6dbc4','#8a7c62','#3b3226'], sakura:['#fbf1f3','#f3e2e7','#a3838d','#3d2a31'], terminal:['#070b07','#0d140d','#3d7347','#a6f5b4'], coffee:['#1c1612','#251d18','#8a7563','#eadccb'], contrast:['#000000','#1c1c1c','#a0a0a0','#ffffff'] };
 const ACCENT_LIST = [['amber','бурштин','#f2b84b'],['mint',"м'ята",'#5fd3a6'],['sky','небо','#62b6f5'],['violet','фіалка','#a98bf5'],['rose','троянда','#f27a9b'],['lime','салатовий','#b5d65a'],['emerald','смарагд','#5fb59b'],['coral','корал','#ff8a5c'],['mono','моно','#9aa0aa']];
 function openSettings(){ setOpen = true; clearInterval(S && S.timer); if (zen) setZen(false);
   ['home','lessons','custom','prog'].forEach(id=>$(id).classList.remove('show')); progOpen=false;
   $('stage').style.display='none'; $('results').classList.remove('show'); $('bar').style.display='none';
   $('settings').classList.add('show'); renderSettings(); hidden.blur(); }
 function closeSettings(){ setOpen = false; $('settings').classList.remove('show'); reset(); }
-function saveTheme(){ store.set('cfg', cfg); window.applyTheme(cfg.theme, cfg.accent, cfg.fs); renderSettings(); }
+function saveTheme(){ store.set('cfg', cfg); window.applyTheme(cfg.theme, cfg.accent, cfg.fs, cfg.font); renderSettings(); }
 function renderSettings(){
   const th = cfg.theme || 'dark', ac = cfg.accent || 'amber', fs = cfg.fs || 'm', cs = cfg.caret || 'line';
   const tiles = THEME_LIST.map(([k,n,sub])=>{
@@ -970,6 +1064,22 @@ function renderSettings(){
       <div class="preview"><span class="t">швидка руда </span><span class="pc ${cs}"></span><span class="u">лисиця стрибає</span></div>
       <div class="srow"><span class="lab">Розмір тексту</span>${seg('fs', fs, [['s','малий'],['m','середній'],['l','великий']])}</div>
       <div class="srow"><span class="lab">Курсор</span>${seg('caret', cs, [['line','│ лінія'],['block','▮ блок'],['under','▁ риска']])}</div>
+      <div class="srow"><span class="lab">Плавний курсор<small>ковзає між літерами, а не стрибає</small></span>${tog('smooth', cfg.smooth!==false)}</div>
+      <div class="srow" style="align-items:flex-start"><span class="lab">Шрифт тексту<small>усі з кирилицею</small></span>
+        <div class="fonts">${Object.entries({jetbrains:'JetBrains Mono',plex:'IBM Plex Mono',roboto:'Roboto Mono',fira:'Fira Code',source:'Source Code Pro',ptmono:'PT Mono',ubuntu:'Ubuntu Mono'}).map(([k,n])=>`<button data-font="${k}" class="${(cfg.font||'jetbrains')===k?'on':''}" style="font-family:${window.FONTS[k][0]}, monospace">${n}</button>`).join('')}</div></div>
+    </div>
+    <div class="sgroup"><h3>Звук<small>синтезується в браузері</small></h3>
+      <div class="srow"><span class="lab">Звук клавіш</span>${seg('sound', cfg.sound||'off', SOUNDS)}</div>
+      <div class="srow"><span class="lab">Гучність</span><span style="display:flex;gap:10px;align-items:center"><input type="range" class="range" id="vol" min="0" max="1" step="0.05" value="${cfg.vol ?? .6}"><button class="sbtn" id="sndTest">▶ спробувати</button></span></div>
+      <div class="srow"><span class="lab">Звук помилки<small>низький «бз» на неправильну клавішу</small></span>${tog('errSound', !!cfg.errSound)}</div>
+    </div>
+    <div class="sgroup"><h3>Складність</h3>
+      <div class="srow"><span class="lab">Зупинка на помилці<small>не пускає далі, доки не натиснеш правильно</small></span>${seg('stopErr', cfg.stopErr||'off', [['off','вимкнено'],['letter','на літері'],['word','на слові']])}</div>
+      <div class="srow"><span class="lab">Сліпий режим<small>помилки не підсвічуються під час друку — лише в результатах</small></span>${tog('blind', !!cfg.blind)}</div>
+    </div>
+    <div class="sgroup"><h3>Запис</h3>
+      <div class="srow"><span class="lab">Автозапис<small>кожен тест записується з першої клавіші й зупиняється в кінці</small></span>${tog('autoRec', cfg.autoRec!==false)}</div>
+      <div class="srow"><span class="lab">Мої записи<small>переглянути, поділитися посиланням, видалити</small></span><button class="sbtn" id="openRecs">🎬 відкрити</button></div>
     </div>
     <div class="sgroup"><h3>Інтерфейс</h3>
       <div class="srow"><span class="lab">Клавіатура під текстом<small>підсвічує наступну клавішу й помилки</small></span>${tog('kb', cfg.kb!==false)}</div>
@@ -981,10 +1091,15 @@ function renderSettings(){
     </div>`;
   const S_ = $('settings');
   $('sBack').onclick = closeSettings;
-  S_.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ cfg.theme=b.dataset.theme; if (cfg.theme==='j13') cfg.accent='lime'; saveTheme(); });
+  S_.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ cfg.theme=b.dataset.theme; const AUTO_ACC = {j13:'lime', terminal:'mint', sakura:'rose', coffee:'amber'}; if (AUTO_ACC[cfg.theme]) cfg.accent = AUTO_ACC[cfg.theme]; saveTheme(); });
   S_.querySelectorAll('[data-accent]').forEach(b=>b.onclick=()=>{ cfg.accent=b.dataset.accent; saveTheme(); });
   S_.querySelectorAll('[data-set]').forEach(g=>g.onclick=e=>{ const b=e.target.closest('button'); if(!b) return; cfg[g.dataset.set]=b.dataset.v; saveTheme(); });
-  S_.querySelectorAll('[data-tog]').forEach(b=>b.onclick=()=>{ const k=b.dataset.tog; cfg[k] = !(cfg[k]!==false); store.set('cfg',cfg); renderSettings(); renderBar(); });
+  S_.querySelectorAll('[data-font]').forEach(b=>b.onclick=()=>{ cfg.font=b.dataset.font; saveTheme(); });
+  $('vol').oninput = e => { cfg.vol = +e.target.value; store.set('cfg', cfg); };
+  $('vol').onchange = () => playKey('key');
+  $('sndTest').onclick = () => { const seq=['key','key','key','space','key','key','err']; seq.forEach((k,i)=>setTimeout(()=>playKey(k), i*110)); };
+  $('openRecs').onclick = openRecs;
+  S_.querySelectorAll('[data-tog]').forEach(b=>b.onclick=()=>{ const k=b.dataset.tog, DEF_ON=['kb','liveStats','boot','smooth','autoRec']; const cur = DEF_ON.includes(k) ? cfg[k]!==false : !!cfg[k]; cfg[k] = !cur; store.set('cfg',cfg); renderSettings(); renderBar(); });
   const w = $('wipe');
   w.onclick = () => {
     if (!w.classList.contains('sure')){ w.classList.add('sure'); w.textContent='точно? натисни ще раз'; setTimeout(()=>{ if(w.isConnected){ w.classList.remove('sure'); w.textContent='скинути'; } }, 3500); return; }
@@ -998,11 +1113,272 @@ function initNav(){
     const g = b.dataset.go;
     if (g==='prog') return openProgress();
     if (g==='settings') return openSettings();
+    if (g==='recs') return openRecs();
     choose(g);
   });
   $('logoHome').onclick = goHome;
   $('setBtn').onmousedown = e => e.preventDefault();
   $('setBtn').onclick = () => setOpen ? closeSettings() : openSettings();
+}
+
+/* ---------- звук (синтезується, без файлів) ---------- */
+let actx = null;
+function audio(){
+  if (!actx){ try { actx = new (window.AudioContext||window.webkitAudioContext)(); } catch(e){ return null; } }
+  if (actx.state === 'suspended') actx.resume();
+  return actx;
+}
+function noise(ctx){
+  if (!noise.b){ const b = ctx.createBuffer(1, ctx.sampleRate*.25, ctx.sampleRate), d = b.getChannelData(0);
+    for (let i=0;i<d.length;i++) d[i] = Math.random()*2-1; noise.b = b; }
+  return noise.b;
+}
+function burst(ctx, {filter='bandpass', f=3000, q=1, dur=.02, gain=.3}){
+  const src = ctx.createBufferSource(); src.buffer = noise(ctx);
+  const fl = ctx.createBiquadFilter(); fl.type = filter; fl.frequency.value = f; fl.Q.value = q;
+  const g = ctx.createGain(), t = ctx.currentTime;
+  g.gain.setValueAtTime(gain, t); g.gain.exponentialRampToValueAtTime(0.0008, t+dur);
+  src.connect(fl).connect(g).connect(ctx.destination); src.start(t, Math.random()*.1); src.stop(t+dur+.02);
+}
+function tone(ctx, {freq=440, to=null, wave='sine', dur=.05, gain=.2, attack=.002}){
+  const o = ctx.createOscillator(), g = ctx.createGain(), t = ctx.currentTime;
+  o.type = wave; o.frequency.setValueAtTime(freq, t); if (to) o.frequency.exponentialRampToValueAtTime(to, t+dur);
+  g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(gain, t+attack); g.gain.exponentialRampToValueAtTime(0.0008, t+dur);
+  o.connect(g).connect(ctx.destination); o.start(t); o.stop(t+dur+.02);
+}
+const SOUNDS = [['off','вимкнено'],['click','клік'],['mech','механіка'],['typewriter','машинка'],['soft',"м'який"],['bubble','бульбашки']];
+function playKey(kind){            // kind: key | space | back | err
+  const s = cfg.sound || 'off', v = cfg.vol ?? .6;
+  if (kind==='err' && cfg.errSound){ const c = audio(); if (c) tone(c, {freq:170, wave:'square', dur:.09, gain:.07*v}); }
+  if (s==='off') return;
+  const c = audio(); if (!c) return;
+  const r = .94 + Math.random()*.12, sp = kind==='space';
+  if (s==='click') burst(c, {f:(sp?2200:3800)*r, q:.9, dur:sp?.03:.018, gain:.55*v});
+  if (s==='mech'){ burst(c, {f:2600*r, q:.7, dur:.012, gain:.35*v}); tone(c, {freq:(sp?105:150)*r, dur:sp?.08:.05, gain:.3*v}); }
+  if (s==='typewriter'){ if (sp) burst(c, {filter:'lowpass', f:700, dur:.07, gain:.6*v}); else { burst(c, {filter:'highpass', f:1900*r, dur:.03, gain:.6*v}); tone(c, {freq:950*r, wave:'square', dur:.01, gain:.05*v}); } }
+  if (s==='soft') tone(c, {freq:(sp?560:820)*r, dur:.05, gain:.14*v, attack:.004});
+  if (s==='bubble') tone(c, {freq:(sp?300:420)*r, to:(sp?700:980)*r, dur:.06, gain:.16*v, attack:.004});
+  if (kind==='back') {}
+}
+function shakeCaret(){ caret.classList.remove('shake'); void caret.offsetWidth; caret.classList.add('shake'); setTimeout(()=>caret.classList.remove('shake'), 220); }
+
+/* ---------- запис друку ---------- */
+let REC = null, lastRec = null;
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast.h); toast.h=setTimeout(()=>t.classList.remove('show'), 2200); }
+function recStart(){
+  if (!S || S.done || $('stage').style.display==='none') return;
+  REC = { t0:null, init:{cur:S.cur, typed:S.typed.slice()}, ev:[], maxCur:S.cur, manual:false };
+  renderRecBtn();
+}
+function recEvent(e){
+  if (!REC) return;
+  const now = performance.now();
+  if (REC.t0==null) REC.t0 = now;
+  REC.ev.push([Math.round(now - REC.t0), e]);
+  REC.maxCur = Math.max(REC.maxCur, S.cur + 1);
+}
+function recStop(stats){
+  if (!REC) return null;
+  const R = REC; REC = null; renderRecBtn();
+  if (!R.ev.length) return null;
+  const rec = { id:Date.now(), d:Date.now(), lang:cfg.lang, label:label(),
+    words:S.words.slice(0, Math.min(S.words.length, R.maxCur + 4)), init:R.init, ev:R.ev,
+    dur:R.ev[R.ev.length-1][0], wpm:stats ? Math.round(stats.wpm) : null, acc:stats ? Math.round(stats.acc) : null };
+  if (!stats){ const st = simulate(rec, Infinity); rec.wpm = Math.round(st.wpm); rec.acc = Math.round(st.acc); }
+  const list = store.get('recs', []); list.unshift(rec); store.set('recs', list.slice(0, 20));
+  return rec;
+}
+function renderRecBtn(){
+  const b = $('recBtn'); if (!b) return;
+  const auto = cfg.autoRec !== false;
+  b.classList.toggle('on', !!REC && REC.t0!=null);
+  b.classList.toggle('armed', (!!REC && REC.t0==null) || (!REC && auto && S && !S.started && !S.done));
+  if (REC && REC.t0!=null){ const sec = Math.floor((performance.now()-REC.t0)/1000); $('recTxt').textContent = `REC ${Math.floor(sec/60)}:${pad(sec%60)}`; }
+  else if (REC) $('recTxt').textContent = 'запис з першої клавіші';
+  else $('recTxt').textContent = auto && S && !S.started && !S.done ? 'автозапис' : 'запис';
+  b.title = REC ? 'Зупинити запис' : 'Почати запис';
+}
+setInterval(()=>{ if (REC && REC.t0!=null) renderRecBtn(); }, 500);
+function initRec(){
+  const b = $('recBtn');
+  b.onmousedown = e => e.preventDefault();
+  b.onclick = () => {
+    if (REC){ const r = recStop(null); if (r){ lastRec = r; toast('запис збережено — 🎬 записи'); } else toast('запис скасовано'); }
+    else { recStart(); REC && (REC.manual = true); toast('запис почнеться з наступної клавіші'); }
+    focusBox();
+  };
+  $('watchRec').onclick = () => lastRec && openPlayer(lastRec);
+}
+
+/* ---- програвач ---- */
+let PL = null;
+function simulate(rec, T){
+  // відтворює стан до моменту T (мс) і рахує статистику
+  const st = { cur:rec.init.cur, typed:rec.init.typed.slice(), keys:0, good:0, i:0 };
+  const W = rec.words;
+  while (st.i < rec.ev.length && rec.ev[st.i][0] <= T){ applyEv(st, W, rec.ev[st.i][1]); st.i++; }
+  const t = Math.max(T===Infinity ? rec.dur : T, 500) / 60000;
+  let g = 0; for (let i=0;i<st.cur;i++) if (st.typed[i]===W[i]) g += [...W[i]].length+1;
+  if (st.typed[st.cur]===W[st.cur]) g += [...(W[st.cur]||'')].length;
+  st.wpm = g/5/t; st.acc = st.keys ? st.good/st.keys*100 : 100;
+  return st;
+}
+function applyEv(st, W, e){
+  const y = st.typed[st.cur] || '', t = W[st.cur] || '';
+  if (e===1 || e===2){
+    if (!y.length){ if (st.cur>0 && st.typed[st.cur-1]!==W[st.cur-1]){ st.typed.pop(); st.cur--; if (e===2) st.typed[st.cur]=''; } }
+    else st.typed[st.cur] = e===2 ? '' : [...y].slice(0,-1).join('');
+    return 'back';
+  }
+  if (e===' '){ st.keys++; if (y===t) st.good++; st.cur++; st.typed[st.cur]=''; return ' '; }
+  const ya=[...y], ta=[...t]; st.keys++; if (ya.length<ta.length && ta[ya.length]===e) st.good++;
+  st.typed[st.cur] = y + e; return e;
+}
+function pWordHTML(W, typed, i, cur){
+  const t=[...W[i]], y=[...(typed[i]||'')];
+  if (i > cur || (typed[i]==null)) return `<div class="word">${t.map(c=>`<span class="l">${esc(c)}</span>`).join('')}</div>`;
+  let h='';
+  for (let k=0;k<Math.max(t.length,y.length);k++){
+    if (k>=t.length){ h+=`<span class="l extra">${esc(y[k])}</span>`; continue; }
+    h+=`<span class="l ${k<y.length?(y[k]===t[k]?'ok':'no'):''}">${esc(t[k])}</span>`;
+  }
+  return `<div class="word${i<cur && typed[i]!==W[i] ? ' bad':''}">${h}</div>`;
+}
+function pRender(full){
+  const st = PL.st, W = PL.rec.words, box = $('pWords');
+  if (full || !PL.lastCur){ box.innerHTML = W.map((_,i)=>pWordHTML(W, st.typed, i, st.cur)).join(''); }
+  else { for (let i=Math.max(0, Math.min(PL.lastCur, st.cur)-1); i<=Math.max(PL.lastCur, st.cur)+1 && i<W.length; i++) box.children[i].outerHTML = pWordHTML(W, st.typed, i, st.cur); }
+  PL.lastCur = st.cur;
+  // курсор
+  const el = box.children[Math.min(st.cur, W.length-1)]; if (!el) return;
+  const L = el.children, n = st.cur>=W.length ? L.length : [...(st.typed[st.cur]||'')].length;
+  let x = n<L.length ? L[n].offsetLeft : L[L.length-1].offsetLeft + L[L.length-1].offsetWidth;
+  x += el.offsetLeft;
+  const lh = el.offsetHeight, line = Math.round(el.offsetTop/lh), shift = line>=1 ? (line-1)*lh : 0;
+  box.style.transform = `translateY(${-shift}px)`;
+  const c = $('pCaret'), ch = lh*.52;
+  c.style.height = ch+'px'; c.style.left = (x-1)+'px'; c.style.top = (el.offsetTop - shift + (lh-ch)/2 + 1)+'px';
+}
+function pStats(){
+  const st = PL.st, T = Math.max(PL.t, 500)/60000, W = PL.rec.words;
+  let g=0; for (let i=0;i<st.cur;i++) if (st.typed[i]===W[i]) g += [...W[i]].length+1;
+  const sec = Math.floor(PL.t/1000);
+  $('pTime').textContent = `${Math.floor(sec/60)}:${pad(sec%60)}`;
+  $('pWpm').textContent = PL.t>800 ? Math.round(g/5/T) : 0;
+  $('pAcc').textContent = st.keys ? Math.round(st.good/st.keys*100) : 100;
+  $('pFill').style.width = Math.min(100, PL.t/PL.rec.dur*100)+'%';
+  const fmt = ms => { const s=Math.round(ms/1000); return `${Math.floor(s/60)}:${pad(s%60)}`; };
+  $('pDur').textContent = `${fmt(PL.t)} / ${fmt(PL.rec.dur)}`;
+}
+function pSeek(T){
+  PL.t = Math.max(0, Math.min(T, PL.rec.dur));
+  PL.st = simulate(PL.rec, PL.t);
+  pRender(true); pStats();
+}
+function pLoop(now){
+  if (!PL) return;
+  if (PL.playing){
+    PL.t += (now - PL.last) * PL.speed;
+    let changed = false;
+    while (PL.st.i < PL.rec.ev.length && PL.rec.ev[PL.st.i][0] <= PL.t){
+      const e = PL.rec.ev[PL.st.i][1], before = PL.st.typed[PL.st.cur] || '', expT = PL.rec.words[PL.st.cur] || '';
+      const r = applyEv(PL.st, PL.rec.words, e); PL.st.i++; changed = true;
+      if (r!=='back'){ const ok = r===' ' ? before===expT : ([...before].length<[...expT].length && [...expT][[...before].length]===r);
+        const sv = cfg.lang; cfg.lang = PL.rec.lang || sv; const kk = keyOf(r); cfg.lang = sv;
+        const k = PL.kb[kk]; if (k){ k.classList.remove('hit','miss'); void k.offsetWidth; k.classList.add(ok?'hit':'miss'); clearTimeout(k._t); k._t=setTimeout(()=>k.classList.remove('hit','miss'), 110/PL.speed+40); }
+        if (PL.sound) playKey(ok ? (r===' '?'space':'key') : 'err'); }
+    }
+    if (changed) pRender(false);
+    if (PL.t >= PL.rec.dur){ PL.t = PL.rec.dur; PL.playing = false; $('pPlay').textContent = '▶'; }
+    pStats();
+  }
+  PL.last = now;
+  PL.raf = requestAnimationFrame(pLoop);
+}
+function openPlayer(rec, shared){
+  closePlayer(true);
+  const prevLang = cfg.lang; cfg.lang = rec.lang || cfg.lang;        // клавіатура тієї мови, якою друкували
+  PL = { rec, t:0, speed:1, playing:true, last:performance.now(), st:null, lastCur:0, kb:buildKb($('pKb')), shared, prevLang, sound:(cfg.sound||'off')!=='off' };
+  cfg.lang = prevLang;
+  $('pMeta').textContent = `${rec.label} · ${new Date(rec.d).toLocaleString('uk-UA',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})} · ${rec.wpm ?? '—'} wpm · ${rec.acc ?? '—'}%`;
+  $('pSave').style.display = shared ? '' : 'none';
+  $('shareBox').classList.remove('show');
+  $('playM').classList.add('show');
+  document.querySelectorAll('#pSpeed button').forEach(b=>b.classList.toggle('on', b.dataset.s==='1'));
+  $('pPlay').textContent = '❚❚';
+  pSeek(0);
+  PL.last = performance.now(); PL.raf = requestAnimationFrame(pLoop);
+  hidden.blur();
+}
+function closePlayer(silent){
+  if (PL){ cancelAnimationFrame(PL.raf); PL = null; }
+  $('playM').classList.remove('show');
+  if (!silent && !$('recsM').classList.contains('show') && $('stage').style.display!=='none' && !S.done) focusBox();
+}
+function togglePlay(){
+  if (!PL) return;
+  if (!PL.playing && PL.t >= PL.rec.dur) pSeek(0);
+  PL.playing = !PL.playing; PL.last = performance.now();
+  $('pPlay').textContent = PL.playing ? '❚❚' : '▶';
+}
+/* ---- поділитися: запис стискається в посилання ---- */
+const b64u = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const ub64u = str => Uint8Array.from(atob(str.replace(/-/g,'+').replace(/_/g,'/')), c=>c.charCodeAt(0));
+async function packRec(rec){
+  const json = JSON.stringify({v:1, l:rec.lang, lb:rec.label, d:rec.d, w:rec.words.join(' '), ic:rec.init.cur, it:rec.init.typed, e:rec.ev, wpm:rec.wpm, acc:rec.acc, dur:rec.dur});
+  const bytes = new TextEncoder().encode(json);
+  if (window.CompressionStream){
+    const z = await new Response(new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer();
+    return 'z' + b64u(z);
+  }
+  return 'j' + b64u(bytes);
+}
+async function unpackRec(str){
+  let bytes = ub64u(str.slice(1));
+  if (str[0]==='z') bytes = new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+  const o = JSON.parse(new TextDecoder().decode(bytes));
+  return { id:Date.now(), d:o.d, lang:o.l, label:o.lb, words:o.w.split(' '), init:{cur:o.ic, typed:o.it}, ev:o.e, wpm:o.wpm, acc:o.acc, dur:o.dur };
+}
+async function shareRec(rec){
+  let url;
+  try { url = location.href.split('#')[0] + '#r=' + await packRec(rec); } catch(e){ toast('не вдалося створити посилання'); return; }
+  $('shareIn').value = url; $('shareBox').classList.add('show');
+  try { await navigator.clipboard.writeText(url); toast('посилання скопійовано'); }
+  catch(e){ $('shareIn').select(); toast('скопіюй посилання вручну'); }
+}
+function initPlayer(){
+  $('pBack').onclick = () => closePlayer();
+  $('pPlay').onclick = togglePlay;
+  $('pRe').onclick = () => { pSeek(0); PL.playing = true; PL.last = performance.now(); $('pPlay').textContent='❚❚'; };
+  $('pBar').onclick = e => { const r = $('pBar').getBoundingClientRect(); pSeek((e.clientX - r.left)/r.width * PL.rec.dur); };
+  $('pSpeed').onclick = e => { const b = e.target.closest('button'); if (!b || !PL) return; PL.speed = +b.dataset.s; document.querySelectorAll('#pSpeed button').forEach(x=>x.classList.toggle('on', x===b)); };
+  $('pShare').onclick = () => PL && shareRec(PL.rec);
+  $('shareCopy').onclick = async () => { $('shareIn').select(); try { await navigator.clipboard.writeText($('shareIn').value); toast('скопійовано'); } catch(e){ toast('виділено — натисни Ctrl+C'); } };
+  $('pSave').onclick = () => { const list = store.get('recs', []); list.unshift({...PL.rec, id:Date.now()}); store.set('recs', list.slice(0,20)); $('pSave').style.display='none'; toast('збережено в 🎬 записи'); };
+}
+/* ---- список записів ---- */
+function openRecs(){
+  const list = store.get('recs', []);
+  const fmt = ms => { const s=Math.round(ms/1000); return `${Math.floor(s/60)}:${pad(s%60)}`; };
+  $('recsIn').innerHTML = `<div class="top"><button class="back-home" id="rBack">← назад</button><h2>🎬 Записи</h2><span class="meta">останні 20 · зберігаються в цьому браузері</span></div>
+    ${list.length ? `<div class="reclist">${list.map((r,i)=>`<div class="recrow">
+      <div><div class="t">${r.label}</div><div class="s">${new Date(r.d).toLocaleString('uk-UA',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})} · ${fmt(r.dur)} · ${r.ev.length} натискань</div></div>
+      <div class="w">${r.wpm ?? '—'}<small>wpm · ${r.acc ?? '—'}%</small></div>
+      <div class="acts"><button data-a="play" data-i="${i}" title="Переглянути">▶</button><button data-a="share" data-i="${i}" title="Поділитися">🔗</button><button class="del" data-a="del" data-i="${i}" title="Видалити">✕</button></div></div>`).join('')}</div>`
+    : `<div class="card" style="color:var(--dim);font-size:14px;line-height:1.6">Записів ще немає. ${cfg.autoRec!==false ? 'Автозапис увімкнено — просто пройди тест, і він з\'явиться тут.' : 'Натисни «⏺ запис» над текстом або увімкни автозапис у налаштуваннях.'}</div>`}`;
+  $('recsM').classList.add('show'); hidden.blur();
+  $('rBack').onclick = closeRecs;
+  $('recsIn').querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{
+    const L = store.get('recs', []), r = L[+b.dataset.i];
+    if (b.dataset.a==='play') openPlayer(r);
+    if (b.dataset.a==='share'){ openPlayer(r); PL.playing=false; $('pPlay').textContent='▶'; shareRec(r); }
+    if (b.dataset.a==='del'){ L.splice(+b.dataset.i, 1); store.set('recs', L); openRecs(); }
+  });
+}
+function closeRecs(){ $('recsM').classList.remove('show'); if ($('stage').style.display!=='none' && !S.done) focusBox(); }
+async function openSharedFromHash(){
+  const m = location.hash.match(/^#r=(.+)$/); if (!m) return;
+  try { const r = await unpackRec(m[1]); openPlayer(r, true); } catch(e){ toast('посилання на запис пошкоджене'); }
 }
 
 /* ---------- zen ---------- */
@@ -1035,6 +1411,9 @@ function choose(what){
 const blank = () => ({done:true, words:[], typed:[], samples:[], keyStats:{}, bi:{}});
 function reset(newWords=true){
   clearInterval(S && S.timer);
+  if (REC && REC.manual && S && S.started && !S.done){ const r = recStop(null); if (r){ lastRec = r; toast('запис збережено — 🎬 записи'); } }
+  REC = null;
+  $('watchRec').style.display = 'none';
   $('home').classList.remove('show'); $('settings').classList.remove('show'); setOpen = false;
   const testMode = ['time','words','quote','custom'].includes(cfg.mode);
   if (testMode){ cfg.testMode = cfg.mode; cfg.testAmount = cfg.amount; store.set('cfg', cfg); }
@@ -1095,7 +1474,8 @@ function reset(newWords=true){
     }
   } else lh.classList.remove('show');
   wordsEl.innerHTML = S.words.map(wordHTML).join('');
-  placeCaret(); markNext(); focusBox(); applyZen();
+  $('box').classList.toggle('blind', !!cfg.blind);
+  placeCaret(); markNext(); focusBox(); applyZen(); renderRecBtn();
 }
 function esc(c){ return c==='<'?'&lt;':c==='>'?'&gt;':c==='&'?'&amp;':c; }
 function wordHTML(w){ return `<div class="word">${[...w].map(c=>`<span class="l">${esc(c)}</span>`).join('')}</div>`; }
@@ -1120,7 +1500,7 @@ function placeCaret(){
   S.shift = line>=1 ? (line-1)*lh : 0;
   wordsEl.style.transform=`translateY(${-S.shift}px)`;
   const cs = cfg.caret || 'line';
-  caret.className = 'caret' + (caret.classList.contains('blink') ? ' blink' : '') + (cs==='block' ? ' cs-block' : '');
+  caret.className = 'caret' + (caret.classList.contains('blink') ? ' blink' : '') + (cs==='block' ? ' cs-block' : '') + (cfg.smooth===false ? ' nosmooth' : '');
   if (cs==='line'){
     const ch = lh*0.52;
     caret.style.width=''; caret.style.height=ch+'px'; caret.style.left=(x-1)+'px';
@@ -1133,7 +1513,7 @@ function placeCaret(){
   }
 }
 
-function start(){ S.started=true; S.t0=performance.now(); caret.classList.remove('blink'); if (cfg.liveStats!==false) live.classList.add('show'); S.timer=setInterval(tick,1000); }
+function start(){ if (cfg.autoRec!==false && !REC) recStart(); S.started=true; S.t0=performance.now(); caret.classList.remove('blink'); if (cfg.liveStats!==false) live.classList.add('show'); S.timer=setInterval(tick,1000); }
 function elapsed(){ return (performance.now()-S.t0)/1000; }
 function goodChars(includeCur){
   let g=0;
@@ -1158,7 +1538,9 @@ function onChar(ch){
   if (ch===' '){
     if (!y.length) return;
     const ok = y===t;
-    count(ok); flash(' ', ok);
+    if (!ok && cfg.stopErr==='word'){ count(false); flash(' ', false); track(' ', false, null); shakeCaret(); playKey('err'); return; }
+    recEvent(' ');
+    count(ok); flash(' ', ok); playKey(ok ? 'space' : 'err');
     if ([...y].length>=[...t].length) track(' ', ok, null); else S.lastT = performance.now();
     S.cur++; S.typed[S.cur]='';
     renderWord(S.cur-1);
@@ -1172,7 +1554,9 @@ function onChar(ch){
     if (ya.length >= ta.length+12) return;
     const exp = ya.length<ta.length ? ta[ya.length] : ' ';
     const ok = ya.length<ta.length && exp===ch;
-    count(ok); flash(ch, ok); track(exp, ok, ya.length>0 && ya.length<=ta.length ? ta[ya.length-1] : null);
+    if (!ok && cfg.stopErr==='letter'){ count(false); flash(ch, false); track(exp, false, null); shakeCaret(); playKey('err'); return; }
+    recEvent(ch);
+    count(ok); flash(ch, ok); playKey(ok ? 'key' : 'err'); track(exp, ok, ya.length>0 && ya.length<=ta.length ? ta[ya.length-1] : null);
     S.typed[S.cur]=y+ch; renderWord(S.cur);
     if (isFixed() && S.cur===S.words.length-1 && S.typed[S.cur]===t){ S.cur++; return finish(); }
   }
@@ -1183,11 +1567,12 @@ function onBack(ctrl){
   const y=S.typed[S.cur]||'';
   if (!y.length){
     if (S.cur>0 && S.typed[S.cur-1]!==S.words[S.cur-1]){
+      recEvent(ctrl ? 2 : 1); playKey('back');
       S.typed.pop(); S.cur--; if (ctrl) S.typed[S.cur]='';
       renderWord(S.cur); wordsEl.children[S.cur].classList.remove('bad');
       if (isFixed()) $('liveMain').textContent=`${S.cur}/${S.words.length}`;
     }
-  } else { S.typed[S.cur] = ctrl ? '' : [...y].slice(0,-1).join(''); renderWord(S.cur); }
+  } else { recEvent(ctrl ? 2 : 1); playKey('back'); S.typed[S.cur] = ctrl ? '' : [...y].slice(0,-1).join(''); renderWord(S.cur); }
   S.lastT = performance.now();
   placeCaret(); markNext();
 }
@@ -1235,6 +1620,7 @@ function finish(){
   heatView='test'; drawHeat();
   drawHistory();
   if (cfg.mode==='lesson') showVerdict(wpm, acc);
+  const rr = recStop({wpm, acc}); if (rr){ lastRec = rr; $('watchRec').style.display=''; }
   document.body.classList.remove('zen');
   hidden.blur();
 }
@@ -1409,6 +1795,15 @@ hidden.addEventListener('blur', ()=>setTimeout(()=>{ if(document.activeElement!=
 
 document.addEventListener('keydown', e=>{
   if (booting){ e.preventDefault(); endBoot(true); return; }
+  if ($('playM').classList.contains('show')){
+    if (e.target && e.target.tagName==='INPUT') return;
+    if (e.key==='Escape'){ e.preventDefault(); closePlayer(); }
+    else if (e.key===' '){ e.preventDefault(); togglePlay(); }
+    else if (e.key==='ArrowRight' && PL){ e.preventDefault(); pSeek(PL.t + 2000); }
+    else if (e.key==='ArrowLeft' && PL){ e.preventDefault(); pSeek(PL.t - 2000); }
+    return;
+  }
+  if ($('recsM').classList.contains('show')){ if (e.key==='Escape'){ e.preventDefault(); closeRecs(); } return; }
   if (e.target && ['SELECT','TEXTAREA'].includes(e.target.tagName)) return;
   if (progOpen){ if (e.key==='Escape'){ e.preventDefault(); closeProgress(); } return; }
   if (setOpen){ if (e.key==='Escape'){ e.preventDefault(); closeSettings(); } return; }
@@ -1439,8 +1834,10 @@ let rz; window.addEventListener('resize', ()=>{ clearTimeout(rz); rz=setTimeout(
 
 if (!['time','words','quote','custom','lesson','free'].includes(cfg.mode)) cfg.mode='time';
 initLessons(); initCustom(); initNav(); renderBar(); reset();
-window.applyTheme(cfg.theme, cfg.accent, cfg.fs);
+window.applyTheme(cfg.theme, cfg.accent, cfg.fs, cfg.font);
 initJ13();
+initRec(); initPlayer();
+if (document.fonts) document.fonts.addEventListener('loadingdone', ()=>{ if (S && !S.done && $('stage').style.display!=='none') placeCaret(); });
 
 /* ---------- заставка: клавіші самі набирають «клавогін» ---------- */
 var booting = true, bootTimers = [];
@@ -1449,13 +1846,13 @@ function endBoot(fast){
   bootTimers.forEach(clearTimeout);
   const b = $('boot');
   b.classList.add('out');
-  setTimeout(()=>{ b.classList.add('gone'); if (!S.done) { placeCaret(); focusBox(); } }, fast ? 380 : 560);
+  setTimeout(()=>{ b.classList.add('gone'); if (!S.done) { placeCaret(); focusBox(); } openSharedFromHash(); }, fast ? 380 : 560);
   if (fast) b.style.transitionDuration = '.35s';
 }
 (function boot(){
   const b = $('boot');
   const word = [...'клавогін'];
-  if (cfg.boot===false || matchMedia('(prefers-reduced-motion: reduce)').matches){ b.classList.add('gone'); booting = false; return; }
+  if (cfg.boot===false || matchMedia('(prefers-reduced-motion: reduce)').matches){ b.classList.add('gone'); booting = false; setTimeout(openSharedFromHash, 50); return; }
   // підпис j13 — копія вордмарку з шапки
   const src = document.querySelector('header .j13');
   if (src) $('bootJ13').innerHTML = src.innerHTML;
