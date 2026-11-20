@@ -333,7 +333,8 @@
   .home h1 em{font-style:normal;color:var(--accent)}
   .home .lead{margin:10px 0 0;color:var(--dim);font-size:15px;max-width:620px;line-height:1.55}
   .home .lead b{color:var(--text);font-weight:600}
-  .hcards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .hcards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .hcard h2{font-size:19px} .hcard p{font-size:13.5px}
   .hcard{position:relative;text-align:left;background:var(--panel);border:1.5px solid transparent;border-radius:16px;padding:22px 22px 18px;color:var(--text);cursor:pointer;
          display:flex;flex-direction:column;gap:12px;font-family:var(--sans);min-height:236px;transition:transform .15s,border-color .15s,background .15s}
   .hcard:hover,.hcard:focus-visible{transform:translateY(-3px);border-color:var(--accent);background:var(--panel2);outline:none}
@@ -399,6 +400,57 @@
   .danger.sure{background:var(--err);color:#fff}
   .caret.cs-block{opacity:.38;border-radius:3px}
   .caret.nosmooth{transition:none}
+  .word.nl{color:var(--dim);opacity:.55;margin-right:0}
+  .word.nl .l.ok{color:var(--dim)}
+  .brk{flex-basis:100%;height:0}
+  /* привид */
+  .gcaret{position:absolute;width:2.5px;border-radius:2px;background:var(--dim);opacity:.75;pointer-events:none;transition:left .1s linear, top .1s linear;display:none}
+  .gcaret::before{content:"👻";position:absolute;top:-19px;left:-7px;font-size:13px;opacity:.9}
+  .gdiff{font:600 13px var(--mono);padding:4px 10px;border-radius:999px;background:var(--bg)}
+  .gdiff.ahead{color:var(--ok)} .gdiff.behind{color:var(--err)}
+  /* картка і відео */
+  .cardprev{width:100%;border-radius:12px;display:block;box-shadow:0 12px 40px -18px rgba(0,0,0,.5)}
+  .macts{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .macts a.btn{text-decoration:none;display:inline-flex;align-items:center}
+  .vidbox{display:none;flex-direction:column;gap:12px;border-top:1px solid var(--line);padding-top:16px}
+  .vidbox.show{display:flex}
+  .vidbox video{width:100%;border-radius:10px;background:#000}
+  .vidbar{height:8px;border-radius:4px;background:var(--bg);overflow:hidden}
+  .vidbar i{display:block;height:100%;width:0;background:var(--err);transition:width .2s}
+  .vstat{font:13px var(--mono);color:var(--dim)}
+  /* аркада */
+  .arcade{display:none;flex-direction:column;gap:14px}
+  .arcade.show{display:flex}
+  .ahud{display:flex;align-items:center;gap:22px;flex-wrap:wrap;font:500 15px var(--mono);color:var(--dim)}
+  .ahud b{color:var(--accent);font-size:22px;font-weight:600;margin-left:6px}
+  .ahud .lives{color:var(--err);font-size:20px;letter-spacing:3px}
+  .ahud .sp{flex:1}
+  .field{position:relative;height:min(62vh,520px);background:var(--panel);border-radius:16px;overflow:hidden;
+         background-image:linear-gradient(transparent 0 calc(100% - 3px), color-mix(in srgb, var(--err) 55%, transparent) calc(100% - 3px));}
+  .field.hit{animation:fhit .35s}
+  @keyframes fhit{0%{box-shadow:inset 0 0 0 3px var(--err)}100%{box-shadow:inset 0 0 0 0 transparent}}
+  .fw{position:absolute;top:0;left:0;font:500 22px var(--tfont);color:var(--text);white-space:nowrap;padding:2px 8px;border-radius:8px;will-change:transform}
+  .fw b{color:var(--accent);font-weight:500}
+  .fw.target{background:var(--accent-soft)}
+  .fw.pop{animation:pop .28s forwards}
+  @keyframes pop{to{opacity:0;scale:1.6;filter:blur(2px)}}
+  .fw.lost{color:var(--err);animation:lost .4s forwards}
+  @keyframes lost{to{opacity:0;translate:0 20px}}
+  .abuf{display:flex;justify-content:center;align-items:center;gap:2px;height:46px;font:500 26px var(--tfont);color:var(--text)}
+  .abuf i{width:2.5px;height:28px;background:var(--accent);border-radius:2px;animation:blink 1s step-end infinite}
+  .abuf.bad{animation:shake .2s;color:var(--err)}
+  .aover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:color-mix(in srgb, var(--panel) 88%, transparent);text-align:center;padding:20px}
+  .aover h2{margin:0;font-size:30px}
+  .aover p{margin:0;color:var(--dim);font-size:14.5px;max-width:420px;line-height:1.55}
+  .aover .big{font:700 52px var(--mono);color:var(--accent)}
+  .aover .row{display:flex;gap:20px;font:13px var(--mono);color:var(--dim)} .aover .row b{color:var(--text)}
+  /* пальці */
+  .hands{display:none;flex-direction:column;gap:14px;align-items:center}
+  .hands.show{display:flex}
+  .hands svg{width:100%;max-width:760px;height:auto}
+  .hands svg text{font-family:var(--mono)}
+  .hsum{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;font:13px var(--mono);color:var(--dim)}
+  .hsum b{color:var(--text);font-weight:600}
   .caret.shake{animation:shake .2s}
   @keyframes shake{0%,100%{translate:0}25%{translate:-4px}75%{translate:4px}}
   .words-box.blind .l.no,.words-box.blind .l.extra{color:var(--text)}
@@ -494,6 +546,7 @@
       <button data-mode="words">слова</button>
       <button data-mode="quote">прислів'я</button>
       <button data-mode="custom">свій текст</button>
+      <button data-mode="code">{ } код</button>
       <span class="sep"></span>
       <span id="amounts"></span>
 
@@ -504,6 +557,11 @@
   <section class="home" id="home"></section>
   <section class="settings" id="settings"></section>
   <section class="lessons" id="lessons"></section>
+  <section class="arcade" id="arcade">
+    <div class="ahud"><button class="back-home" id="aHome">← головна</button><span>рахунок<b id="aScore">0</b></span><span>рівень<b id="aLevel">1</b></span><span>комбо<b id="aCombo">×1</b></span><span class="sp"></span><span class="lives" id="aLives">♥♥♥</span></div>
+    <div class="field" id="field"><div class="aover" id="aOver"></div></div>
+    <div class="abuf" id="aBuf"><i></i></div>
+  </section>
   <section class="prog" id="prog"></section>
   <section class="custom" id="custom">
     <div><button class="back-home" id="cHome">← головна</button></div>
@@ -521,10 +579,10 @@
     <div class="liverow"><div class="live" id="live"><span id="liveMain">30</span><span id="liveWpm">0<small>wpm</small></span></div><button class="recbtn" id="recBtn" title="Запис друку"><i></i><span id="recTxt">запис</span></button></div>
     <div class="words-box" id="box">
       <div class="words" id="words"></div>
+      <div class="gcaret" id="gcaret"></div>
       <div class="caret blink" id="caret"></div>
       <div class="blur-note">клікни або натисни будь-яку клавішу, щоб продовжити</div>
     </div>
-    <input id="hidden" autocomplete="off" autocapitalize="off" spellcheck="false">
     <div class="kb kb-live" id="kbLive"></div>
     <div class="hint">розкладка: <span id="kbName" style="color:var(--text)"></span> &nbsp;·&nbsp; <span id="hintKeys"></span></div>
   </section>
@@ -553,11 +611,13 @@
       <div class="heat-head">
         <h3 id="heatTitle">Де ти помиляєшся<small id="heatSub"></small></h3>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <div class="seg" id="viewSeg"><button data-v="kb" class="on">клавіші</button><button data-v="fingers">пальці</button></div>
           <div class="seg" id="metricSeg"><button data-m="err" class="on">помилки</button><button data-m="slow">повільні</button></div>
           <div class="seg" id="heatSeg"><button data-h="test" class="on">цей тест</button><button data-h="all">за весь час</button></div>
         </div>
       </div>
       <div class="kb heat" id="kbHeat"></div>
+      <div class="hands" id="hands"></div>
       <div class="weak">
         <div style="display:flex;flex-direction:column;gap:10px">
           <div class="list" id="weakList"></div>
@@ -571,7 +631,7 @@
       <div class="tip" id="ktip"></div>
     </div>
 
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap" id="resActs"><button class="btn" id="again">↻ ще раз</button><button class="btn acc" id="watchRec" style="display:none">▶ переглянути запис</button></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap" id="resActs"><button class="btn" id="again">↻ ще раз</button><button class="btn acc" id="watchRec" style="display:none">▶ переглянути запис</button><button class="btn" id="raceRec" style="display:none">🏁 перегнати себе</button><button class="btn" id="cardBtn">🖼 картка результату</button></div>
     <div class="card history" id="history"></div>
   </section>
 
@@ -588,13 +648,27 @@
         <div class="pbarw" id="pBar"><i id="pFill"></i></div>
         <span class="pdur" id="pDur"></span>
         <div class="seg" id="pSpeed"><button data-s=".5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
+        <button class="sbtn" id="pRace">🏁 гонка</button>
+        <button class="sbtn" id="pVideo">🎬 відео</button>
         <button class="sbtn" id="pShare">🔗 поділитися</button>
         <button class="sbtn" id="pSave" style="display:none">💾 зберегти собі</button>
+      </div>
+      <div class="vidbox" id="vidBox">
+        <div class="vstat" id="vStat"></div>
+        <div class="vidbar"><i id="vBar"></i></div>
+        <video id="vPrev" controls playsinline style="display:none"></video>
+        <div class="macts"><a class="btn acc" id="vDl" style="display:none">⬇ завантажити відео</a><button class="btn" id="vCancel">скасувати</button></div>
       </div>
       <div class="sharebox" id="shareBox"><input id="shareIn" readonly><button class="sbtn" id="shareCopy">копіювати</button></div>
     </div>
   </div></div>
+  <div class="modal" id="cardM"><div class="in">
+    <div class="top"><button class="back-home" id="cBack">← назад</button><h2>Картка результату</h2><span class="meta">1200×630 — якраз для Telegram, Instagram чи X</span></div>
+    <img class="cardprev" id="cardImg" alt="Картка результату">
+    <div class="macts"><a class="btn acc" id="cardDl">⬇ завантажити PNG</a><button class="btn" id="cardCopy">📋 копіювати картинку</button></div>
+  </div></div>
   <div class="toast" id="toast"></div>
+  <input id="hidden" autocomplete="off" autocapitalize="off" spellcheck="false">
   <footer><div class="made">зроблено командою <b>j13</b></div>wpm = (правильні символи ÷ 5) за хвилину · результати зберігаються лише в цьому браузері</footer>
 </div>
 
@@ -612,8 +686,8 @@ const WORDS = {
 };
 const PUNCT = [',', '.', '!', '?', ':', ';'];
 const AMOUNTS = { time:[15,30,60,120], words:[10,25,50,100], quote:[1,3,6] };
-AMOUNTS.lesson = []; AMOUNTS.custom = []; AMOUNTS.free = [];
-const AMOUNT_LABEL = { quote:{1:'коротко',3:'середньо',6:'довго'} };
+AMOUNTS.lesson = []; AMOUNTS.custom = []; AMOUNTS.free = []; AMOUNTS.code = ['js','py']; AMOUNTS.ghost = [];
+const AMOUNT_LABEL = { quote:{1:'коротко',3:'середньо',6:'довго'}, code:{js:'JavaScript', py:'Python'} };
 const PROVERBS = {
   uk: `Без труда нема плода.|Вік живи - вік учись.|Діла говорять голосніше за слова.|Добре ім'я - найкраще багатство.|Друзі пізнаються в біді.|Як дбаєш, так і маєш.|Що посієш, те й пожнеш.|Хто рано встає, тому Бог дає.|Тихіше їдеш - далі будеш.|Слово не горобець: вилетить - не впіймаєш.|Не все те золото, що блищить.|Яблуко від яблуні недалеко падає.|Краще синиця в жмені, ніж журавель у небі.|Не кажи "гоп", поки не перескочиш.|Терпи, козаче, отаманом будеш.|Вовків боятися - в ліс не ходити.|Сім раз відміряй, а раз відріж.|Під лежачий камінь вода не тече.|Апетит приходить під час їди.|Ранок вечора мудріший.|Згода будує, а незгода руйнує.|Хто питає, той не блукає.|Не святі горшки ліплять.|Шила в мішку не сховаєш.|Без вогню диму не буває.|Кінь на чотирьох ногах, та й то спотикається.|Хліб - усьому голова.|Говори мало, слухай багато, а думай ще більше.|Вчення - світ, а невчення - тьма.|Праця чоловіка годує, а лінь марнує.|Поспішиш - людей насмішиш.|Хто шукає, той знаходить.|Риба шукає, де глибше, а людина - де краще.|Не той друг, хто медом маже, а той, хто правду каже.|Одна бджола меду не наносить.|Гарна пташка своїм пір'ям, а людина - своїм знанням.|Не одежа красить людину, а добрі діла.|Де хотіння, там і вміння.|Чим далі в ліс, тим більше дров.|Ласкаве слово краще за м'який пиріг.`.split('|'),
   en: `Actions speak louder than words.|The early bird catches the worm.|Practice makes perfect.|Better late than never.|A journey of a thousand miles begins with a single step.|Don't count your chickens before they hatch.|When in Rome, do as the Romans do.|The pen is mightier than the sword.|Where there's a will, there's a way.|Rome wasn't built in a day.|Slow and steady wins the race.|Knowledge is power.|Every cloud has a silver lining.|Two heads are better than one.|Look before you leap.|Honesty is the best policy.|All that glitters is not gold.|A picture is worth a thousand words.|Don't judge a book by its cover.|Fortune favors the bold.|Haste makes waste.|Many hands make light work.|No pain, no gain.|The best things in life are free.|Time flies when you're having fun.|You can't have your cake and eat it too.|Curiosity killed the cat.|Birds of a feather flock together.|An apple a day keeps the doctor away.|Still waters run deep.|Necessity is the mother of invention.|Absence makes the heart grow fonder.|Beggars can't be choosers.|Easy come, easy go.|If it ain't broke, don't fix it.|Laughter is the best medicine.|Old habits die hard.|Out of sight, out of mind.|The squeaky wheel gets the grease.|You reap what you sow.`.split('|'),
@@ -624,6 +698,22 @@ const PROVERBS = {
   pt: "Devagar se vai ao longe.|Quem espera sempre alcança.|Água mole em pedra dura, tanto bate até que fura.|Mais vale um pássaro na mão do que dois voando.|Quem não arrisca não petisca.|A pressa é inimiga da perfeição.|Deus ajuda quem cedo madruga.|Nem tudo que reluz é ouro.|Em boca fechada não entra mosca.|Quem procura acha.|De grão em grão, a galinha enche o papo.|A prática leva à perfeição.|Antes tarde do que nunca.|Cada macaco no seu galho.|Onde há fumaça, há fogo.|Olho por olho, dente por dente.".split('|'),
   it: "Chi va piano va sano e va lontano.|Meglio tardi che mai.|Chi dorme non piglia pesci.|L'abito non fa il monaco.|Non tutto il male vien per nuocere.|Chi cerca trova.|Tra il dire e il fare c'è di mezzo il mare.|Il tempo è denaro.|Chi trova un amico trova un tesoro.|Volere è potere.|Roma non fu fatta in un giorno.|Meglio un uovo oggi che una gallina domani.|Chi ben comincia è a metà dell'opera.|Can che abbaia non morde.|L'appetito vien mangiando.|Non è tutto oro quel che luccica.".split('|')
 };
+const CODE = { js:["function greet(name) {\n  const hour = new Date().getHours();\n  const part = hour < 12 ? \"morning\" : \"evening\";\n  return `Good ${part}, ${name}!`;\n}", "const scores = [72, 88, 95, 61];\nconst best = Math.max(...scores);\nconst avg = scores.reduce((a, b) => a + b, 0) / scores.length;\nconsole.log(best, avg.toFixed(1));", "async function loadUser(id) {\n  const res = await fetch(`/api/users/${id}`);\n  if (!res.ok) throw new Error(\"not found\");\n  return res.json();\n}", "button.addEventListener(\"click\", (event) => {\n  event.preventDefault();\n  counter += 1;\n  label.textContent = `Clicks: ${counter}`;\n});", "const words = text.split(\" \");\nconst long = words.filter((w) => w.length > 6);\nconst map = new Map(long.map((w) => [w, w.length]));", "class Timer {\n  constructor(limit) {\n    this.limit = limit;\n    this.left = limit;\n  }\n  tick() {\n    this.left = Math.max(0, this.left - 1);\n    return this.left === 0;\n  }\n}", "for (let i = 1; i <= 15; i++) {\n  if (i % 15 === 0) console.log(\"FizzBuzz\");\n  else if (i % 3 === 0) console.log(\"Fizz\");\n  else if (i % 5 === 0) console.log(\"Buzz\");\n  else console.log(i);\n}", "const debounce = (fn, ms) => {\n  let id;\n  return (...args) => {\n    clearTimeout(id);\n    id = setTimeout(() => fn(...args), ms);\n  };\n};", "const user = { name: \"Olena\", age: 24, city: \"Lviv\" };\nconst { name, ...rest } = user;\nconst keys = Object.keys(rest).join(\", \");", "try {\n  const data = JSON.parse(raw);\n  render(data.items ?? []);\n} catch (err) {\n  showError(err.message);\n}"], py:["def greet(name):\n    hour = datetime.now().hour\n    part = \"morning\" if hour < 12 else \"evening\"\n    return f\"Good {part}, {name}!\"", "scores = [72, 88, 95, 61]\nbest = max(scores)\navg = sum(scores) / len(scores)\nprint(best, round(avg, 1))", "for i in range(1, 16):\n    if i % 15 == 0:\n        print(\"FizzBuzz\")\n    elif i % 3 == 0:\n        print(\"Fizz\")\n    else:\n        print(i)", "class Timer:\n    def __init__(self, limit):\n        self.limit = limit\n        self.left = limit\n\n    def tick(self):\n        self.left = max(0, self.left - 1)\n        return self.left == 0", "words = text.split()\nlong_words = [w for w in words if len(w) > 6]\nlengths = {w: len(w) for w in long_words}", "with open(\"notes.txt\", encoding=\"utf-8\") as f:\n    lines = [line.strip() for line in f]\n    total = sum(1 for line in lines if line)", "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a", "try:\n    value = int(input(\"Number: \"))\nexcept ValueError:\n    print(\"not a number\")\nelse:\n    print(value * 2)", "user = {\"name\": \"Olena\", \"age\": 24, \"city\": \"Lviv\"}\nfor key, value in user.items():\n    print(f\"{key}: {value}\")", "import random\n\ndeck = [rank + suit for suit in \"SHDC\" for rank in \"23456789TJQKA\"]\nrandom.shuffle(deck)\nhand = sorted(deck[:5])"] };
+let pendingInd = null;
+function genCode(lang){
+  const pool = CODE[lang] || CODE.js, picks = pool.slice().sort(()=>Math.random()-.5).slice(0, 2);
+  const lines = picks.join('\n').split('\n').filter(l => l.trim().length);
+  const words = [], ind = {};
+  lines.forEach((line, li) => {
+    const lead = line.length - line.trimStart().length;
+    line.trim().split(/ +/).forEach((tok, ti) => { if (ti===0 && lead) ind[words.length] = lead; words.push(tok); });
+    if (li < lines.length-1) words.push('↵');
+  });
+  pendingInd = ind;
+  return words;
+}
+let GHOST = null;
+const kbLang = () => cfg.mode==='code' ? 'en' : (cfg.mode==='ghost' && GHOST) ? GHOST.rec.lang : cfg.lang;
 const isFixed = () => !['time','free'].includes(cfg.mode);
 const endless = () => ['time','free'].includes(cfg.mode);
 /* ---------- lessons ---------- */
@@ -729,6 +819,8 @@ function genTest(){
   if (cfg.mode==='lesson') return lessonIdx==null ? ['…'] : lessonText(lessons()[lessonIdx]);
   if (cfg.mode==='custom') return customWords();
   if (cfg.mode==='free') return genList(120);
+  if (cfg.mode==='code') return genCode(cfg.amount);
+  if (cfg.mode==='ghost' && GHOST) return GHOST.words.slice();
   if (cfg.mode==='quote'){
     const src = PROVERBS[cfg.lang].slice().sort(()=>Math.random()-.5).slice(0, cfg.amount);
     return src.join(' ').split(/\s+/);
@@ -761,9 +853,10 @@ const SHIFTMAP = {
 function keyOf(ch){
   if (ch===' ') return ' ';
   const c = ch.toLowerCase();
-  if (SHIFTMAP[cfg.lang][c]) return SHIFTMAP[cfg.lang][c];
+  const lg = kbLang();
+  if (SHIFTMAP[lg][c]) return SHIFTMAP[lg][c];
   if (c==='’'||c==='ʼ') return "'";
-  const has = x => LAYOUT[cfg.lang].some(r=>r.includes(x));
+  const has = x => LAYOUT[lg].some(r=>r.includes(x));
   if (has(c)) return c;
   const base = c.normalize('NFD').replace(/\p{M}/gu,'');  // á → a, ê → e
   return base && has(base) ? base : null;
@@ -802,7 +895,7 @@ function genList(n, start=[]){ const P=pool(), out=start.slice(); while(out.leng
 /* ---------- keyboard ---------- */
 const escA = c => c.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
 function buildKb(el){
-  const rows = LAYOUT[cfg.lang];
+  const rows = LAYOUT[kbLang()];
   el.innerHTML = rows.map((r,i)=>`<div class="r" style="margin-left:${[0,22,40,62][i]}px">${[...r].map(c=>`<div class="key" data-k="${escA(c)}">${escA(c)}</div>`).join('')}</div>`).join('')
     + `<div class="r"><div class="key space" data-k=" ">пробіл</div></div>`;
   const map = {}; el.querySelectorAll('.key').forEach(k=>map[k.dataset.k]=k);
@@ -858,7 +951,7 @@ function logPractice(secs, wpm, acc, chars){
 }
 /* ---------- progress page ---------- */
 let progOpen = false;
-function openProgress(){ progOpen = true; clearInterval(S && S.timer); setOpen=false; $('settings').classList.remove('show'); $('home').classList.remove('show'); $('bar').style.display='none'; if (zen) setZen(false);
+function openProgress(){ if ($('arcade').classList.contains('show')) closeArcade(); progOpen = true; clearInterval(S && S.timer); setOpen=false; $('settings').classList.remove('show'); $('home').classList.remove('show'); $('bar').style.display='none'; if (zen) setZen(false);
   ['lessons','custom'].forEach(id=>$(id).classList.remove('show'));
   $('stage').style.display='none'; $('results').classList.remove('show');
   $('prog').classList.add('show'); renderProgress(); hidden.blur(); }
@@ -987,8 +1080,8 @@ function renderHome(){
   let nextI = L.findIndex((_,i)=>!(P[i]>0)); if (nextI<0) nextI = L.length-1;
   const best = store.get('best',{});
   const tm = cfg.testMode || 'time', ta = cfg.testAmount ?? 30;
-  const testLabel = tm==='time' ? `${ta} с` : tm==='words' ? `${ta} слів` : tm==='quote' ? `прислів'я` : 'свій текст';
-  const tkey = tm==='custom' ? `${cfg.lang}-custom` : `${cfg.lang}-${tm}-${ta}`;
+  const testLabel = tm==='time' ? `${ta} с` : tm==='words' ? `${ta} слів` : tm==='quote' ? `прислів'я` : tm==='code' ? `код · ${AMOUNT_LABEL.code[ta]||'JS'}` : 'свій текст';
+  const tkey = tm==='custom' ? `${cfg.lang}-custom` : tm==='code' ? `code-code-${ta}` : `${cfg.lang}-${tm}-${ta}`;
   const days = store.get('days',{}), keys = Object.keys(days);
   const today = days[dkey(new Date())] || {sec:0,tests:0};
   const top = Math.max(0, ...Object.values(best));
@@ -1014,12 +1107,16 @@ function renderHome(){
       <button class="hcard" data-go="free"><kbd>3</kbd><span class="ic">${ICONS.free}</span>
         <h2>Просто друкувати</h2><p>Без таймера й оцінок — нескінченний потік слів. Зупинишся, коли захочеш.</p>
         <span class="foot"><span class="demo"><b>${demo}</b><i></i></span><span><kbd>Esc</kbd> — завершити</span></span></button>
+      <button class="hcard" data-go="arcade"><kbd>4</kbd><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v5M12 2v7M17 4v4"/><rect x="3" y="12" width="18" height="9" rx="2.5"/><path d="M8 16.5h2M14 16.5h2"/></svg></span>
+        <h2>Аркада</h2><p>Слова падають згори — встигни надрукувати, поки не впали. Рівні, комбо, три життя.</p>
+        <span class="foot"><span>${(store.get('arcade-best',{})[cfg.lang]) ? `рекорд: <b>${store.get('arcade-best',{})[cfg.lang]}</b>` : 'рекорду ще немає'}</span></span></button>
     </div>
     ${statsHTML}
     <div class="hlinks">
       <button data-go="custom">✎ свій текст <span>— встав будь-який уривок</span></button>
       <button data-go="prog">📈 прогрес</button>
       <button data-go="recs">🎬 записи</button>
+      <button data-go="ghost">🏁 гонка з привидом</button>
       <button data-go="settings">⚙ налаштування <span>— тема й кольори</span></button>
     </div>`;
 }
@@ -1039,7 +1136,7 @@ const THEME_LIST = [
 ];
 const THEME_PV = { dark:['#16181d','#1e2128','#5d6472','#d7dae0'], midnight:['#0f1626','#162036','#5d6d94','#d6def2'], j13:['#131513','#1a1d1a','#8e938a','#e4e4dc'], light:['#f4f2ed','#e9e6df','#8c877a','#2b2925'], paper:['#f0e8d6','#e6dbc4','#8a7c62','#3b3226'], sakura:['#fbf1f3','#f3e2e7','#a3838d','#3d2a31'], terminal:['#070b07','#0d140d','#3d7347','#a6f5b4'], coffee:['#1c1612','#251d18','#8a7563','#eadccb'], contrast:['#000000','#1c1c1c','#a0a0a0','#ffffff'] };
 const ACCENT_LIST = [['amber','бурштин','#f2b84b'],['mint',"м'ята",'#5fd3a6'],['sky','небо','#62b6f5'],['violet','фіалка','#a98bf5'],['rose','троянда','#f27a9b'],['lime','салатовий','#b5d65a'],['emerald','смарагд','#5fb59b'],['coral','корал','#ff8a5c'],['mono','моно','#9aa0aa']];
-function openSettings(){ setOpen = true; clearInterval(S && S.timer); if (zen) setZen(false);
+function openSettings(){ if ($('arcade').classList.contains('show')) closeArcade(); setOpen = true; clearInterval(S && S.timer); if (zen) setZen(false);
   ['home','lessons','custom','prog'].forEach(id=>$(id).classList.remove('show')); progOpen=false;
   $('stage').style.display='none'; $('results').classList.remove('show'); $('bar').style.display='none';
   $('settings').classList.add('show'); renderSettings(); hidden.blur(); }
@@ -1108,12 +1205,15 @@ function renderSettings(){
   };
 }
 function initNav(){
+  $('aHome').onclick = () => { closeArcade(); goHome(); };
   $('home').addEventListener('click', e=>{
     const b = e.target.closest('[data-go]'); if (!b) return;
     const g = b.dataset.go;
     if (g==='prog') return openProgress();
     if (g==='settings') return openSettings();
     if (g==='recs') return openRecs();
+    if (g==='arcade') return openArcade();
+    if (g==='ghost'){ const r = bestGhost(); return r ? startGhost(r) : toast('спершу пройди тест — привидом стане твій найкращий запис'); }
     choose(g);
   });
   $('logoHome').onclick = goHome;
@@ -1208,6 +1308,9 @@ function initRec(){
     focusBox();
   };
   $('watchRec').onclick = () => lastRec && openPlayer(lastRec);
+  $('raceRec').onclick = () => lastRec && startGhost(lastRec);
+  $('cardBtn').onclick = openCard;
+  $('cBack').onclick = () => $('cardM').classList.remove('show');
 }
 
 /* ---- програвач ---- */
@@ -1311,6 +1414,8 @@ function openPlayer(rec, shared){
   hidden.blur();
 }
 function closePlayer(silent){
+  if (VID){ VID.cancelled = true; try{ VID.mr.stop(); }catch(e){} }
+  $('vidBox').classList.remove('show');
   if (PL){ cancelAnimationFrame(PL.raf); PL = null; }
   $('playM').classList.remove('show');
   if (!silent && !$('recsM').classList.contains('show') && $('stage').style.display!=='none' && !S.done) focusBox();
@@ -1353,6 +1458,8 @@ function initPlayer(){
   $('pBar').onclick = e => { const r = $('pBar').getBoundingClientRect(); pSeek((e.clientX - r.left)/r.width * PL.rec.dur); };
   $('pSpeed').onclick = e => { const b = e.target.closest('button'); if (!b || !PL) return; PL.speed = +b.dataset.s; document.querySelectorAll('#pSpeed button').forEach(x=>x.classList.toggle('on', x===b)); };
   $('pShare').onclick = () => PL && shareRec(PL.rec);
+  $('pRace').onclick = () => PL && startGhost(PL.rec);
+  $('pVideo').onclick = () => PL && exportVideo(PL.rec);
   $('shareCopy').onclick = async () => { $('shareIn').select(); try { await navigator.clipboard.writeText($('shareIn').value); toast('скопійовано'); } catch(e){ toast('виділено — натисни Ctrl+C'); } };
   $('pSave').onclick = () => { const list = store.get('recs', []); list.unshift({...PL.rec, id:Date.now()}); store.set('recs', list.slice(0,20)); $('pSave').style.display='none'; toast('збережено в 🎬 записи'); };
 }
@@ -1364,13 +1471,14 @@ function openRecs(){
     ${list.length ? `<div class="reclist">${list.map((r,i)=>`<div class="recrow">
       <div><div class="t">${r.label}</div><div class="s">${new Date(r.d).toLocaleString('uk-UA',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})} · ${fmt(r.dur)} · ${r.ev.length} натискань</div></div>
       <div class="w">${r.wpm ?? '—'}<small>wpm · ${r.acc ?? '—'}%</small></div>
-      <div class="acts"><button data-a="play" data-i="${i}" title="Переглянути">▶</button><button data-a="share" data-i="${i}" title="Поділитися">🔗</button><button class="del" data-a="del" data-i="${i}" title="Видалити">✕</button></div></div>`).join('')}</div>`
+      <div class="acts"><button data-a="play" data-i="${i}" title="Переглянути">▶</button><button data-a="race" data-i="${i}" title="Гонка з цим записом">🏁</button><button data-a="share" data-i="${i}" title="Поділитися">🔗</button><button class="del" data-a="del" data-i="${i}" title="Видалити">✕</button></div></div>`).join('')}</div>`
     : `<div class="card" style="color:var(--dim);font-size:14px;line-height:1.6">Записів ще немає. ${cfg.autoRec!==false ? 'Автозапис увімкнено — просто пройди тест, і він з\'явиться тут.' : 'Натисни «⏺ запис» над текстом або увімкни автозапис у налаштуваннях.'}</div>`}`;
   $('recsM').classList.add('show'); hidden.blur();
   $('rBack').onclick = closeRecs;
   $('recsIn').querySelectorAll('[data-a]').forEach(b=>b.onclick=()=>{
     const L = store.get('recs', []), r = L[+b.dataset.i];
     if (b.dataset.a==='play') openPlayer(r);
+    if (b.dataset.a==='race') startGhost(r);
     if (b.dataset.a==='share'){ openPlayer(r); PL.playing=false; $('pPlay').textContent='▶'; shareRec(r); }
     if (b.dataset.a==='del'){ L.splice(+b.dataset.i, 1); store.set('recs', L); openRecs(); }
   });
@@ -1379,6 +1487,369 @@ function closeRecs(){ $('recsM').classList.remove('show'); if ($('stage').style.
 async function openSharedFromHash(){
   const m = location.hash.match(/^#r=(.+)$/); if (!m) return;
   try { const r = await unpackRec(m[1]); openPlayer(r, true); } catch(e){ toast('посилання на запис пошкоджене'); }
+}
+
+/* ---------- гонка з привидом ---------- */
+function ghostPrep(rec){
+  if (!rec || !rec.ev || rec.ev.length < 15) return 'запис закороткий для гонки';
+  if (rec.init.cur !== 0 || (rec.init.typed[0]||'')) return 'цей запис почався посеред тесту — для гонки потрібен повний';
+  if ((rec.label||'').startsWith('код') || rec.words.includes('↵')) return 'гонка поки що не працює з кодом';
+  // скільки слів привид дописав і коли
+  const st = { cur:0, typed:[''], keys:0, good:0 };
+  let endT = null, n = 0;
+  for (const [t,e] of rec.ev){
+    applyEv(st, rec.words, e);
+    const done = st.cur + (st.typed[st.cur]===rec.words[st.cur] ? 1 : 0);
+    if (done > n){ n = done; endT = t; }
+  }
+  if (n < 3) return 'запис закороткий для гонки';
+  return { rec, words: rec.words.slice(0, n), endT };
+}
+function startGhost(rec){
+  const g = ghostPrep(rec);
+  if (typeof g === 'string'){ toast(g); return; }
+  GHOST = g; GHOST.st = { cur:0, typed:[''], keys:0, good:0 }; GHOST.i = 0;
+  closePlayer(true); $('recsM').classList.remove('show');
+  atHome = false; cfg.mode = 'ghost'; renderBar(); reset();
+}
+function bestGhost(){
+  const list = store.get('recs', []).filter(r => r.lang===cfg.lang && typeof ghostPrep(r) !== 'string');
+  list.sort((a,b)=>(b.wpm||0)-(a.wpm||0));
+  return list[0];
+}
+function progressChars(words, typed, cur){
+  let c = 0; for (let i=0;i<cur;i++) c += [...words[i]].length + 1;
+  return c + Math.min([...(typed[cur]||'')].length, [...(words[cur]||'')].length);
+}
+function ghostTick(){
+  if (cfg.mode!=='ghost' || !GHOST || !S || S.done) { $('gcaret').style.display='none'; return; }
+  const T = S.started ? performance.now() - S.t0 : 0;
+  const ev = GHOST.rec.ev;
+  while (GHOST.i < ev.length && ev[GHOST.i][0] <= T){ applyEv(GHOST.st, GHOST.words, ev[GHOST.i][1]); GHOST.i++; }
+  const g = GHOST.st, W = GHOST.words;
+  const gcur = Math.min(g.cur, W.length-1), el = wordEl(gcur), c = $('gcaret');
+  if (el){
+    const L = el.children, n = g.cur>=W.length ? L.length : Math.min([...(g.typed[g.cur]||'')].length, L.length);
+    let x = n<L.length ? L[n].offsetLeft : L[L.length-1].offsetLeft + L[L.length-1].offsetWidth;
+    x += el.offsetLeft;
+    const lh = el.offsetHeight, top = el.offsetTop - S.shift, ch = lh*.52;
+    const vis = top > -lh*.5 && top < lh*2.6;
+    c.style.display = vis ? 'block' : 'none';
+    c.style.height = ch+'px'; c.style.left = (x-1)+'px'; c.style.top = (top + (lh-ch)/2 + 1)+'px';
+  }
+  const me = progressChars(S.words, S.typed, S.cur), gh = progressChars(W, g.typed, Math.min(g.cur, W.length));
+  const d = me - gh, gd = $('gdiff');
+  if (gd){ gd.className = 'gdiff ' + (d>=0 ? 'ahead' : 'behind'); gd.textContent = d===0 ? 'нарівні' : d>0 ? `+${d} симв. попереду` : `${d} симв. позаду`; }
+  requestAnimationFrame(ghostTick);
+}
+function ghostVerdict(userT){
+  const gT = GHOST.endT/1000, diff = gT - userT, v = $('verdict');
+  const win = diff >= 0;
+  v.innerHTML = `<div class="big-stars" style="font-size:40px">${win?'🏆':'👻'}</div>
+    <div class="msg"><b>${win ? `Ти переміг привида на ${diff.toFixed(1)} с!` : `Привид швидший на ${(-diff).toFixed(1)} с`}</b>
+    <span>Твій час ${userT.toFixed(1)} с · привид ${gT.toFixed(1)} с (${GHOST.rec.wpm} wpm, ${new Date(GHOST.rec.d).toLocaleDateString('uk-UA',{day:'2-digit',month:'2-digit'})})</span></div>
+    <div class="acts"><button class="btn" id="gAgain">↻ ще раз</button>${win && lastRec ? `<button class="btn acc" id="gNew">🏁 тепер перегнати цей</button>` : ''}<button class="btn" id="gHome">← головна</button></div>`;
+  v.classList.add('show');
+  $('gAgain').onclick = () => startGhost(GHOST.rec);
+  $('gHome').onclick = goHome;
+  const n = $('gNew'); if (n) n.onclick = () => startGhost(lastRec);
+}
+
+/* ---------- пальці й руки ---------- */
+const FINGER_NAMES = { LP:'лівий мізинець', LR:'лівий безіменний', LM:'лівий середній', LI:'лівий вказівний', RI:'правий вказівний', RM:'правий середній', RR:'правий безіменний', RP:'правий мізинець', T:'великі (пробіл)' };
+const ROW0 = ['LP','LP','LR','LM','LI','LI','RI','RI','RM','RR','RP','RP','RP','RP'];
+const ROWN = ['LP','LR','LM','LI','LI','RI','RI','RM','RR','RP','RP','RP','RP','RP'];
+function fingerOf(k){
+  if (k===' ') return 'T';
+  const rows = LAYOUT[kbLang()];
+  for (let r=0;r<rows.length;r++){ const c = [...rows[r]].indexOf(k); if (c>=0) return (r===0 ? ROW0 : ROWN)[c] || 'RP'; }
+  return null;
+}
+function drawHands(data, slow){
+  const F = {}; Object.keys(FINGER_NAMES).forEach(f=>F[f]={n:0,e:0,t:0,c:0});
+  for (const [k,s] of Object.entries(data)){ const f = fingerOf(k); if (!f) continue; const x = F[f]; x.n+=s.n; x.e+=s.e; x.t+=s.t||0; x.c+=s.c||0; }
+  const avg = f => F[f].c ? F[f].t/F[f].c : 0, rate = f => F[f].n ? F[f].e/F[f].n : 0;
+  const med = median(Object.keys(F).filter(f=>F[f].c>=3).map(avg)) || 1;
+  const val = f => slow ? (F[f].c>=3 ? (avg(f)/med - 1)/.8 : 0) : rate(f)/.25;
+  const lab = f => !F[f].n ? '' : slow ? (F[f].c ? Math.round(avg(f))+'' : '') : Math.round(rate(f)*100)+'%';
+  const geo = { LP:[60,78], LR:[120,100], LM:[180,112], LI:[240,98], RI:[480,98], RM:[540,112], RR:[600,100], RP:[660,78] };
+  const W = 46, base = 170;
+  let svg = `<svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg">`;
+  svg += `<rect x="40" y="${base-6}" width="266" height="46" rx="20" style="fill:var(--bg)"/><rect x="454" y="${base-6}" width="266" height="46" rx="20" style="fill:var(--bg)"/>`;
+  for (const [f,[x,h]] of Object.entries(geo)){
+    const has = F[f].n>0;
+    svg += `<rect x="${x}" y="${base-h}" width="${W}" height="${h}" rx="22" style="fill:${has ? mixc(slow?'--accent':'--err', val(f)) : 'var(--panel2)'};stroke:var(--line)"><title>${FINGER_NAMES[f]}: ${F[f].e} пом. з ${F[f].n}${F[f].c?`, ~${Math.round(avg(f))} мс`:''}</title></rect>`;
+    svg += `<text x="${x+W/2}" y="${base-h+24}" text-anchor="middle" font-size="12" style="fill:var(--text)">${lab(f)}</text>`;
+  }
+  const hasT = F.T.n>0;
+  svg += `<rect x="300" y="${base+14}" width="160" height="40" rx="20" style="fill:${hasT ? mixc(slow?'--accent':'--err', val('T')) : 'var(--panel2)'};stroke:var(--line)"><title>${FINGER_NAMES.T}</title></rect>`;
+  svg += `<text x="380" y="${base+39}" text-anchor="middle" font-size="12" style="fill:var(--text)">великі ${lab('T')}</text>`;
+  svg += `<text x="173" y="${base+70}" text-anchor="middle" font-size="12" style="fill:var(--dim)">ліва рука</text><text x="587" y="${base+70}" text-anchor="middle" font-size="12" style="fill:var(--dim)">права рука</text></svg>`;
+  const hand = side => { const fs = Object.keys(F).filter(f=>f[0]===side); const n=fs.reduce((a,f)=>a+F[f].n,0), e=fs.reduce((a,f)=>a+F[f].e,0), t=fs.reduce((a,f)=>a+F[f].t,0), c=fs.reduce((a,f)=>a+F[f].c,0);
+    return n ? `${Math.round(e/n*100)}% помилок · ${c?Math.round(t/c):'—'} мс` : 'немає даних'; };
+  const ranked = Object.keys(F).filter(f=>f!=='T' && F[f].n>=3).sort((a,b)=>slow ? avg(b)-avg(a) : rate(b)-rate(a));
+  const worst = ranked[0] && (slow ? avg(ranked[0])>med*1.05 : F[ranked[0]].e>0) ? ranked[0] : null;
+  $('hands').innerHTML = svg + `<div class="hsum"><span>ліва: <b>${hand('L')}</b></span><span>права: <b>${hand('R')}</b></span>${worst ? `<span>${slow?'найповільніший':'найслабший'}: <b>${FINGER_NAMES[worst]}</b></span>` : ''}</div>`;
+}
+
+/* ---------- картка результату (PNG) ---------- */
+let LASTRES = null;
+const cssv = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function rrect(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function drawCard(R){
+  const c = document.createElement('canvas'); c.width = 1200; c.height = 630;
+  const x = c.getContext('2d');
+  const C = { bg:cssv('--bg'), panel:cssv('--panel'), line:cssv('--line'), dim:cssv('--dim'), text:cssv('--text'), acc:cssv('--accent'), on:cssv('--on-accent'), err:cssv('--err') };
+  const mono = "'JetBrains Mono', monospace", sans = "'Manrope', system-ui, sans-serif";
+  x.fillStyle = C.bg; x.fillRect(0,0,1200,630);
+  x.fillStyle = C.panel; rrect(x, 32, 32, 1136, 566, 28); x.fill();
+  // лого
+  x.fillStyle = C.acc; rrect(x, 76, 72, 54, 54, 12); x.fill();
+  x.fillStyle = C.on; x.font = `700 30px ${mono}`; x.textAlign='center'; x.textBaseline='middle'; x.fillText('к', 103, 100);
+  x.textAlign='left'; x.fillStyle = C.text; x.font = `800 32px ${sans}`; x.fillText('клавогін', 146, 99);
+  const lw = x.measureText('клавогін').width;
+  x.fillStyle = C.dim; x.font = `400 18px ${mono}`; x.fillText('by j13', 146 + lw + 14, 101);
+  x.textAlign='right'; x.fillText(new Date(R.d).toLocaleString('uk-UA',{day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'}), 1124, 90);
+  x.fillStyle = C.text; x.font = `500 20px ${mono}`; x.fillText(R.label, 1124, 118);
+  // велике число
+  x.textAlign='left'; x.textBaseline='alphabetic';
+  x.fillStyle = C.acc; x.font = `700 170px ${mono}`; const W = String(Math.round(R.wpm)); x.fillText(W, 70, 350);
+  const ww = x.measureText(W).width;
+  x.fillStyle = C.dim; x.font = `500 34px ${mono}`; x.fillText('wpm', 70 + ww + 14, 350);
+  // показники
+  const stats = [['точність', Math.round(R.acc)+'%'], ['raw', Math.round(R.raw)], ['час', (Math.round(R.secs*10)/10)+' с'], ['символи', `${R.ok}/${R.no}/${R.extra}`]];
+  stats.forEach(([l,v],i)=>{ const sx = 76 + i*190; x.fillStyle = C.dim; x.font = `400 18px ${mono}`; x.fillText(l, sx, 430); x.fillStyle = C.text; x.font = `600 34px ${mono}`; x.fillText(v, sx, 474); });
+  // графік
+  const d = R.samples; const gx = 640, gy = 170, gw = 480, gh = 200;
+  if (d.length > 1){
+    const maxS = d[d.length-1].s || 1, maxW = Math.max(10, ...d.map(p=>Math.max(p.wpm,p.raw)))*1.12;
+    const X = s => gx + s/maxS*gw, Y = v => gy + gh - v/maxW*gh;
+    x.strokeStyle = C.line; x.lineWidth = 1; for (let i=0;i<=3;i++){ x.beginPath(); x.moveTo(gx, gy+gh*i/3); x.lineTo(gx+gw, gy+gh*i/3); x.stroke(); }
+    x.beginPath(); d.forEach((p,i)=>i?x.lineTo(X(p.s),Y(p.wpm)):x.moveTo(X(p.s),Y(p.wpm))); x.lineTo(X(d[d.length-1].s), gy+gh); x.lineTo(X(d[0].s), gy+gh); x.closePath();
+    x.globalAlpha = .16; x.fillStyle = C.acc; x.fill(); x.globalAlpha = 1;
+    x.setLineDash([6,5]); x.strokeStyle = C.dim; x.lineWidth = 2; x.beginPath(); d.forEach((p,i)=>i?x.lineTo(X(p.s),Y(p.raw)):x.moveTo(X(p.s),Y(p.raw))); x.stroke(); x.setLineDash([]);
+    x.strokeStyle = C.acc; x.lineWidth = 4; x.lineJoin='round'; x.beginPath(); d.forEach((p,i)=>i?x.lineTo(X(p.s),Y(p.wpm)):x.moveTo(X(p.s),Y(p.wpm))); x.stroke();
+    d.forEach(p=>{ if (p.err){ x.fillStyle = C.err; x.beginPath(); x.arc(X(p.s), gy-12, 3+Math.min(3,p.err), 0, 7); x.fill(); } });
+  }
+  // підвал
+  x.strokeStyle = C.line; x.beginPath(); x.moveTo(76, 530); x.lineTo(1124, 530); x.stroke();
+  x.fillStyle = C.dim; x.font = `400 18px ${mono}`; x.textAlign='left'; x.fillText('rkpvrkddsb-sketch.github.io/klavogin', 76, 566);
+  x.textAlign='right'; x.fillText('зроблено командою j13', 1124, 566);
+  return c;
+}
+function openCard(){
+  if (!LASTRES) return;
+  const c = drawCard(LASTRES);
+  c.toBlob(blob => {
+    const url = URL.createObjectURL(blob);
+    $('cardImg').src = url; $('cardDl').href = url; $('cardDl').download = `klavogin-${Math.round(LASTRES.wpm)}wpm.png`;
+    $('cardCopy').onclick = async () => { try { await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]); toast('картинку скопійовано'); } catch(e){ toast('браузер не дозволив копіювати — завантаж PNG'); } };
+    $('cardM').classList.add('show'); hidden.blur();
+  }, 'image/png');
+}
+
+/* ---------- відео повтору (.webm) ---------- */
+let VID = null;
+function exportVideo(rec){
+  if (!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream){ toast('цей браузер не вміє записувати відео'); return; }
+  if (VID) return;
+  if (PL){ PL.playing = false; $('pPlay').textContent = '▶'; }
+  const speed = PL ? PL.speed : 1;
+  const Wc = 1280, Hc = 720, cv = document.createElement('canvas'); cv.width = Wc; cv.height = Hc;
+  const x = cv.getContext('2d');
+  const C = { bg:cssv('--bg'), panel:cssv('--panel'), line:cssv('--line'), dim:cssv('--dim'), text:cssv('--text'), acc:cssv('--accent'), err:cssv('--err'), errd:'' };
+  const tf = cssv('--tfont') || "'JetBrains Mono', monospace", mono = "'JetBrains Mono', monospace", sans = "'Manrope', system-ui, sans-serif";
+  const FS = 36, LH = 66, X0 = 90, XMAX = Wc - 90, Y0 = 250;
+  x.font = `500 ${FS}px ${tf}`; const cw = x.measureText('M').width, sp = cw;
+  // розкладка слів по рядках
+  const W = rec.words, pos = []; let line = 0, cx = X0;
+  W.forEach((w,i)=>{
+    if (w==='↵'){ pos.push({line, x:cx}); line++; cx = X0; return; }
+    const len = [...w].length * cw;
+    if (cx > X0 && cx + len > XMAX){ line++; cx = X0; }
+    pos.push({line, x:cx}); cx += len + sp;
+  });
+  const st = { cur:rec.init.cur, typed:rec.init.typed.slice(), keys:0, good:0 }; let ei = 0;
+  const fmt = ms => { const s = Math.floor(ms/1000); return `${Math.floor(s/60)}:${pad(s%60)}`; };
+  function frame(T){
+    while (ei < rec.ev.length && rec.ev[ei][0] <= T){ applyEv(st, W, rec.ev[ei][1]); ei++; }
+    x.fillStyle = C.bg; x.fillRect(0,0,Wc,Hc);
+    // шапка
+    x.fillStyle = C.acc; rrect(x, 90, 60, 44, 44, 10); x.fill();
+    x.fillStyle = cssv('--on-accent'); x.font = `700 24px ${mono}`; x.textAlign='center'; x.textBaseline='middle'; x.fillText('к', 112, 83);
+    x.textAlign='left'; x.fillStyle = C.text; x.font = `800 26px ${sans}`; x.fillText('клавогін', 148, 83);
+    x.fillStyle = C.dim; x.font = `400 18px ${mono}`; x.fillText(rec.label, 148 + x.measureText('клавогін').width + 70, 84);
+    let g = 0; for (let i=0;i<st.cur;i++) if (st.typed[i]===W[i]) g += [...W[i]].length+1;
+    const wpm = T > 800 ? Math.round(g/5/(T/60000)) : 0, acc = st.keys ? Math.round(st.good/st.keys*100) : 100;
+    x.textAlign='right'; x.fillStyle = C.acc; x.font = `600 30px ${mono}`;
+    x.fillText(`${fmt(T)}   ${wpm} wpm   ${acc}%`, XMAX, 84);
+    // текст: 4 рядки навколо поточного
+    const cur = Math.min(st.cur, W.length-1), curLine = pos[cur].line, first = Math.max(0, curLine-1);
+    x.textAlign='left'; x.textBaseline='alphabetic'; x.font = `500 ${FS}px ${tf}`;
+    for (let i=0;i<W.length;i++){
+      const p = pos[i]; if (p.line < first || p.line >= first+4) continue;
+      if (W[i]==='↵'){ x.fillStyle = C.dim; x.globalAlpha=.5; x.fillText('↵', p.x, Y0 + (p.line-first)*LH); x.globalAlpha=1; continue; }
+      const t = [...W[i]], y = [...(i<=st.cur ? (st.typed[i]||'') : '')], yy = Y0 + (p.line-first)*LH;
+      for (let k=0;k<Math.max(t.length, y.length);k++){
+        let ch, col;
+        if (k>=t.length){ ch = y[k]; col = C.err; x.globalAlpha=.6; }
+        else { ch = t[k]; col = k<y.length ? (y[k]===t[k] ? C.text : C.err) : C.dim; }
+        x.fillStyle = col; x.fillText(ch, p.x + k*cw, yy); x.globalAlpha = 1;
+      }
+      if (i<st.cur && st.typed[i]!==W[i]){ x.fillStyle = C.err; x.fillRect(p.x, yy+10, t.length*cw, 2); }
+    }
+    // курсор
+    if (st.cur < W.length){ const p = pos[st.cur], n = [...(st.typed[st.cur]||'')].length; x.fillStyle = C.acc; x.fillRect(p.x + n*cw - 1, Y0 + (p.line-first)*LH - FS*.82, 3, FS); }
+    // смуга й підпис
+    x.fillStyle = C.panel; rrect(x, 90, Hc-110, Wc-180, 8, 4); x.fill();
+    x.fillStyle = C.acc; rrect(x, 90, Hc-110, Math.max(8,(Wc-180)*Math.min(1, T/rec.dur)), 8, 4); x.fill();
+    x.fillStyle = C.dim; x.font = `400 17px ${mono}`; x.textAlign='left'; x.fillText('rkpvrkddsb-sketch.github.io/klavogin', 90, Hc-60);
+    x.textAlign='right'; x.fillText('зроблено командою j13', XMAX, Hc-60);
+  }
+  const mime = ['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm','video/mp4'].find(m => MediaRecorder.isTypeSupported(m));
+  if (!mime){ toast('браузер не підтримує запис відео'); return; }
+  const stream = cv.captureStream(30), mr = new MediaRecorder(stream, { mimeType:mime, videoBitsPerSecond:4e6 }), chunks = [];
+  VID = { mr, raf:0, cancelled:false };
+  $('vidBox').classList.add('show'); $('vPrev').style.display='none'; $('vDl').style.display='none';
+  $('vCancel').style.display=''; $('vCancel').onclick = () => { if (VID){ VID.cancelled = true; VID.mr.stop(); } };
+  const total = rec.dur + 900;
+  $('vStat').textContent = `записую відео (${speed}×)… не перемикай вкладку`;
+  mr.ondataavailable = e => e.data.size && chunks.push(e.data);
+  mr.onstop = () => {
+    cancelAnimationFrame(VID.raf); const cancelled = VID.cancelled; VID = null;
+    if (cancelled){ $('vidBox').classList.remove('show'); toast('запис відео скасовано'); return; }
+    const ext = mime.includes('mp4') ? 'mp4' : 'webm';
+    const blob = new Blob(chunks, { type: mime.split(';')[0] }), url = URL.createObjectURL(blob);
+    $('vPrev').src = url; $('vPrev').style.display='';
+    $('vDl').href = url; $('vDl').download = `klavogin-replay-${rec.wpm||''}wpm.${ext}`; $('vDl').style.display='';
+    $('vCancel').style.display='none';
+    $('vStat').textContent = `готово · ${(blob.size/1024/1024).toFixed(1)} МБ · ${ext}`; $('vBar').style.width='100%';
+  };
+  frame(0); mr.start(250);
+  const t0 = performance.now();
+  (function loop(now){
+    if (!VID) return;
+    const T = (now - t0) * speed;
+    frame(Math.min(T, rec.dur));
+    $('vBar').style.width = Math.min(100, T/total*100) + '%';
+    if (T >= total){ mr.stop(); return; }
+    VID.raf = requestAnimationFrame(loop);
+  })(t0);
+}
+
+/* ---------- аркада: слова падають ---------- */
+let ARC = null;
+function arcWords(){
+  const lower = [...new Set(WORDS[cfg.lang].map(w=>w.toLowerCase()).filter(w=>/^[\p{L}']+$/u.test(w)))];
+  return lower;
+}
+function openArcade(){
+  atHome = false; clearInterval(S && S.timer); if (zen) setZen(false);
+  ['home','lessons','custom','prog','settings'].forEach(id=>$(id).classList.remove('show'));
+  $('stage').style.display='none'; $('results').classList.remove('show'); $('bar').style.display='none'; $('zenBtn').style.display='none';
+  $('arcade').classList.add('show');
+  arcIntro(); try{ hidden.focus({preventScroll:true}); }catch(e){}
+}
+function closeArcade(){ if (ARC){ cancelAnimationFrame(ARC.raf); ARC = null; } $('arcade').classList.remove('show'); $('field').querySelectorAll('.fw').forEach(e=>e.remove()); }
+function arcIntro(){
+  if (ARC){ cancelAnimationFrame(ARC.raf); } ARC = { state:'intro' };
+  const best = store.get('arcade-best', {})[cfg.lang] || 0;
+  $('field').querySelectorAll('.fw').forEach(e=>e.remove());
+  $('aOver').style.display = 'flex';
+  $('aOver').innerHTML = `<h2>Аркада</h2><p>Слова падають згори. Надрукуй слово, перш ніж воно торкнеться червоної лінії. Не треба натискати пробіл — слово зникає, щойно ти його дописав. Три життя, а швидкість росте з кожним рівнем.</p>
+    ${best ? `<div class="row">рекорд: <b>${best}</b></div>` : ''}<p style="color:var(--text)">натисни будь-яку клавішу, щоб почати</p>`;
+  $('aScore').textContent = 0; $('aLevel').textContent = 1; $('aCombo').textContent = '×1'; $('aLives').textContent = '♥♥♥'; arcBuf('');
+}
+function arcStart(){
+  $('aOver').style.display = 'none';
+  ARC = { state:'play', words:[], buf:'', score:0, level:1, combo:0, lives:3, killed:0, chars:0, keys:0, good:0,
+          t0:performance.now(), last:performance.now(), spawnIn:.3, pool:arcWords(), maxCombo:0 };
+  ARC.raf = requestAnimationFrame(arcLoop);
+}
+function arcBuf(t, bad){
+  const b = $('aBuf'); b.innerHTML = `${esc ? [...t].map(esc).join('') : t}<i></i>`;
+  if (bad){ b.classList.remove('bad'); void b.offsetWidth; b.classList.add('bad'); }
+}
+function arcSpawn(){
+  const F = $('field'), W = F.clientWidth;
+  const maxLen = ARC.level===1 ? 4 : ARC.level===2 ? 5 : ARC.level===3 ? 6 : ARC.level<6 ? 8 : 20;
+  const cand = ARC.pool.filter(w => [...w].length <= maxLen && [...w].length >= 2 && !ARC.words.some(x=>x.text[0]===w[0]));
+  const text = rnd(cand.length ? cand : ARC.pool);
+  const el = document.createElement('div'); el.className = 'fw'; el.textContent = text; F.appendChild(el);
+  const w = el.offsetWidth, x = 12 + Math.random() * Math.max(0, W - w - 24);
+  const speed = (26 + ARC.level*7) * (.85 + Math.random()*.3);
+  ARC.words.push({ text, el, x, y:-34, speed });
+}
+function arcRender(word){
+  const n = ARC.buf && word.text.startsWith(ARC.buf) ? [...ARC.buf].length : 0;
+  const ch = [...word.text];
+  word.el.innerHTML = n ? `<b>${ch.slice(0,n).map(esc).join('')}</b>${ch.slice(n).map(esc).join('')}` : ch.map(esc).join('');
+  word.el.classList.toggle('target', n>0);
+}
+function arcLoop(now){
+  if (!ARC || ARC.state!=='play') return;
+  const dt = Math.min(.1, (now - ARC.last)/1000); ARC.last = now;
+  ARC.spawnIn -= dt;
+  if (ARC.spawnIn <= 0){ arcSpawn(); ARC.spawnIn = Math.max(.55, 2.3 - ARC.level*.17) * (.8 + Math.random()*.4); }
+  const H = $('field').clientHeight;
+  for (const w of ARC.words.slice()){
+    w.y += w.speed * dt;
+    w.el.style.transform = `translate(${w.x}px, ${w.y}px)`;
+    if (w.y > H - 34){
+      ARC.words.splice(ARC.words.indexOf(w), 1);
+      w.el.classList.add('lost'); setTimeout(()=>w.el.remove(), 400);
+      if (ARC.buf && w.text.startsWith(ARC.buf)){ ARC.buf = ''; arcBuf(''); ARC.words.forEach(arcRender); }
+      ARC.lives--; ARC.combo = 0; playKey('err');
+      $('field').classList.remove('hit'); void $('field').offsetWidth; $('field').classList.add('hit');
+      $('aLives').textContent = '♥'.repeat(Math.max(0,ARC.lives)) + '♡'.repeat(3-Math.max(0,ARC.lives));
+      $('aCombo').textContent = '×1';
+      if (ARC.lives <= 0) return arcOver();
+    }
+  }
+  ARC.raf = requestAnimationFrame(arcLoop);
+}
+function arcKey(e){
+  if (e.key==='Escape'){ e.preventDefault(); closeArcade(); goHome(); return; }
+  if (!ARC) return;
+  if (ARC.state==='intro'){ if (e.key.length===1 || e.key==='Enter'){ e.preventDefault(); audio(); arcStart(); } return; }
+  if (ARC.state==='over'){ if (e.key==='Enter'){ e.preventDefault(); arcIntro(); arcStart(); } return; }
+  if (e.key==='Backspace'){ e.preventDefault(); ARC.buf = [...ARC.buf].slice(0,-1).join(''); arcBuf(ARC.buf); ARC.words.forEach(arcRender); return; }
+  if (e.key===' '){ e.preventDefault(); ARC.buf = ''; arcBuf(''); ARC.words.forEach(arcRender); return; }
+  if (e.key.length!==1 || ((e.ctrlKey||e.metaKey) && !e.altKey)) return;
+  e.preventDefault();
+  arcChar(e.key);
+}
+function arcChar(key){
+  if (!ARC || ARC.state!=='play') { if (ARC && ARC.state==='intro') arcStart(); return; }
+  const ch = key.toLowerCase(), next = ARC.buf + ch;
+  ARC.keys++;
+  const cands = ARC.words.filter(w => w.text.startsWith(next)).sort((a,b)=>b.y-a.y);
+  if (!cands.length){ ARC.combo = 0; $('aCombo').textContent = '×1'; arcBuf(ARC.buf, true); playKey('err'); return; }
+  ARC.good++; ARC.buf = next; playKey('key');
+  const t = cands[0];
+  if (t.text === next){
+    ARC.words.splice(ARC.words.indexOf(t), 1);
+    t.el.innerHTML = `<b>${[...t.text].map(esc).join('')}</b>`; t.el.classList.add('pop'); setTimeout(()=>t.el.remove(), 300);
+    ARC.combo++; ARC.maxCombo = Math.max(ARC.maxCombo, ARC.combo); ARC.killed++; ARC.chars += [...t.text].length + 1;
+    ARC.score += Math.round([...t.text].length * 10 * (1 + Math.min(ARC.combo, 20) * .1) * (1 + (ARC.level-1)*.15));
+    if (ARC.killed % 8 === 0){ ARC.level++; $('aLevel').textContent = ARC.level; toast(`рівень ${ARC.level}!`); }
+    ARC.buf = ''; playKey('space');
+    $('aScore').textContent = ARC.score; $('aCombo').textContent = `×${ARC.combo+1}`;
+  }
+  arcBuf(ARC.buf); ARC.words.forEach(arcRender);
+}
+function arcOver(){
+  ARC.state = 'over'; cancelAnimationFrame(ARC.raf);
+  const mins = (performance.now() - ARC.t0)/60000, wpm = Math.round(ARC.chars/5/Math.max(mins, .05));
+  const bestAll = store.get('arcade-best', {}), prev = bestAll[cfg.lang] || 0, isBest = ARC.score > prev;
+  if (isBest){ bestAll[cfg.lang] = ARC.score; store.set('arcade-best', bestAll); }
+  logPractice(mins*60, wpm, ARC.keys ? ARC.good/ARC.keys*100 : 0, ARC.keys);
+  ARC.words.forEach(w=>w.el.classList.add('lost'));
+  $('aOver').style.display = 'flex';
+  $('aOver').innerHTML = `<h2>Гра закінчена</h2><div class="big">${ARC.score}</div>
+    <div class="row"><span>рівень <b>${ARC.level}</b></span><span>слів <b>${ARC.killed}</b></span><span>макс. комбо <b>×${ARC.maxCombo+1}</b></span><span><b>${wpm}</b> wpm</span><span>точність <b>${ARC.keys?Math.round(ARC.good/ARC.keys*100):0}%</b></span></div>
+    <p style="color:${isBest?'var(--ok)':'var(--dim)'}">${isBest ? '★ новий рекорд!' : `рекорд: ${prev}`}</p>
+    <p style="color:var(--text)"><kbd>Enter</kbd> — ще раз · <kbd>Esc</kbd> — вихід</p>`;
 }
 
 /* ---------- zen ---------- */
@@ -1399,7 +1870,7 @@ function setZen(v){
 
 /* ---------- test lifecycle ---------- */
 let atHome = true, setOpen = false;
-function goHome(){ atHome = true; lessonIdx = null; customEditing = false; if (zen) setZen(false); reset(); }
+function goHome(){ if (cfg.mode==='ghost'){ cfg.mode = cfg.testMode || 'time'; cfg.amount = cfg.testAmount ?? 30; GHOST = null; } atHome = true; lessonIdx = null; customEditing = false; if (zen) setZen(false); reset(); }
 function choose(what){
   atHome = false;
   if (what==='lesson'){ cfg.mode='lesson'; lessonIdx=null; }
@@ -1413,9 +1884,10 @@ function reset(newWords=true){
   clearInterval(S && S.timer);
   if (REC && REC.manual && S && S.started && !S.done){ const r = recStop(null); if (r){ lastRec = r; toast('запис збережено — 🎬 записи'); } }
   REC = null;
-  $('watchRec').style.display = 'none';
+  $('watchRec').style.display = 'none'; $('raceRec').style.display = 'none';
   $('home').classList.remove('show'); $('settings').classList.remove('show'); setOpen = false;
-  const testMode = ['time','words','quote','custom'].includes(cfg.mode);
+  if ($('arcade').classList.contains('show')) closeArcade();
+  const testMode = ['time','words','quote','custom','code'].includes(cfg.mode);
   if (testMode){ cfg.testMode = cfg.mode; cfg.testAmount = cfg.amount; store.set('cfg', cfg); }
   $('bar').style.display = (!atHome && testMode) ? '' : 'none';
   $('zenBtn').style.display = atHome ? 'none' : '';
@@ -1440,8 +1912,10 @@ function reset(newWords=true){
     $('results').classList.remove('show'); $('stage').style.display='none';
     renderLessons(); hidden.blur(); return;
   }
+  pendingInd = null;
   S = { words: genTest(), typed:[''], cur:0, started:false, done:false, t0:0, timer:null,
         keys:0, goodKeys:0, samples:[], errSec:0, shift:0, keyStats:{}, bi:{}, lastT:0 };
+  S.ind = pendingInd || {};
   $('results').classList.remove('show');
   $('stage').style.display='';
   live.classList.remove('show');
@@ -1453,7 +1927,14 @@ function reset(newWords=true){
   const lh = $('lhead');
   const HK = { free:'<kbd>Tab</kbd> — нові слова &nbsp;·&nbsp; <kbd>Esc</kbd> — завершити', lesson:'<kbd>Tab</kbd> — повторити &nbsp;·&nbsp; <kbd>Esc</kbd> — до уроків', custom:'<kbd>Tab</kbd> — заново &nbsp;·&nbsp; <kbd>Esc</kbd> — змінити текст' };
   $('hintKeys').innerHTML = (HK[cfg.mode] || '<kbd>Tab</kbd> — заново &nbsp;·&nbsp; <kbd>Esc</kbd> — нові слова') + ' &nbsp;·&nbsp; <kbd>Ctrl</kbd>+<kbd>⌫</kbd> — стерти слово';
-  if (cfg.mode==='free'){
+  $('gcaret').style.display = 'none';
+  if (cfg.mode==='ghost' && GHOST){
+    lh.classList.add('show');
+    lh.innerHTML = `<button class="back" id="lback">← головна</button><span>🏁 <b>Гонка з привидом</b> · ${GHOST.rec.wpm} wpm, ${new Date(GHOST.rec.d).toLocaleDateString('uk-UA',{day:'2-digit',month:'2-digit'})}</span><span class="gdiff ahead" id="gdiff">старт з першої клавіші</span><span class="goal"><kbd>Tab</kbd> заново · <kbd>Esc</kbd> на головну</span>`;
+    $('lback').onclick = goHome;
+    GHOST.st = { cur:0, typed:[''], keys:0, good:0 }; GHOST.i = 0;
+    requestAnimationFrame(ghostTick);
+  } else if (cfg.mode==='free'){
     lh.classList.add('show');
     lh.innerHTML = `<button class="back" id="lback">← головна</button><span><b>Вільний друк</b> — без таймера й оцінок</span><span class="goal"><kbd>Esc</kbd> завершити й побачити результат · <kbd>Tab</kbd> нові слова</span>`;
     $('lback').onclick = goHome;
@@ -1473,15 +1954,19 @@ function reset(newWords=true){
       }
     }
   } else lh.classList.remove('show');
-  wordsEl.innerHTML = S.words.map(wordHTML).join('');
+  wordsEl.innerHTML = S.words.map((w,i)=>wordHTML(w,i)).join('');
   $('box').classList.toggle('blind', !!cfg.blind);
   placeCaret(); markNext(); focusBox(); applyZen(); renderRecBtn();
 }
 function esc(c){ return c==='<'?'&lt;':c==='>'?'&gt;':c==='&'?'&amp;':c; }
-function wordHTML(w){ return `<div class="word">${[...w].map(c=>`<span class="l">${esc(c)}</span>`).join('')}</div>`; }
+function wordHTML(w, i){
+  const ind = S && S.ind && S.ind[i];
+  return `<div class="word${w==='↵'?' nl':''}" data-i="${i}"${ind?` style="margin-left:${(ind*0.6).toFixed(2)}em"`:''}>${[...w].map(c=>`<span class="l">${esc(c)}</span>`).join('')}</div>${w==='↵'?'<i class="brk"></i>':''}`;
+}
+const wordEl = i => wordsEl.querySelector(`.word[data-i="${i}"]`);
 
 function renderWord(i){
-  const el=wordsEl.children[i]; if(!el) return;
+  const el=wordEl(i); if(!el) return;
   const t=[...S.words[i]], y=[...(S.typed[i]||'')];
   let html='';
   for (let k=0;k<Math.max(t.length,y.length);k++){
@@ -1492,7 +1977,7 @@ function renderWord(i){
   el.classList.toggle('bad', i<S.cur && S.typed[i]!==S.words[i]);
 }
 function placeCaret(){
-  const el=wordsEl.children[S.cur]; if(!el) return;
+  const el=wordEl(S.cur); if(!el) return;
   const L=el.children, n=[...(S.typed[S.cur]||'')].length;
   let x = n<L.length ? L[n].offsetLeft : L[L.length-1].offsetLeft+L[L.length-1].offsetWidth;
   x += el.offsetLeft;
@@ -1546,7 +2031,7 @@ function onChar(ch){
     renderWord(S.cur-1);
     if (endless() && S.cur > S.words.length-40){
       const add=genList(60,[S.words[S.words.length-1]]).slice(1);
-      S.words.push(...add); wordsEl.insertAdjacentHTML('beforeend', add.map(wordHTML).join(''));
+      const base = S.words.length; S.words.push(...add); wordsEl.insertAdjacentHTML('beforeend', add.map((w,j)=>wordHTML(w, base+j)).join(''));
     }
     if (isFixed()){ $('liveMain').textContent=`${S.cur}/${S.words.length}`; if (S.cur>=S.words.length) return finish(); }
   } else {
@@ -1562,6 +2047,11 @@ function onChar(ch){
   }
   placeCaret(); markNext();
 }
+function codeEnter(){
+  if (S.done) return;
+  if (S.words[S.cur]!=='↵' && (S.typed[S.cur]||'').length) onChar(' ');
+  if (!S.done && S.words[S.cur]==='↵'){ onChar('↵'); if (!S.done) onChar(' '); }
+}
 function onBack(ctrl){
   if (S.done) return;
   const y=S.typed[S.cur]||'';
@@ -1569,7 +2059,7 @@ function onBack(ctrl){
     if (S.cur>0 && S.typed[S.cur-1]!==S.words[S.cur-1]){
       recEvent(ctrl ? 2 : 1); playKey('back');
       S.typed.pop(); S.cur--; if (ctrl) S.typed[S.cur]='';
-      renderWord(S.cur); wordsEl.children[S.cur].classList.remove('bad');
+      renderWord(S.cur); wordEl(S.cur).classList.remove('bad');
       if (isFixed()) $('liveMain').textContent=`${S.cur}/${S.words.length}`;
     }
   } else { recEvent(ctrl ? 2 : 1); playKey('back'); S.typed[S.cur] = ctrl ? '' : [...y].slice(0,-1).join(''); renderWord(S.cur); }
@@ -1592,7 +2082,7 @@ function finish(){
   const min=secs/60, wpm=good/5/min, raw=S.keys/5/min, acc=S.keys?S.goodKeys/S.keys*100:0;
   if (isFixed()) S.samples.push({s:Math.round(secs*10)/10,wpm,raw,err:S.errSec});
 
-  const key = cfg.mode==='lesson' ? `${cfg.lang}-lesson-${lessonIdx}` : cfg.mode==='custom' ? `${cfg.lang}-custom` : cfg.mode==='free' ? `${cfg.lang}-free` : `${cfg.lang}-${cfg.mode}-${cfg.amount}${cfg.mode!=='quote'&&cfg.punct?'-p':''}${cfg.mode!=='quote'&&cfg.nums?'-n':''}${cfg.mode!=='quote'&&cfg.focus.length?'-f':''}`;
+  const key = cfg.mode==='lesson' ? `${cfg.lang}-lesson-${lessonIdx}` : cfg.mode==='custom' ? `${cfg.lang}-custom` : cfg.mode==='free' ? `${cfg.lang}-free` : cfg.mode==='code' ? `code-code-${cfg.amount}` : `${cfg.lang}-${cfg.mode}-${cfg.amount}${cfg.mode!=='quote'&&cfg.punct?'-p':''}${cfg.mode!=='quote'&&cfg.nums?'-n':''}${cfg.mode!=='quote'&&cfg.focus.length?'-f':''}`;
   const best=store.get('best',{}), prev=best[key]||0, isPb=S.keys>0 && wpm>prev;
   if (isPb){ best[key]=Math.round(wpm*100)/100; store.set('best',best); }
   if (S.keys>0){
@@ -1602,7 +2092,7 @@ function finish(){
     const merge=(name, src)=>{ const all=store.get(name,{});
       for (const [k,v] of Object.entries(src)){ const a=all[k]||(all[k]={n:0,e:0,t:0,c:0}); a.n+=v.n; a.e+=v.e; a.t=(a.t||0)+v.t; a.c=(a.c||0)+v.c; }
       store.set(name, all); };
-    merge('keys-'+cfg.lang, S.keyStats); merge('bi-'+cfg.lang, S.bi);
+    merge('keys-'+kbLang(), S.keyStats); merge('bi-'+kbLang(), S.bi);
     logPractice(secs, wpm, acc, S.keys);
   }
 
@@ -1620,7 +2110,9 @@ function finish(){
   heatView='test'; drawHeat();
   drawHistory();
   if (cfg.mode==='lesson') showVerdict(wpm, acc);
-  const rr = recStop({wpm, acc}); if (rr){ lastRec = rr; $('watchRec').style.display=''; }
+  LASTRES = { wpm, raw, acc, secs, label:label(), samples:S.samples.slice(), ok, no, extra, d:Date.now() };
+  const rr = recStop({wpm, acc}); if (rr){ lastRec = rr; $('watchRec').style.display=''; $('raceRec').style.display = typeof ghostPrep(rr)==='string' ? 'none' : ''; }
+  if (cfg.mode==='ghost' && GHOST) ghostVerdict(secs);
   document.body.classList.remove('zen');
   hidden.blur();
 }
@@ -1644,7 +2136,7 @@ function showVerdict(wpm, acc){
   $('vAgain').onclick = () => reset();
   const n = $('vNext'); if (n) n.onclick = () => startLesson(lessonIdx+1);
 }
-function label(){ if (cfg.mode==='free') return `вільний друк · ${LANGS[cfg.lang].short}`; if (cfg.mode==='custom') return `свій текст · ${S.words.length} слів`; if (cfg.mode==='lesson') return `урок ${lessonIdx+1} · ${LANGS[cfg.lang].short}`; if (cfg.mode==='quote') return `прислів'я · ${AMOUNT_LABEL.quote[cfg.amount]} · ${LANGS[cfg.lang].short}`; return `${cfg.mode==='time'?cfg.amount+' с':cfg.amount+' слів'} · ${LANGS[cfg.lang].short}${cfg.punct?' · розд.':''}${cfg.nums?' · цифри':''}${cfg.focus.length?' · фокус '+cfg.focus.join(''):''}`; }
+function label(){ if (cfg.mode==='ghost') return `гонка з привидом · ${LANGS[kbLang()]?.short||''}`; if (cfg.mode==='code') return `код · ${AMOUNT_LABEL.code[cfg.amount]||'JavaScript'}`; if (cfg.mode==='free') return `вільний друк · ${LANGS[cfg.lang].short}`; if (cfg.mode==='custom') return `свій текст · ${S.words.length} слів`; if (cfg.mode==='lesson') return `урок ${lessonIdx+1} · ${LANGS[cfg.lang].short}`; if (cfg.mode==='quote') return `прислів'я · ${AMOUNT_LABEL.quote[cfg.amount]} · ${LANGS[cfg.lang].short}`; return `${cfg.mode==='time'?cfg.amount+' с':cfg.amount+' слів'} · ${LANGS[cfg.lang].short}${cfg.punct?' · розд.':''}${cfg.nums?' · цифри':''}${cfg.focus.length?' · фокус '+cfg.focus.join(''):''}`; }
 
 /* ---------- heatmap ---------- */
 function ramp(stops, x){
@@ -1655,12 +2147,16 @@ function ramp(stops, x){
 const mixc = (v, x) => `color-mix(in srgb, var(${v}) ${Math.round(Math.max(0,Math.min(1,x))*100)}%, var(--panel))`;
 let heatMetric='err', focusPick=[];
 function median(a){ const b=a.slice().sort((x,y)=>x-y); return b.length ? b[Math.floor(b.length/2)] : 0; }
+let heatViewMode = 'kb';
 function drawHeat(){
+  document.querySelectorAll('#viewSeg button').forEach(b=>b.classList.toggle('on', b.dataset.v===heatViewMode));
+  $('kbHeat').style.display = heatViewMode==='kb' ? '' : 'none';
+  $('hands').classList.toggle('show', heatViewMode==='fingers');
   document.querySelectorAll('#heatSeg button').forEach(b=>b.classList.toggle('on', b.dataset.h===heatView));
   document.querySelectorAll('#metricSeg button').forEach(b=>b.classList.toggle('on', b.dataset.m===heatMetric));
   const all = heatView==='all';
-  const data = all ? store.get('keys-'+cfg.lang,{}) : S.keyStats;
-  const bi   = all ? store.get('bi-'+cfg.lang,{})   : S.bi;
+  const data = all ? store.get('keys-'+kbLang(),{}) : S.keyStats;
+  const bi   = all ? store.get('bi-'+kbLang(),{})   : S.bi;
   const minN = all ? 6 : 2, minC = all ? 6 : 2, minP = all ? 4 : 2;
   const slow = heatMetric==='slow';
   const avg = s => s.c ? s.t/s.c : 0;
@@ -1717,7 +2213,9 @@ function drawHeat(){
     : '';
   focusPick = [...weak.slice(0,3).map(w=>w.k), ...pairs.slice(0,2).map(w=>w.k)];
   $('trainWeak').style.display = focusPick.length ? '' : 'none';
+  if (heatViewMode==='fingers') drawHands(data, slow);
 }
+$('viewSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; heatViewMode=b.dataset.v; drawHeat(); });
 $('heatSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; heatView=b.dataset.h; drawHeat(); });
 $('metricSeg').addEventListener('click', e=>{ const b=e.target.closest('button'); if(!b) return; heatMetric=b.dataset.m; drawHeat(); });
 $('trainWeak').onclick = () => { cfg.focus = focusPick.slice(); if (!['time','words'].includes(cfg.mode)){ cfg.mode='time'; cfg.amount=30; } renderBar(); reset(); };
@@ -1767,12 +2265,12 @@ function drawHistory(){
 /* ---------- controls ---------- */
 function renderBar(){
   $('amounts').innerHTML=AMOUNTS[cfg.mode].map(a=>`<button data-amount="${a}" class="${a===cfg.amount?'on':''}">${(AMOUNT_LABEL[cfg.mode]||{})[a]||a}</button>`).join('');
-  document.querySelectorAll('[data-opt=punct],[data-opt=nums]').forEach(b=>b.style.display = ['quote','lesson','custom'].includes(cfg.mode)?'none':'');
+  document.querySelectorAll('[data-opt=punct],[data-opt=nums]').forEach(b=>b.style.display = ['quote','lesson','custom','code'].includes(cfg.mode)?'none':'');
   document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===cfg.mode));
   if (cfg.mode==='custom') $('amounts').innerHTML = `<button id="editText">✎ змінити текст</button>`;
   $('amounts').previousElementSibling.style.display = (AMOUNTS[cfg.mode].length || cfg.mode==='custom') ? '' : 'none';
   $('langSel').innerHTML = Object.entries(LANGS).map(([k,v])=>`<option value="${k}" ${k===cfg.lang?'selected':''}>${v.name}</option>`).join('');
-  $('kbName').textContent = LANGS[cfg.lang].kb;
+  $('kbName').textContent = cfg.mode==='code' ? 'QWERTY (код)' : LANGS[kbLang()].kb;
   document.querySelectorAll('[data-opt]').forEach(b=>b.classList.toggle('on',!!cfg[b.dataset.opt]));
   $('focusChip').classList.toggle('show', cfg.focus.length>0 && ['time','words'].includes(cfg.mode));
   $('focusTxt').textContent = 'фокус: '+cfg.focus.join(' ');
@@ -1781,8 +2279,8 @@ function renderBar(){
 $('bar').addEventListener('click', e=>{
   const b=e.target.closest('button'); if(!b || b.id==='focusOff') return;
   if (b.id==='editText'){ b.blur(); customEditing = true; reset(); return; }
-  if (b.dataset.mode){ cfg.mode=b.dataset.mode; cfg.amount={time:30,words:25,quote:3,lesson:0,custom:0}[cfg.mode]; customEditing=false; if (cfg.mode==='lesson') lessonIdx=null; }
-  if (b.dataset.amount) cfg.amount=+b.dataset.amount;
+  if (b.dataset.mode){ cfg.mode=b.dataset.mode; cfg.amount={time:30,words:25,quote:3,lesson:0,custom:0,code:'js'}[cfg.mode]; customEditing=false; if (cfg.mode==='lesson') lessonIdx=null; }
+  if (b.dataset.amount) cfg.amount = isNaN(+b.dataset.amount) ? b.dataset.amount : +b.dataset.amount;
   if (b.dataset.opt) cfg[b.dataset.opt]=!cfg[b.dataset.opt];
   b.blur(); renderBar(); reset();
 });
@@ -1803,13 +2301,15 @@ document.addEventListener('keydown', e=>{
     else if (e.key==='ArrowLeft' && PL){ e.preventDefault(); pSeek(PL.t - 2000); }
     return;
   }
+  if ($('cardM').classList.contains('show')){ if (e.key==='Escape'){ e.preventDefault(); $('cardM').classList.remove('show'); } return; }
   if ($('recsM').classList.contains('show')){ if (e.key==='Escape'){ e.preventDefault(); closeRecs(); } return; }
+  if ($('arcade').classList.contains('show') && !progOpen && !setOpen){ arcKey(e); return; }
   if (e.target && ['SELECT','TEXTAREA'].includes(e.target.tagName)) return;
   if (progOpen){ if (e.key==='Escape'){ e.preventDefault(); closeProgress(); } return; }
   if (setOpen){ if (e.key==='Escape'){ e.preventDefault(); closeSettings(); } return; }
   if (atHome){
-    const m = {'1':'lesson','2':'test','3':'free'}[e.key];
-    if (m && !e.ctrlKey && !e.metaKey && !e.altKey){ e.preventDefault(); choose(m); }
+    const m = {'1':'lesson','2':'test','3':'free','4':'arcade'}[e.key];
+    if (m && !e.ctrlKey && !e.metaKey && !e.altKey){ e.preventDefault(); if (m==='arcade') openArcade(); else choose(m); }
     return;
   }
   const lessonList = cfg.mode==='lesson' && lessonIdx==null;
@@ -1820,19 +2320,21 @@ document.addEventListener('keydown', e=>{
   }
   if (e.key==='Escape' && zen){ e.preventDefault(); setZen(false); return; }
   if (e.key==='Tab'){ e.preventDefault(); reset(); return; }
+  if (e.key==='Escape' && cfg.mode==='ghost'){ e.preventDefault(); goHome(); return; }
   if (e.key==='Escape'){ e.preventDefault(); if (cfg.mode==='free'){ if (!S.done && S.keys) finish(); else goHome(); } else if (cfg.mode==='lesson') backToLessons(); else if (cfg.mode==='custom'){ customEditing=true; reset(); } else reset(); return; }
   if (S.done){ if (e.key==='Enter'){ e.preventDefault(); reset(); } return; }
   const altGr = (e.getModifierState && e.getModifierState('AltGraph')) || (e.ctrlKey && e.altKey);
   if (document.activeElement!==hidden){ if (e.key.length===1 && (altGr || (!e.ctrlKey && !e.metaKey))) focusBox(); else return; }
+  if (e.key==='Enter' && cfg.mode==='code'){ e.preventDefault(); codeEnter(); return; }
   if (e.key==='Backspace'){ e.preventDefault(); onBack(e.ctrlKey||e.altKey||e.metaKey); return; }
   if ((e.ctrlKey||e.metaKey) && !(altGr && e.key.length===1)) return;  // Option/AltGr дають літери з діакритикою
   if (e.key.length===1){ e.preventDefault(); onChar(e.key); }
 });
-hidden.addEventListener('input', ()=>{ const v=hidden.value; hidden.value=''; for (const ch of v) onChar(ch); });
+hidden.addEventListener('input', ()=>{ const v=hidden.value; hidden.value=''; for (const ch of v){ if ($('arcade').classList.contains('show')) { if (ch===' ') { if (ARC){ ARC.buf=''; arcBuf(''); ARC.words.forEach(arcRender);} } else arcChar(ch); } else onChar(ch); } });
 
 let rz; window.addEventListener('resize', ()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if (progOpen) return renderProgress(); if(!S.done) placeCaret(); else if (S.samples.length) drawChart(S.samples); },120); });
 
-if (!['time','words','quote','custom','lesson','free'].includes(cfg.mode)) cfg.mode='time';
+if (!['time','words','quote','custom','lesson','free','code'].includes(cfg.mode)) cfg.mode='time';  // привид не відновлюється після перезавантаження
 initLessons(); initCustom(); initNav(); renderBar(); reset();
 window.applyTheme(cfg.theme, cfg.accent, cfg.fs, cfg.font);
 initJ13();
