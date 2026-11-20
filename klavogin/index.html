@@ -70,7 +70,8 @@
   :root[data-tone=dark][data-accent=rose]{--accent:#f27a9b} :root[data-tone=light][data-accent=rose]{--accent:#c93a64}
   :root[data-tone=dark][data-accent=lime]{--accent:#b5d65a} :root[data-tone=light][data-accent=lime]{--accent:#5f8a0e}
   :root[data-tone=dark][data-accent=coral]{--accent:#ff8a5c} :root[data-tone=light][data-accent=coral]{--accent:#d4521f}
-    :root[data-tone=dark][data-accent=emerald]{--accent:#5fb59b} :root[data-tone=light][data-accent=emerald]{--accent:#237a60}
+    :root[data-tone=dark][data-accent=red]{--accent:#ff6363} :root[data-tone=light][data-accent=red]{--accent:#c9302c} :root[data-tone=dark][data-accent=teal]{--accent:#3fd0d0} :root[data-tone=light][data-accent=teal]{--accent:#0e8484} :root[data-tone=dark][data-accent=indigo]{--accent:#8b9aff} :root[data-tone=light][data-accent=indigo]{--accent:#3f51d6} :root[data-tone=dark][data-accent=fuchsia]{--accent:#ff5fd8} :root[data-tone=light][data-accent=fuchsia]{--accent:#b3189c} :root[data-tone=dark][data-accent=lemon]{--accent:#fcee0a} :root[data-tone=light][data-accent=lemon]{--accent:#8a7d00}
+  :root[data-tone=dark][data-accent=emerald]{--accent:#5fb59b} :root[data-tone=light][data-accent=emerald]{--accent:#237a60}
   :root[data-tone=dark][data-accent=mono]{--accent:#e4e6ea} :root[data-tone=light][data-accent=mono]{--accent:#2b2925}
   :root[data-tone=light]{--on-accent:#ffffff}
   :root[data-tone=light][data-accent=mono]{--on-accent:#f4f2ed}
@@ -1195,7 +1196,7 @@ const THEME_LIST = [
   ['contrast','Контраст','максимальна'],
 ];
 const THEME_PV = { dark:['#16181d','#1e2128','#5d6472','#d7dae0'], midnight:['#0f1626','#162036','#5d6d94','#d6def2'], j13:['#131513','#1a1d1a','#8e938a','#e4e4dc'], light:['#f4f2ed','#e9e6df','#8c877a','#2b2925'], paper:['#f0e8d6','#e6dbc4','#8a7c62','#3b3226'], sakura:['#fbf1f3','#f3e2e7','#a3838d','#3d2a31'], terminal:['#070b07','#0d140d','#3d7347','#a6f5b4'], coffee:['#1c1612','#251d18','#8a7563','#eadccb'], contrast:['#000000','#1c1c1c','#a0a0a0','#ffffff'] };
-const ACCENT_LIST = [['amber','бурштин','#f2b84b'],['mint',"м'ята",'#5fd3a6'],['sky','небо','#62b6f5'],['violet','фіалка','#a98bf5'],['rose','троянда','#f27a9b'],['lime','салатовий','#b5d65a'],['emerald','смарагд','#5fb59b'],['coral','корал','#ff8a5c'],['mono','моно','#9aa0aa']];
+const ACCENT_LIST = [['amber','бурштин','#f2b84b'],['mint',"м'ята",'#5fd3a6'],['sky','небо','#62b6f5'],['violet','фіалка','#a98bf5'],['rose','троянда','#f27a9b'],['lime','салатовий','#b5d65a'],['emerald','смарагд','#5fb59b'],['coral','корал','#ff8a5c'],['red','червоний','#ff6363'],['teal','бірюза','#3fd0d0'],['indigo','індиго','#8b9aff'],['fuchsia','фуксія','#ff5fd8'],['lemon','лимонний','#fcee0a'],['mono','моно','#9aa0aa']];
 function openSettings(){ if ($('arcade').classList.contains('show')) closeArcade(); setOpen = true; clearInterval(S && S.timer); if (zen) setZen(false);
   ['home','lessons','custom','prog'].forEach(id=>$(id).classList.remove('show')); progOpen=false;
   $('stage').style.display='none'; $('results').classList.remove('show'); $('bar').style.display='none';
