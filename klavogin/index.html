@@ -9,6 +9,12 @@
 <meta property="og:description" content="Уроки сліпого друку, теплокарта помилок, 8 мов. Безкоштовно, без реєстрації.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#16181d">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Клавогін">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <script>
 /* тема ставиться ще до малювання сторінки — без спалаху */
 (function(){
@@ -419,6 +425,14 @@
   .vidbar{height:8px;border-radius:4px;background:var(--bg);overflow:hidden}
   .vidbar i{display:block;height:100%;width:0;background:var(--err);transition:width .2s}
   .vstat{font:13px var(--mono);color:var(--dim)}
+  /* досягнення */
+  .achgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+  .ach{display:flex;gap:12px;align-items:center;background:var(--panel);border-radius:12px;padding:12px 14px}
+  .ach .e{font-size:28px;width:40px;text-align:center;flex:none}
+  .ach b{display:block;font-size:14px}
+  .ach small{color:var(--dim);font-size:12px;line-height:1.4;display:block;margin-top:2px}
+  .ach.locked{opacity:.45} .ach.locked .e{filter:grayscale(1)}
+  .ach .d{font:11px var(--mono);color:var(--accent);margin-top:3px;display:block}
   /* аркада */
   .arcade{display:none;flex-direction:column;gap:14px}
   .arcade.show{display:flex}
@@ -726,6 +740,7 @@
     <img class="cardprev" id="cardImg" alt="Картка результату">
     <div class="macts"><a class="btn acc" id="cardDl">⬇ завантажити PNG</a><button class="btn" id="cardCopy">📋 копіювати картинку</button></div>
   </div></div>
+  <div class="modal" id="achM"><div class="in" id="achIn"></div></div>
   <div class="toast" id="toast"></div>
   <input id="hidden" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" aria-label="поле для друку">
   <footer><div class="made">зроблено командою <b>j13</b></div>wpm = (правильні символи ÷ 5) за хвилину · результати зберігаються лише в цьому браузері</footer>
@@ -744,9 +759,11 @@ const WORDS = {
   it: "di e il la che in a per un è non del una sono le da con si al i gli lo ha come ma più anche se ci io tu lui lei noi voi loro questo quello molto tutto dove quando perché cosa chi già ancora sempre mai ora poi qui là oggi domani ieri bene male essere avere fare dire andare potere vedere dare sapere volere venire dovere stare trovare parlare pensare prendere guardare sentire vivere mettere lasciare portare credere chiamare tenere capire aprire chiudere leggere scrivere mangiare bere dormire correre giocare imparare lavorare aspettare cercare entrare uscire tornare amare casa tempo vita giorno mondo anno uomo donna parte paese lavoro città acqua notte mano storia momento modo luogo persona famiglia parola amico libro scuola occhio terra porta strada luce padre madre figlio nome cuore testa sole cielo mare albero fiore pane latte soldi musica gioco lettera settimana mese minuto grande nuovo buono primo ultimo lungo piccolo migliore alto bello vecchio giovane facile difficile vero caffè però così può".split(/\s+/)
 };
 const PUNCT = [',', '.', '!', '?', ':', ';'];
-const AMOUNTS = { time:[15,30,60,120], words:[10,25,50,100], quote:[1,3,6] };
+const AMOUNTS = { time:[15,30,60,120], words:[10,25,50,100], quote:[1,3,6,'classic'] };
+const CLASSICS = {"uk": [["Тарас Шевченко, «Заповіт»", "Як умру, то поховайте мене на могилі, серед степу широкого, на Вкраїні милій, щоб лани широкополі, і Дніпро, і кручі було видно, було чути, як реве ревучий."], ["Тарас Шевченко, «Заповіт»", "Поховайте та вставайте, кайдани порвіте і вражою злою кров'ю волю окропіте. І мене в сім'ї великій, в сім'ї вольній, новій, не забудьте пом'янути незлим тихим словом."], ["Тарас Шевченко, «Садок вишневий коло хати»", "Садок вишневий коло хати, хрущі над вишнями гудуть, плугатарі з плугами йдуть, співають ідучи дівчата, а матері вечерять ждуть."], ["Леся Українка, «Contra spem spero!»", "Гетьте, думи, ви хмари осінні! Тож тепер весна золота! Чи то так у жалю, в голосінні проминуть молодії літа?"], ["Леся Українка, «Contra spem spero!»", "Ні, я хочу крізь сльози сміятись, серед лиха співати пісні, без надії таки сподіватись, жити хочу! Геть думи сумні!"], ["Іван Франко, «Гімн»", "Вічний революцйонер - дух, що тіло рве до бою, рве за поступ, щастя й волю, - він живе, він ще не вмер."]], "en": [["Jane Austen, Pride and Prejudice", "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife."], ["Charles Dickens, A Tale of Two Cities", "It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity."], ["Herman Melville, Moby-Dick", "Call me Ishmael. Some years ago - never mind how long precisely - having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world."], ["Lewis Carroll, Alice's Adventures in Wonderland", "Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it."], ["Mark Twain, The Adventures of Tom Sawyer", "Saturday morning was come, and all the summer world was bright and fresh, and brimming with life. There was a song in every heart; and if the heart was young the music issued at the lips."]]};
+let classicSrc = '';
 AMOUNTS.lesson = []; AMOUNTS.custom = []; AMOUNTS.free = []; AMOUNTS.code = ['js','py']; AMOUNTS.ghost = [];
-const AMOUNT_LABEL = { quote:{1:'коротко',3:'середньо',6:'довго'}, code:{js:'JavaScript', py:'Python'} };
+const AMOUNT_LABEL = { quote:{1:'коротко',3:'середньо',6:'довго',classic:'📜 класика'}, code:{js:'JavaScript', py:'Python'} };
 const PROVERBS = {
   uk: `Без труда нема плода.|Вік живи - вік учись.|Діла говорять голосніше за слова.|Добре ім'я - найкраще багатство.|Друзі пізнаються в біді.|Як дбаєш, так і маєш.|Що посієш, те й пожнеш.|Хто рано встає, тому Бог дає.|Тихіше їдеш - далі будеш.|Слово не горобець: вилетить - не впіймаєш.|Не все те золото, що блищить.|Яблуко від яблуні недалеко падає.|Краще синиця в жмені, ніж журавель у небі.|Не кажи "гоп", поки не перескочиш.|Терпи, козаче, отаманом будеш.|Вовків боятися - в ліс не ходити.|Сім раз відміряй, а раз відріж.|Під лежачий камінь вода не тече.|Апетит приходить під час їди.|Ранок вечора мудріший.|Згода будує, а незгода руйнує.|Хто питає, той не блукає.|Не святі горшки ліплять.|Шила в мішку не сховаєш.|Без вогню диму не буває.|Кінь на чотирьох ногах, та й то спотикається.|Хліб - усьому голова.|Говори мало, слухай багато, а думай ще більше.|Вчення - світ, а невчення - тьма.|Праця чоловіка годує, а лінь марнує.|Поспішиш - людей насмішиш.|Хто шукає, той знаходить.|Риба шукає, де глибше, а людина - де краще.|Не той друг, хто медом маже, а той, хто правду каже.|Одна бджола меду не наносить.|Гарна пташка своїм пір'ям, а людина - своїм знанням.|Не одежа красить людину, а добрі діла.|Де хотіння, там і вміння.|Чим далі в ліс, тим більше дров.|Ласкаве слово краще за м'який пиріг.`.split('|'),
   en: `Actions speak louder than words.|The early bird catches the worm.|Practice makes perfect.|Better late than never.|A journey of a thousand miles begins with a single step.|Don't count your chickens before they hatch.|When in Rome, do as the Romans do.|The pen is mightier than the sword.|Where there's a will, there's a way.|Rome wasn't built in a day.|Slow and steady wins the race.|Knowledge is power.|Every cloud has a silver lining.|Two heads are better than one.|Look before you leap.|Honesty is the best policy.|All that glitters is not gold.|A picture is worth a thousand words.|Don't judge a book by its cover.|Fortune favors the bold.|Haste makes waste.|Many hands make light work.|No pain, no gain.|The best things in life are free.|Time flies when you're having fun.|You can't have your cake and eat it too.|Curiosity killed the cat.|Birds of a feather flock together.|An apple a day keeps the doctor away.|Still waters run deep.|Necessity is the mother of invention.|Absence makes the heart grow fonder.|Beggars can't be choosers.|Easy come, easy go.|If it ain't broke, don't fix it.|Laughter is the best medicine.|Old habits die hard.|Out of sight, out of mind.|The squeaky wheel gets the grease.|You reap what you sow.`.split('|'),
@@ -880,6 +897,11 @@ function genTest(){
   if (cfg.mode==='free') return genList(120);
   if (cfg.mode==='code') return genCode(cfg.amount);
   if (cfg.mode==='ghost' && GHOST) return GHOST.words.slice();
+  if (cfg.mode==='quote' && cfg.amount==='classic'){
+    const list = CLASSICS[cfg.lang];
+    if (list && list.length){ const [who, text] = rnd(list); classicSrc = who; return text.split(/\s+/); }
+    classicSrc = ''; return PROVERBS[cfg.lang].slice().sort(()=>Math.random()-.5).slice(0, 3).join(' ').split(/\s+/);
+  }
   if (cfg.mode==='quote'){
     const src = PROVERBS[cfg.lang].slice().sort(()=>Math.random()-.5).slice(0, cfg.amount);
     return src.join(' ').split(/\s+/);
@@ -1177,9 +1199,13 @@ function renderHome(){
       <button data-go="custom">✎ свій текст <span>— встав будь-який уривок</span></button>
       <button data-go="prog">📈 прогрес</button>
       <button data-go="recs">🎬 записи</button>
+      <button data-go="daily">⚡ тренування дня <span>— твої слабкі літери</span></button>
       <button data-go="ghost">🏁 гонка з привидом</button>
+      <button data-go="ach">🏅 досягнення <span>${Object.keys(store.get('ach',{})).length}/${ACH.length}</span></button>
+      <button data-go="install" id="installBtn" style="display:none">📲 встановити застосунок</button>
       <button data-go="settings">⚙ налаштування <span>— тема й кольори</span></button>
     </div>`;
+  showInstall();
 }
 
 /* ---------- налаштування ---------- */
@@ -1245,6 +1271,7 @@ function renderSettings(){
       <div class="srow"><span class="lab">Заставка при вході<small>клавіші набирають «клавогін»</small></span>${tog('boot', cfg.boot!==false)}</div>
     </div>
     <div class="sgroup"><h3>Дані</h3>
+      <div class="srow"><span class="lab">Перенести прогрес<small>зберегти у файл і відкрити на іншому пристрої</small></span><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="sbtn" id="expBtn">⬇ експорт</button><label class="sbtn" style="cursor:pointer">⬆ імпорт<input type="file" id="impIn" accept=".json,application/json" hidden></label></span></div>
       <div class="srow"><span class="lab">Скинути весь прогрес<small>історія, рекорди, уроки, теплокарти. Налаштування лишаться.</small></span><button class="danger" id="wipe">скинути</button></div>
     </div>`;
   const S_ = $('settings');
@@ -1258,6 +1285,8 @@ function renderSettings(){
   $('sndTest').onclick = () => { const seq=['key','key','key','space','key','key','err']; seq.forEach((k,i)=>setTimeout(()=>playKey(k), i*110)); };
   $('openRecs').onclick = openRecs;
   S_.querySelectorAll('[data-tog]').forEach(b=>b.onclick=()=>{ const k=b.dataset.tog, DEF_ON=['kb','liveStats','boot','smooth','autoRec']; const cur = DEF_ON.includes(k) ? cfg[k]!==false : !!cfg[k]; cfg[k] = !cur; store.set('cfg',cfg); renderSettings(); renderBar(); });
+  $('expBtn').onclick = exportData;
+  $('impIn').onchange = e => e.target.files[0] && importData(e.target.files[0]);
   const w = $('wipe');
   w.onclick = () => {
     if (!w.classList.contains('sure')){ w.classList.add('sure'); w.textContent='точно? натисни ще раз'; setTimeout(()=>{ if(w.isConnected){ w.classList.remove('sure'); w.textContent='скинути'; } }, 3500); return; }
@@ -1280,6 +1309,9 @@ function initNav(){
     if (g==='settings') return openSettings();
     if (g==='recs') return openRecs();
     if (g==='arcade') return openArcade();
+    if (g==='daily') return dailyTraining();
+    if (g==='ach') return openAch();
+    if (g==='install') return doInstall();
     if (g==='ghost'){ const r = bestGhost(); return r ? startGhost(r) : toast('спершу пройди тест — привидом стане твій найкращий запис'); }
     choose(g);
   });
@@ -1515,6 +1547,7 @@ async function shareRec(rec){
   let url;
   try { url = location.href.split('#')[0] + '#r=' + await packRec(rec); } catch(e){ toast('не вдалося створити посилання'); return; }
   $('shareIn').value = url; $('shareBox').classList.add('show');
+  unlock('share');
   try { await navigator.clipboard.writeText(url); toast('посилання скопійовано'); }
   catch(e){ $('shareIn').select(); toast('скопіюй посилання вручну'); }
 }
@@ -1612,6 +1645,7 @@ function ghostTick(){
 function ghostVerdict(userT){
   const gT = GHOST.endT/1000, diff = gT - userT, v = $('verdict');
   const win = diff >= 0;
+  if (win) unlock('ghost');
   v.innerHTML = `<div class="big-stars" style="font-size:40px">${win?'🏆':'👻'}</div>
     <div class="msg"><b>${win ? `Ти переміг привида на ${diff.toFixed(1)} с!` : `Привид швидший на ${(-diff).toFixed(1)} с`}</b>
     <span>Твій час ${userT.toFixed(1)} с · привид ${gT.toFixed(1)} с (${GHOST.rec.wpm} wpm, ${new Date(GHOST.rec.d).toLocaleDateString('uk-UA',{day:'2-digit',month:'2-digit'})})</span></div>
@@ -1657,6 +1691,105 @@ function drawHands(data, slow){
   const ranked = Object.keys(F).filter(f=>f!=='T' && F[f].n>=3).sort((a,b)=>slow ? avg(b)-avg(a) : rate(b)-rate(a));
   const worst = ranked[0] && (slow ? avg(ranked[0])>med*1.05 : F[ranked[0]].e>0) ? ranked[0] : null;
   $('hands').innerHTML = svg + `<div class="hsum"><span>ліва: <b>${hand('L')}</b></span><span>права: <b>${hand('R')}</b></span>${worst ? `<span>${slow?'найповільніший':'найслабший'}: <b>${FINGER_NAMES[worst]}</b></span>` : ''}</div>`;
+}
+
+/* ---------- досягнення ---------- */
+const ACH = [
+  ['first','🎉','Перший крок','пройди перший тест'],
+  ['w30','🚲','30 wpm','набери 30 слів за хвилину'],
+  ['w50','🛵','50 wpm','набери 50 слів за хвилину'],
+  ['w70','🚗','70 wpm','набери 70 слів за хвилину'],
+  ['w100','🚀','100 wpm','набери 100 слів за хвилину'],
+  ['acc100','🎯','Снайпер','100% точності в тесті від 25 слів'],
+  ['t10','🔟','Десятка','пройди 10 тестів'],
+  ['t100','💯','Сотня','пройди 100 тестів'],
+  ['marathon','🏃','Марафон','пройди тест на 120 секунд'],
+  ['lesson1','📘','Учень','пройди перший урок'],
+  ['lessonsAll','🎓','Випускник','пройди всі уроки однієї мови'],
+  ['lessons3','👑','Відмінник','усі уроки однієї мови на ★★★'],
+  ['arc1k','🕹️','Аркадник','1 000 очок в аркаді'],
+  ['arc5k','🔥','Майстер аркади','5 000 очок в аркаді'],
+  ['arcLvl5','⚡','Рівень 5','дійди до 5-го рівня в аркаді'],
+  ['ghost','👻','Мисливець на привидів','переможи свого привида'],
+  ['code','💻','Програміст','пройди тест у режимі коду'],
+  ['classic','📜','Книголюб','надрукуй уривок класики'],
+  ['polyglot','🌍','Поліглот','друкуй трьома різними мовами'],
+  ['free5','🌊','Потік','5 хвилин вільного друку за раз'],
+  ['daily3','📅','Звичка','тренування дня три різні дні'],
+  ['night','🦉','Нічна сова','тест між 00:00 і 05:00'],
+  ['share','🔗','Поділився','поділись записом друку'],
+  ['blind','🙈','Наосліп','тест у сліпому режимі з точністю 95%+'],
+];
+function unlock(id){
+  const got = store.get('ach', {});
+  if (got[id]) return;
+  got[id] = Date.now(); store.set('ach', got);
+  const a = ACH.find(x=>x[0]===id); if (!a) return;
+  setTimeout(()=>toast(`${a[1]} Досягнення: ${a[2]}`), 400 + Object.keys(unlock.q||{}).length*2400);
+  unlock.q = unlock.q || {}; unlock.q[id] = 1; setTimeout(()=>{ delete unlock.q[id]; }, 3000);
+}
+function checkTestAch(wpm, acc, secs){
+  const days = store.get('days', {}), tests = Object.values(days).reduce((a,d)=>a+d.tests, 0);
+  unlock('first');
+  if (wpm>=30) unlock('w30'); if (wpm>=50) unlock('w50'); if (wpm>=70) unlock('w70'); if (wpm>=100) unlock('w100');
+  if (acc>=100 && S.cur>=25) unlock('acc100');
+  if (tests>=10) unlock('t10'); if (tests>=100) unlock('t100');
+  if (cfg.mode==='time' && cfg.amount===120) unlock('marathon');
+  if (cfg.mode==='code') unlock('code');
+  if (cfg.mode==='quote' && cfg.amount==='classic' && classicSrc) unlock('classic');
+  if (cfg.mode==='free' && secs>=300) unlock('free5');
+  if (cfg.blind && acc>=95 && S.cur>=10) unlock('blind');
+  const h = new Date().getHours(); if (h < 5) unlock('night');
+  const langs = store.get('langsUsed', {}); langs[kbLang()] = 1; store.set('langsUsed', langs);
+  if (Object.keys(langs).filter(l=>LANGS[l]).length >= 3) unlock('polyglot');
+}
+function checkLessonAch(){
+  const L = lessons(), P = progress(), n = L.length;
+  if (Object.values(P).some(v=>v>0)) unlock('lesson1');
+  if (L.every((_,i)=>(P[i]||0)>0)) unlock('lessonsAll');
+  if (L.every((_,i)=>(P[i]||0)>=3)) unlock('lessons3');
+}
+function openAch(){
+  const got = store.get('ach', {}), n = Object.keys(got).filter(k=>ACH.some(a=>a[0]===k)).length;
+  $('achIn').innerHTML = `<div class="top"><button class="back-home" id="achBack">← назад</button><h2>🏅 Досягнення</h2><span class="meta">${n} з ${ACH.length}</span></div>
+    <div class="achgrid">${ACH.map(([id,e,t,d])=>`<div class="ach ${got[id]?'':'locked'}"><span class="e">${e}</span><span><b>${t}</b><small>${d}</small>${got[id]?`<span class="d">${new Date(got[id]).toLocaleDateString('uk-UA',{day:'numeric',month:'long'})}</span>`:''}</span></div>`).join('')}</div>`;
+  $('achM').classList.add('show'); hidden.blur();
+  $('achBack').onclick = () => $('achM').classList.remove('show');
+}
+
+/* ---------- тренування дня ---------- */
+function dailyTraining(){
+  const lg = cfg.lang, data = store.get('keys-'+lg, {}), bi = store.get('bi-'+lg, {});
+  const isLet = k => /\p{L}/u.test(k);
+  const avg = s => s.c ? s.t/s.c : 0;
+  const errs = Object.entries(data).filter(([k,s])=>isLet(k) && s.n>=6 && s.e>0).sort((a,b)=>b[1].e/b[1].n - a[1].e/a[1].n).slice(0,2).map(x=>x[0]);
+  const slow = Object.entries(data).filter(([k,s])=>isLet(k) && s.c>=6 && !errs.includes(k)).sort((a,b)=>avg(b[1])-avg(a[1])).slice(0,1).map(x=>x[0]);
+  const pairs = Object.entries(bi).filter(([p,s])=>s.n>=4 && s.e>0).sort((a,b)=>b[1].e/b[1].n - a[1].e/a[1].n).slice(0,2).map(x=>x[0]);
+  const focus = [...errs, ...slow, ...pairs];
+  const dd = store.get('dailyDays', {}); dd[dkey(new Date())] = 1; store.set('dailyDays', dd);
+  if (Object.keys(dd).length >= 3) unlock('daily3');
+  atHome = false; cfg.mode = 'time'; cfg.amount = 60; cfg.focus = focus; renderBar(); reset();
+  toast(focus.length ? `⚡ сьогодні тренуємо: ${focus.join(' ')}` : '⚡ поки мало даних — розминка на хвилину');
+}
+
+/* ---------- експорт / імпорт прогресу ---------- */
+function exportData(){
+  const out = {}; try { Object.keys(localStorage).filter(k=>k.startsWith('klavogin:')).forEach(k=>out[k]=localStorage.getItem(k)); } catch(e){}
+  const blob = new Blob([JSON.stringify({app:'klavogin', v:1, d:Date.now(), data:out})], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `klavogin-progress-${dkey(new Date())}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  toast('файл прогресу збережено');
+}
+function importData(file){
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const o = JSON.parse(r.result); if (o.app!=='klavogin' || !o.data) throw 0;
+      Object.entries(o.data).forEach(([k,v])=>{ if (k.startsWith('klavogin:')) localStorage.setItem(k, v); });
+      toast('прогрес відновлено — перезавантажую…'); setTimeout(()=>location.reload(), 900);
+    } catch(e){ toast('це не файл прогресу Клавогону'); }
+  };
+  r.readAsText(file);
 }
 
 /* ---------- картка результату (PNG) ---------- */
@@ -1920,6 +2053,7 @@ function arcOver(){
   const mins = (performance.now() - ARC.t0)/60000, wpm = Math.round(ARC.chars/5/Math.max(mins, .05));
   const bestAll = store.get('arcade-best', {}), prev = bestAll[cfg.lang] || 0, isBest = ARC.score > prev;
   if (isBest){ bestAll[cfg.lang] = ARC.score; store.set('arcade-best', bestAll); }
+  if (ARC.score>=1000) unlock('arc1k'); if (ARC.score>=5000) unlock('arc5k'); if (ARC.level>=5) unlock('arcLvl5');
   logPractice(mins*60, wpm, ARC.keys ? ARC.good/ARC.keys*100 : 0, ARC.keys);
   ARC.words.forEach(w=>w.el.classList.add('lost'));
   $('aOver').style.display = 'flex';
@@ -2196,6 +2330,8 @@ function finish(){
   LASTRES = { wpm, raw, acc, secs, label:label(), samples:S.samples.slice(), ok, no, extra, d:Date.now() };
   const rr = recStop({wpm, acc}); if (rr){ lastRec = rr; $('watchRec').style.display=''; $('raceRec').style.display = typeof ghostPrep(rr)==='string' ? 'none' : ''; }
   if (cfg.mode==='ghost' && GHOST) ghostVerdict(secs);
+  if (S.keys > 0) checkTestAch(wpm, acc, secs);
+  if (cfg.mode==='lesson') checkLessonAch();
   document.body.classList.remove('zen', 'mtype');
   hidden.blur();
 }
@@ -2219,7 +2355,7 @@ function showVerdict(wpm, acc){
   $('vAgain').onclick = () => reset();
   const n = $('vNext'); if (n) n.onclick = () => startLesson(lessonIdx+1);
 }
-function label(){ if (cfg.mode==='ghost') return `гонка з привидом · ${LANGS[kbLang()]?.short||''}`; if (cfg.mode==='code') return `код · ${AMOUNT_LABEL.code[cfg.amount]||'JavaScript'}`; if (cfg.mode==='free') return `вільний друк · ${LANGS[cfg.lang].short}`; if (cfg.mode==='custom') return `свій текст · ${S.words.length} слів`; if (cfg.mode==='lesson') return `урок ${lessonIdx+1} · ${LANGS[cfg.lang].short}`; if (cfg.mode==='quote') return `прислів'я · ${AMOUNT_LABEL.quote[cfg.amount]} · ${LANGS[cfg.lang].short}`; return `${cfg.mode==='time'?cfg.amount+' с':cfg.amount+' слів'} · ${LANGS[cfg.lang].short}${cfg.punct?' · розд.':''}${cfg.nums?' · цифри':''}${cfg.focus.length?' · фокус '+cfg.focus.join(''):''}`; }
+function label(){ if (cfg.mode==='ghost') return `гонка з привидом · ${LANGS[kbLang()]?.short||''}`; if (cfg.mode==='code') return `код · ${AMOUNT_LABEL.code[cfg.amount]||'JavaScript'}`; if (cfg.mode==='free') return `вільний друк · ${LANGS[cfg.lang].short}`; if (cfg.mode==='custom') return `свій текст · ${S.words.length} слів`; if (cfg.mode==='lesson') return `урок ${lessonIdx+1} · ${LANGS[cfg.lang].short}`; if (cfg.mode==='quote' && cfg.amount==='classic') return classicSrc ? `класика · ${classicSrc}` : `прислів'я · ${LANGS[cfg.lang].short}`; if (cfg.mode==='quote') return `прислів'я · ${AMOUNT_LABEL.quote[cfg.amount]} · ${LANGS[cfg.lang].short}`; return `${cfg.mode==='time'?cfg.amount+' с':cfg.amount+' слів'} · ${LANGS[cfg.lang].short}${cfg.punct?' · розд.':''}${cfg.nums?' · цифри':''}${cfg.focus.length?' · фокус '+cfg.focus.join(''):''}`; }
 
 /* ---------- heatmap ---------- */
 function ramp(stops, x){
@@ -2385,6 +2521,7 @@ document.addEventListener('keydown', e=>{
     else if (e.key==='ArrowLeft' && PL){ e.preventDefault(); pSeek(PL.t - 2000); }
     return;
   }
+  if ($('achM').classList.contains('show')){ if (e.key==='Escape'){ e.preventDefault(); $('achM').classList.remove('show'); } return; }
   if ($('cardM').classList.contains('show')){ if (e.key==='Escape'){ e.preventDefault(); $('cardM').classList.remove('show'); } return; }
   if ($('recsM').classList.contains('show')){ if (e.key==='Escape'){ e.preventDefault(); closeRecs(); } return; }
   if ($('arcade').classList.contains('show') && !progOpen && !setOpen){ arcKey(e); return; }
@@ -2453,6 +2590,19 @@ hidden.addEventListener('focus', resetHidden);
 
 let rz; window.addEventListener('resize', ()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if (progOpen) return renderProgress(); if(!S.done) placeCaret(); else if (S.samples.length) drawChart(S.samples); },120); });
 
+/* ---------- застосунок (PWA): встановлення й робота без інтернету ---------- */
+let deferredPrompt = null;
+const IS_IOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const STANDALONE = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const CAN_SW = 'serviceWorker' in navigator && location.protocol === 'https:' && /github\.io$/.test(location.hostname);
+if (CAN_SW) navigator.serviceWorker.register('sw.js').catch(()=>{});
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; showInstall(); });
+window.addEventListener('appinstalled', () => { deferredPrompt = null; toast('Клавогін встановлено 🎉'); showInstall(); });
+function showInstall(){ const b = $('installBtn'); if (b) b.style.display = (!STANDALONE && (deferredPrompt || (IS_IOS && CAN_SW))) ? '' : 'none'; }
+function doInstall(){
+  if (deferredPrompt){ deferredPrompt.prompt(); deferredPrompt.userChoice.finally(()=>{ deferredPrompt = null; showInstall(); }); }
+  else if (IS_IOS) toast('у Safari: «Поділитися» → «На початковий екран»');
+}
 if (!['time','words','quote','custom','lesson','free','code'].includes(cfg.mode)) cfg.mode='time';  // привид не відновлюється після перезавантаження
 initLessons(); initCustom(); initNav(); renderBar(); reset();
 window.applyTheme(cfg.theme, cfg.accent, cfg.fs, cfg.font);
