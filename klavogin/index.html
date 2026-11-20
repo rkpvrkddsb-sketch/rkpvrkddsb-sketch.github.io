@@ -13,7 +13,7 @@
 /* тема ставиться ще до малювання сторінки — без спалаху */
 (function(){
   var c = {}; try { c = JSON.parse(localStorage.getItem('klavogin:cfg')) || {}; } catch(e){}
-  var tone = { dark:'dark', midnight:'dark', light:'light', paper:'light' };
+  var tone = { dark:'dark', midnight:'dark', j13:'dark', light:'light', paper:'light' };
   window.applyTheme = function(theme, accent, fs){
     var t = theme || 'dark';
     if (t === 'auto') t = (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
@@ -42,6 +42,8 @@
   /* теми та акценти */
   :root[data-theme=dark]{--bg:#16181d;--panel:#1e2128;--panel2:#23262e;--line:#2a2e37;--dim:#5d6472;--text:#d7dae0;--keyb:#111317;--err:#ef5f5f;--ok:#7fd18b;--tip:#0f1115}
   :root[data-theme=midnight]{--bg:#0f1626;--panel:#162036;--panel2:#1b2842;--line:#243252;--dim:#5d6d94;--text:#d6def2;--keyb:#0a1020;--err:#ff6b7a;--ok:#6fdc9b;--tip:#0a0f1c}
+  /* «Ніч j13» — палітра з портфоліо */
+  :root[data-theme=j13]{--bg:#131513;--panel:#1a1d1a;--panel2:#20241f;--line:#252925;--dim:#8e938a;--text:#e4e4dc;--keyb:#0c0e0c;--err:#ef6a5f;--ok:#5fb59b;--tip:#0e100e}
   :root[data-theme=light]{--bg:#f4f2ed;--panel:#e9e6df;--panel2:#e0dcd3;--line:#d7d2c7;--dim:#8c877a;--text:#2b2925;--keyb:#c8c2b5;--err:#d6453b;--ok:#2f9a52;--tip:#ffffff}
   :root[data-theme=paper]{--bg:#f0e8d6;--panel:#e6dbc4;--panel2:#ddd0b5;--line:#d2c3a6;--dim:#8a7c62;--text:#3b3226;--keyb:#c4b391;--err:#c0392b;--ok:#3c8d4a;--tip:#fbf6ec}
   :root[data-tone=dark][data-accent=amber]{--accent:#f2b84b} :root[data-tone=light][data-accent=amber]{--accent:#b97c0c}
@@ -51,6 +53,7 @@
   :root[data-tone=dark][data-accent=rose]{--accent:#f27a9b} :root[data-tone=light][data-accent=rose]{--accent:#c93a64}
   :root[data-tone=dark][data-accent=lime]{--accent:#b5d65a} :root[data-tone=light][data-accent=lime]{--accent:#5f8a0e}
   :root[data-tone=dark][data-accent=coral]{--accent:#ff8a5c} :root[data-tone=light][data-accent=coral]{--accent:#d4521f}
+    :root[data-tone=dark][data-accent=emerald]{--accent:#5fb59b} :root[data-tone=light][data-accent=emerald]{--accent:#237a60}
   :root[data-tone=dark][data-accent=mono]{--accent:#e4e6ea} :root[data-tone=light][data-accent=mono]{--accent:#2b2925}
   :root[data-tone=light]{--on-accent:#ffffff}
   :root[data-tone=light][data-accent=mono]{--on-accent:#f4f2ed}
@@ -347,7 +350,7 @@
   .sgroup{background:var(--panel);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:14px}
   .sgroup h3{margin:0;font-size:15px}
   .sgroup h3 small{color:var(--dim);font-weight:400;font-size:12.5px;margin-left:8px}
-  .themes{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .themes{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
   .tile{background:none;border:2px solid var(--line);border-radius:12px;padding:0;cursor:pointer;overflow:hidden;color:var(--text);font:500 12.5px var(--mono);text-align:left}
   .tile.on{border-color:var(--accent)}
   .tile .pv{height:74px;padding:10px;display:flex;flex-direction:column;gap:6px;position:relative}
@@ -936,11 +939,12 @@ const THEME_LIST = [
   ['auto','Авто','як у системі'],
   ['dark','Темна','графіт'],
   ['midnight','Північ','синя ніч'],
+  ['j13','Ніч j13','портфоліо'],
   ['light','Світла','день'],
   ['paper','Папір','тепла'],
 ];
-const THEME_PV = { dark:['#16181d','#1e2128','#5d6472','#d7dae0'], midnight:['#0f1626','#162036','#5d6d94','#d6def2'], light:['#f4f2ed','#e9e6df','#8c877a','#2b2925'], paper:['#f0e8d6','#e6dbc4','#8a7c62','#3b3226'] };
-const ACCENT_LIST = [['amber','бурштин','#f2b84b'],['mint',"м'ята",'#5fd3a6'],['sky','небо','#62b6f5'],['violet','фіалка','#a98bf5'],['rose','троянда','#f27a9b'],['lime','лайм','#b5d65a'],['coral','корал','#ff8a5c'],['mono','моно','#9aa0aa']];
+const THEME_PV = { dark:['#16181d','#1e2128','#5d6472','#d7dae0'], midnight:['#0f1626','#162036','#5d6d94','#d6def2'], j13:['#131513','#1a1d1a','#8e938a','#e4e4dc'], light:['#f4f2ed','#e9e6df','#8c877a','#2b2925'], paper:['#f0e8d6','#e6dbc4','#8a7c62','#3b3226'] };
+const ACCENT_LIST = [['amber','бурштин','#f2b84b'],['mint',"м'ята",'#5fd3a6'],['sky','небо','#62b6f5'],['violet','фіалка','#a98bf5'],['rose','троянда','#f27a9b'],['lime','салатовий','#b5d65a'],['emerald','смарагд','#5fb59b'],['coral','корал','#ff8a5c'],['mono','моно','#9aa0aa']];
 function openSettings(){ setOpen = true; clearInterval(S && S.timer); if (zen) setZen(false);
   ['home','lessons','custom','prog'].forEach(id=>$(id).classList.remove('show')); progOpen=false;
   $('stage').style.display='none'; $('results').classList.remove('show'); $('bar').style.display='none';
@@ -977,7 +981,7 @@ function renderSettings(){
     </div>`;
   const S_ = $('settings');
   $('sBack').onclick = closeSettings;
-  S_.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ cfg.theme=b.dataset.theme; saveTheme(); });
+  S_.querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ cfg.theme=b.dataset.theme; if (cfg.theme==='j13') cfg.accent='lime'; saveTheme(); });
   S_.querySelectorAll('[data-accent]').forEach(b=>b.onclick=()=>{ cfg.accent=b.dataset.accent; saveTheme(); });
   S_.querySelectorAll('[data-set]').forEach(g=>g.onclick=e=>{ const b=e.target.closest('button'); if(!b) return; cfg[g.dataset.set]=b.dataset.v; saveTheme(); });
   S_.querySelectorAll('[data-tog]').forEach(b=>b.onclick=()=>{ const k=b.dataset.tog; cfg[k] = !(cfg[k]!==false); store.set('cfg',cfg); renderSettings(); renderBar(); });
