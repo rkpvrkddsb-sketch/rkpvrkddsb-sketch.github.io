@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=49">
+  <link rel="stylesheet" href="style.css?v=50">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -227,7 +227,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=49"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=50"><\/script>');
     })();
   </script>
   <script>
@@ -674,6 +674,10 @@
       card.style.setProperty("--px", px.toFixed(3)); card.style.setProperty("--py", py.toFixed(3));
     }
     if (finePointer) document.addEventListener("mousemove", e => tiltAt(e.clientX, e.clientY, e.target), { passive: true });
+    else if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const shineIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("shine"); shineIO.unobserve(e.target); } }), { threshold: .55 });
+      document.querySelectorAll(".project").forEach(c => shineIO.observe(c));
+    }
 
     // ---- Термінал-пасхалка (клавіша ~ або кнопка в підвалі) ----
     (function terminal() {
