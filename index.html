@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=48">
+  <link rel="stylesheet" href="style.css?v=49">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -191,7 +191,14 @@
   <!-- ============ СТОРІНКА ПРОЄКТУ ============ -->
   <main id="project-page" hidden></main>
 
-  <footer><div class="wrap"><span id="foot-name"></span><span id="foot-loc"></span></div></footer>
+  <footer><div class="wrap"><span id="foot-name"></span><button class="term-hint" id="term-hint" type="button" aria-label="Terminal"><kbd>~</kbd> terminal</button><span id="foot-loc"></span></div></footer>
+
+  <!-- Термінал-пасхалка: відкривається клавішею ~ -->
+  <div class="term" id="term" role="dialog" aria-label="j13 terminal" hidden>
+    <div class="term-bar"><i></i><i></i><i></i><span>guest@j13 — terminal</span><button type="button" class="term-x" id="term-x" aria-label="Close">×</button></div>
+    <div class="term-out" id="term-out"></div>
+    <label class="term-line"><span class="term-ps">guest@j13:~$</span><input id="term-in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="command"></label>
+  </div>
 
   <!-- Курсор -->
   <div class="cur" id="cur"><i class="cur-shape"></i><span class="cur-label" data-i18n="cur_view">Дивитись →</span></div>
@@ -220,7 +227,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=48"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=49"><\/script>');
     })();
   </script>
   <script>
@@ -652,17 +659,114 @@
     document.querySelectorAll("[data-to]").forEach(el => countIO.observe(el));
 
     // Нахил карток проєктів у 3D
-    const TILT = 5; // максимальний нахил у градусах
+    const TILT = 8; // максимальний нахил у градусах
     function tiltAt(x, y, el) {
       const card = el && el.closest && el.closest(".project");
-      document.querySelectorAll(".project.tilting").forEach(c => { if (c !== card) { c.classList.remove("tilting"); c.style.transform = ""; } });
+      document.querySelectorAll(".project.tilting").forEach(c => { if (c !== card) { c.classList.remove("tilting"); c.style.transform = ""; c.style.removeProperty("--px"); c.style.removeProperty("--py"); } });
       if (!card) return;
       const r = card.getBoundingClientRect();
       const px = (x - r.left) / r.width - .5, py = (y - r.top) / r.height - .5;
       card.classList.add("tilting");
-      card.style.transform = `perspective(1200px) rotateX(${-py * TILT}deg) rotateY(${px * TILT}deg) translateY(-4px)`;
+      card.style.transform = `perspective(1100px) rotateX(${(-py * TILT).toFixed(2)}deg) rotateY(${(px * TILT).toFixed(2)}deg) translateY(-6px) scale(1.01)`;
+      // відблиск іде за курсором, «вікно» з картинкою зсувається — ніби воно ближче до тебе
+      card.style.setProperty("--gx", ((px + .5) * 100).toFixed(1) + "%");
+      card.style.setProperty("--gy", ((py + .5) * 100).toFixed(1) + "%");
+      card.style.setProperty("--px", px.toFixed(3)); card.style.setProperty("--py", py.toFixed(3));
     }
     if (finePointer) document.addEventListener("mousemove", e => tiltAt(e.clientX, e.clientY, e.target), { passive: true });
+
+    // ---- Термінал-пасхалка (клавіша ~ або кнопка в підвалі) ----
+    (function terminal() {
+      const box = $("term"), out = $("term-out"), inp = $("term-in");
+      const hist = []; let hpos = 0, booted = false;
+      const esc2 = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      const print = (html, cls = "") => { const d = document.createElement("div"); d.className = "tl " + cls; d.innerHTML = html; out.appendChild(d); out.scrollTop = out.scrollHeight; return d; };
+      const typeOut = (lines, cls, step = 55) => new Promise(res => { let i = 0; (function n() { if (i >= lines.length) return res(); print(lines[i++], cls); setTimeout(n, step); })(); });
+      const LANGS_OK = ["uk", "en", "es", "de", "fr", "pl", "pt", "it"];
+      const C = {
+        help: () => print([
+          ["help", "this list"], ["about", "who we are"], ["projects", "list projects"], ["open &lt;n|name&gt;", "open a project"],
+          ["order", "start a project with us"], ["theme night|aurora|secret", "switch theme"], ["lang &lt;code&gt;", "uk en es de fr pl pt it"],
+          ["glitch", "¯\\_(ツ)_/¯"], ["hack", "try it"], ["whoami · date · ls · clear · exit", ""]
+        ].map(([c, d]) => `<span class="tc">${c}</span>${d ? `<span class="td">${d}</span>` : ""}`).join("<br>")),
+        about: () => print(esc2(site.intro)),
+        whoami: () => print("guest @ " + esc2(site.location).toLowerCase().replace(/\s+/g, "-")),
+        date: () => print(new Date().toString().split(" (")[0]),
+        ls: () => print(["projects/", "about.txt", "process/", "faq/", "contact/", ".secret"].map(s => `<span class="${s.endsWith("/") ? "tc" : ""}">${s}</span>`).join("   ")),
+        "cat": a => print(a[0] === ".secret" ? "↑ ↑ ↓ ↓ ← → ← → B A" : a[0] === "about.txt" ? esc2(site.intro) : "cat: " + esc2(a[0] || "") + ": no such file"),
+        projects: () => print(site.projects.map((p, i) => `<span class="tc">${i + 1}</span>  ${esc2(p.title)} <span class="td">— ${esc2(p.status || "")}</span>`).join("<br>") + `<br><span class="td">open &lt;n&gt; to view</span>`),
+        open: a => {
+          const k = (a[0] || "").toLowerCase(), n = parseInt(k, 10);
+          const p = site.projects[n - 1] || site.projects.find(p => p.slug === k || p.title.toLowerCase().startsWith(k));
+          if (!k || !p) return print("open: project not found — try <span class='tc'>projects</span>", "err");
+          print("opening " + esc2(p.title) + " …"); setTimeout(() => { close(); location.hash = "#p-" + p.slug; }, 450);
+        },
+        order: () => { print("→ " + esc2(T.btn_order) + " …"); setTimeout(() => { close(); location.hash = ""; $("contact").scrollIntoView({ behavior: "smooth" }); }, 450); },
+        theme: a => {
+          const m = { night: "glow", aurora: "orb", secret: "secret" }[(a[0] || "").toLowerCase()];
+          if (!m) return print("usage: theme night|aurora|secret", "err");
+          setTheme(m, m !== "secret"); print("theme → " + a[0].toLowerCase());
+          if (m === "secret") confetti();
+        },
+        lang: a => {
+          const l = (a[0] || "").toLowerCase().replace("ua", "uk");
+          if (!LANGS_OK.includes(l)) return print("usage: lang uk|en|es|de|fr|pl|pt|it", "err");
+          const b = document.querySelector(`#lang button[data-l="${l}"]`);
+          print("switching language → " + l + " …");
+          try { localStorage.setItem("lang", l); if (l !== "en") localStorage.setItem("homeLang", l); sessionStorage.setItem("drawLang", l); } catch (e) {}
+          setTimeout(() => { if (b) b.click(); else { const u = new URL(location.href); u.searchParams.delete("lang"); u.hash = ""; location.replace(u.toString()); } }, 400);
+        },
+        glitch: () => { document.body.classList.add("mega-glitch"); setTimeout(() => document.body.classList.remove("mega-glitch"), 900); print("signal distorted ▮▮▯▮"); },
+        hack: async () => {
+          inp.disabled = true;
+          await typeOut(["connecting to mainframe…", "bypassing firewall ███████░░░ 70%", "bypassing firewall ██████████ 100%",
+            "decrypting coffee.recipe …", "downloading more RAM …", "injecting good vibes into the codebase …"], "td", 260);
+          document.body.classList.add("mega-glitch"); setTimeout(() => document.body.classList.remove("mega-glitch"), 700);
+          print("ACCESS GRANTED 🔓", "ok"); print("just kidding. but we can build you something real → <span class='tc'>order</span>");
+          inp.disabled = false; inp.focus();
+        },
+        sudo: () => print("nice try 😏 — permission denied", "err"),
+        rm: () => print("rm: we don't do that here 🙅", "err"),
+        echo: a => print(esc2(a.join(" "))),
+        hello: () => print("hi there 👋"), hi: () => print("hi there 👋"),
+        clear: () => { out.innerHTML = ""; },
+        exit: () => close()
+      };
+      const NAMES = Object.keys(C);
+      function run(line) {
+        print(`<span class="term-ps">guest@j13:~$</span> ${esc2(line)}`, "cmd");
+        const [cmd, ...args] = line.trim().split(/\s+/);
+        if (!cmd) return;
+        const f = C[cmd.toLowerCase()];
+        if (f) f(args); else print(`command not found: ${esc2(cmd)} — type <span class="tc">help</span>`, "err");
+      }
+      function open() {
+        if (!box.hidden) return;
+        box.hidden = false; requestAnimationFrame(() => box.classList.add("show"));
+        document.documentElement.classList.add("term-open");
+        if (!booted) { booted = true; typeOut(["<span class='ok'>j13 terminal v1.3</span> · connected from " + esc2(site.location), "type <span class='tc'>help</span> to see what you can do"], "", 120); }
+        setTimeout(() => inp.focus(), 60);
+      }
+      function close() {
+        box.classList.remove("show"); document.documentElement.classList.remove("term-open");
+        setTimeout(() => { box.hidden = true; }, 260); inp.blur();
+      }
+      addEventListener("keydown", e => {
+        const typing = /input|textarea/i.test(document.activeElement.tagName) && document.activeElement !== inp;
+        if (e.code === "Backquote" && !typing) { e.preventDefault(); box.hidden ? open() : close(); return; }
+        if (e.key === "Escape" && !box.hidden) close();
+      });
+      inp.addEventListener("keydown", e => {
+        if (e.key === "Enter") { const v = inp.value; inp.value = ""; if (v.trim()) { hist.push(v); hpos = hist.length; } run(v); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); if (hpos > 0) inp.value = hist[--hpos]; }
+        else if (e.key === "ArrowDown") { e.preventDefault(); hpos = Math.min(hist.length, hpos + 1); inp.value = hist[hpos] || ""; }
+        else if (e.key === "Tab") { e.preventDefault(); const m = NAMES.filter(n => n.startsWith(inp.value.trim().toLowerCase())); if (m.length === 1) inp.value = m[0] + " "; else if (m.length) print(m.join("   "), "td"); }
+        e.stopPropagation();
+      });
+      $("term-x").onclick = close;
+      $("term-hint").onclick = open;
+      box.addEventListener("click", e => { if (e.target === box || e.target === out) inp.focus(); });
+    })();
 
     // Власний курсор: крапля, що розтягується в бік руху
     const CURSOR = "stretch";
