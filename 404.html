@@ -85,14 +85,23 @@
 
   <script>
     // ---- мова як на сайті ----
+    const T404 = {
+      en: ["Error 404", "This page doesn’t exist — the signal got lost", "Back to home →"],
+      es: ["Error 404", "Esta página no existe: la señal se ha perdido", "Volver al inicio →"],
+      de: ["Fehler 404", "Diese Seite gibt es nicht – das Signal ist verloren", "Zur Startseite →"],
+      fr: ["Erreur 404", "Cette page n’existe pas — le signal s’est perdu", "Retour à l’accueil →"],
+      pl: ["Błąd 404", "Takiej strony nie ma — sygnał się zgubił", "Na stronę główną →"],
+      pt: ["Erro 404", "Esta página não existe — o sinal perdeu-se", "Voltar ao início →"],
+      it: ["Errore 404", "Questa pagina non esiste: il segnale si è perso", "Torna alla home →"]
+    };
+    const SUP = ["uk", "en", "es", "de", "fr", "pl", "pt", "it"];
+    const norm = l => { l = String(l || "").toLowerCase().slice(0, 2); if (l === "ru" || l === "be") l = "uk"; return SUP.includes(l) ? l : null; };
     let lang = null;
-    try { lang = localStorage.getItem("lang"); } catch (e) {}
-    if (lang !== "uk" && lang !== "en") lang = /^(uk|ru|be)/i.test(navigator.language || "") ? "uk" : "en";
-    if (lang === "en") {
-      document.documentElement.lang = "en";
-      document.getElementById("label").textContent = "Error 404";
-      document.getElementById("title").textContent = "This page doesn’t exist — the signal got lost";
-      document.getElementById("home").textContent = "Back to home →";
+    try { lang = norm(localStorage.getItem("lang")); } catch (e) {}
+    if (!lang) lang = (navigator.languages || [navigator.language]).map(norm).find(Boolean) || "en";
+    if (T404[lang]) {
+      document.documentElement.lang = lang;
+      ["label", "title", "home"].forEach((id, i) => document.getElementById(id).textContent = T404[lang][i]);
     }
 
     // ---- осцилограф: промінь набирає оберти, обводить об'ємні «404», потім цифри заливаються ----

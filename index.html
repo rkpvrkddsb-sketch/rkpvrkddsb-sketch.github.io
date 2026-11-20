@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=47">
+  <link rel="stylesheet" href="style.css?v=48">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -204,17 +204,30 @@
     <svg viewBox="0 0 48 48" aria-hidden="true"><circle class="t" cx="24" cy="24" r="21"/><circle class="p" cx="24" cy="24" r="21" pathLength="1"/><path d="M24 31V17m-6 6 6-6 6 6"/></svg>
   </button>
 
-  <script src="content.js?v=47"></script>
-  <script src="content-en.js?v=47"></script>
+  <script>
+    // ---- Мова сайту: ?lang= → збережений вибір → мова браузера ----
+    // HOME_LANG — «рідна» мова відвідувача (кнопка зліва в перемикачі), друга кнопка завжди EN.
+    (function () {
+      var SUP = ["uk", "en", "es", "de", "fr", "pl", "pt", "it"];
+      var norm = function (l) { l = String(l || "").toLowerCase().slice(0, 2); if (l === "ru" || l === "be") l = "uk"; return SUP.indexOf(l) >= 0 ? l : null; };
+      var list = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+      var auto = null, home = null;
+      for (var i = 0; i < list.length; i++) { var m = norm(list[i]); if (m && !auto) auto = m; if (m && m !== "en" && !home) home = m; }
+      var q = norm(new URLSearchParams(location.search).get("lang")), saved = null, savedHome = null;
+      try { saved = norm(localStorage.getItem("lang")); savedHome = norm(localStorage.getItem("homeLang")); } catch (e) {}
+      var lang = q || saved || auto || "en";
+      home = (lang !== "en" ? lang : (savedHome || home)) || "uk";
+      try { localStorage.setItem("homeLang", home); } catch (e) {}
+      window.SITE_LANG = lang; window.HOME_LANG = home;
+      document.documentElement.lang = lang;
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=48"><\/script>');
+    })();
+  </script>
   <script>
     // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
-    const LANGS = ["uk", "en"];
-    let LANG = null;
-    try { LANG = localStorage.getItem("lang"); } catch (e) {}
-    const qLang = new URLSearchParams(location.search).get("lang");
-    if (LANGS.includes(qLang)) LANG = qLang;
-    if (!LANGS.includes(LANG)) LANG = /^(uk|ru|be)/i.test(navigator.language || "") ? "uk" : "en";
-    var site = LANG === "en" ? site_en : site_uk;
+    const LANG = window.SITE_LANG, HOME = window.HOME_LANG;
+    const NATIVE = {"uk": ["UA", "УКРАЇНСЬКА"], "en": ["EN", "ENGLISH"], "es": ["ES", "ESPAÑOL"], "de": ["DE", "DEUTSCH"], "fr": ["FR", "FRANÇAIS"], "pl": ["PL", "POLSKI"], "pt": ["PT", "PORTUGUÊS"], "it": ["IT", "ITALIANO"]};
+    var site = { uk: () => site_uk, en: () => site_en, es: () => site_es, de: () => site_de, fr: () => site_fr, pl: () => site_pl, pt: () => site_pt, it: () => site_it }[LANG]();
 
     // Тексти інтерфейсу (заголовки, кнопки). Тексти про тебе — у content.js / content-en.js
     const I18N = {
@@ -249,12 +262,20 @@
         themes: ["Night", "Aurora"], loading: "Loading",
         chat: ["Hi! I'd like to book a table for tonight 🙌", "Sure! For how many people and what time?", "4 of us, at 7 pm",
                "Done ✅ See you at 7 pm. I'll remind you an hour before!", "Change time", "Cancel"]
-      }
+      },
+      es: { nav_projects: "Proyectos", nav_about: "Nosotros", nav_exp: "Experiencia", nav_faq: "Preguntas", nav_contact: "Contacto", btn_order: "Encargar", btn_work: "Proyectos", h_projects: "Proyectos <span class=\"em\">destacados</span>", projects_word: " proyectos · ", l_about: "Sobre nosotros", l_skills: "Habilidades y herramientas", contact_soon: "Los contactos para pedidos aparecerán aquí muy pronto.", to_top: "Arriba", tab_away: "▮ señal perdida · j13", tab_back: "◉ conectado · j13", h_exp: "Experiencia", h_process: "Cómo <span class=\"em\">trabajamos</span>", h_reviews: "Qué dicen los <span class=\"em\">clientes</span>", l_faq: "Preguntas", h_faq: "Preguntas <span class=\"em\">frecuentes</span>", l_contact: "Contacto", h_contact: "Hagamos<br><span class=\"em\">algo genial</span>", cur_view: "Ver →", more: "Saber más", back: "← Todos los proyectos", open: "Abrir proyecto ↗", task: "Reto", solution: "Solución", result: "Resultado", features: "Qué <span class=\"em\">hace</span>", next: "Siguiente proyecto", toast_secret: "🎉 ¡Has encontrado el tema secreto!", toast_back: "De vuelta al mundo normal 👋", themes: ["Noche", "Aurora"], loading: "Cargando", chat: ["¡Hola! Quiero reservar mesa para esta noche 🙌", "¡Claro! ¿Para cuántas personas y a qué hora?", "Somos 4, a las 19:00", "Listo ✅ Os esperamos a las 19:00. ¡Te lo recuerdo una hora antes!", "Cambiar hora", "Cancelar"] },
+      de: { nav_projects: "Projekte", nav_about: "Über uns", nav_exp: "Erfahrung", nav_faq: "Fragen", nav_contact: "Kontakt", btn_order: "Bestellen", btn_work: "Projekte", h_projects: "Ausgewählte <span class=\"em\">Projekte</span>", projects_word: " Projekte · ", l_about: "Über uns", l_skills: "Skills und Tools", contact_soon: "Kontakte für Bestellungen erscheinen hier schon sehr bald.", to_top: "Nach oben", tab_away: "▮ Signal verloren · j13", tab_back: "◉ verbunden · j13", h_exp: "Erfahrung", h_process: "Wie wir <span class=\"em\">arbeiten</span>", h_reviews: "Was <span class=\"em\">Kunden</span> sagen", l_faq: "Fragen", h_faq: "Häufige <span class=\"em\">Fragen</span>", l_contact: "Kontakt", h_contact: "Lass uns<br><span class=\"em\">etwas Großes bauen</span>", cur_view: "Ansehen →", more: "Mehr erfahren", back: "← Alle Projekte", open: "Projekt öffnen ↗", task: "Aufgabe", solution: "Lösung", result: "Ergebnis", features: "Was es <span class=\"em\">kann</span>", next: "Nächstes Projekt", toast_secret: "🎉 Du hast das geheime Theme gefunden!", toast_back: "Zurück in der normalen Welt 👋", themes: ["Nacht", "Polarlicht"], loading: "Laden", chat: ["Hallo! Ich möchte für heute Abend einen Tisch reservieren 🙌", "Gern! Für wie viele Personen und um wie viel Uhr?", "Wir sind 4, um 19 Uhr", "Erledigt ✅ Wir erwarten euch um 19 Uhr. Ich erinnere eine Stunde vorher!", "Zeit ändern", "Stornieren"] },
+      fr: { nav_projects: "Projets", nav_about: "À propos", nav_exp: "Expérience", nav_faq: "Questions", nav_contact: "Contact", btn_order: "Commander", btn_work: "Projets", h_projects: "Projets <span class=\"em\">choisis</span>", projects_word: " projets · ", l_about: "À propos de nous", l_skills: "Compétences et outils", contact_soon: "Les contacts pour commander apparaîtront ici très bientôt.", to_top: "Haut de page", tab_away: "▮ signal perdu · j13", tab_back: "◉ connecté · j13", h_exp: "Expérience", h_process: "Comment nous <span class=\"em\">travaillons</span>", h_reviews: "Ce que disent nos <span class=\"em\">clients</span>", l_faq: "Questions", h_faq: "Questions <span class=\"em\">fréquentes</span>", l_contact: "Contact", h_contact: "Créons ensemble<br><span class=\"em\">quelque chose de génial</span>", cur_view: "Voir →", more: "En savoir plus", back: "← Tous les projets", open: "Ouvrir le projet ↗", task: "Défi", solution: "Solution", result: "Résultat", features: "Ce qu'il <span class=\"em\">fait</span>", next: "Projet suivant", toast_secret: "🎉 Tu as trouvé le thème secret !", toast_back: "Retour au monde normal 👋", themes: ["Nuit", "Aurore"], loading: "Chargement", chat: ["Bonjour ! Je voudrais réserver une table pour ce soir 🙌", "Bien sûr ! Pour combien de personnes et à quelle heure ?", "Nous sommes 4, à 19 h", "C'est fait ✅ On vous attend à 19 h. Je vous le rappelle une heure avant !", "Changer l'heure", "Annuler"] },
+      pl: { nav_projects: "Projekty", nav_about: "O nas", nav_exp: "Doświadczenie", nav_faq: "Pytania", nav_contact: "Kontakt", btn_order: "Zamów", btn_work: "Projekty", h_projects: "Wybrane <span class=\"em\">projekty</span>", projects_word: " projekty · ", l_about: "O nas", l_skills: "Umiejętności i narzędzia", contact_soon: "Kontakty do zamówień pojawią się tu już wkrótce.", to_top: "Do góry", tab_away: "▮ utracono sygnał · j13", tab_back: "◉ połączono · j13", h_exp: "Doświadczenie", h_process: "Jak <span class=\"em\">pracujemy</span>", h_reviews: "Co mówią <span class=\"em\">klienci</span>", l_faq: "Pytania", h_faq: "Częste <span class=\"em\">pytania</span>", l_contact: "Kontakt", h_contact: "Zróbmy razem<br><span class=\"em\">coś świetnego</span>", cur_view: "Zobacz →", more: "Więcej", back: "← Wszystkie projekty", open: "Otwórz projekt ↗", task: "Zadanie", solution: "Rozwiązanie", result: "Efekt", features: "Co <span class=\"em\">potrafi</span>", next: "Następny projekt", toast_secret: "🎉 Znalazłeś sekretny motyw!", toast_back: "Powrót do zwykłego świata 👋", themes: ["Noc", "Zorza"], loading: "Ładowanie", chat: ["Cześć! Chcę zarezerwować stolik na wieczór 🙌", "Jasne! Na ile osób i na którą?", "Będzie nas 4, na 19:00", "Gotowe ✅ Czekamy o 19:00. Przypomnę godzinę wcześniej!", "Zmień godzinę", "Anuluj"] },
+      pt: { nav_projects: "Projetos", nav_about: "Sobre nós", nav_exp: "Experiência", nav_faq: "Perguntas", nav_contact: "Contacto", btn_order: "Encomendar", btn_work: "Projetos", h_projects: "Projetos <span class=\"em\">escolhidos</span>", projects_word: " projetos · ", l_about: "Sobre nós", l_skills: "Competências e ferramentas", contact_soon: "Os contactos para encomendas vão aparecer aqui muito em breve.", to_top: "Topo", tab_away: "▮ sinal perdido · j13", tab_back: "◉ ligado · j13", h_exp: "Experiência", h_process: "Como <span class=\"em\">trabalhamos</span>", h_reviews: "O que dizem os <span class=\"em\">clientes</span>", l_faq: "Perguntas", h_faq: "Perguntas <span class=\"em\">frequentes</span>", l_contact: "Contacto", h_contact: "Vamos criar<br><span class=\"em\">algo incrível</span>", cur_view: "Ver →", more: "Saber mais", back: "← Todos os projetos", open: "Abrir projeto ↗", task: "Desafio", solution: "Solução", result: "Resultado", features: "O que <span class=\"em\">faz</span>", next: "Próximo projeto", toast_secret: "🎉 Encontraste o tema secreto!", toast_back: "De volta ao mundo normal 👋", themes: ["Noite", "Aurora"], loading: "A carregar", chat: ["Olá! Quero reservar uma mesa para hoje à noite 🙌", "Claro! Para quantas pessoas e a que horas?", "Somos 4, às 19:00", "Feito ✅ Esperamos por vocês às 19:00. Lembro uma hora antes!", "Mudar hora", "Cancelar"] },
+      it: { nav_projects: "Progetti", nav_about: "Chi siamo", nav_exp: "Esperienza", nav_faq: "Domande", nav_contact: "Contatti", btn_order: "Ordina", btn_work: "Progetti", h_projects: "Progetti <span class=\"em\">scelti</span>", projects_word: " progetti · ", l_about: "Chi siamo", l_skills: "Competenze e strumenti", contact_soon: "I contatti per gli ordini appariranno qui molto presto.", to_top: "Torna su", tab_away: "▮ segnale perso · j13", tab_back: "◉ connesso · j13", h_exp: "Esperienza", h_process: "Come <span class=\"em\">lavoriamo</span>", h_reviews: "Cosa dicono i <span class=\"em\">clienti</span>", l_faq: "Domande", h_faq: "Domande <span class=\"em\">frequenti</span>", l_contact: "Contatti", h_contact: "Creiamo insieme<br><span class=\"em\">qualcosa di grande</span>", cur_view: "Vedi →", more: "Scopri di più", back: "← Tutti i progetti", open: "Apri progetto ↗", task: "Sfida", solution: "Soluzione", result: "Risultato", features: "Cosa <span class=\"em\">fa</span>", next: "Progetto successivo", toast_secret: "🎉 Hai trovato il tema segreto!", toast_back: "Di nuovo nel mondo normale 👋", themes: ["Notte", "Aurora"], loading: "Caricamento", chat: ["Ciao! Vorrei prenotare un tavolo per stasera 🙌", "Certo! Per quante persone e a che ora?", "Siamo in 4, alle 19:00", "Fatto ✅ Vi aspettiamo alle 19:00. Ve lo ricordo un'ora prima!", "Cambia orario", "Annulla"] }
     };
     const T = I18N[LANG];
     document.documentElement.lang = LANG;
     document.querySelectorAll("[data-i18n]").forEach(el => { if (T[el.dataset.i18n] != null) el.innerHTML = T[el.dataset.i18n]; });
     document.querySelectorAll("#themes button").forEach((b, i) => { b.title = T.themes[i]; b.setAttribute("aria-label", T.themes[i]); });
+    // перемикач: рідна мова відвідувача ↔ англійська
+    document.getElementById("lang").innerHTML = `<button data-l="${HOME}" title="${NATIVE[HOME][1]}">${NATIVE[HOME][0]}</button><button data-l="en" title="ENGLISH">EN</button>`;
     document.querySelectorAll("#lang button").forEach(b => {
       b.classList.toggle("on", b.dataset.l === LANG);
       b.onclick = () => {
@@ -798,16 +819,27 @@
             U: [[[0,0],[16,0],[16,64],[48,64],[48,0],[64,0],[64,66],[50,80],[0,80]]],
             A: [[[20,0],[64,0],[64,80],[48,80],[48,58],[16,58],[16,80],[0,80],[0,20]], [[23,16],[48,16],[48,42],[16,42],[16,23]]],
             E: [[[16,0],[64,0],[64,16],[16,16],[16,32],[54,32],[54,48],[16,48],[16,64],[64,64],[64,80],[0,80],[0,16]]],
-            N: [[[0,0],[16,0],[48,50],[48,0],[64,0],[64,80],[48,80],[16,30],[16,80],[0,80]]]
+            N: [[[0,0],[16,0],[48,50],[48,0],[64,0],[64,80],[48,80],[16,30],[16,80],[0,80]]],
+            S: [[[0,16],[16,0],[64,0],[64,16],[16,16],[16,32],[64,32],[64,66],[50,80],[0,80],[0,64],[48,64],[48,48],[0,48]]],
+            D: [[[0,0],[48,0],[64,16],[64,64],[48,80],[0,80]], [[16,16],[42,16],[48,22],[48,58],[42,64],[16,64]]],
+            F: [[[16,0],[64,0],[64,16],[16,16],[16,32],[54,32],[54,48],[16,48],[16,80],[0,80],[0,16]]],
+            R: [[[0,0],[50,0],[64,14],[64,42],[56,50],[64,80],[47,80],[40,56],[16,56],[16,80],[0,80]], [[16,16],[46,16],[48,18],[48,38],[46,40],[16,40]]],
+            P: [[[0,0],[50,0],[64,14],[64,44],[50,58],[16,58],[16,80],[0,80]], [[16,16],[46,16],[48,18],[48,40],[46,42],[16,42]]],
+            L: [[[0,0],[16,0],[16,64],[64,64],[64,80],[14,80],[0,66]]],
+            T: [[[0,0],[64,0],[64,16],[40,16],[40,80],[24,80],[24,16],[0,16]]],
+            I: [[[0,0],[16,0],[16,80],[0,80]]]
           };
-          const word = drawLang === "en" ? "EN" : "UA", S = Math.min(1.25, W / 360), gap = 20, gw = 64, slant = .3;
-          const totalW = (word.length * gw + (word.length - 1) * gap) * S;
+          const GW = { I: 16 };                                   // ширина літери (за замовчуванням 64)
+          const word = (NATIVE[drawLang] || NATIVE.en)[0], S = Math.min(1.25, W / 360), gap = 20, slant = .3;
+          const adv = [...word].map(ch => GW[ch] || 64);
+          const totalW = (adv.reduce((a, b) => a + b, 0) + (word.length - 1) * gap) * S;
           const ox = W / 2 - totalW / 2 - slant * 40 * S, oy = Hh / 2 - 40 * S;
           shapes = [];
-          [...word].forEach((ch, i) => G[ch].forEach(poly => shapes.push(poly.map(([x, y]) =>
-            [ox + (i * (gw + gap) + x + slant * (80 - y)) * S, oy + y * S]))));
+          let penX = 0;
+          [...word].forEach((ch, i) => { const x0 = penX; G[ch].forEach(poly => shapes.push(poly.map(([x, y]) =>
+            [ox + (x0 + x + slant * (80 - y)) * S, oy + y * S]))); penX += adv[i] + gap; });
           strokes = shapes.map(s => [...s, s[0]]);          // замкнені контури для променя
-          lab.textContent = drawLang === "en" ? "ENGLISH" : "УКРАЇНСЬКА";
+          lab.textContent = (NATIVE[drawLang] || NATIVE.en)[1];
           lab.style.top = `calc(50% + ${Math.round(40 * S + 30)}px)`;
         }
         const segLen = l => l.slice(1).reduce((s, p, i) => s + Math.hypot(p[0] - l[i][0], p[1] - l[i][1]), 0);
