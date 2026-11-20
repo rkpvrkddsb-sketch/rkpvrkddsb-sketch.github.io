@@ -17,6 +17,9 @@
   <meta property="og:url" content="https://rkpvrkddsb-sketch.github.io/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#131513">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="j13">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-60 -126 497 497'%3E%3Crect x='-60' y='-126' width='497' height='497' rx='110' fill='%23121212'/%3E%3Cg fill='%23f6f5f1'%3E%3Cpath d='M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z'/%3E%3Cpath d='M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z'/%3E%3Cpath d='M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z'/%3E%3Cpath d='M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z'/%3E%3C/g%3E%3C/svg%3E">
   <!-- Захист: що сторінці дозволено завантажувати (лише свої файли + шрифти Google), без чужих скриптів і плагінів -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
@@ -31,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=51">
+  <link rel="stylesheet" href="style.css?v=54">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -153,6 +156,21 @@
       </div>
     </section>
 
+    <section id="demo">
+      <div class="wrap demo-grid">
+        <div class="demo-text reveal">
+          <h2 id="demo-h"></h2>
+          <p id="demo-p"></p>
+          <a href="#contact" class="btn primary magnet" id="demo-cta"></a>
+        </div>
+        <div class="demo-phone reveal" id="demo-phone" aria-live="polite">
+          <div class="dp-top"><i>j13</i><div><b id="demo-name"></b><small id="demo-online"></small></div></div>
+          <div class="dp-msgs" id="demo-msgs"></div>
+          <div class="dp-btns" id="demo-btns"></div>
+        </div>
+      </div>
+    </section>
+
     <section id="process">
       <div class="wrap">
         <div class="sec-head reveal"><h2 data-i18n="h_process">Як ми <span class="em">працюємо</span></h2></div>
@@ -227,7 +245,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=51"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=54"><\/script>');
     })();
   </script>
   <script>
@@ -678,6 +696,42 @@
       const shineIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("shine"); shineIO.unobserve(e.target); } }), { threshold: .55 });
       document.querySelectorAll(".project").forEach(c => shineIO.observe(c));
     }
+
+    // ---- Живе демо бота ----
+    (function botDemo() {
+      const DEMO = {"uk": {"h": "Спробуйте <span class=\"em\">нашого бота</span>", "p": "Це живе демо: натискайте кнопки й забронюйте столик у вигаданому ресторані. Так само ваш бот може приймати заявки, записи й замовлення — 24/7.", "cta": "Хочу такого бота", "name": "j13 Bistro · бот", "online": "онлайн", "hi": "Привіт! 👋 Я бот ресторану j13 Bistro. Чим допомогти?", "b_book": "Забронювати столик", "b_menu": "Меню", "b_hours": "Години роботи", "b_human": "Покликати людину", "q_people": "Чудово! На скільки гостей?", "q_when": "На коли бронюємо?", "t1": "Сьогодні, 19:00", "t2": "Завтра, 20:00", "done": "Готово ✅ Столик на {n} гостей — {t}. Надішлю нагадування за годину!", "menu": "Сьогодні рекомендуємо:\n🍝 Паста з трюфелем\n🎃 Салат з печеним гарбузом\n🍰 Чізкейк", "hours": "Працюємо щодня з 10:00 до 23:00 🕙", "human": "Передаю розмову менеджеру 👩‍💼 Зазвичай відповідаємо за 5 хвилин.", "back": "← Назад", "restart": "Почати спочатку", "typing": "друкує…"}, "en": {"h": "Try <span class=\"em\">our bot</span>", "p": "This is a live demo: tap the buttons and book a table at a made-up restaurant. Your bot can take requests, appointments and orders the same way — 24/7.", "cta": "I want a bot like this", "name": "j13 Bistro · bot", "online": "online", "hi": "Hi! 👋 I'm the j13 Bistro bot. How can I help?", "b_book": "Book a table", "b_menu": "Menu", "b_hours": "Opening hours", "b_human": "Talk to a person", "q_people": "Great! How many guests?", "q_when": "When would you like to come?", "t1": "Today, 7 pm", "t2": "Tomorrow, 8 pm", "done": "Done ✅ Table for {n} — {t}. I'll send you a reminder an hour before!", "menu": "Today we recommend:\n🍝 Truffle pasta\n🎃 Roasted pumpkin salad\n🍰 Cheesecake", "hours": "We're open every day, 10 am – 11 pm 🕙", "human": "Handing you over to a manager 👩‍💼 We usually reply within 5 minutes.", "back": "← Back", "restart": "Start over", "typing": "typing…"}, "es": {"h": "Prueba <span class=\"em\">nuestro bot</span>", "p": "Es una demo real: pulsa los botones y reserva mesa en un restaurante inventado. Tu bot puede recibir solicitudes, citas y pedidos igual — 24/7.", "cta": "Quiero un bot así", "name": "j13 Bistro · bot", "online": "en línea", "hi": "¡Hola! 👋 Soy el bot de j13 Bistro. ¿En qué te ayudo?", "b_book": "Reservar mesa", "b_menu": "Menú", "b_hours": "Horario", "b_human": "Hablar con una persona", "q_people": "¡Genial! ¿Cuántos comensales?", "q_when": "¿Para cuándo?", "t1": "Hoy, 19:00", "t2": "Mañana, 20:00", "done": "Listo ✅ Mesa para {n} — {t}. ¡Te enviaré un recordatorio una hora antes!", "menu": "Hoy recomendamos:\n🍝 Pasta con trufa\n🎃 Ensalada de calabaza asada\n🍰 Tarta de queso", "hours": "Abrimos todos los días de 10:00 a 23:00 🕙", "human": "Te paso con un responsable 👩‍💼 Solemos responder en 5 minutos.", "back": "← Atrás", "restart": "Empezar de nuevo", "typing": "escribiendo…"}, "de": {"h": "Teste <span class=\"em\">unseren Bot</span>", "p": "Das ist eine echte Demo: Tippe auf die Buttons und reserviere einen Tisch in einem erfundenen Restaurant. Genauso kann dein Bot Anfragen, Termine und Bestellungen annehmen — rund um die Uhr.", "cta": "So einen Bot will ich", "name": "j13 Bistro · Bot", "online": "online", "hi": "Hallo! 👋 Ich bin der Bot vom j13 Bistro. Wie kann ich helfen?", "b_book": "Tisch reservieren", "b_menu": "Speisekarte", "b_hours": "Öffnungszeiten", "b_human": "Mit einem Menschen sprechen", "q_people": "Super! Für wie viele Gäste?", "q_when": "Wann möchtet ihr kommen?", "t1": "Heute, 19:00", "t2": "Morgen, 20:00", "done": "Erledigt ✅ Tisch für {n} — {t}. Ich erinnere dich eine Stunde vorher!", "menu": "Heute empfehlen wir:\n🍝 Trüffelpasta\n🎃 Salat mit Ofenkürbis\n🍰 Käsekuchen", "hours": "Wir haben täglich von 10 bis 23 Uhr geöffnet 🕙", "human": "Ich verbinde dich mit einem Mitarbeiter 👩‍💼 Wir antworten meist innerhalb von 5 Minuten.", "back": "← Zurück", "restart": "Neu starten", "typing": "schreibt…"}, "fr": {"h": "Essayez <span class=\"em\">notre bot</span>", "p": "C'est une vraie démo : touchez les boutons et réservez une table dans un restaurant imaginaire. Votre bot peut prendre demandes, rendez-vous et commandes de la même façon — 24h/24.", "cta": "Je veux un bot comme ça", "name": "j13 Bistro · bot", "online": "en ligne", "hi": "Bonjour ! 👋 Je suis le bot du j13 Bistro. Comment puis-je aider ?", "b_book": "Réserver une table", "b_menu": "Menu", "b_hours": "Horaires", "b_human": "Parler à quelqu'un", "q_people": "Parfait ! Pour combien de personnes ?", "q_when": "Pour quand ?", "t1": "Aujourd'hui, 19 h", "t2": "Demain, 20 h", "done": "C'est fait ✅ Table pour {n} — {t}. Je vous enverrai un rappel une heure avant !", "menu": "Aujourd'hui, on recommande :\n🍝 Pâtes à la truffe\n🎃 Salade de potiron rôti\n🍰 Cheesecake", "hours": "Ouvert tous les jours de 10 h à 23 h 🕙", "human": "Je vous passe un conseiller 👩‍💼 Nous répondons en général en 5 minutes.", "back": "← Retour", "restart": "Recommencer", "typing": "écrit…"}, "pl": {"h": "Wypróbuj <span class=\"em\">naszego bota</span>", "p": "To prawdziwe demo: klikaj przyciski i zarezerwuj stolik w wymyślonej restauracji. Tak samo Twój bot może przyjmować zgłoszenia, wizyty i zamówienia — 24/7.", "cta": "Chcę takiego bota", "name": "j13 Bistro · bot", "online": "online", "hi": "Cześć! 👋 Jestem botem restauracji j13 Bistro. W czym pomóc?", "b_book": "Zarezerwuj stolik", "b_menu": "Menu", "b_hours": "Godziny otwarcia", "b_human": "Połącz z człowiekiem", "q_people": "Super! Na ile osób?", "q_when": "Na kiedy?", "t1": "Dziś, 19:00", "t2": "Jutro, 20:00", "done": "Gotowe ✅ Stolik dla {n} os. — {t}. Wyślę przypomnienie godzinę wcześniej!", "menu": "Dziś polecamy:\n🍝 Makaron z truflą\n🎃 Sałatka z pieczoną dynią\n🍰 Sernik", "hours": "Otwarte codziennie od 10:00 do 23:00 🕙", "human": "Przekazuję rozmowę menedżerowi 👩‍💼 Zwykle odpowiadamy w 5 minut.", "back": "← Wstecz", "restart": "Zacznij od nowa", "typing": "pisze…"}, "pt": {"h": "Experimenta <span class=\"em\">o nosso bot</span>", "p": "É uma demo real: toca nos botões e reserva mesa num restaurante inventado. O teu bot pode receber pedidos, marcações e encomendas da mesma forma — 24/7.", "cta": "Quero um bot assim", "name": "j13 Bistro · bot", "online": "online", "hi": "Olá! 👋 Sou o bot do j13 Bistro. Como posso ajudar?", "b_book": "Reservar mesa", "b_menu": "Menu", "b_hours": "Horário", "b_human": "Falar com uma pessoa", "q_people": "Ótimo! Para quantas pessoas?", "q_when": "Para quando?", "t1": "Hoje, 19:00", "t2": "Amanhã, 20:00", "done": "Feito ✅ Mesa para {n} — {t}. Envio um lembrete uma hora antes!", "menu": "Hoje recomendamos:\n🍝 Massa com trufa\n🎃 Salada de abóbora assada\n🍰 Cheesecake", "hours": "Abertos todos os dias das 10:00 às 23:00 🕙", "human": "Vou passar-te a um gestor 👩‍💼 Costumamos responder em 5 minutos.", "back": "← Voltar", "restart": "Recomeçar", "typing": "a escrever…"}, "it": {"h": "Prova <span class=\"em\">il nostro bot</span>", "p": "È una demo vera: tocca i pulsanti e prenota un tavolo in un ristorante inventato. Allo stesso modo il tuo bot può ricevere richieste, appuntamenti e ordini — 24/7.", "cta": "Voglio un bot così", "name": "j13 Bistro · bot", "online": "online", "hi": "Ciao! 👋 Sono il bot di j13 Bistro. Come posso aiutarti?", "b_book": "Prenota un tavolo", "b_menu": "Menù", "b_hours": "Orari", "b_human": "Parla con una persona", "q_people": "Perfetto! Per quante persone?", "q_when": "Per quando?", "t1": "Oggi, 19:00", "t2": "Domani, 20:00", "done": "Fatto ✅ Tavolo per {n} — {t}. Ti mando un promemoria un'ora prima!", "menu": "Oggi consigliamo:\n🍝 Pasta al tartufo\n🎃 Insalata di zucca al forno\n🍰 Cheesecake", "hours": "Aperti tutti i giorni dalle 10:00 alle 23:00 🕙", "human": "Ti passo a un responsabile 👩‍💼 Di solito rispondiamo entro 5 minuti.", "back": "← Indietro", "restart": "Ricomincia", "typing": "sta scrivendo…"}};
+      const L = DEMO[LANG] || DEMO.en;
+      $("demo-h").innerHTML = L.h; $("demo-p").textContent = L.p; $("demo-cta").textContent = L.cta + " →";
+      $("demo-name").textContent = L.name; $("demo-online").textContent = L.online;
+      const msgs = $("demo-msgs"), btns = $("demo-btns");
+      let busy = false, started = false, people = "";
+      const scroll = () => requestAnimationFrame(() => msgs.scrollTo({ top: msgs.scrollHeight + 100, behavior: "smooth" }));
+      const add = (text, who) => { const d = document.createElement("div"); d.className = "dm " + who; d.textContent = text; msgs.appendChild(d); scroll(); };
+      const say = (text, next) => {
+        busy = true; btns.innerHTML = "";
+        const t = document.createElement("div"); t.className = "dm in typing"; t.innerHTML = "<i></i><i></i><i></i>"; msgs.appendChild(t); scroll();
+        $("demo-online").textContent = L.typing;
+        setTimeout(() => { t.remove(); $("demo-online").textContent = L.online; add(text, "in"); busy = false; next && next(); }, 650 + Math.min(900, text.length * 12));
+      };
+      const choices = list => {
+        btns.innerHTML = "";
+        list.forEach(([label, fn], i) => {
+          const b = document.createElement("button"); b.type = "button"; b.textContent = label; b.style.animationDelay = i * .06 + "s";
+          b.onclick = () => { if (busy) return; add(label, "out"); fn(); };
+          btns.appendChild(b);
+        });
+        requestAnimationFrame(scroll);
+      };
+      const main = () => choices([[L.b_book, book], [L.b_menu, menu], [L.b_hours, hours], [L.b_human, human]]);
+      const backBtn = () => choices([[L.back, () => say(L.hi, main)], [L.b_book, book]]);
+      function book() { say(L.q_people, () => choices(["2", "4", "6+"].map(n => [n, () => { people = n; say(L.q_when, () => choices([L.t1, L.t2].map(t => [t, () => say(L.done.replace("{n}", people).replace("{t}", t), () => choices([[L.restart, restart], [L.b_menu, menu]]))])))}]))); }
+      function menu() { say(L.menu, backBtn); }
+      function hours() { say(L.hours, backBtn); }
+      function human() { say(L.human, backBtn); }
+      function restart() { msgs.innerHTML = ""; say(L.hi, main); }
+      // бот «прокидається», коли блок з'являється на екрані
+      new IntersectionObserver((es, o) => { if (es[0].isIntersecting && !started) { started = true; o.disconnect(); say(L.hi, main); } }, { threshold: .4 }).observe($("demo-phone"));
+    })();
 
     // ---- Термінал-пасхалка (клавіша ~ або кнопка в підвалі) ----
     (function terminal() {
