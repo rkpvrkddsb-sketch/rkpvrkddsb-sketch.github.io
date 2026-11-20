@@ -21,7 +21,8 @@
   var c = {}; try { c = JSON.parse(localStorage.getItem('klavogin:cfg')) || {}; } catch(e){}
   var tone = { dark:'dark', midnight:'dark', j13:'dark', terminal:'dark', coffee:'dark', contrast:'dark', light:'light', paper:'light', sakura:'light' };
   var FONTS = { jetbrains:["'JetBrains Mono'", ''], plex:["'IBM Plex Mono'", 'IBM+Plex+Mono:wght@400;500'], roboto:["'Roboto Mono'", 'Roboto+Mono:wght@400;500'],
-    fira:["'Fira Code'", 'Fira+Code:wght@400;500'], source:["'Source Code Pro'", 'Source+Code+Pro:wght@400;500'], ptmono:["'PT Mono'", 'PT+Mono'], ubuntu:["'Ubuntu Mono'", 'Ubuntu+Mono:wght@400;700'] };
+    fira:["'Fira Code'", 'Fira+Code:wght@400;500'], source:["'Source Code Pro'", 'Source+Code+Pro:wght@400;500'], ptmono:["'PT Mono'", 'PT+Mono'], ubuntu:["'Ubuntu Mono'", 'Ubuntu+Mono:wght@400;700'],
+    sf:["-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter'", 'Inter:wght@400;500', 'sans-serif'], futura:["'Futura', 'Futura PT', 'Jost'", 'Jost:wght@400;500', 'sans-serif'] };
   window.FONTS = FONTS;
   window.applyFont = function(key){
     var f = FONTS[key] || FONTS.jetbrains, r = document.documentElement;
@@ -29,7 +30,7 @@
       var l = document.createElement('link'); l.rel='stylesheet'; l.id='font-'+key;
       l.href='https://fonts.googleapis.com/css2?family='+f[1]+'&display=swap'; document.head.appendChild(l);
     }
-    r.style.setProperty('--tfont', f[0]+", 'JetBrains Mono', ui-monospace, monospace");
+    r.style.setProperty('--tfont', f[0] + (f[2] ? ', ' + f[2] : ", 'JetBrains Mono', ui-monospace, monospace"));
   };
   window.applyTheme = function(theme, accent, fs, font){
     window.applyFont(font);
@@ -1249,8 +1250,9 @@ function renderSettings(){
       <div class="srow"><span class="lab">Розмір тексту</span>${seg('fs', fs, [['s','малий'],['m','середній'],['l','великий']])}</div>
       <div class="srow"><span class="lab">Курсор</span>${seg('caret', cs, [['line','│ лінія'],['block','▮ блок'],['under','▁ риска']])}</div>
       <div class="srow"><span class="lab">Плавний курсор<small>ковзає між літерами, а не стрибає</small></span>${tog('smooth', cfg.smooth!==false)}</div>
-      <div class="srow" style="align-items:flex-start"><span class="lab">Шрифт тексту<small>усі з кирилицею</small></span>
-        <div class="fonts">${Object.entries({jetbrains:'JetBrains Mono',plex:'IBM Plex Mono',roboto:'Roboto Mono',fira:'Fira Code',source:'Source Code Pro',ptmono:'PT Mono',ubuntu:'Ubuntu Mono'}).map(([k,n])=>`<button data-font="${k}" class="${(cfg.font||'jetbrains')===k?'on':''}" style="font-family:${window.FONTS[k][0]}, monospace">${n}</button>`).join('')}</div></div>
+      <div class="srow" style="align-items:flex-start"><span class="lab">Шрифт тексту<small>усі з кирилицею; перші сім — моноширинні</small></span>
+        <div class="fonts">${Object.entries({jetbrains:'JetBrains Mono',plex:'IBM Plex Mono',roboto:'Roboto Mono',fira:'Fira Code',source:'Source Code Pro',ptmono:'PT Mono',ubuntu:'Ubuntu Mono',sf:'San Francisco',futura:'Futura'}).map(([k,n])=>`<button data-font="${k}" class="${(cfg.font||'jetbrains')===k?'on':''}" style="font-family:${window.FONTS[k][0]}, ${window.FONTS[k][2]||'monospace'}">${n}</button>`).join('')}</div></div>
+      <div class="srow" style="margin-top:-6px"><span class="lab"><small>San Francisco і Futura — закриті шрифти, тож сайт бере їх із системи: на iPhone, iPad і Mac вони справжні, на інших пристроях їх замінюють схожі вільні Inter і Jost. Обидва не моноширинні — літери різної ширини.</small></span></div>
     </div>
     <div class="sgroup"><h3>Звук<small>синтезується в браузері</small></h3>
       <div class="srow"><span class="lab">Звук клавіш</span>${seg('sound', cfg.sound||'off', SOUNDS)}</div>
@@ -1860,12 +1862,12 @@ function exportVideo(rec){
   const C = { bg:cssv('--bg'), panel:cssv('--panel'), line:cssv('--line'), dim:cssv('--dim'), text:cssv('--text'), acc:cssv('--accent'), err:cssv('--err'), errd:'' };
   const tf = cssv('--tfont') || "'JetBrains Mono', monospace", mono = "'JetBrains Mono', monospace", sans = "'Manrope', system-ui, sans-serif";
   const FS = 36, LH = 66, X0 = 90, XMAX = Wc - 90, Y0 = 250;
-  x.font = `500 ${FS}px ${tf}`; const cw = x.measureText('M').width, sp = cw;
+  x.font = `500 ${FS}px ${tf}`; const mw = t => x.measureText(t).width, sp = mw(' ') || FS*.3;
   // розкладка слів по рядках
   const W = rec.words, pos = []; let line = 0, cx = X0;
   W.forEach((w,i)=>{
     if (w==='↵'){ pos.push({line, x:cx}); line++; cx = X0; return; }
-    const len = [...w].length * cw;
+    const len = mw(w);
     if (cx > X0 && cx + len > XMAX){ line++; cx = X0; }
     pos.push({line, x:cx}); cx += len + sp;
   });
@@ -1894,12 +1896,13 @@ function exportVideo(rec){
         let ch, col;
         if (k>=t.length){ ch = y[k]; col = C.err; x.globalAlpha=.6; }
         else { ch = t[k]; col = k<y.length ? (y[k]===t[k] ? C.text : C.err) : C.dim; }
-        x.fillStyle = col; x.fillText(ch, p.x + k*cw, yy); x.globalAlpha = 1;
+        const off = k < t.length ? mw(t.slice(0,k).join('')) : mw(W[i]) + mw(y.slice(t.length, k).join(''));
+        x.fillStyle = col; x.fillText(ch, p.x + off, yy); x.globalAlpha = 1;
       }
-      if (i<st.cur && st.typed[i]!==W[i]){ x.fillStyle = C.err; x.fillRect(p.x, yy+10, t.length*cw, 2); }
+      if (i<st.cur && st.typed[i]!==W[i]){ x.fillStyle = C.err; x.fillRect(p.x, yy+10, mw(W[i]), 2); }
     }
     // курсор
-    if (st.cur < W.length){ const p = pos[st.cur], n = [...(st.typed[st.cur]||'')].length; x.fillStyle = C.acc; x.fillRect(p.x + n*cw - 1, Y0 + (p.line-first)*LH - FS*.82, 3, FS); }
+    if (st.cur < W.length){ const p = pos[st.cur], ty = [...(st.typed[st.cur]||'')], tw = [...W[st.cur]], n = ty.length, cx2 = n <= tw.length ? mw(tw.slice(0,n).join('')) : mw(W[st.cur]) + mw(ty.slice(tw.length).join('')); x.fillStyle = C.acc; x.fillRect(p.x + cx2 - 1, Y0 + (p.line-first)*LH - FS*.82, 3, FS); }
     // смуга й підпис
     x.fillStyle = C.panel; rrect(x, 90, Hc-110, Wc-180, 8, 4); x.fill();
     x.fillStyle = C.acc; rrect(x, 90, Hc-110, Math.max(8,(Wc-180)*Math.min(1, T/rec.dur)), 8, 4); x.fill();
