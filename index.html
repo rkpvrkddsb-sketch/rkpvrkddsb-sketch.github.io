@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=50">
+  <link rel="stylesheet" href="style.css?v=51">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -227,7 +227,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=50"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=51"><\/script>');
     })();
   </script>
   <script>
@@ -755,12 +755,14 @@
         box.classList.remove("show"); document.documentElement.classList.remove("term-open");
         setTimeout(() => { box.hidden = true; }, 260); inp.blur();
       }
+      // ~ / ` відкриває термінал; на Mac із європейською клавіатурою — клавіша § під Esc
       addEventListener("keydown", e => {
         const typing = /input|textarea/i.test(document.activeElement.tagName) && document.activeElement !== inp;
-        if (e.code === "Backquote" && !typing) { e.preventDefault(); box.hidden ? open() : close(); return; }
+        if (!typing && !e.metaKey && !e.ctrlKey && (e.code === "Backquote" || e.code === "IntlBackslash" || ["`", "~", "§", "±", "ё", "Ё"].includes(e.key))) { e.preventDefault(); box.hidden ? open() : close(); return; }
         if (e.key === "Escape" && !box.hidden) close();
       });
       inp.addEventListener("keydown", e => {
+        if (e.key === "Escape" || e.code === "Backquote" || e.code === "IntlBackslash") { e.preventDefault(); e.stopPropagation(); close(); return; }
         if (e.key === "Enter") { const v = inp.value; inp.value = ""; if (v.trim()) { hist.push(v); hpos = hist.length; } run(v); }
         else if (e.key === "ArrowUp") { e.preventDefault(); if (hpos > 0) inp.value = hist[--hpos]; }
         else if (e.key === "ArrowDown") { e.preventDefault(); hpos = Math.min(hist.length, hpos + 1); inp.value = hist[hpos] || ""; }

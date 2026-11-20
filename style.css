@@ -885,13 +885,13 @@ body[data-accent="glow"] .project:hover .win.shot { box-shadow: 0 40px 70px -24p
 .project { position: relative; transform-style: flat; }
 .project::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 3;
   background:
-    radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,.30), rgba(255,255,255,.10) 22%, transparent 48%),
-    linear-gradient(115deg, transparent calc(var(--gx, 50%) - 22%), rgba(255,255,255,.10) var(--gx, 50%), transparent calc(var(--gx, 50%) + 22%));
+    radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,.17), rgba(255,255,255,.05) 22%, transparent 48%),
+    linear-gradient(115deg, transparent calc(var(--gx, 50%) - 22%), rgba(255,255,255,.06) var(--gx, 50%), transparent calc(var(--gx, 50%) + 22%));
   opacity: 0; transition: opacity .35s; mix-blend-mode: overlay; }
 body[data-accent="glow"] .project::after {
   background:
-    radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(225,245,160,.34), rgba(181,214,90,.12) 24%, transparent 50%),
-    linear-gradient(115deg, transparent calc(var(--gx, 50%) - 22%), rgba(255,255,255,.08) var(--gx, 50%), transparent calc(var(--gx, 50%) + 22%));
+    radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(225,245,160,.18), rgba(181,214,90,.06) 24%, transparent 50%),
+    linear-gradient(115deg, transparent calc(var(--gx, 50%) - 22%), rgba(255,255,255,.04) var(--gx, 50%), transparent calc(var(--gx, 50%) + 22%));
   mix-blend-mode: screen; }
 body[data-accent="orb"] .project::after { mix-blend-mode: soft-light; }
 .project.tilting::after { opacity: 1; }
