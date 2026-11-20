@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
 <title>Клавогін — тренажер швидкості друку</title>
 <meta name="description" content="Тренажер сліпого друку: уроки, теплокарта помилок і повільних клавіш, 8 мов і розкладок, прислів'я, свій текст, чистий екран.">
 <meta property="og:title" content="Клавогін — тренажер швидкості друку">
@@ -120,7 +120,7 @@
   @keyframes blink{50%{opacity:0}}
   .blur-note{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-size:16px;backdrop-filter:blur(5px);background:var(--shade);border-radius:8px;cursor:pointer}
   .words-box.blurred .blur-note{display:flex}
-  #hidden{position:absolute;opacity:0;width:1px;height:1px;left:-9999px}
+  #hidden{position:fixed;top:30%;left:0;width:1px;height:1px;opacity:0;font-size:16px;border:0;padding:0;background:transparent;color:transparent;caret-color:transparent;pointer-events:none}
 
   /* keyboard */
   .kb{display:flex;flex-direction:column;gap:6px;align-items:center;user-select:none}
@@ -176,7 +176,7 @@
   .scale{display:flex;align-items:center;gap:8px;font:11px var(--mono);color:var(--dim)}
   .scale i{width:90px;height:8px;border-radius:4px;background:linear-gradient(90deg,var(--panel),var(--err))}
 
-  .history h3{margin:0 0 10px;font-size:14px;color:var(--dim);font-weight:600;display:flex;justify-content:space-between}
+  .history h3{gap:10px;flex-wrap:wrap;margin:0 0 10px;font-size:14px;color:var(--dim);font-weight:600;display:flex;justify-content:space-between}
   .history h3 button{background:none;border:0;color:var(--dim);font:12px var(--mono);cursor:pointer}
   .history h3 button:hover{color:var(--err)}
   .history table{width:100%;border-collapse:collapse;font:13px var(--mono)}
@@ -502,6 +502,58 @@
   .sharebox input{flex:1;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--text);font:12px var(--mono);padding:9px 10px}
   .toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);font:500 13px var(--mono);padding:10px 16px;border-radius:999px;opacity:0;transition:.25s;z-index:90;pointer-events:none}
   .toast.show{opacity:1;transform:translateX(-50%)}
+  /* ---------- телефон ---------- */
+  button,a,.words-box,.field{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  .mbar{display:none;gap:8px;justify-content:center;flex-wrap:wrap}
+  .mbar button{background:var(--panel);border:0;color:var(--text);font:500 14px var(--mono);padding:11px 16px;border-radius:12px;cursor:pointer;min-height:44px}
+  .mbar button.acc{background:var(--accent);color:var(--on-accent)}
+  .touch .mbar{display:flex}
+  html.touch .mbar{display:flex}
+  html.touch .hint, html.touch .hcard > kbd{display:none}
+  html.touch .blur-note{font-size:15px;text-align:center;padding:0 20px}
+  body.mtype header, body.mtype .bar, body.mtype footer, body.mtype .lhead .goal{display:none!important}
+  body.mtype{padding-top:12px}
+  @media (hover:none){ .hcard:hover{transform:none} }
+  @media (max-width:760px){
+    body{padding:16px 12px 28px}
+    .wrap{gap:18px}
+    .logo{font-size:19px} .logo .k{width:30px;height:30px;font-size:16px}
+    .logo small{display:none}
+    .streak{padding:8px 11px}
+    .streak .lbl{display:none}
+    .langsel{padding:8px 8px;max-width:118px}
+    .bar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;max-width:100%;border-radius:10px;align-self:stretch}
+    .bar::-webkit-scrollbar{display:none}
+    .bar button{white-space:nowrap;flex:none}
+    .bar > *{flex:none}
+    #amounts{display:flex;gap:2px}
+    .ahud .sp{display:none}
+    .live{font-size:21px;gap:18px}
+    .recbtn{padding:6px 10px;font-size:11.5px}
+    .lhead{font-size:13px;gap:8px;padding:8px 10px}
+    .home h1{font-size:27px} .home .lead{font-size:14px}
+    .hcard{padding:16px 16px 14px;min-height:0;gap:8px} .hcard .ic{width:40px;height:40px}
+    .hstats{gap:16px} .hstats b{font-size:18px}
+    .big .val{font-size:44px}
+    .card{padding:12px}
+    .heat-head{gap:8px}
+    .seg{flex-wrap:wrap}
+    .weak{flex-direction:column;align-items:stretch}
+    .modal{padding:16px 12px 28px}
+    .pbox{padding:14px}
+    .plive{font-size:19px;gap:16px}
+    .recrow{grid-template-columns:1fr auto;}
+    .recrow .acts{grid-column:1 / -1}
+    .sgroup{padding:14px}
+    .srow{align-items:flex-start}
+    .verdict{padding:14px}
+    .verdict .big-stars{font-size:26px}
+    .fw{font-size:18px}
+    .ahud{gap:12px;font-size:13px} .ahud b{font-size:18px}
+    .aover h2{font-size:24px} .aover .big{font-size:40px} .aover .row{flex-wrap:wrap;justify-content:center;gap:10px}
+    .boot .typed{font-size:30px}
+  }
+  @media (max-width:420px){ .words-box{font-size:calc(var(--fs) * .66)} .key{width:22px;height:28px;font-size:10px} .key.space{width:120px} }
   footer{color:var(--dim);font-size:12px;text-align:center;font-family:var(--mono);margin-top:auto}
   @media (max-width:760px){
     .words-box{font-size:calc(var(--fs) * .74)}
@@ -532,8 +584,8 @@
       </div>
       <div style="display:flex;gap:10px;align-items:center">
         <select id="langSel" class="langsel" title="Мова"></select>
-        <button class="streak" id="zenBtn" title="Тільки текст. Esc — вийти">◻ чистий екран</button>
-        <button class="streak" id="progBtn" title="Прогрес">📈 прогрес</button>
+        <button class="streak" id="zenBtn" title="Тільки текст. Esc — вийти">◻<span class="lbl"> чистий екран</span></button>
+        <button class="streak" id="progBtn" title="Прогрес">📈<span class="lbl"> прогрес</span></button>
         <button class="streak" id="setBtn" title="Налаштування" aria-label="Налаштування">⚙</button>
       </div>
     </div>
@@ -581,9 +633,15 @@
       <div class="words" id="words"></div>
       <div class="gcaret" id="gcaret"></div>
       <div class="caret blink" id="caret"></div>
-      <div class="blur-note">клікни або натисни будь-яку клавішу, щоб продовжити</div>
+      <div class="blur-note" id="blurNote">клікни або натисни будь-яку клавішу, щоб продовжити</div>
     </div>
     <div class="kb kb-live" id="kbLive"></div>
+    <div class="mbar" id="mbar">
+      <button id="mKb" class="acc">⌨ клавіатура</button>
+      <button id="mRe">↻ заново</button>
+      <button id="mEnd" style="display:none">⏹ завершити</button>
+      <button id="mHome">⌂ головна</button>
+    </div>
     <div class="hint">розкладка: <span id="kbName" style="color:var(--text)"></span> &nbsp;·&nbsp; <span id="hintKeys"></span></div>
   </section>
 
@@ -668,7 +726,7 @@
     <div class="macts"><a class="btn acc" id="cardDl">⬇ завантажити PNG</a><button class="btn" id="cardCopy">📋 копіювати картинку</button></div>
   </div></div>
   <div class="toast" id="toast"></div>
-  <input id="hidden" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <input id="hidden" type="text" inputmode="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="go" aria-label="поле для друку">
   <footer><div class="made">зроблено командою <b>j13</b></div>wpm = (правильні символи ÷ 5) за хвилину · результати зберігаються лише в цьому браузері</footer>
 </div>
 
@@ -866,7 +924,9 @@ const store = {
   get(k,d){ try{ const v=localStorage.getItem('klavogin:'+k); return v==null?d:JSON.parse(v);}catch(e){return d;} },
   set(k,v){ try{ localStorage.setItem('klavogin:'+k, JSON.stringify(v)); }catch(e){} }
 };
-const cfg = Object.assign({mode:'time', amount:30, lang:'uk', punct:false, nums:false, kb:true, focus:[]}, store.get('cfg', {}));
+const TOUCH = matchMedia('(pointer:coarse)').matches || ('ontouchstart' in window && matchMedia('(hover:none)').matches);
+if (TOUCH) document.documentElement.classList.add('touch');
+const cfg = Object.assign({mode:'time', amount:30, lang:'uk', punct:false, nums:false, kb:!TOUCH, focus:[]}, store.get('cfg', {}));
 const $ = id => document.getElementById(id);
 const wordsEl=$('words'), box=$('box'), caret=$('caret'), live=$('live'), hidden=$('hidden');
 let S, heatView='test';
@@ -1205,6 +1265,12 @@ function renderSettings(){
   };
 }
 function initNav(){
+  $('field').addEventListener('click', () => { try { hidden.focus({preventScroll:true}); } catch(e){} if (ARC && ARC.state==='intro'){ audio(); arcStart(); } });
+  $('mKb').onclick = () => focusBox();
+  $('mRe').onclick = () => reset();
+  $('mEnd').onclick = () => { if (!S.done && S.keys) finish(); else goHome(); };
+  $('mHome').onclick = () => goHome();
+  ['mKb','mRe','mEnd','mHome'].forEach(id => $(id).addEventListener('mousedown', e => e.preventDefault()));
   $('aHome').onclick = () => { closeArcade(); goHome(); };
   $('home').addEventListener('click', e=>{
     const b = e.target.closest('[data-go]'); if (!b) return;
@@ -1743,25 +1809,35 @@ function arcWords(){
   const lower = [...new Set(WORDS[cfg.lang].map(w=>w.toLowerCase()).filter(w=>/^[\p{L}']+$/u.test(w)))];
   return lower;
 }
+function fitArcade(){
+  if (!$('arcade').classList.contains('show')) return;
+  const vv = window.visualViewport, h = vv ? vv.height : innerHeight;
+  const top = $('field').getBoundingClientRect().top;
+  $('field').style.height = Math.max(200, Math.min(520, h - top - 66)) + 'px';
+}
+if (window.visualViewport) visualViewport.addEventListener('resize', ()=>{ fitArcade(); if (TOUCH && S && !S.done && $('stage').style.display!=='none') placeCaret(); });
+window.addEventListener('resize', fitArcade);
 function openArcade(){
   atHome = false; clearInterval(S && S.timer); if (zen) setZen(false);
   ['home','lessons','custom','prog','settings'].forEach(id=>$(id).classList.remove('show'));
   $('stage').style.display='none'; $('results').classList.remove('show'); $('bar').style.display='none'; $('zenBtn').style.display='none';
   $('arcade').classList.add('show');
   arcIntro(); try{ hidden.focus({preventScroll:true}); }catch(e){}
+  requestAnimationFrame(fitArcade);
 }
-function closeArcade(){ if (ARC){ cancelAnimationFrame(ARC.raf); ARC = null; } $('arcade').classList.remove('show'); $('field').querySelectorAll('.fw').forEach(e=>e.remove()); }
+function closeArcade(){ document.body.classList.remove('mtype'); if (ARC){ cancelAnimationFrame(ARC.raf); ARC = null; } $('arcade').classList.remove('show'); $('field').querySelectorAll('.fw').forEach(e=>e.remove()); }
 function arcIntro(){
   if (ARC){ cancelAnimationFrame(ARC.raf); } ARC = { state:'intro' };
   const best = store.get('arcade-best', {})[cfg.lang] || 0;
   $('field').querySelectorAll('.fw').forEach(e=>e.remove());
   $('aOver').style.display = 'flex';
   $('aOver').innerHTML = `<h2>Аркада</h2><p>Слова падають згори. Надрукуй слово, перш ніж воно торкнеться червоної лінії. Не треба натискати пробіл — слово зникає, щойно ти його дописав. Три життя, а швидкість росте з кожним рівнем.</p>
-    ${best ? `<div class="row">рекорд: <b>${best}</b></div>` : ''}<p style="color:var(--text)">натисни будь-яку клавішу, щоб почати</p>`;
+    ${best ? `<div class="row">рекорд: <b>${best}</b></div>` : ''}<p style="color:var(--text)">${TOUCH ? 'торкнися поля, щоб почати' : 'натисни будь-яку клавішу, щоб почати'}</p>`;
   $('aScore').textContent = 0; $('aLevel').textContent = 1; $('aCombo').textContent = '×1'; $('aLives').textContent = '♥♥♥'; arcBuf('');
 }
 function arcStart(){
   $('aOver').style.display = 'none';
+  if (TOUCH){ document.body.classList.add('mtype'); setTimeout(fitArcade, 50); }
   ARC = { state:'play', words:[], buf:'', score:0, level:1, combo:0, lives:3, killed:0, chars:0, keys:0, good:0,
           t0:performance.now(), last:performance.now(), spawnIn:.3, pool:arcWords(), maxCombo:0 };
   ARC.raf = requestAnimationFrame(arcLoop);
@@ -1849,7 +1925,9 @@ function arcOver(){
   $('aOver').innerHTML = `<h2>Гра закінчена</h2><div class="big">${ARC.score}</div>
     <div class="row"><span>рівень <b>${ARC.level}</b></span><span>слів <b>${ARC.killed}</b></span><span>макс. комбо <b>×${ARC.maxCombo+1}</b></span><span><b>${wpm}</b> wpm</span><span>точність <b>${ARC.keys?Math.round(ARC.good/ARC.keys*100):0}%</b></span></div>
     <p style="color:${isBest?'var(--ok)':'var(--dim)'}">${isBest ? '★ новий рекорд!' : `рекорд: ${prev}`}</p>
-    <p style="color:var(--text)"><kbd>Enter</kbd> — ще раз · <kbd>Esc</kbd> — вихід</p>`;
+    ${TOUCH ? `<div class="macts" style="justify-content:center"><button class="btn acc" id="aAgain">↻ ще раз</button><button class="btn" id="aExit">вихід</button></div>` : `<p style="color:var(--text)"><kbd>Enter</kbd> — ще раз · <kbd>Esc</kbd> — вихід</p>`}`;
+  document.body.classList.remove('mtype');
+  const ag = $('aAgain'); if (ag){ ag.onclick = e => { e.stopPropagation(); arcIntro(); arcStart(); hidden.focus({preventScroll:true}); }; $('aExit').onclick = e => { e.stopPropagation(); closeArcade(); goHome(); }; }
 }
 
 /* ---------- zen ---------- */
@@ -1882,6 +1960,7 @@ function choose(what){
 const blank = () => ({done:true, words:[], typed:[], samples:[], keyStats:{}, bi:{}});
 function reset(newWords=true){
   clearInterval(S && S.timer);
+  document.body.classList.remove('mtype');
   if (REC && REC.manual && S && S.started && !S.done){ const r = recStop(null); if (r){ lastRec = r; toast('запис збережено — 🎬 записи'); } }
   REC = null;
   $('watchRec').style.display = 'none'; $('raceRec').style.display = 'none';
@@ -1956,6 +2035,8 @@ function reset(newWords=true){
   } else lh.classList.remove('show');
   wordsEl.innerHTML = S.words.map((w,i)=>wordHTML(w,i)).join('');
   $('box').classList.toggle('blind', !!cfg.blind);
+  $('mEnd').style.display = cfg.mode==='free' ? '' : 'none';
+  $('blurNote').textContent = TOUCH ? 'торкнися тексту, щоб відкрити клавіатуру' : 'клікни або натисни будь-яку клавішу, щоб продовжити';
   placeCaret(); markNext(); focusBox(); applyZen(); renderRecBtn();
 }
 function esc(c){ return c==='<'?'&lt;':c==='>'?'&gt;':c==='&'?'&amp;':c; }
@@ -1998,7 +2079,8 @@ function placeCaret(){
   }
 }
 
-function start(){ if (cfg.autoRec!==false && !REC) recStart(); S.started=true; S.t0=performance.now(); caret.classList.remove('blink'); if (cfg.liveStats!==false) live.classList.add('show'); S.timer=setInterval(tick,1000); }
+function start(){ if (TOUCH){ document.body.classList.add('mtype'); window.scrollTo(0,0); }
+  if (cfg.autoRec!==false && !REC) recStart(); S.started=true; S.t0=performance.now(); caret.classList.remove('blink'); if (cfg.liveStats!==false) live.classList.add('show'); S.timer=setInterval(tick,1000); }
 function elapsed(){ return (performance.now()-S.t0)/1000; }
 function goodChars(includeCur){
   let g=0;
@@ -2070,7 +2152,7 @@ function onBack(ctrl){
 function finish(){
   if (S.done) return;
   S.done=true; clearInterval(S.timer);
-  const secs = cfg.mode==='time' ? cfg.amount : elapsed();
+  const secs = cfg.mode==='time' ? cfg.amount : Math.max(elapsed(), 1);
   let ok=0,no=0,extra=0,missed=0;
   for (let i=0;i<=Math.min(S.cur,S.words.length-1);i++){
     const done=i<S.cur, y=[...(S.typed[i]||'')], t=[...S.words[i]];
@@ -2113,7 +2195,7 @@ function finish(){
   LASTRES = { wpm, raw, acc, secs, label:label(), samples:S.samples.slice(), ok, no, extra, d:Date.now() };
   const rr = recStop({wpm, acc}); if (rr){ lastRec = rr; $('watchRec').style.display=''; $('raceRec').style.display = typeof ghostPrep(rr)==='string' ? 'none' : ''; }
   if (cfg.mode==='ghost' && GHOST) ghostVerdict(secs);
-  document.body.classList.remove('zen');
+  document.body.classList.remove('zen', 'mtype');
   hidden.blur();
 }
 function showVerdict(wpm, acc){
@@ -2289,6 +2371,7 @@ $('langSel').addEventListener('change', e=>{ cfg.lang=e.target.value; cfg.focus=
 
 function focusBox(){ try{ hidden.focus({preventScroll:true}); }catch(e){} box.classList.remove('blurred'); }
 box.addEventListener('mousedown', e=>{ e.preventDefault(); focusBox(); });
+box.addEventListener('click', ()=>focusBox());
 hidden.addEventListener('blur', ()=>setTimeout(()=>{ if(document.activeElement!==hidden && !S.done && $('stage').style.display!=='none') box.classList.add('blurred'); },50));
 
 document.addEventListener('keydown', e=>{
@@ -2330,7 +2413,42 @@ document.addEventListener('keydown', e=>{
   if ((e.ctrlKey||e.metaKey) && !(altGr && e.key.length===1)) return;  // Option/AltGr дають літери з діакритикою
   if (e.key.length===1){ e.preventDefault(); onChar(e.key); }
 });
-hidden.addEventListener('input', ()=>{ const v=hidden.value; hidden.value=''; for (const ch of v){ if ($('arcade').classList.contains('show')) { if (ch===' ') { if (ARC){ ARC.buf=''; arcBuf(''); ARC.words.forEach(arcRender);} } else arcChar(ch); } else onChar(ch); } });
+/* Мобільні клавіатури часто не кажуть, яку клавішу натиснуто (key = "Unidentified"),
+   тому текст беремо з поля вводу: порівнюємо нове значення зі старим і вираховуємо,
+   що додано, а що стерто. У полі завжди лежить «запас» невидимих символів,
+   щоб Backspace спрацьовував навіть коли нічого не набрано. */
+const SENT = '​​​​';
+let lastV = SENT;
+function resetHidden(){ hidden.value = SENT; lastV = SENT; try { hidden.setSelectionRange(SENT.length, SENT.length); } catch(e){} }
+function routeChar(ch){
+  if (ch==='​') return;
+  if (booting){ endBoot(true); return; }
+  if ($('arcade').classList.contains('show')){
+    if (ch===' '){ if (ARC && ARC.state==='play'){ ARC.buf=''; arcBuf(''); ARC.words.forEach(arcRender); } }
+    else if (ch==='\n'){ if (ARC && ARC.state==='over'){ arcIntro(); arcStart(); } }
+    else arcChar(ch);
+    return;
+  }
+  if (atHome || progOpen || setOpen || !S || $('stage').style.display==='none') return;
+  if (S.done) return;
+  if (ch==='\n'){ if (cfg.mode==='code') codeEnter(); return; }
+  onChar(ch);
+}
+function routeBack(){
+  if ($('arcade').classList.contains('show')){ if (ARC && ARC.state==='play'){ ARC.buf=[...ARC.buf].slice(0,-1).join(''); arcBuf(ARC.buf); ARC.words.forEach(arcRender); } return; }
+  if (!atHome && S && !S.done && $('stage').style.display!=='none') onBack(false);
+}
+hidden.addEventListener('input', e => {
+  const v = hidden.value;
+  let p = 0; while (p < v.length && p < lastV.length && v[p]===lastV[p]) p++;
+  const del = lastV.length - p, add = v.slice(p);
+  for (let i=0;i<del;i++) routeBack();
+  for (const ch of add) routeChar(ch);
+  lastV = v;
+  if (!e.isComposing && (v.length > 48 || v.length < 2)) resetHidden();
+});
+hidden.addEventListener('compositionend', () => setTimeout(()=>{ if (hidden.value.length > 48) resetHidden(); }, 0));
+hidden.addEventListener('focus', resetHidden);
 
 let rz; window.addEventListener('resize', ()=>{ clearTimeout(rz); rz=setTimeout(()=>{ if (progOpen) return renderProgress(); if(!S.done) placeCaret(); else if (S.samples.length) drawChart(S.samples); },120); });
 
