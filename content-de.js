@@ -19,6 +19,7 @@ const site_de = {
   // Running line under the first screen
   marquee: [
     { text: "Webplattformen",     project: "hotel" },
+    { text: "Mobile Game", project: "game" },
     { text: "Telegram-Bots",     project: "bots" },
     { text: "WhatsApp-Bots",     project: "bots" },
     { text: "Automatisierung",        project: "bots" },
@@ -30,7 +31,7 @@ const site_de = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "Social-Media-Bots hat unser Team gebaut" },
-    { value: 4,  suffix: "+",  label: "große Projekte im Portfolio" },
+    { value: 5,  suffix: "+",  label: "große Projekte im Portfolio" },
     { value: 24, suffix: "/7", label: "unsere Bots arbeiten ohne freie Tage" }
   ],
 
@@ -56,6 +57,25 @@ const site_de = {
           "Dashboard für Verwaltung und Personal",
           "Zimmerstatus: frei, Reinigung, belegt"
         ],
+        gallery: []
+      }
+    },
+    {
+      slug: "game",
+      title: "Unser Mobile Game",
+      year: "2026",
+      status: "in Arbeit",
+      description:
+        "Ein Mobile Game für iOS und Android, an dem unser Team gerade arbeitet. Details bleiben bis zum Release geheim 🤫",
+      tech: ["iOS", "Android", "Game Design"],
+      mock: "game",
+      image: "",
+      link: "",
+      details: {
+        task: "Ein Spiel, zu dem man gern zurückkehrt: einfache Regeln am Anfang, aber Tiefe, die sich mit der Zeit zeigt.",
+        solution: "Kurze Spielrunden fürs Handy, einfache Ein-Finger-Steuerung und ein langsam steigender Schwierigkeitsgrad, damit es nie langweilig wird.",
+        result: "Gerade in Entwicklung. Erste Screenshots und ein Release-Datum gibt es bald — bleib dran.",
+        features: ["Für iOS und Android", "Ein-Finger-Steuerung", "Kurze Runden — überall spielbar", "Level werden nach und nach schwerer", "Bestenliste"],
         gallery: []
       }
     },

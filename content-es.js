@@ -19,6 +19,7 @@ const site_es = {
   // Running line under the first screen
   marquee: [
     { text: "Plataformas web",     project: "hotel" },
+    { text: "Juego móvil", project: "game" },
     { text: "Bots de Telegram",     project: "bots" },
     { text: "Bots de WhatsApp",     project: "bots" },
     { text: "Automatización",        project: "bots" },
@@ -30,7 +31,7 @@ const site_es = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "bots para redes sociales creados por nuestro equipo" },
-    { value: 4,  suffix: "+",  label: "grandes proyectos en el portafolio" },
+    { value: 5,  suffix: "+",  label: "grandes proyectos en el portafolio" },
     { value: 24, suffix: "/7", label: "nuestros bots trabajan sin días libres" }
   ],
 
@@ -56,6 +57,25 @@ const site_es = {
           "Panel para administración y personal",
           "Estados: libre, en limpieza, ocupada"
         ],
+        gallery: []
+      }
+    },
+    {
+      slug: "game",
+      title: "Nuestro juego móvil",
+      year: "2026",
+      status: "en desarrollo",
+      description:
+        "Un juego móvil para iOS y Android en el que nuestro equipo está trabajando ahora. Guardamos los detalles en secreto hasta el lanzamiento 🤫",
+      tech: ["iOS", "Android", "Diseño de juegos"],
+      mock: "game",
+      image: "",
+      link: "",
+      details: {
+        task: "Crear un juego al que apetezca volver: reglas sencillas al principio y una profundidad que se descubre con el tiempo.",
+        solution: "Partidas cortas pensadas para el móvil, control fácil con un dedo y una dificultad que sube poco a poco para que no aburra.",
+        result: "Ahora en desarrollo. Pronto mostraremos las primeras capturas y la fecha de lanzamiento: ¡atentos!",
+        features: ["Para iOS y Android", "Control con un dedo", "Partidas cortas: juega donde sea", "Niveles cada vez más difíciles", "Tabla de récords"],
         gallery: []
       }
     },

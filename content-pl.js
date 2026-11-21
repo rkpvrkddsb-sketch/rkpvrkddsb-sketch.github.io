@@ -19,6 +19,7 @@ const site_pl = {
   // Running line under the first screen
   marquee: [
     { text: "Platformy internetowe",     project: "hotel" },
+    { text: "Gra mobilna", project: "game" },
     { text: "Boty Telegram",     project: "bots" },
     { text: "Boty WhatsApp",     project: "bots" },
     { text: "Automatyzacja",        project: "bots" },
@@ -30,7 +31,7 @@ const site_pl = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "botów do social mediów stworzył nasz zespół" },
-    { value: 4,  suffix: "+",  label: "duże projekty w portfolio" },
+    { value: 5,  suffix: "+",  label: "duże projekty w portfolio" },
     { value: 24, suffix: "/7", label: "nasze boty pracują bez dni wolnych" }
   ],
 
@@ -56,6 +57,25 @@ const site_pl = {
           "Panel dla administratora i personelu",
           "Statusy pokoi: wolny, sprzątanie, zajęty"
         ],
+        gallery: []
+      }
+    },
+    {
+      slug: "game",
+      title: "Nasza gra mobilna",
+      year: "2026",
+      status: "w trakcie",
+      description:
+        "Gra mobilna na iOS i Androida, nad którą właśnie pracuje nasz zespół. Szczegóły trzymamy w tajemnicy do premiery 🤫",
+      tech: ["iOS", "Android", "Projektowanie gier"],
+      mock: "game",
+      image: "",
+      link: "",
+      details: {
+        task: "Stworzyć grę, do której chce się wracać: proste zasady na start i głębia, która odkrywa się z czasem.",
+        solution: "Krótkie sesje pod telefon, łatwe sterowanie jednym palcem i stopniowo rosnący poziom trudności, żeby się nie nudziło.",
+        result: "Teraz w produkcji. Wkrótce pokażemy pierwsze screeny i datę premiery — bądźcie czujni.",
+        features: ["Na iOS i Androida", "Sterowanie jednym palcem", "Krótkie sesje — graj wszędzie", "Poziomy coraz trudniejsze", "Tabela rekordów"],
         gallery: []
       }
     },

@@ -19,6 +19,7 @@ const site_en = {
   // Running line under the first screen
   marquee: [
     { text: "Web platforms",     project: "hotel" },
+    { text: "Mobile game", project: "game" },
     { text: "Telegram bots",     project: "bots" },
     { text: "WhatsApp bots",     project: "bots" },
     { text: "Automation",        project: "bots" },
@@ -30,7 +31,7 @@ const site_en = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "social media bots built by our team" },
-    { value: 4,  suffix: "+",  label: "major projects in the portfolio" },
+    { value: 5,  suffix: "+",  label: "major projects in the portfolio" },
     { value: 24, suffix: "/7", label: "our bots work without days off" }
   ],
 
@@ -56,6 +57,25 @@ const site_en = {
           "Admin and staff dashboard",
           "Room statuses: free, cleaning, occupied"
         ],
+        gallery: []
+      }
+    },
+    {
+      slug: "game",
+      title: "Our mobile game",
+      year: "2026",
+      status: "in progress",
+      description:
+        "A mobile game for iOS and Android that our team is working on right now. We're keeping the details secret until release 🤫",
+      tech: ["iOS", "Android", "Game design"],
+      mock: "game",
+      image: "",
+      link: "",
+      details: {
+        task: "Make a game you want to come back to: simple rules at the start, with depth that opens up over time.",
+        solution: "Short play sessions made for a phone, easy one-finger controls and a gradual difficulty curve so it never gets boring.",
+        result: "In development now. First screenshots and a release date are coming soon — stay tuned.",
+        features: ["For iOS and Android", "One-finger controls", "Short sessions — play anywhere", "Levels that gradually get harder", "Leaderboard"],
         gallery: []
       }
     },

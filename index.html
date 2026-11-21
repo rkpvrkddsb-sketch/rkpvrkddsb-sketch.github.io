@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=54">
+  <link rel="stylesheet" href="style.css?v=55">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -245,7 +245,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=54"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=55"><\/script>');
     })();
   </script>
   <script>
@@ -368,7 +368,16 @@
     // скріншот показуємо у «вікні браузера» на тому ж кольоровому фоні, що й заглушки
     const shot = p => `<div class="mock"><div class="win shot"><div class="bar"><i></i><i></i><i></i><span class="addr">${esc(p.title)}</span></div>
       <img src="${esc(p.image)}" alt="${esc(p.title)}" loading="lazy" decoding="async"></div></div>`;
-    const visual = p => p.image ? shot(p) : (p.mock === "chat" ? chatMock : mock);
+    // заглушка для гри: телефон з ігровим екраном
+    const gameMock = `<div class="mock"><div class="phone game"><div class="gm-screen">
+      <div class="gm-hud"><span>★ 1 280</span><span class="gm-lives"><i></i><i></i><i></i></span></div>
+      <div class="gm-stars"></div>
+      <div class="gm-coin c1"></div><div class="gm-coin c2"></div><div class="gm-coin c3"></div>
+      <div class="gm-hero"><i></i></div>
+      <div class="gm-plat p1"></div><div class="gm-plat p2"></div><div class="gm-plat p3"></div>
+      <div class="gm-play">▶</div>
+    </div></div></div>`;
+    const visual = p => p.image ? shot(p) : (p.mock === "chat" ? chatMock : p.mock === "game" ? gameMock : mock);
     const pills = (p, i) => `
       <span class="num">${pad(i)}</span>
       <span class="pill ${p.live || p.status === 'в розробці' ? 'live' : ''}">${esc(p.status)}</span>

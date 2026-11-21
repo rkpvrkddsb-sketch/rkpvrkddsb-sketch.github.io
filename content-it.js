@@ -19,6 +19,7 @@ const site_it = {
   // Running line under the first screen
   marquee: [
     { text: "Piattaforme web",     project: "hotel" },
+    { text: "Gioco mobile", project: "game" },
     { text: "Bot Telegram",     project: "bots" },
     { text: "Bot WhatsApp",     project: "bots" },
     { text: "Automazione",        project: "bots" },
@@ -30,7 +31,7 @@ const site_it = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "bot per social creati dal nostro team" },
-    { value: 4,  suffix: "+",  label: "grandi progetti nel portfolio" },
+    { value: 5,  suffix: "+",  label: "grandi progetti nel portfolio" },
     { value: 24, suffix: "/7", label: "i nostri bot lavorano senza giorni liberi" }
   ],
 
@@ -56,6 +57,25 @@ const site_it = {
           "Pannello per amministrazione e staff",
           "Stati: libera, pulizia, occupata"
         ],
+        gallery: []
+      }
+    },
+    {
+      slug: "game",
+      title: "Il nostro gioco mobile",
+      year: "2026",
+      status: "in sviluppo",
+      description:
+        "Un gioco mobile per iOS e Android a cui il nostro team sta lavorando adesso. Teniamo i dettagli segreti fino all'uscita 🤫",
+      tech: ["iOS", "Android", "Game design"],
+      mock: "game",
+      image: "",
+      link: "",
+      details: {
+        task: "Creare un gioco a cui viene voglia di tornare: regole semplici all'inizio e una profondità che si scopre col tempo.",
+        solution: "Partite brevi pensate per il telefono, controlli facili con un dito e una difficoltà che cresce piano piano, così non annoia mai.",
+        result: "Ora in sviluppo. Presto mostreremo i primi screenshot e la data d'uscita: restate sintonizzati.",
+        features: ["Per iOS e Android", "Controlli con un dito", "Partite brevi: gioca ovunque", "Livelli sempre più difficili", "Classifica"],
         gallery: []
       }
     },
