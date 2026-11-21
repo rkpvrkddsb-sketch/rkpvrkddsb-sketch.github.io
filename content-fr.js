@@ -25,7 +25,7 @@ const site_fr = {
     { text: "Automatisation",        project: "bots" },
     { text: "Systèmes de réservation",   project: "hotel" },
     { text: "Entraîneur de frappe",    project: "klavogin" },
-    { text: "Applis clés en main",      project: "app" }
+    { text: "Appli sportive",      project: "plai" }
   ],
 
   // Counters
@@ -106,20 +106,21 @@ const site_fr = {
       }
     },
     {
-      slug: "app",
-      title: "Notre appli",
-      year: "2025",
-      status: "terminé",
+      slug: "plai",
+      title: "Plai",
+      year: "2026",
+      status: "bientôt sur l'App Store",
       description:
-        "Description de l'appli que nous avons créée : pour qui, quel problème elle résout et ce qu'elle a de meilleur.",
-      tech: ["Python", "SQLite"],
+        "Une communauté sportive pour ceux qui aiment bouger : course, marche, randonnée et vélo. Entraînements GPS, parcours sur la carte, défis entre amis et données Apple Health au même endroit.",
+      tech: ["iOS", "Android", "Apple Health", "Cartes & GPS"],
+      mock: "plai",
       image: "",
       link: "",
       details: {
-        task: "Quel problème l'appli devait résoudre, et pour qui.",
-        solution: "Comment elle fonctionne et ce qui compte le plus.",
-        result: "Le résultat : qui l'utilise, ce qui a changé, des chiffres si possible.",
-        features: ["Fonction 1", "Fonction 2", "Fonction 3"],
+        task: "Les sportifs ont leurs pas dans une appli, leurs parcours dans une autre et parlent à leurs amis ailleurs. Nous voulions un seul endroit où bouger, c'est aussi une communauté.",
+        solution: "Plai récupère votre journée depuis Apple Health et Health Connect, enregistre courses et randos au GPS, montre les parcours à proximité et ajoute le social : fil d'amis, likes, clubs, sorties de groupe et défis.",
+        result: "L'appli est terminée et en préparation pour l'App Store. Toutes les exigences d'Apple sont déjà remplies : suppression du compte, modération et confidentialité.",
+        features: ["Pas, sommeil et forme du jour depuis Apple Health", "Enregistrement GPS des courses et randos : allure, distance, dénivelé", "Parcours à proximité avec avis et photos", "Fil d'amis, commentaires, clubs et sorties de groupe", "Défis et classement des pas entre amis", "Sans pub ni pistage, zones de confidentialité sur la carte"],
         gallery: []
       }
     },

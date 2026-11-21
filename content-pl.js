@@ -25,7 +25,7 @@ const site_pl = {
     { text: "Automatyzacja",        project: "bots" },
     { text: "Systemy rezerwacji",   project: "hotel" },
     { text: "Trener pisania",    project: "klavogin" },
-    { text: "Aplikacje pod klucz",      project: "app" }
+    { text: "Aplikacja sportowa",      project: "plai" }
   ],
 
   // Counters
@@ -106,20 +106,21 @@ const site_pl = {
       }
     },
     {
-      slug: "app",
-      title: "Nasza aplikacja",
-      year: "2025",
-      status: "gotowe",
+      slug: "plai",
+      title: "Plai",
+      year: "2026",
+      status: "wkrótce w App Store",
       description:
-        "Opis aplikacji, którą stworzyliśmy: dla kogo jest, jaki problem rozwiązuje i co w niej najlepsze.",
-      tech: ["Python", "SQLite"],
+        "Sportowa społeczność dla tych, którzy kochają ruch: bieganie, chodzenie, hiking i rower. Treningi z GPS, trasy na mapie, wyzwania ze znajomymi i dane z Apple Health w jednym miejscu.",
+      tech: ["iOS", "Android", "Apple Health", "Mapy i GPS"],
+      mock: "plai",
       image: "",
       link: "",
       details: {
-        task: "Jaki problem miała rozwiązać aplikacja i dla kogo.",
-        solution: "Jak działa i co jest w niej najważniejsze.",
-        result: "Efekt: kto z niej korzysta, co się zmieniło, liczby, jeśli są.",
-        features: ["Funkcja 1", "Funkcja 2", "Funkcja 3"],
+        task: "Aktywni ludzie mają kroki w jednej aplikacji, trasy w drugiej, a ze znajomymi rozmawiają jeszcze gdzie indziej. Chcieliśmy jednego miejsca, gdzie ruch to także społeczność.",
+        solution: "Plai zbiera Twój dzień z Apple Health i Health Connect, zapisuje biegi i wędrówki z GPS, pokazuje trasy w pobliżu i dodaje część społeczną: tablicę znajomych, polubienia, kluby, wspólne wyjścia i wyzwania.",
+        result: "Aplikacja jest gotowa i przygotowywana do App Store. Wszystkie wymagania Apple są już spełnione: usuwanie konta, moderacja i prywatność.",
+        features: ["Kroki, sen i gotowość do treningu z Apple Health", "Zapis biegów i wędrówek z GPS: tempo, dystans, przewyższenie", "Trasy w pobliżu z opiniami i zdjęciami", "Tablica znajomych, komentarze, kluby i wspólne wyjścia", "Wyzwania i ranking kroków wśród znajomych", "Bez reklam i śledzenia, strefy prywatności na mapie"],
         gallery: []
       }
     },

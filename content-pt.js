@@ -25,7 +25,7 @@ const site_pt = {
     { text: "Automação",        project: "bots" },
     { text: "Sistemas de reservas",   project: "hotel" },
     { text: "Treinador de digitação",    project: "klavogin" },
-    { text: "Apps chave na mão",      project: "app" }
+    { text: "App desportiva",      project: "plai" }
   ],
 
   // Counters
@@ -106,20 +106,21 @@ const site_pt = {
       }
     },
     {
-      slug: "app",
-      title: "A nossa app",
-      year: "2025",
-      status: "concluído",
+      slug: "plai",
+      title: "Plai",
+      year: "2026",
+      status: "a caminho da App Store",
       description:
-        "Descrição da app que criámos: para quem é, que problema resolve e o que tem de melhor.",
-      tech: ["Python", "SQLite"],
+        "Uma comunidade desportiva para quem gosta de se mexer: corrida, caminhada, trilhos e bicicleta. Treinos com GPS, rotas no mapa, desafios com amigos e dados do Apple Health num só lugar.",
+      tech: ["iOS", "Android", "Apple Health", "Mapas e GPS"],
+      mock: "plai",
       image: "",
       link: "",
       details: {
-        task: "Que problema a app tinha de resolver e para quem.",
-        solution: "Como funciona e o que é mais importante.",
-        result: "O resultado: quem a usa, o que mudou, números se houver.",
-        features: ["Função 1", "Função 2", "Função 3"],
+        task: "Quem é ativo tem os passos numa app, as rotas noutra e fala com os amigos noutro sítio. Queríamos um só lugar onde mexer-se é também uma comunidade.",
+        solution: "O Plai junta o teu dia a partir do Apple Health e do Health Connect, grava corridas e trilhos com GPS, mostra rotas por perto e acrescenta o lado social: feed de amigos, gostos, clubes, saídas em grupo e desafios.",
+        result: "A app está pronta e a ser preparada para a App Store. Todos os requisitos da Apple já estão cumpridos: eliminação de conta, moderação e privacidade.",
+        features: ["Passos, sono e prontidão para treinar a partir do Apple Health", "Gravação GPS de corridas e trilhos: ritmo, distância, desnível", "Rotas por perto com avaliações e fotos", "Feed de amigos, comentários, clubes e saídas em grupo", "Desafios e ranking de passos entre amigos", "Sem anúncios nem rastreio, zonas de privacidade no mapa"],
         gallery: []
       }
     },

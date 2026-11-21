@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=55">
+  <link rel="stylesheet" href="style.css?v=57">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -245,7 +245,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=55"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=57"><\/script>');
     })();
   </script>
   <script>
@@ -377,7 +377,21 @@
       <div class="gm-plat p1"></div><div class="gm-plat p2"></div><div class="gm-plat p3"></div>
       <div class="gm-play">▶</div>
     </div></div></div>`;
-    const visual = p => p.image ? shot(p) : (p.mock === "chat" ? chatMock : p.mock === "game" ? gameMock : mock);
+    // заглушка для Plai: екран «Сьогодні» в стилі iOS + іконка застосунку
+    const PL = {"uk": ["Сьогодні", "кроків", "Біг", "Сон", "Готовність"], "en": ["Today", "steps", "Run", "Sleep", "Readiness"], "es": ["Hoy", "pasos", "Carrera", "Sueño", "Preparación"], "de": ["Heute", "Schritte", "Lauf", "Schlaf", "Bereitschaft"], "fr": ["Aujourd'hui", "pas", "Course", "Sommeil", "Forme"], "pl": ["Dziś", "kroków", "Bieg", "Sen", "Gotowość"], "pt": ["Hoje", "passos", "Corrida", "Sono", "Prontidão"], "it": ["Oggi", "passi", "Corsa", "Sonno", "Prontezza"]}[LANG] || ["Today", "steps", "Run", "Sleep", "Readiness"];
+    const plaiMock = `<div class="mock"><div class="plai-wrap">
+      <div class="plai-icon" aria-hidden="true"></div>
+      <div class="phone plai"><div class="pl-screen">
+        <div class="pl-h">${PL[0]}</div>
+        <div class="pl-card pl-steps"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18"/><circle class="v" cx="22" cy="22" r="18" pathLength="100"/></svg>
+          <div><b>8 432</b><small>${PL[1]}</small></div></div>
+        <div class="pl-card pl-run"><div class="pl-map"><svg viewBox="0 0 120 50" preserveAspectRatio="none"><path d="M6 40 C 22 10, 38 44, 54 22 S 84 6, 96 26 S 112 38, 116 12"/></svg></div>
+          <div class="pl-row"><span>🏃 ${PL[2]}</span><b>5,2 km</b></div></div>
+        <div class="pl-duo"><div class="pl-card"><small>🌙 ${PL[3]}</small><b>86</b></div><div class="pl-card"><small>⚡ ${PL[4]}</small><b>72</b></div></div>
+        <div class="pl-tabs"><i class="on"></i><i></i><i></i><i></i></div>
+      </div></div>
+    </div></div>`;
+    const visual = p => p.image ? shot(p) : (p.mock === "chat" ? chatMock : p.mock === "game" ? gameMock : p.mock === "plai" ? plaiMock : mock);
     const pills = (p, i) => `
       <span class="num">${pad(i)}</span>
       <span class="pill ${p.live || p.status === 'в розробці' ? 'live' : ''}">${esc(p.status)}</span>

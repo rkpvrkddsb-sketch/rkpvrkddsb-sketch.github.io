@@ -1029,3 +1029,39 @@ body[data-accent="glow"] .dm.out { color: #10120f; }
 .project:hover .phone.game { transform: scale(1.04) rotate(-2deg); }
 .pp-visual .phone.game { height: 78%; }
 @media (prefers-reduced-motion: reduce) { .gm-hero, .gm-coin, .gm-play { animation: none; } }
+
+
+/* ============ Заглушка для Plai ============ */
+.plai-wrap { position: relative; height: 86%; aspect-ratio: 9 / 16; }
+.pp-visual .plai-wrap { height: 78%; }
+.phone.plai { height: 100%; width: 100%; max-height: none; padding: 7px; background: #0b0c0b; border-radius: 30px; }
+.plai-icon { background: url(images/plai-icon.png) center / cover; position: absolute; z-index: 2; width: 64px; height: 64px; border-radius: 15px; left: -34px; top: 14%;
+  box-shadow: 0 16px 30px -8px rgba(0,0,0,.55); transform: rotate(-8deg); transition: transform .5s cubic-bezier(.3,1.4,.5,1); }
+.project:hover .plai-icon { transform: rotate(-3deg) translate(-6px, -6px) scale(1.06); }
+.pl-screen { height: 100%; border-radius: 24px; overflow: hidden; background: #000; color: #fff; padding: 16px 10px 0; display: flex; flex-direction: column; gap: 7px;
+  font-family: -apple-system, "SF Pro Text", Manrope, sans-serif; }
+.pl-h { font-size: 17px; font-weight: 800; letter-spacing: -.02em; padding: 0 2px 2px; }
+.pl-card { background: #1c1c1e; border-radius: 12px; padding: 8px 9px; }
+.pl-card b { display: block; font-size: 15px; font-weight: 800; letter-spacing: -.02em; }
+.pl-card small { font-size: 8.5px; color: #8e8e93; }
+.pl-steps { display: flex; align-items: center; gap: 9px; }
+.pl-steps svg { width: 36px; height: 36px; transform: rotate(-90deg); flex: none; }
+.pl-steps circle { fill: none; stroke: #2c2c2e; stroke-width: 5; }
+.pl-steps circle.v { stroke: #0a84ff; stroke-linecap: round; stroke-dasharray: 84 100; filter: drop-shadow(0 0 3px rgba(10,132,255,.6)); }
+.project:hover .pl-steps circle.v { animation: plRing 1.2s cubic-bezier(.3,.7,.3,1); }
+@keyframes plRing { from { stroke-dasharray: 0 100; } }
+.pl-map { height: 46px; border-radius: 8px; margin-bottom: 6px; overflow: hidden;
+  background: linear-gradient(135deg, #2b3a2c, #3b4a3a 50%, #2f3d4a); position: relative; }
+.pl-map::before { content: ""; position: absolute; inset: 0; opacity: .25; background-image: linear-gradient(90deg, #fff 1px, transparent 1px), linear-gradient(#fff 1px, transparent 1px); background-size: 14px 14px; }
+.pl-map svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.pl-map path { fill: none; stroke: #ff9f0a; stroke-width: 3; stroke-linecap: round; stroke-dasharray: 300; stroke-dashoffset: 0; filter: drop-shadow(0 0 2px rgba(255,159,10,.7)); }
+.project:hover .pl-map path { animation: plTrack 1.4s ease-out; }
+@keyframes plTrack { from { stroke-dashoffset: 300; } }
+.pl-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 9.5px; color: #8e8e93; }
+.pl-row b { font-size: 13px; color: #fff; }
+.pl-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.pl-duo .pl-card:first-child b { color: #bf5af2; } .pl-duo .pl-card:last-child b { color: #30d158; }
+.pl-tabs { margin-top: auto; display: flex; justify-content: space-around; padding: 9px 10px 12px; border-top: 1px solid #1c1c1e; }
+.pl-tabs i { width: 14px; height: 14px; border-radius: 4px; background: #3a3a3c; }
+.pl-tabs i.on { background: #0a84ff; }
+@media (max-width: 860px) { .plai-icon { width: 52px; height: 52px; border-radius: 12px; left: -26px; } }

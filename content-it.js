@@ -25,7 +25,7 @@ const site_it = {
     { text: "Automazione",        project: "bots" },
     { text: "Sistemi di prenotazione",   project: "hotel" },
     { text: "Allenatore di dattilografia",    project: "klavogin" },
-    { text: "App chiavi in mano",      project: "app" }
+    { text: "App sportiva",      project: "plai" }
   ],
 
   // Counters
@@ -106,20 +106,21 @@ const site_it = {
       }
     },
     {
-      slug: "app",
-      title: "La nostra app",
-      year: "2025",
-      status: "completato",
+      slug: "plai",
+      title: "Plai",
+      year: "2026",
+      status: "in arrivo sull'App Store",
       description:
-        "Descrizione dell'app che abbiamo creato: per chi è, quale problema risolve e cosa ha di meglio.",
-      tech: ["Python", "SQLite"],
+        "Una community sportiva per chi ama muoversi: corsa, camminata, trekking e bici. Allenamenti con GPS, percorsi sulla mappa, sfide con gli amici e dati di Apple Health in un unico posto.",
+      tech: ["iOS", "Android", "Apple Health", "Mappe e GPS"],
+      mock: "plai",
       image: "",
       link: "",
       details: {
-        task: "Quale problema doveva risolvere l'app e per chi.",
-        solution: "Come funziona e cosa conta di più.",
-        result: "Il risultato: chi la usa, cosa è cambiato, numeri se ci sono.",
-        features: ["Funzione 1", "Funzione 2", "Funzione 3"],
+        task: "Chi è attivo tiene i passi in un'app, i percorsi in un'altra e parla con gli amici altrove. Volevamo un unico posto dove muoversi è anche una community.",
+        solution: "Plai raccoglie la tua giornata da Apple Health e Health Connect, registra corse ed escursioni con il GPS, mostra i percorsi vicini e aggiunge il lato social: bacheca degli amici, like, club, uscite di gruppo e sfide.",
+        result: "L'app è pronta e in preparazione per l'App Store. Tutti i requisiti di Apple sono già soddisfatti: eliminazione dell'account, moderazione e privacy.",
+        features: ["Passi, sonno e prontezza all'allenamento da Apple Health", "Registrazione GPS di corse ed escursioni: ritmo, distanza, dislivello", "Percorsi vicini con recensioni e foto", "Bacheca amici, commenti, club e uscite di gruppo", "Sfide e classifica dei passi tra amici", "Niente pubblicità né tracciamento, zone privacy sulla mappa"],
         gallery: []
       }
     },

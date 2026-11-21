@@ -25,7 +25,7 @@ const site_es = {
     { text: "Automatización",        project: "bots" },
     { text: "Sistemas de reservas",   project: "hotel" },
     { text: "Entrenador de mecanografía",    project: "klavogin" },
-    { text: "Apps llave en mano",      project: "app" }
+    { text: "App deportiva",      project: "plai" }
   ],
 
   // Counters
@@ -106,20 +106,21 @@ const site_es = {
       }
     },
     {
-      slug: "app",
-      title: "Nuestra app",
-      year: "2025",
-      status: "terminado",
+      slug: "plai",
+      title: "Plai",
+      year: "2026",
+      status: "llegando al App Store",
       description:
-        "Descripción de la app que creamos: para quién es, qué problema resuelve y qué tiene de mejor.",
-      tech: ["Python", "SQLite"],
+        "Una comunidad deportiva para quienes aman moverse: correr, caminar, senderismo y bici. Entrenamientos con GPS, rutas en el mapa, retos con amigos y datos de Apple Health en un solo lugar.",
+      tech: ["iOS", "Android", "Apple Health", "Mapas y GPS"],
+      mock: "plai",
       image: "",
       link: "",
       details: {
-        task: "Qué problema debía resolver la app y para quién.",
-        solution: "Cómo funciona y qué es lo más importante.",
-        result: "El resultado: quién la usa, qué cambió, cifras si las hay.",
-        features: ["Función 1", "Función 2", "Función 3"],
+        task: "La gente activa guarda los pasos en una app, las rutas en otra y habla con sus amigos en otro sitio. Queríamos un único lugar donde moverse sea también una comunidad.",
+        solution: "Plai reúne tu día desde Apple Health y Health Connect, registra carreras y caminatas con GPS, muestra rutas cercanas y añade lo social: muro de amigos, likes, clubes, quedadas y retos.",
+        result: "La app está terminada y en preparación para el App Store. Ya cumple todos los requisitos de Apple: borrado de cuenta, moderación y privacidad.",
+        features: ["Pasos, sueño y preparación desde Apple Health", "Registro de carreras y rutas con GPS: ritmo, distancia, desnivel", "Rutas cercanas con reseñas y fotos", "Muro de amigos, comentarios, clubes y quedadas", "Retos y clasificación de pasos entre amigos", "Sin anuncios ni rastreo, zonas de privacidad en el mapa"],
         gallery: []
       }
     },

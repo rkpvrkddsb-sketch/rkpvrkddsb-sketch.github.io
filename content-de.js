@@ -25,7 +25,7 @@ const site_de = {
     { text: "Automatisierung",        project: "bots" },
     { text: "Buchungssysteme",   project: "hotel" },
     { text: "Tipptrainer",    project: "klavogin" },
-    { text: "Apps schlüsselfertig",      project: "app" }
+    { text: "Sport-App",      project: "plai" }
   ],
 
   // Counters
@@ -106,20 +106,21 @@ const site_de = {
       }
     },
     {
-      slug: "app",
-      title: "Unsere App",
-      year: "2025",
-      status: "fertig",
+      slug: "plai",
+      title: "Plai",
+      year: "2026",
+      status: "bald im App Store",
       description:
-        "Beschreibung der App, die wir gebaut haben: für wen sie ist, welches Problem sie löst und was das Beste daran ist.",
-      tech: ["Python", "SQLite"],
+        "Eine Sport-Community für alle, die sich gern bewegen: Laufen, Gehen, Wandern und Radfahren. GPS-Workouts, Routen auf der Karte, Challenges mit Freunden und Apple-Health-Daten an einem Ort.",
+      tech: ["iOS", "Android", "Apple Health", "Karten & GPS"],
+      mock: "plai",
       image: "",
       link: "",
       details: {
-        task: "Welches Problem die App lösen sollte und für wen.",
-        solution: "Wie sie funktioniert und was daran am wichtigsten ist.",
-        result: "Das Ergebnis: wer sie nutzt, was sich geändert hat, Zahlen, falls vorhanden.",
-        features: ["Funktion 1", "Funktion 2", "Funktion 3"],
+        task: "Aktive Menschen haben ihre Schritte in einer App, Routen in einer anderen und schreiben Freunden noch woanders. Wir wollten einen Ort, an dem Bewegung auch Gemeinschaft ist.",
+        solution: "Plai holt deinen Tag aus Apple Health und Health Connect, zeichnet Läufe und Wanderungen per GPS auf, zeigt Routen in der Nähe und bringt das Soziale dazu: Freundes-Feed, Likes, Clubs, gemeinsame Touren und Challenges.",
+        result: "Die App ist fertig und wird für den App Store vorbereitet. Alle Anforderungen von Apple sind schon erfüllt: Kontolöschung, Moderation und Datenschutz.",
+        features: ["Schritte, Schlaf und Trainingsbereitschaft aus Apple Health", "GPS-Aufzeichnung für Läufe und Wanderungen: Tempo, Distanz, Höhenmeter", "Routen in der Nähe mit Bewertungen und Fotos", "Freundes-Feed, Kommentare, Clubs und gemeinsame Touren", "Challenges und Schritte-Rangliste unter Freunden", "Keine Werbung, kein Tracking, Privatsphäre-Zonen auf der Karte"],
         gallery: []
       }
     },

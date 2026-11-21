@@ -25,7 +25,7 @@ const site_en = {
     { text: "Automation",        project: "bots" },
     { text: "Booking systems",   project: "hotel" },
     { text: "Typing trainer",    project: "klavogin" },
-    { text: "Turnkey apps",      project: "app" }
+    { text: "Sports app",      project: "plai" }
   ],
 
   // Counters
@@ -106,20 +106,21 @@ const site_en = {
       }
     },
     {
-      slug: "app",
-      title: "Our app",
-      year: "2025",
-      status: "done",
+      slug: "plai",
+      title: "Plai",
+      year: "2026",
+      status: "coming to the App Store",
       description:
-        "A description of the app we built: who it's for, what problem it solves and what's best about it.",
-      tech: ["Python", "SQLite"],
+        "A sports community for people who love to move: running, walking, hiking and cycling. GPS workouts, trails on the map, challenges with friends and Apple Health data in one place.",
+      tech: ["iOS", "Android", "Apple Health", "Maps & GPS"],
+      mock: "plai",
       image: "",
       link: "",
       details: {
-        task: "What problem the app had to solve, and for whom.",
-        solution: "How it works and what matters most in it.",
-        result: "The outcome: who uses it, what changed, numbers if you have them.",
-        features: ["Feature 1", "Feature 2", "Feature 3"],
+        task: "Active people keep their steps in one app, routes in another and talk to friends somewhere else. We wanted one place where moving is also a community.",
+        solution: "Plai pulls your day from Apple Health and Health Connect, records runs and hikes with GPS, shows trails nearby and adds the social side: a friends feed, likes, clubs, group outings and challenges.",
+        result: "The app is finished and being prepared for the App Store. All of Apple's requirements are already covered: account deletion, moderation and privacy.",
+        features: ["Steps, sleep and training readiness from Apple Health", "GPS recording for runs and hikes: pace, distance, elevation", "Trails nearby with reviews and photos", "Friends feed, comments, clubs and group outings", "Challenges and a friends' step leaderboard", "No ads, no tracking, privacy zones on the map"],
         gallery: []
       }
     },
