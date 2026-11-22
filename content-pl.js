@@ -43,21 +43,25 @@ const site_pl = {
       status: "w trakcie",
       live: true,
       description:
-        "System dla hotelu: rezerwacje online, zarządzanie pokojami, kalendarz zameldowań i panel dla personelu.",
-      tech: ["React", "Node.js", "PostgreSQL"],
+        "System dla hotelu: pokojówki widzą swoje pokoje w telefonie, kierowniczka sprawdza sprzątanie, a recepcja w czasie rzeczywistym wie, które pokoje są gotowe.",
+      tech: ["Aplikacja webowa", "Telefon + PC", "Tryb offline"],
+      mock: "hotel",          // картка: ПК рецепції + телефон покоївки (скріни з gallery)
       image: "",
       link: "",
       details: {
-        task: "Problem: jak hotel działał wcześniej i co było niewygodne (arkusze, telefony, pomylone rezerwacje).",
-        solution: "Co budujemy: jedną platformę, na której goście rezerwują online, a personel widzi wszystkie pokoje i zameldowania w jednym kalendarzu.",
-        result: "Co zyskuje hotel: mniej ręcznej pracy, zero podwójnych rezerwacji, wszystko widoczne w czasie rzeczywistym.",
-        features: [
-          "Rezerwacje online dla gości",
-          "Kalendarz dostępności pokoi",
-          "Panel dla administratora i personelu",
-          "Statusy pokoi: wolny, sprzątanie, zajęty"
-        ],
-        gallery: []
+        task: "Statusy pokoi przekazywano przez krótkofalówkę i na papierze: recepcja nie wiedziała, czy pokój jest gotowy na przyjazd gościa, a pokojówki — od czego zacząć.",
+        solution: "Jeden system dla wszystkich ról: pokojówka dostaje pokoje we właściwej kolejności, kierowniczka sprawdza i widzi ryzyka, recepcja ma tablicę całego hotelu na PC, a technik zgłoszenia napraw.",
+        result: "Pokoje na wczesne przyjazdy są gotowe na czas, ryzyka widać z wyprzedzeniem, a cały zespół jest w kontakcie w jednym miejscu — nawet bez Wi‑Fi.",
+        features: ["Lista pokoi z priorytetami i timerem", "Kontrola sprzątania przez kierowniczkę", "Tablica recepcji: status każdego pokoju na żywo", "Ostrzeżenie, gdy gość przyjedzie przed gotowością pokoju", "Poranna odprawa, czat zespołu i przycisk SOS", "Naprawy, rzeczy znalezione, działa offline"],
+        // скріншоти: kind "desk" — у рамці браузера, "phone" — у рамці телефона; cap — підпис
+        gallery: [
+          { src: "images/hotel-reception.jpg", kind: "desk", cap: "Recepcja: tablica całego hotelu na żywo" },
+          { src: "images/hotel-rooms.jpg", kind: "phone", cap: "Pokojówka: moje pokoje na dziś" },
+          { src: "images/hotel-room.jpg", kind: "phone", cap: "Karta pokoju przed sprzątaniem" },
+          { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Poranna odprawa od kierowniczki" },
+          { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Kierowniczka: zagrożone przyjazdy" },
+          { src: "images/hotel-team.jpg", kind: "phone", cap: "Zespół na zmianie" }
+        ]
       }
     },
     {

@@ -43,21 +43,25 @@ const site_it = {
       status: "in sviluppo",
       live: true,
       description:
-        "Un sistema per un hotel: prenotazioni online, gestione delle camere, calendario dei check-in e pannello per lo staff.",
-      tech: ["React", "Node.js", "PostgreSQL"],
+        "Un sistema per hotel: le cameriere ai piani vedono le loro camere sul telefono, la governante controlla la pulizia e la reception sa in tempo reale quali camere sono pronte.",
+      tech: ["Web app", "Telefono + PC", "Modalità offline"],
+      mock: "hotel",          // картка: ПК рецепції + телефон покоївки (скріни з gallery)
       image: "",
       link: "",
       details: {
-        task: "Il problema: come funzionava prima l'hotel e cosa non andava (fogli di calcolo, telefonate, prenotazioni confuse).",
-        solution: "Cosa stiamo costruendo: un'unica piattaforma dove gli ospiti prenotano online e lo staff vede tutte le camere e i check-in in un solo calendario.",
-        result: "Cosa ci guadagna l'hotel: meno lavoro manuale, niente doppie prenotazioni, tutto visibile in tempo reale.",
-        features: [
-          "Prenotazioni online per gli ospiti",
-          "Calendario disponibilità camere",
-          "Pannello per amministrazione e staff",
-          "Stati: libera, pulizia, occupata"
-        ],
-        gallery: []
+        task: "Gli stati delle camere passavano via radio e su carta: la reception non sapeva se una camera era pronta per l'arrivo e le cameriere da dove iniziare.",
+        solution: "Un sistema per tutti i ruoli: la cameriera riceve le camere nell'ordine giusto, la governante controlla e vede i rischi, la reception ha una bacheca di tutto l'hotel sul PC e la manutenzione riceve le richieste di riparazione.",
+        result: "Le camere per gli arrivi anticipati sono pronte in tempo, i rischi si vedono prima e tutto il team comunica in un unico posto — anche senza Wi‑Fi.",
+        features: ["Elenco camere con priorità e timer", "Controllo della pulizia da parte della governante", "Bacheca reception: stato di ogni camera in tempo reale", "Avviso se l'ospite arriva prima che la camera sia pronta", "Briefing mattutino, chat del team e pulsante SOS", "Riparazioni, oggetti smarriti, funziona offline"],
+        // скріншоти: kind "desk" — у рамці браузера, "phone" — у рамці телефона; cap — підпис
+        gallery: [
+          { src: "images/hotel-reception.jpg", kind: "desk", cap: "Reception: bacheca live di tutto l'hotel" },
+          { src: "images/hotel-rooms.jpg", kind: "phone", cap: "Cameriera: le mie camere di oggi" },
+          { src: "images/hotel-room.jpg", kind: "phone", cap: "Scheda camera prima della pulizia" },
+          { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Briefing mattutino della governante" },
+          { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Governante: arrivi a rischio" },
+          { src: "images/hotel-team.jpg", kind: "phone", cap: "Team in servizio" }
+        ]
       }
     },
     {

@@ -43,21 +43,25 @@ const site_es = {
       status: "en desarrollo",
       live: true,
       description:
-        "Un sistema para un hotel: reservas online, gestión de habitaciones, calendario de entradas y panel para el personal.",
-      tech: ["React", "Node.js", "PostgreSQL"],
+        "Un sistema para hoteles: las camareras ven sus habitaciones en el móvil, la supervisora revisa la limpieza y recepción sabe en tiempo real qué habitaciones están listas.",
+      tech: ["App web", "Móvil + PC", "Modo sin conexión"],
+      mock: "hotel",          // картка: ПК рецепції + телефон покоївки (скріни з gallery)
       image: "",
       link: "",
       details: {
-        task: "El problema: cómo funcionaba antes el hotel y qué era incómodo (hojas de cálculo, llamadas, reservas mezcladas).",
-        solution: "Lo que estamos creando: una sola plataforma donde los huéspedes reservan online y el personal ve todas las habitaciones y entradas en un único calendario.",
-        result: "Lo que gana el hotel: menos trabajo manual, cero reservas duplicadas y todo visible en tiempo real.",
-        features: [
-          "Reservas online para huéspedes",
-          "Calendario de disponibilidad",
-          "Panel para administración y personal",
-          "Estados: libre, en limpieza, ocupada"
-        ],
-        gallery: []
+        task: "Los estados de las habitaciones se pasaban por radio y en papel: recepción no sabía si una habitación estaba lista para el huésped y las camareras no sabían por dónde empezar.",
+        solution: "Un sistema para todos los roles: la camarera recibe sus habitaciones en el orden correcto, la supervisora revisa y ve los riesgos, recepción tiene un panel de todo el hotel en el PC y mantenimiento recibe las averías.",
+        result: "Las habitaciones para llegadas tempranas están listas a tiempo, los riesgos se ven con antelación y todo el equipo se comunica en un solo lugar, incluso sin Wi‑Fi.",
+        features: ["Lista de habitaciones con prioridades y temporizador", "Revisión de la limpieza por la supervisora", "Panel de recepción: estado de cada habitación en vivo", "Aviso si el huésped llega antes de que la habitación esté lista", "Briefing matinal, chat del equipo y botón SOS", "Averías, objetos perdidos y funciona sin conexión"],
+        // скріншоти: kind "desk" — у рамці браузера, "phone" — у рамці телефона; cap — підпис
+        gallery: [
+          { src: "images/hotel-reception.jpg", kind: "desk", cap: "Recepción: panel en vivo de todo el hotel" },
+          { src: "images/hotel-rooms.jpg", kind: "phone", cap: "Camarera: mis habitaciones de hoy" },
+          { src: "images/hotel-room.jpg", kind: "phone", cap: "Ficha de la habitación antes de limpiar" },
+          { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Briefing matinal de la supervisora" },
+          { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Supervisora: llegadas en riesgo" },
+          { src: "images/hotel-team.jpg", kind: "phone", cap: "Equipo en turno" }
+        ]
       }
     },
     {

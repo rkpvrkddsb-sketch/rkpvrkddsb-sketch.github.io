@@ -43,21 +43,25 @@ const site_fr = {
       status: "en cours",
       live: true,
       description:
-        "Un système pour un hôtel : réservation en ligne, gestion des chambres, calendrier des arrivées et tableau de bord pour le personnel.",
-      tech: ["React", "Node.js", "PostgreSQL"],
+        "Un système pour hôtel : les femmes de chambre voient leurs chambres sur le téléphone, la gouvernante contrôle le ménage et la réception sait en temps réel quelles chambres sont prêtes.",
+      tech: ["Appli web", "Téléphone + PC", "Mode hors ligne"],
+      mock: "hotel",          // картка: ПК рецепції + телефон покоївки (скріни з gallery)
       image: "",
       link: "",
       details: {
-        task: "Le problème : comment l'hôtel fonctionnait avant et ce qui n'allait pas (tableurs, appels, réservations mélangées).",
-        solution: "Ce que nous construisons : une seule plateforme où les clients réservent en ligne et le personnel voit toutes les chambres et arrivées dans un calendrier unique.",
-        result: "Ce que l'hôtel y gagne : moins de travail manuel, plus de doubles réservations, tout visible en temps réel.",
-        features: [
-          "Réservation en ligne pour les clients",
-          "Calendrier de disponibilité",
-          "Tableau de bord admin et personnel",
-          "Statuts : libre, ménage, occupée"
-        ],
-        gallery: []
+        task: "Les statuts des chambres passaient par talkie-walkie et sur papier : la réception ne savait pas si une chambre était prête pour l'arrivée, et les femmes de chambre par où commencer.",
+        solution: "Un seul système pour tous les rôles : la femme de chambre reçoit ses chambres dans le bon ordre, la gouvernante contrôle et voit les risques, la réception a un tableau de tout l'hôtel sur PC, la maintenance reçoit les demandes de réparation.",
+        result: "Les chambres des arrivées anticipées sont prêtes à temps, les risques se voient à l'avance et toute l'équipe communique au même endroit — même sans Wi‑Fi.",
+        features: ["Liste des chambres avec priorités et minuteur", "Contrôle du ménage par la gouvernante", "Tableau de réception : statut de chaque chambre en direct", "Alerte si le client arrive avant que la chambre soit prête", "Briefing du matin, chat d'équipe et bouton SOS", "Réparations, objets trouvés, fonctionne hors ligne"],
+        // скріншоти: kind "desk" — у рамці браузера, "phone" — у рамці телефона; cap — підпис
+        gallery: [
+          { src: "images/hotel-reception.jpg", kind: "desk", cap: "Réception : tableau en direct de tout l'hôtel" },
+          { src: "images/hotel-rooms.jpg", kind: "phone", cap: "Femme de chambre : mes chambres du jour" },
+          { src: "images/hotel-room.jpg", kind: "phone", cap: "Fiche de la chambre avant le ménage" },
+          { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Briefing du matin de la gouvernante" },
+          { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Gouvernante : arrivées à risque" },
+          { src: "images/hotel-team.jpg", kind: "phone", cap: "Équipe en service" }
+        ]
       }
     },
     {

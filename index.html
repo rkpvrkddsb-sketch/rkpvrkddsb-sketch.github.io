@@ -48,7 +48,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=62">
+  <link rel="stylesheet" href="style.css?v=64">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -259,7 +259,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=62"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=64"><\/script>');
     })();
   </script>
   <script>
@@ -410,7 +410,12 @@
         <div class="pl-tabs"><i class="on"></i><i></i><i></i><i></i></div>
       </div></div>
     </div></div>`;
-    const visual = p => p.image ? shot(p) : (p.mock === "chat" ? chatMock : p.mock === "game" ? gameMock : p.mock === "plai" ? plaiMock : mock);
+    // готель: справжні скріни — ПК рецепції в рамці браузера + телефон покоївки поверх
+    const hotelMock = p => { const g = p.details.gallery || [], d = g.find(x => x.kind === "desk"), ph = g.find(x => x.kind === "phone");
+      return `<div class="mock duo"><div class="win shot duo-desk"><div class="bar"><i></i><i></i><i></i><span class="addr">${esc(p.title)}</span></div>
+        <img src="${esc(d.src)}" alt="${esc(d.cap)}" loading="lazy" decoding="async"></div>
+        <div class="duo-phone"><img src="${esc(ph.src)}" alt="${esc(ph.cap)}" loading="lazy" decoding="async"></div></div>`; };
+    const visual = p => p.image ? shot(p) : (p.mock === "chat" ? chatMock : p.mock === "game" ? gameMock : p.mock === "plai" ? plaiMock : p.mock === "hotel" ? hotelMock(p) : mock);
     const pills = (p, i) => `
       <span class="num">${pad(i)}</span>
       <span class="pill ${p.live || p.status === 'в розробці' ? 'live' : ''}">${esc(p.status)}</span>
@@ -503,7 +508,11 @@
               <div class="features">${d.features.map(f => `<div class="feat reveal"><i>✦</i>${esc(f)}</div>`).join('')}</div>` : ''}
 
             ${(d.gallery || []).length ? `
-              <div class="gallery">${d.gallery.map(src => `<img class="reveal" src="${esc(src)}" alt="">`).join('')}</div>` : ''}
+              <div class="shots reveal"><div class="shots-track" tabindex="0">${d.gallery.map((g, i) => { g = typeof g === "string" ? { src: g, kind: "desk", cap: "" } : g;
+                return `<figure class="shot-item ${g.kind === "phone" ? "is-phone" : "is-desk"}"><button type="button" class="shot-frame" data-zoom="${i}">
+                  ${g.kind === "phone" ? "" : `<span class="bar"><i></i><i></i><i></i></span>`}<img src="${esc(g.src)}" alt="${esc(g.cap || "")}" loading="lazy" decoding="async"></button>
+                  ${g.cap ? `<figcaption>${esc(g.cap)}</figcaption>` : ""}</figure>`; }).join('')}</div>
+                <div class="shots-nav"><button type="button" class="shots-prev magnet" aria-label="←">←</button><button type="button" class="shots-next magnet" aria-label="→">→</button></div></div>` : ''}
 
             <a class="next reveal" href="#p-${esc(next.slug)}">
               <span class="label">${T.next}</span>
@@ -773,6 +782,24 @@
       function restart() { msgs.innerHTML = ""; say(L.hi, main); }
       // бот «прокидається», коли блок з'являється на екрані
       new IntersectionObserver((es, o) => { if (es[0].isIntersecting && !started) { started = true; o.disconnect(); say(L.hi, main); } }, { threshold: .4 }).observe($("demo-phone"));
+    })();
+
+    // ---- Галерея скріншотів на сторінці проєкту: гортання + перегляд на весь екран ----
+    (function shots() {
+      const lb = document.createElement("div"); lb.className = "lightbox"; lb.hidden = true;
+      lb.innerHTML = `<button type="button" class="lb-x" aria-label="Close">×</button><button type="button" class="lb-p" aria-label="←">←</button><img alt=""><button type="button" class="lb-n" aria-label="→">→</button><p class="lb-c"></p>`;
+      document.body.appendChild(lb);
+      let list = [], idx = 0;
+      const show = i => { idx = (i + list.length) % list.length; const im = list[idx]; lb.querySelector("img").src = im.src; lb.querySelector("img").className = im.closest(".is-phone") ? "ph" : ""; lb.querySelector(".lb-c").textContent = im.alt; };
+      const close = () => { lb.classList.remove("show"); setTimeout(() => lb.hidden = true, 250); };
+      document.addEventListener("click", e => {
+        const z = e.target.closest("[data-zoom]");
+        if (z) { list = [...z.closest(".shots-track").querySelectorAll("img")]; show(+z.dataset.zoom); lb.hidden = false; requestAnimationFrame(() => lb.classList.add("show")); return; }
+        const nv = e.target.closest(".shots-prev, .shots-next");
+        if (nv) { const tr = nv.closest(".shots").querySelector(".shots-track"); tr.scrollBy({ left: (nv.classList.contains("shots-next") ? 1 : -1) * tr.clientWidth * .8, behavior: "smooth" }); return; }
+        if (!lb.hidden) { if (e.target.closest(".lb-n")) show(idx + 1); else if (e.target.closest(".lb-p")) show(idx - 1); else if (!e.target.closest("img")) close(); }
+      });
+      addEventListener("keydown", e => { if (lb.hidden) return; if (e.key === "Escape") close(); if (e.key === "ArrowRight") show(idx + 1); if (e.key === "ArrowLeft") show(idx - 1); });
     })();
 
     // ---- Термінал-пасхалка (клавіша ~ або кнопка в підвалі) ----

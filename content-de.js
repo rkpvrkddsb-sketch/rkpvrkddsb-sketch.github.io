@@ -43,21 +43,25 @@ const site_de = {
       status: "in Arbeit",
       live: true,
       description:
-        "Ein System für ein Hotel: Online-Buchung, Zimmerverwaltung, Check-in-Kalender und ein Dashboard fürs Personal.",
-      tech: ["React", "Node.js", "PostgreSQL"],
+        "Ein Hotelsystem: Zimmermädchen sehen ihre Zimmer auf dem Handy, die Hausdame kontrolliert die Reinigung und die Rezeption weiß in Echtzeit, welche Zimmer bezugsfertig sind.",
+      tech: ["Web-App", "Handy + PC", "Offline-Modus"],
+      mock: "hotel",          // картка: ПК рецепції + телефон покоївки (скріни з gallery)
       image: "",
       link: "",
       details: {
-        task: "Das Problem: wie das Hotel vorher gearbeitet hat und was unpraktisch war (Tabellen, Anrufe, durcheinandergeratene Buchungen).",
-        solution: "Was wir bauen: eine Plattform, auf der Gäste online buchen und das Personal alle Zimmer und Check-ins in einem einzigen Kalender sieht.",
-        result: "Was das Hotel davon hat: weniger Handarbeit, keine Doppelbuchungen, alles in Echtzeit sichtbar.",
-        features: [
-          "Online-Buchung für Gäste",
-          "Belegungskalender",
-          "Dashboard für Verwaltung und Personal",
-          "Zimmerstatus: frei, Reinigung, belegt"
-        ],
-        gallery: []
+        task: "Zimmerstatus wurden per Funk und auf Papier weitergegeben: Die Rezeption wusste nicht, ob ein Zimmer zur Ankunft fertig ist, und das Housekeeping nicht, wo es anfangen soll.",
+        solution: "Ein System für alle Rollen: Zimmermädchen bekommen ihre Zimmer in der richtigen Reihenfolge, die Hausdame kontrolliert und sieht Risiken, die Rezeption hat ein Live-Board des ganzen Hotels am PC, die Technik bekommt Reparaturaufträge.",
+        result: "Zimmer für frühe Anreisen sind rechtzeitig fertig, Risiken sind vorher sichtbar und das ganze Team ist an einem Ort verbunden — auch wenn das WLAN ausfällt.",
+        features: ["Zimmerliste mit Prioritäten und Timer", "Reinigungskontrolle durch die Hausdame", "Rezeptions-Board: Status jedes Zimmers live", "Warnung, wenn der Gast vor der Fertigstellung anreist", "Morgenbriefing, Team-Chat und SOS-Taste", "Reparaturen, Fundsachen, funktioniert offline"],
+        // скріншоти: kind "desk" — у рамці браузера, "phone" — у рамці телефона; cap — підпис
+        gallery: [
+          { src: "images/hotel-reception.jpg", kind: "desk", cap: "Rezeption: Live-Board des ganzen Hotels" },
+          { src: "images/hotel-rooms.jpg", kind: "phone", cap: "Zimmermädchen: meine Zimmer heute" },
+          { src: "images/hotel-room.jpg", kind: "phone", cap: "Zimmerkarte vor der Reinigung" },
+          { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Morgenbriefing der Hausdame" },
+          { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Hausdame: gefährdete Anreisen" },
+          { src: "images/hotel-team.jpg", kind: "phone", cap: "Team im Dienst" }
+        ]
       }
     },
     {

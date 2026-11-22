@@ -43,21 +43,25 @@ const site_en = {
       status: "in progress",
       live: true,
       description:
-        "A system for a hotel: online booking, room management, a check-in calendar and a staff dashboard.",
-      tech: ["React", "Node.js", "PostgreSQL"],
+        "A hotel system: housekeepers see their rooms on the phone, the supervisor inspects the cleaning, and reception knows in real time which rooms are ready for check-in.",
+      tech: ["Web app", "Phone + PC", "Offline mode"],
+      mock: "hotel",          // картка: ПК рецепції + телефон покоївки (скріни з gallery)
       image: "",
       link: "",
       details: {
-        task: "The problem: how the hotel worked before and what was inconvenient (spreadsheets, phone calls, mixed-up bookings).",
-        solution: "What we're building: one platform where guests book online and staff see every room and check-in in a single calendar.",
-        result: "What it gives the hotel: less manual work, no double bookings, everything visible in real time.",
-        features: [
-          "Online booking for guests",
-          "Room availability calendar",
-          "Admin and staff dashboard",
-          "Room statuses: free, cleaning, occupied"
-        ],
-        gallery: []
+        task: "Room statuses were passed on by radio and on paper: reception didn't know if a room was ready for the guest's arrival, and housekeepers didn't know where to start.",
+        solution: "One system for every role: housekeepers get their rooms in the right order, the supervisor inspects and sees risks, reception gets a live board of the whole hotel on the PC, and maintenance gets repair tickets.",
+        result: "Rooms for early arrivals are ready on time, risks are visible in advance, and the whole team stays connected in one place — even when the Wi‑Fi drops.",
+        features: ["Housekeeper room list with priorities and a timer", "Cleaning inspection by the supervisor", "Reception board: every room's status live", "Warnings when a guest arrives before the room is ready", "Morning briefing, team chat and an SOS button", "Repair tickets, Lost & Found, works offline"],
+        // скріншоти: kind "desk" — у рамці браузера, "phone" — у рамці телефона; cap — підпис
+        gallery: [
+          { src: "images/hotel-reception.jpg", kind: "desk", cap: "Reception: live board of the whole hotel" },
+          { src: "images/hotel-rooms.jpg", kind: "phone", cap: "Housekeeper: my rooms today" },
+          { src: "images/hotel-room.jpg", kind: "phone", cap: "Room card before cleaning" },
+          { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Morning briefing from the supervisor" },
+          { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Supervisor: arrivals at risk" },
+          { src: "images/hotel-team.jpg", kind: "phone", cap: "Team on shift" }
+        ]
       }
     },
     {

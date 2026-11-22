@@ -43,21 +43,25 @@ const site_pt = {
       status: "em desenvolvimento",
       live: true,
       description:
-        "Um sistema para um hotel: reservas online, gestão de quartos, calendário de check-ins e painel para a equipa.",
-      tech: ["React", "Node.js", "PostgreSQL"],
+        "Um sistema para hotéis: as empregadas de quarto veem os seus quartos no telemóvel, a governanta inspeciona a limpeza e a receção sabe em tempo real que quartos estão prontos.",
+      tech: ["App web", "Telemóvel + PC", "Modo offline"],
+      mock: "hotel",          // картка: ПК рецепції + телефон покоївки (скріни з gallery)
       image: "",
       link: "",
       details: {
-        task: "O problema: como o hotel funcionava antes e o que era incómodo (folhas de cálculo, chamadas, reservas trocadas).",
-        solution: "O que estamos a construir: uma única plataforma onde os hóspedes reservam online e a equipa vê todos os quartos e check-ins num só calendário.",
-        result: "O que o hotel ganha: menos trabalho manual, nenhuma reserva duplicada, tudo visível em tempo real.",
-        features: [
-          "Reservas online para hóspedes",
-          "Calendário de disponibilidade",
-          "Painel para administração e equipa",
-          "Estados: livre, limpeza, ocupado"
-        ],
-        gallery: []
+        task: "Os estados dos quartos passavam por rádio e em papel: a receção não sabia se o quarto estava pronto para a chegada e as empregadas não sabiam por onde começar.",
+        solution: "Um sistema para todos os papéis: a empregada recebe os quartos na ordem certa, a governanta inspeciona e vê os riscos, a receção tem um painel do hotel inteiro no PC e a manutenção recebe os pedidos de reparação.",
+        result: "Os quartos para chegadas antecipadas ficam prontos a tempo, os riscos veem-se com antecedência e a equipa toda comunica num só lugar — mesmo sem Wi‑Fi.",
+        features: ["Lista de quartos com prioridades e temporizador", "Inspeção da limpeza pela governanta", "Painel da receção: estado de cada quarto ao vivo", "Aviso se o hóspede chegar antes do quarto estar pronto", "Briefing da manhã, chat da equipa e botão SOS", "Reparações, perdidos e achados, funciona offline"],
+        // скріншоти: kind "desk" — у рамці браузера, "phone" — у рамці телефона; cap — підпис
+        gallery: [
+          { src: "images/hotel-reception.jpg", kind: "desk", cap: "Receção: painel ao vivo do hotel inteiro" },
+          { src: "images/hotel-rooms.jpg", kind: "phone", cap: "Empregada: os meus quartos de hoje" },
+          { src: "images/hotel-room.jpg", kind: "phone", cap: "Ficha do quarto antes da limpeza" },
+          { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Briefing da manhã da governanta" },
+          { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Governanta: chegadas em risco" },
+          { src: "images/hotel-team.jpg", kind: "phone", cap: "Equipa de serviço" }
+        ]
       }
     },
     {
