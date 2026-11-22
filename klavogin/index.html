@@ -580,6 +580,70 @@
     .key.space{width:150px}
     .kb .r,.kb{gap:3px}
   }
+
+  /* =========================================================
+     ШЛІФ: одна система кнопок і заокруглень
+     md 40px — звичайні кнопки · sm 32px — перемикачі й панелі · квадрат 40px — значки
+     ========================================================= */
+  :root{ --bh:40px; --bhs:32px; --br:10px; --rc:14px; --rt:12px; }
+  .btn,.back-home,.streak,.langsel,.hlinks button,.mbar button,.sbtn,.danger,.prog .back{
+    height:var(--bh);min-height:var(--bh);padding:0 16px;border-radius:var(--br);border:0;box-sizing:border-box;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1;white-space:nowrap;
+    font:500 13.5px var(--mono);cursor:pointer;outline:none;transition:background .15s,color .15s,border-color .15s}
+  .btn,.back-home,.streak,.hlinks button,.mbar button,.sbtn,.prog .back{background:var(--panel);color:var(--text)}
+  .sbtn{background:var(--bg)}
+  .btn:hover,.back-home:hover,.streak:hover,.hlinks button:hover,.mbar button:hover,.sbtn:hover,.prog .back:hover{background:var(--panel2);color:var(--accent)}
+  .btn.acc,.mbar button.acc{background:var(--accent);color:var(--on-accent);font-weight:600}
+  .btn.acc:hover,.mbar button.acc:hover{background:color-mix(in srgb, var(--accent) 86%, var(--text));color:var(--on-accent)}
+  .back-home,.prog .back{color:var(--dim);padding:0 14px 0 10px}
+  .danger{background:none;border:1px solid var(--err-soft);color:var(--err)}
+  .langsel{padding:0 12px;font-weight:500;color:var(--accent);background:var(--panel)}
+  .ib{width:var(--bh);padding:0!important}
+  [data-ic]{display:inline-flex;align-items:center}
+  [data-ic] > svg{width:17px;height:17px;flex:none;display:block}
+  .btn > svg,.sbtn > svg,.hlinks button > svg,.mbar button > svg,.back-home > svg,.streak > svg,.prog .back > svg{width:17px;height:17px;flex:none}
+
+  /* малі: панель режимів, перемикачі, кнопка запису, кнопка в рядку уроку */
+  .bar{padding:4px;gap:2px;border-radius:12px}
+  .bar button{height:var(--bhs);padding:0 11px;border-radius:8px;font-size:12.5px;display:inline-flex;align-items:center}
+  .bar .sep{height:16px;margin:0 4px}
+  .seg{padding:3px;gap:2px;border-radius:var(--br);background:var(--bg)}
+  .seg button{height:calc(var(--bhs) - 2px);padding:0 12px;border-radius:7px;font-size:12.5px;display:inline-flex;align-items:center}
+  .recbtn{height:var(--bhs);padding:0 12px;border-radius:var(--br);font-size:12px}
+  .lhead .back{height:var(--bhs);padding:0 10px 0 6px;border-radius:8px;display:inline-flex;align-items:center;gap:4px}
+  .fonts button{height:var(--bh);padding:0 14px;border-radius:var(--br);display:inline-flex;align-items:center}
+  .focus-chip{height:var(--bhs);border-radius:8px}
+
+  /* квадратні значки */
+  .recrow .acts button{width:var(--bh);height:var(--bh);border-radius:var(--br);display:grid;place-items:center;padding:0}
+  .recrow .acts button svg{width:16px;height:16px}
+  .pctrl .pbtn,.pctrl .pbtn.sec{width:var(--bh);height:var(--bh);font-size:14px}
+
+  /* однакові групи кнопок */
+  #resActs .btn{min-width:160px}
+  .verdict .acts .btn,.macts .btn{min-width:120px}
+  .hlinks{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+  .hlinks button{justify-content:flex-start;width:100%;height:44px;padding:0 14px;gap:10px}
+  .hlinks button .cnt{margin-left:auto;color:var(--dim);font-size:12px}
+  .hlinks button > svg{color:var(--accent)}
+  .mbar{display:none;gap:8px}
+  html.touch .mbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr))}
+  .mbar button{width:100%;padding:0 8px;min-height:44px}
+
+  /* заокруглення: великі блоки 14px, плитки 12px */
+  .card,.sgroup,.hcard,.verdict,.field,.lhead,.pbox,.chart{border-radius:var(--rc)}
+  .stat,.lcard,.recrow,.ach,.item,.tile,.preview{border-radius:var(--rt)}
+
+  @media (max-width:380px){ .logo{font-size:0;gap:0} .logo .k{font-size:16px} .langsel{max-width:104px} }
+  @media (max-width:760px){
+    .streak{width:var(--bh);padding:0}
+    .langsel{max-width:112px}
+    #zenBtn{display:none!important}
+    .brand > div:last-child{gap:6px!important}
+    #resActs .btn{min-width:0;flex:1 1 140px}
+    .hlinks{grid-template-columns:1fr 1fr}
+    .hlinks button{height:46px;font-size:13px;padding:0 12px}
+  }
 </style>
 </head>
 <body>
@@ -600,21 +664,21 @@
       </div>
       <div style="display:flex;gap:10px;align-items:center">
         <select id="langSel" class="langsel" title="Мова"></select>
-        <button class="streak" id="zenBtn" title="Тільки текст. Esc — вийти">◻<span class="lbl"> чистий екран</span></button>
-        <button class="streak" id="progBtn" title="Прогрес">📈<span class="lbl"> прогрес</span></button>
-        <button class="streak" id="setBtn" title="Налаштування" aria-label="Налаштування">⚙</button>
+        <button class="streak" id="zenBtn" data-ic="zen" title="Тільки текст. Esc — вийти"><span class="lbl">чистий екран</span></button>
+        <button class="streak" id="progBtn" data-ic="chart" title="Прогрес"><span class="lbl">прогрес</span></button>
+        <button class="streak ib" id="setBtn" data-ic="gear" title="Налаштування" aria-label="Налаштування"></button>
       </div>
     </div>
     <nav class="bar" id="bar">
-      <button data-opt="punct">@ розділові</button>
-      <button data-opt="nums"># цифри</button>
-      <button data-opt="kb">⌨ клавіатура</button>
+      <button data-opt="punct">розділові</button>
+      <button data-opt="nums">цифри</button>
+      <button data-opt="kb">клавіатура</button>
       <span class="sep"></span>
       <button data-mode="time">час</button>
       <button data-mode="words">слова</button>
       <button data-mode="quote">прислів'я</button>
       <button data-mode="custom">свій текст</button>
-      <button data-mode="code">{ } код</button>
+      <button data-mode="code">код</button>
       <span class="sep"></span>
       <span id="amounts"></span>
 
@@ -626,13 +690,13 @@
   <section class="settings" id="settings"></section>
   <section class="lessons" id="lessons"></section>
   <section class="arcade" id="arcade">
-    <div class="ahud"><button class="back-home" id="aHome">← головна</button><span>рахунок<b id="aScore">0</b></span><span>рівень<b id="aLevel">1</b></span><span>комбо<b id="aCombo">×1</b></span><span class="sp"></span><span class="lives" id="aLives">♥♥♥</span></div>
+    <div class="ahud"><button class="back-home" id="aHome" data-ic="back">головна</button><span>рахунок<b id="aScore">0</b></span><span>рівень<b id="aLevel">1</b></span><span>комбо<b id="aCombo">×1</b></span><span class="sp"></span><span class="lives" id="aLives">♥♥♥</span></div>
     <div class="field" id="field"><div class="aover" id="aOver"></div></div>
     <div class="abuf" id="aBuf"><i></i></div>
   </section>
   <section class="prog" id="prog"></section>
   <section class="custom" id="custom">
-    <div><button class="back-home" id="cHome">← головна</button></div>
+    <div><button class="back-home" id="cHome" data-ic="back">головна</button></div>
     <div><h2>Свій текст</h2><p>Встав будь-який уривок — статтю, код, улюблену книжку — і надрукуй його. Текст збережеться в цьому браузері.</p></div>
     <textarea id="customTa" spellcheck="false" placeholder="Встав або напиши текст тут…"></textarea>
     <div class="row">
@@ -653,10 +717,10 @@
     </div>
     <div class="kb kb-live" id="kbLive"></div>
     <div class="mbar" id="mbar">
-      <button id="mKb" class="acc">⌨ клавіатура</button>
-      <button id="mRe">↻ заново</button>
-      <button id="mEnd" style="display:none">⏹ завершити</button>
-      <button id="mHome">⌂ головна</button>
+      <button id="mKb" class="acc" data-ic="keyboard">клавіатура</button>
+      <button id="mRe" data-ic="refresh">заново</button>
+      <button id="mEnd" data-ic="stop" style="display:none">завершити</button>
+      <button id="mHome" data-ic="home">головна</button>
     </div>
     <div class="hint">розкладка: <span id="kbName" style="color:var(--text)"></span> &nbsp;·&nbsp; <span id="hintKeys"></span></div>
   </section>
@@ -705,41 +769,41 @@
       <div class="tip" id="ktip"></div>
     </div>
 
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap" id="resActs"><button class="btn" id="again">↻ ще раз</button><button class="btn acc" id="watchRec" style="display:none">▶ переглянути запис</button><button class="btn" id="raceRec" style="display:none">🏁 перегнати себе</button><button class="btn" id="cardBtn">🖼 картка результату</button></div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap" id="resActs"><button class="btn acc" id="again" data-ic="refresh">ще раз</button><button class="btn" id="watchRec" data-ic="play" style="display:none">повтор</button><button class="btn" id="raceRec" data-ic="flag" style="display:none">перегнати себе</button><button class="btn" id="cardBtn" data-ic="image">картка</button></div>
     <div class="card history" id="history"></div>
   </section>
 
   <div class="modal" id="recsM"><div class="in" id="recsIn"></div></div>
   <div class="modal" id="playM"><div class="in">
-    <div class="top"><button class="back-home" id="pBack">← назад</button><h2>Повтор друку</h2><span class="meta" id="pMeta"></span></div>
+    <div class="top"><button class="back-home" id="pBack" data-ic="back">назад</button><h2>Повтор друку</h2><span class="meta" id="pMeta"></span></div>
     <div class="card pbox">
       <div class="plive"><span id="pTime">0:00</span><span><span id="pWpm">0</span><small>wpm</small></span><span><span id="pAcc">100</span><small>%</small></span></div>
       <div class="words-box" id="pBox"><div class="words" id="pWords"></div><div class="caret" id="pCaret"></div></div>
       <div class="kb" id="pKb"></div>
       <div class="pctrl">
         <button class="pbtn" id="pPlay" title="Пауза / грати (пробіл)">❚❚</button>
-        <button class="pbtn sec" id="pRe" title="Спочатку">↺</button>
+        <button class="pbtn sec" id="pRe" data-ic="refresh" title="Спочатку"></button>
         <div class="pbarw" id="pBar"><i id="pFill"></i></div>
         <span class="pdur" id="pDur"></span>
         <div class="seg" id="pSpeed"><button data-s=".5">0.5×</button><button data-s="1" class="on">1×</button><button data-s="2">2×</button><button data-s="4">4×</button></div>
-        <button class="sbtn" id="pRace">🏁 гонка</button>
-        <button class="sbtn" id="pVideo">🎬 відео</button>
-        <button class="sbtn" id="pShare">🔗 поділитися</button>
-        <button class="sbtn" id="pSave" style="display:none">💾 зберегти собі</button>
+        <button class="sbtn" id="pRace" data-ic="flag">гонка</button>
+        <button class="sbtn" id="pVideo" data-ic="video">відео</button>
+        <button class="sbtn" id="pShare" data-ic="link">поділитися</button>
+        <button class="sbtn" id="pSave" data-ic="save" style="display:none">зберегти собі</button>
       </div>
       <div class="vidbox" id="vidBox">
         <div class="vstat" id="vStat"></div>
         <div class="vidbar"><i id="vBar"></i></div>
         <video id="vPrev" controls playsinline style="display:none"></video>
-        <div class="macts"><a class="btn acc" id="vDl" style="display:none">⬇ завантажити відео</a><button class="btn" id="vCancel">скасувати</button></div>
+        <div class="macts"><a class="btn acc" id="vDl" data-ic="download" style="display:none">завантажити відео</a><button class="btn" id="vCancel">скасувати</button></div>
       </div>
       <div class="sharebox" id="shareBox"><input id="shareIn" readonly><button class="sbtn" id="shareCopy">копіювати</button></div>
     </div>
   </div></div>
   <div class="modal" id="cardM"><div class="in">
-    <div class="top"><button class="back-home" id="cBack">← назад</button><h2>Картка результату</h2><span class="meta">1200×630 — якраз для Telegram, Instagram чи X</span></div>
+    <div class="top"><button class="back-home" id="cBack" data-ic="back">назад</button><h2>Картка результату</h2><span class="meta">1200×630 — якраз для Telegram, Instagram чи X</span></div>
     <img class="cardprev" id="cardImg" alt="Картка результату">
-    <div class="macts"><a class="btn acc" id="cardDl">⬇ завантажити PNG</a><button class="btn" id="cardCopy">📋 копіювати картинку</button></div>
+    <div class="macts"><a class="btn acc" id="cardDl" data-ic="download">завантажити PNG</a><button class="btn" id="cardCopy" data-ic="image">копіювати</button></div>
   </div></div>
   <div class="modal" id="achM"><div class="in" id="achIn"></div></div>
   <div class="toast" id="toast"></div>
@@ -870,7 +934,7 @@ function renderLessons(){
   const L = lessons(), P = progress();
   const total = L.length*3, got = L.reduce((a,_,i)=>a+(P[i]||0),0);
   let nextI = L.findIndex((_,i)=>!(P[i]>0)); if (nextI<0) nextI = -1;
-  let html = `<div><button class="back-home" id="lHome">← головна</button></div><div class="top"><div><h2>Уроки сліпого друку</h2><p>${LANGS[cfg.lang].name} · ${LANGS[cfg.lang].kb}. Клади пальці на основний ряд і не дивись на руки — клавіатура підкаже.</p></div>
+  let html = `<div><button class="back-home" id="lHome" data-ic="back">головна</button></div><div class="top"><div><h2>Уроки сліпого друку</h2><p>${LANGS[cfg.lang].name} · ${LANGS[cfg.lang].kb}. Клади пальці на основний ряд і не дивись на руки — клавіатура підкаже.</p></div>
     <div class="progress">${got} / ${total} ★<span class="pbar"><i style="width:${got/total*100}%"></i></span></div></div>`;
   let g = null;
   L.forEach((l,i)=>{
@@ -1079,7 +1143,7 @@ function renderProgress(){
   }).join('');
 
   $('prog').innerHTML = `
-    <div class="top"><button class="back" id="pBack">← назад</button><h2>Прогрес</h2></div>
+    <div class="top"><button class="back" id="pBack" data-ic="back">назад</button><h2>Прогрес</h2></div>
     <div class="pcards">
       <div class="stat"><div class="lab">сьогодні</div><div class="val">${fmtT(today0.sec)}</div><div class="sub">${today0.tests} тестів${today0.best?` · найкраще ${today0.best} wpm`:''}</div></div>
       <div class="stat"><div class="lab">днів із практикою</div><div class="val">${keys.length}</div><div class="sub">за весь час</div></div>
@@ -1152,6 +1216,39 @@ function initCustom(){
   $('zenBtn').onclick = () => { if (progOpen) closeProgress(); else if (S.done && $('results').classList.contains('show')) reset(); setZen(true); };
 }
 
+/* ---------- значки: один набір лінійних іконок ---------- */
+const IC = {
+  zen:'<path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4"/>',
+  chart:'<path d="M4 20h16M7 16v-4M12 16V7M17 16v-7"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  text:'<path d="M4 6h16M4 12h11M4 18h14"/>',
+  film:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M10.5 9.5v5l4-2.5z"/>',
+  bolt:'<path d="M13 3 5 13.5h6L10 21l8-10.5h-6z"/>',
+  flag:'<path d="M5.5 21V4M5.5 4H17l-2.2 4.2L17 12.5H5.5"/>',
+  medal:'<circle cx="12" cy="15" r="5"/><path d="M8.6 11.3 6 3h4l2 5 2-5h4l-2.6 8.3"/>',
+  download:'<path d="M12 4v11M7 10.5 12 15l5-4.5M5 20h14"/>',
+  back:'<path d="M14.5 6 8.5 12l6 6"/>',
+  refresh:'<path d="M20 12a8 8 0 1 1-2.4-5.7M20 4v5h-5"/>',
+  home:'<path d="M4 11.5 12 4.5l8 7M6.5 10v10h11V10"/>',
+  keyboard:'<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M6.5 10h.01M10 10h.01M13.5 10h.01M17 10h.01M7.5 14h9"/>',
+  stop:'<rect x="6.5" y="6.5" width="11" height="11" rx="2"/>',
+  play:'<path d="M8 5.5v13l10.5-6.5z"/>',
+  link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+  image:'<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="m21 16-5-5-9 8.5"/>',
+  video:'<rect x="3" y="6" width="13" height="12" rx="2.5"/><path d="m16 10.5 5-3v9l-5-3"/>',
+  save:'<path d="M5 4h11l3 3v13H5zM8.5 4v4.5h6V4M8.5 20v-5.5h7V20"/>',
+  x:'<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>',
+};
+const svg = n => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||''}</svg>`;
+function applyIcons(root){
+  (root.querySelectorAll ? root : document).querySelectorAll('[data-ic]').forEach(el=>{
+    if (el.firstElementChild && el.firstElementChild.tagName==='svg') return;
+    el.insertAdjacentHTML('afterbegin', svg(el.dataset.ic));
+  });
+}
+new MutationObserver(ms => { for (const m of ms) for (const n of m.addedNodes) if (n.nodeType===1 && (n.matches('[data-ic]') || n.querySelector('[data-ic]'))) applyIcons(n.parentNode || n); })
+  .observe(document.body, { childList:true, subtree:true });
+
 /* ---------- головний екран ---------- */
 const ICONS = {
   lesson:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="13" rx="2.5"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 15h10"/></svg>',
@@ -1197,14 +1294,14 @@ function renderHome(){
     </div>
     ${statsHTML}
     <div class="hlinks">
-      <button data-go="custom">✎ свій текст <span>— встав будь-який уривок</span></button>
-      <button data-go="prog">📈 прогрес</button>
-      <button data-go="recs">🎬 записи</button>
-      <button data-go="daily">⚡ тренування дня <span>— твої слабкі літери</span></button>
-      <button data-go="ghost">🏁 гонка з привидом</button>
-      <button data-go="ach">🏅 досягнення <span>${Object.keys(store.get('ach',{})).length}/${ACH.length}</span></button>
-      <button data-go="install" id="installBtn" style="display:none">📲 встановити застосунок</button>
-      <button data-go="settings">⚙ налаштування <span>— тема й кольори</span></button>
+      <button data-go="daily" data-ic="bolt">тренування дня</button>
+      <button data-go="ghost" data-ic="flag">гонка з привидом</button>
+      <button data-go="custom" data-ic="text">свій текст</button>
+      <button data-go="recs" data-ic="film">записи</button>
+      <button data-go="prog" data-ic="chart">прогрес</button>
+      <button data-go="ach" data-ic="medal">досягнення <span class="cnt">${Object.keys(store.get('ach',{})).length}/${ACH.length}</span></button>
+      <button data-go="settings" data-ic="gear">налаштування</button>
+      <button data-go="install" data-ic="download" id="installBtn" style="display:none">встановити</button>
     </div>`;
   showInstall();
 }
@@ -1242,7 +1339,7 @@ function renderSettings(){
   const seg = (name, val, opts) => `<div class="seg" data-set="${name}">${opts.map(([k,n])=>`<button data-v="${k}" class="${val===k?'on':''}">${n}</button>`).join('')}</div>`;
   const tog = (name, on) => `<button class="tog ${on?'on':''}" data-tog="${name}" aria-pressed="${on}"></button>`;
   $('settings').innerHTML = `
-    <div class="top"><button class="back-home" id="sBack">← назад</button><h2>Налаштування</h2></div>
+    <div class="top"><button class="back-home" id="sBack" data-ic="back">назад</button><h2>Налаштування</h2></div>
     <div class="sgroup"><h3>Тема<small>фон і загальний настрій</small></h3><div class="themes">${tiles}</div></div>
     <div class="sgroup"><h3>Колір акценту<small>курсор, кнопки, графіки</small></h3><div class="accents">${sws}</div></div>
     <div class="sgroup"><h3>Текст і курсор</h3>
@@ -1256,7 +1353,7 @@ function renderSettings(){
     </div>
     <div class="sgroup"><h3>Звук<small>синтезується в браузері</small></h3>
       <div class="srow"><span class="lab">Звук клавіш</span>${seg('sound', cfg.sound||'off', SOUNDS)}</div>
-      <div class="srow"><span class="lab">Гучність</span><span style="display:flex;gap:10px;align-items:center"><input type="range" class="range" id="vol" min="0" max="1" step="0.05" value="${cfg.vol ?? .6}"><button class="sbtn" id="sndTest">▶ спробувати</button></span></div>
+      <div class="srow"><span class="lab">Гучність</span><span style="display:flex;gap:10px;align-items:center"><input type="range" class="range" id="vol" min="0" max="1" step="0.05" value="${cfg.vol ?? .6}"><button class="sbtn" id="sndTest" data-ic="play">спробувати</button></span></div>
       <div class="srow"><span class="lab">Звук помилки<small>низький «бз» на неправильну клавішу</small></span>${tog('errSound', !!cfg.errSound)}</div>
     </div>
     <div class="sgroup"><h3>Складність</h3>
@@ -1265,7 +1362,7 @@ function renderSettings(){
     </div>
     <div class="sgroup"><h3>Запис</h3>
       <div class="srow"><span class="lab">Автозапис<small>кожен тест записується з першої клавіші й зупиняється в кінці</small></span>${tog('autoRec', cfg.autoRec!==false)}</div>
-      <div class="srow"><span class="lab">Мої записи<small>переглянути, поділитися посиланням, видалити</small></span><button class="sbtn" id="openRecs">🎬 відкрити</button></div>
+      <div class="srow"><span class="lab">Мої записи<small>переглянути, поділитися посиланням, видалити</small></span><button class="sbtn" id="openRecs" data-ic="film">відкрити</button></div>
     </div>
     <div class="sgroup"><h3>Інтерфейс</h3>
       <div class="srow"><span class="lab">Клавіатура під текстом<small>підсвічує наступну клавішу й помилки</small></span>${tog('kb', cfg.kb!==false)}</div>
@@ -1273,7 +1370,7 @@ function renderSettings(){
       <div class="srow"><span class="lab">Заставка при вході<small>клавіші набирають «клавогін»</small></span>${tog('boot', cfg.boot!==false)}</div>
     </div>
     <div class="sgroup"><h3>Дані</h3>
-      <div class="srow"><span class="lab">Перенести прогрес<small>зберегти у файл і відкрити на іншому пристрої</small></span><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="sbtn" id="expBtn">⬇ експорт</button><label class="sbtn" style="cursor:pointer">⬆ імпорт<input type="file" id="impIn" accept=".json,application/json" hidden></label></span></div>
+      <div class="srow"><span class="lab">Перенести прогрес<small>зберегти у файл і відкрити на іншому пристрої</small></span><span style="display:flex;gap:8px;flex-wrap:wrap"><button class="sbtn" id="expBtn" data-ic="download">експорт</button><label class="sbtn" style="cursor:pointer">⬆ імпорт<input type="file" id="impIn" accept=".json,application/json" hidden></label></span></div>
       <div class="srow"><span class="lab">Скинути весь прогрес<small>історія, рекорди, уроки, теплокарти. Налаштування лишаться.</small></span><button class="danger" id="wipe">скинути</button></div>
     </div>`;
   const S_ = $('settings');
@@ -1569,11 +1666,11 @@ function initPlayer(){
 function openRecs(){
   const list = store.get('recs', []);
   const fmt = ms => { const s=Math.round(ms/1000); return `${Math.floor(s/60)}:${pad(s%60)}`; };
-  $('recsIn').innerHTML = `<div class="top"><button class="back-home" id="rBack">← назад</button><h2>🎬 Записи</h2><span class="meta">останні 20 · зберігаються в цьому браузері</span></div>
+  $('recsIn').innerHTML = `<div class="top"><button class="back-home" id="rBack" data-ic="back">назад</button><h2>🎬 Записи</h2><span class="meta">останні 20 · зберігаються в цьому браузері</span></div>
     ${list.length ? `<div class="reclist">${list.map((r,i)=>`<div class="recrow">
       <div><div class="t">${r.label}</div><div class="s">${new Date(r.d).toLocaleString('uk-UA',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})} · ${fmt(r.dur)} · ${r.ev.length} натискань</div></div>
       <div class="w">${r.wpm ?? '—'}<small>wpm · ${r.acc ?? '—'}%</small></div>
-      <div class="acts"><button data-a="play" data-i="${i}" title="Переглянути">▶</button><button data-a="race" data-i="${i}" title="Гонка з цим записом">🏁</button><button data-a="share" data-i="${i}" title="Поділитися">🔗</button><button class="del" data-a="del" data-i="${i}" title="Видалити">✕</button></div></div>`).join('')}</div>`
+      <div class="acts"><button data-a="play" data-i="${i}" data-ic="play" title="Переглянути"></button><button data-a="race" data-i="${i}" data-ic="flag" title="Гонка з цим записом"></button><button data-a="share" data-i="${i}" data-ic="link" title="Поділитися"></button><button class="del" data-a="del" data-i="${i}" data-ic="x" title="Видалити"></button></div></div>`).join('')}</div>`
     : `<div class="card" style="color:var(--dim);font-size:14px;line-height:1.6">Записів ще немає. ${cfg.autoRec!==false ? 'Автозапис увімкнено — просто пройди тест, і він з\'явиться тут.' : 'Натисни «⏺ запис» над текстом або увімкни автозапис у налаштуваннях.'}</div>`}`;
   $('recsM').classList.add('show'); hidden.blur();
   $('rBack').onclick = closeRecs;
@@ -1651,7 +1748,7 @@ function ghostVerdict(userT){
   v.innerHTML = `<div class="big-stars" style="font-size:40px">${win?'🏆':'👻'}</div>
     <div class="msg"><b>${win ? `Ти переміг привида на ${diff.toFixed(1)} с!` : `Привид швидший на ${(-diff).toFixed(1)} с`}</b>
     <span>Твій час ${userT.toFixed(1)} с · привид ${gT.toFixed(1)} с (${GHOST.rec.wpm} wpm, ${new Date(GHOST.rec.d).toLocaleDateString('uk-UA',{day:'2-digit',month:'2-digit'})})</span></div>
-    <div class="acts"><button class="btn" id="gAgain">↻ ще раз</button>${win && lastRec ? `<button class="btn acc" id="gNew">🏁 тепер перегнати цей</button>` : ''}<button class="btn" id="gHome">← головна</button></div>`;
+    <div class="acts"><button class="btn" id="gAgain" data-ic="refresh">ще раз</button>${win && lastRec ? `<button class="btn acc" id="gNew">🏁 тепер перегнати цей</button>` : ''}<button class="btn" id="gHome" data-ic="back">головна</button></div>`;
   v.classList.add('show');
   $('gAgain').onclick = () => startGhost(GHOST.rec);
   $('gHome').onclick = goHome;
@@ -1753,7 +1850,7 @@ function checkLessonAch(){
 }
 function openAch(){
   const got = store.get('ach', {}), n = Object.keys(got).filter(k=>ACH.some(a=>a[0]===k)).length;
-  $('achIn').innerHTML = `<div class="top"><button class="back-home" id="achBack">← назад</button><h2>🏅 Досягнення</h2><span class="meta">${n} з ${ACH.length}</span></div>
+  $('achIn').innerHTML = `<div class="top"><button class="back-home" id="achBack" data-ic="back">назад</button><h2>🏅 Досягнення</h2><span class="meta">${n} з ${ACH.length}</span></div>
     <div class="achgrid">${ACH.map(([id,e,t,d])=>`<div class="ach ${got[id]?'':'locked'}"><span class="e">${e}</span><span><b>${t}</b><small>${d}</small>${got[id]?`<span class="d">${new Date(got[id]).toLocaleDateString('uk-UA',{day:'numeric',month:'long'})}</span>`:''}</span></div>`).join('')}</div>`;
   $('achM').classList.add('show'); hidden.blur();
   $('achBack').onclick = () => $('achM').classList.remove('show');
@@ -2147,18 +2244,18 @@ function reset(newWords=true){
   $('gcaret').style.display = 'none';
   if (cfg.mode==='ghost' && GHOST){
     lh.classList.add('show');
-    lh.innerHTML = `<button class="back" id="lback">← головна</button><span>🏁 <b>Гонка з привидом</b> · ${GHOST.rec.wpm} wpm, ${new Date(GHOST.rec.d).toLocaleDateString('uk-UA',{day:'2-digit',month:'2-digit'})}</span><span class="gdiff ahead" id="gdiff">старт з першої клавіші</span><span class="goal"><kbd>Tab</kbd> заново · <kbd>Esc</kbd> на головну</span>`;
+    lh.innerHTML = `<button class="back" id="lback" data-ic="back">головна</button><span>🏁 <b>Гонка з привидом</b> · ${GHOST.rec.wpm} wpm, ${new Date(GHOST.rec.d).toLocaleDateString('uk-UA',{day:'2-digit',month:'2-digit'})}</span><span class="gdiff ahead" id="gdiff">старт з першої клавіші</span><span class="goal"><kbd>Tab</kbd> заново · <kbd>Esc</kbd> на головну</span>`;
     $('lback').onclick = goHome;
     GHOST.st = { cur:0, typed:[''], keys:0, good:0 }; GHOST.i = 0;
     requestAnimationFrame(ghostTick);
   } else if (cfg.mode==='free'){
     lh.classList.add('show');
-    lh.innerHTML = `<button class="back" id="lback">← головна</button><span><b>Вільний друк</b> — без таймера й оцінок</span><span class="goal"><kbd>Esc</kbd> завершити й побачити результат · <kbd>Tab</kbd> нові слова</span>`;
+    lh.innerHTML = `<button class="back" id="lback" data-ic="back">головна</button><span><b>Вільний друк</b> — без таймера й оцінок</span><span class="goal"><kbd>Esc</kbd> завершити й побачити результат · <kbd>Tab</kbd> нові слова</span>`;
     $('lback').onclick = goHome;
   } else if (inLesson){
     const l = lessons()[lessonIdx];
     lh.classList.add('show');
-    lh.innerHTML = `<button class="back" id="lback">← уроки</button><span>урок ${lessonIdx+1} · <b>${l.t}</b></span>
+    lh.innerHTML = `<button class="back" id="lback" data-ic="back">уроки</button><span>урок ${lessonIdx+1} · <b>${l.t}</b></span>
       ${l.keys.length?`<span class="ks">нові: ${l.keys.map(k=>`<b>${escA(k)}</b>`).join('')}</span>`:''}
       <span class="goal">мета: точність 92%+ · ★★ ${l.goal[0]} wpm · ★★★ ${l.goal[1]} wpm і 97%</span>`;
     $('lback').onclick = backToLessons;
@@ -2351,7 +2448,7 @@ function showVerdict(wpm, acc){
   if (st>0 && st>before && before>0) sub += ' Новий найкращий результат.';
   const v = $('verdict');
   v.innerHTML = `<div class="big-stars">${starHTML(st)}</div><div class="msg"><b>${msg}</b><span>${sub}</span></div>
-    <div class="acts"><button class="btn" id="vList">← уроки</button><button class="btn" id="vAgain">↻ повторити</button>
+    <div class="acts"><button class="btn" id="vList" data-ic="back">уроки</button><button class="btn" id="vAgain" data-ic="refresh">повторити</button>
     ${hasNext && (st>0 || before>0) ? `<button class="btn acc" id="vNext">наступний урок →</button>`:''}</div>`;
   v.classList.add('show');
   $('vList').onclick = backToLessons;
@@ -2607,7 +2704,7 @@ function doInstall(){
   else if (IS_IOS) toast('у Safari: «Поділитися» → «На початковий екран»');
 }
 if (!['time','words','quote','custom','lesson','free','code'].includes(cfg.mode)) cfg.mode='time';  // привид не відновлюється після перезавантаження
-initLessons(); initCustom(); initNav(); renderBar(); reset();
+initLessons(); initCustom(); initNav(); renderBar(); reset(); applyIcons(document);
 window.applyTheme(cfg.theme, cfg.accent, cfg.fs, cfg.font);
 initJ13();
 initRec(); initPlayer();
