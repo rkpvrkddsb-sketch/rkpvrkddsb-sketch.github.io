@@ -885,16 +885,10 @@ body[data-accent="glow"] .project:hover .win.shot { box-shadow: 0 40px 70px -24p
 /* ============ Картки проєктів у 3D з відблиском ============ */
 .project { position: relative; transform-style: flat; }
 .project::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 3;
-  background:
-    radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,.17), rgba(255,255,255,.05) 22%, transparent 48%),
-    linear-gradient(115deg, transparent calc(var(--gx, 50%) - 22%), rgba(255,255,255,.06) var(--gx, 50%), transparent calc(var(--gx, 50%) + 22%));
-  opacity: 0; transition: opacity .35s; mix-blend-mode: overlay; }
-body[data-accent="glow"] .project::after {
-  background:
-    radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(225,245,160,.18), rgba(181,214,90,.06) 24%, transparent 50%),
-    linear-gradient(115deg, transparent calc(var(--gx, 50%) - 22%), rgba(255,255,255,.04) var(--gx, 50%), transparent calc(var(--gx, 50%) + 22%));
-  mix-blend-mode: screen; }
-body[data-accent="orb"] .project::after { mix-blend-mode: soft-light; }
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,.07), rgba(255,255,255,.02) 30%, transparent 55%);
+  opacity: 0; transition: opacity .35s; }
+body[data-accent="glow"] .project::after { background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(200,230,140,.08), rgba(181,214,90,.025) 30%, transparent 55%); }
+body[data-accent="orb"] .project::after { background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,.35), transparent 50%); }
 .project.tilting::after { opacity: 1; }
 /* на телефоні (без курсора) відблиск один раз пробігає по картці, коли вона з'являється */
 @media (hover: none) {
@@ -1276,3 +1270,20 @@ body[data-accent="glow"] .shot-frame:hover { box-shadow: 0 30px 50px -24px rgba(
 .lb-x:hover, .lb-p:hover, .lb-n:hover { background: rgba(255,255,255,.15); }
 @media (max-width: 600px) { .lightbox { padding: 60px 10px 70px; } .lb-p, .lb-n { top: auto; bottom: 14px; margin: 0; } .lb-c { bottom: 76px; } }
 .lightbox[hidden] { display: none; }
+
+
+/* Safari: при 3D-нахилі картка «випускала» картинку за свої межі — жорстко обрізаємо по її формі */
+.project { clip-path: inset(0 round var(--radius)); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.project .visual { overflow: hidden; }
+
+/* перехід між головною і сторінкою проєкту */
+.curtain { position: fixed; inset: 0; z-index: 150; background: var(--bg); opacity: 0; pointer-events: none; transition: opacity .23s ease; }
+.curtain.on { opacity: 1; pointer-events: auto; }
+.page-in { animation: pageIn .5s cubic-bezier(.2,.8,.2,1); }
+@keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+
+.morph.grow { position: fixed; inset: 0; z-index: 150; background: var(--card); pointer-events: none; border: 0; border-radius: 0; padding: 0; overflow: hidden;
+  left: 0 !important; top: 0 !important; width: 100% !important; height: 100% !important;
+  transition: clip-path .38s cubic-bezier(.6,0,.2,1), opacity .4s ease; }
+.morph.grow::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 40%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%); }
+.morph.out { opacity: 0; }

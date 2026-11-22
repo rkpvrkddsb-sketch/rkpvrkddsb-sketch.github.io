@@ -48,7 +48,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=64">
+  <link rel="stylesheet" href="style.css?v=66">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -259,7 +259,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=64"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=66"><\/script>');
     })();
   </script>
   <script>
@@ -556,31 +556,35 @@
       if (id === "top") scrollTo({ top: 0, behavior: fromProject ? "auto" : "smooth" });
       else target.scrollIntoView({ behavior: fromProject ? "auto" : "smooth" });
     });
-    addEventListener("hashchange", () => { route(); $("cur").classList.remove("view", "hover"); });
+    // плавний перехід між сторінками: екран коротко «гасне», підміняється вміст, потім проявляється
+    const curtain = document.createElement("div"); curtain.className = "curtain"; document.body.appendChild(curtain);
+    const resetCards = () => document.querySelectorAll(".project.tilting").forEach(c => { c.classList.remove("tilting"); c.style.transform = ""; });
+    let switching = 0;
+    addEventListener("hashchange", () => {
+      $("cur").classList.remove("view", "hover"); resetCards();
+      const toProject = /^#p-/.test(location.hash), fromProject = !$("project-page").hidden;
+      if (morphing) { morphing = false; return route(); }
+      if ((!toProject && !fromProject) || matchMedia("(prefers-reduced-motion: reduce)").matches) return route();
+      const my = ++switching;
+      curtain.classList.add("on");
+      setTimeout(() => { if (my !== switching) return; route(); requestAnimationFrame(() => requestAnimationFrame(() => curtain.classList.remove("on"))); }, 230);
+    });
 
-    // Перехід: картинка проєкту «розгортається» на весь екран
+    // Перехід: картка «розкривається» — її форма плавно росте на весь екран, під нею підміняється сторінка
+    let morphing = false;
     document.addEventListener("click", e => {
       const card = e.target.closest("a.project");
       if (!card || e.metaKey || e.ctrlKey || e.shiftKey || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      e.preventDefault();
-      const v = card.querySelector(".visual"), r = v.getBoundingClientRect();
-      const ov = document.createElement("div");
-      ov.className = "morph"; ov.innerHTML = v.innerHTML;
-      Object.assign(ov.style, { left: r.left + "px", top: r.top + "px", width: r.width + "px", height: r.height + "px" });
-      document.body.appendChild(ov);
-      ov.getBoundingClientRect();
-      Object.assign(ov.style, { left: "0px", top: "0px", width: innerWidth + "px", height: innerHeight + "px", borderRadius: "0px" });
+      e.preventDefault(); resetCards();
+      const r = card.getBoundingClientRect(), W = innerWidth, H = innerHeight;
+      const ov = document.createElement("div"); ov.className = "morph";
+      ov.style.clipPath = `inset(${r.top}px ${W - r.right}px ${H - r.bottom}px ${r.left}px round 22px)`;
+      document.body.appendChild(ov); ov.getBoundingClientRect();
+      ov.classList.add("grow"); ov.style.clipPath = "inset(0px 0px 0px 0px round 0px)";
       setTimeout(() => {
-        location.hash = card.getAttribute("href");
-        requestAnimationFrame(() => {
-          const target = document.querySelector(".pp-visual");
-          if (!target) return ov.remove();
-          target.classList.add("in");
-          const t = target.getBoundingClientRect();
-          Object.assign(ov.style, { left: t.left + "px", top: t.top + "px", width: t.width + "px", height: t.height + "px", borderRadius: "22px" });
-          setTimeout(() => { ov.style.opacity = 0; setTimeout(() => ov.remove(), 300); }, 560);
-        });
-      }, 560);
+        morphing = true; location.hash = card.getAttribute("href");
+        requestAnimationFrame(() => requestAnimationFrame(() => { ov.classList.add("out"); setTimeout(() => ov.remove(), 450); }));
+      }, 380);
     });
 
     // ---- Теми ----
