@@ -94,14 +94,7 @@ const site_it = {
         task: "La maggior parte degli allenatori di dattilografia è piena di pubblicità, richiede un account o gestisce male i layout non inglesi.",
         solution: "Un allenatore leggero che si apre all'istante: scrivi parole, proverbi o un tuo testo, e lui mostra velocità, errori e i tasti su cui lavorare.",
         result: "Funziona direttamente nel browser su qualsiasi computer, senza installare nulla. I progressi restano sul dispositivo, così vedi crescere la tua velocità.",
-        features: [
-          "Lezioni di dattilografia passo dopo passo",
-          "Mappa di calore di errori e tasti lenti",
-          "8 lingue e layout",
-          "Modalità: tempo, parole, proverbi, testo personale",
-          "Statistiche dei progressi",
-          "Modalità senza distrazioni"
-        ],
+        features: ["Lezioni di dattilografia passo dopo passo", "Test di velocità con mappa di calore degli errori", "Arcade: scrivi le parole prima che cadano", "Gara contro il fantasma e 24 obiettivi", "Allenamento quotidiano sulle tue lettere deboli", "Funziona offline e si installa come app"],
         gallery: []
       }
     },
@@ -151,12 +144,14 @@ const site_it = {
     }
   ],
 
-  skills: ["JavaScript", "React", "Node.js", "Python", "SQL", "Telegram Bot API", "WhatsApp API", "Git"],
+  skills: ["JavaScript", "React", "React Native", "Node.js", "Python", "Swift", "SQL", "Supabase", "Apple Health", "Telegram Bot API", "WhatsApp API", "Git"],
 
   experience: [
-    { period: "2025 — oggi", title: "Piattaforma per hotel", place: "Progetto del team" },
-    { period: "2025 — oggi", title: "Bot per Telegram e WhatsApp", place: "Su ordinazione" },
-    { period: "2024 — 2025", title: "Sviluppo di app", place: "Per un cliente" }
+    { period: "2026 — oggi", title: "Piattaforma per hotel", place: "Progetto del team" },
+    { period: "2026 — oggi", title: "Gioco mobile", place: "Progetto del team" },
+    { period: "2025 — 2026", title: "Plai — app sportiva", place: "Progetto del team" },
+    { period: "2026", title: "Klavogin — allenatore di dattilografia", place: "Progetto del team" },
+    { period: "2025 — oggi", title: "Bot per Telegram e WhatsApp", place: "Su ordinazione" }
   ],
 
   // Testimonials — the section stays hidden while the list is empty.

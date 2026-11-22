@@ -94,14 +94,7 @@ const site_pt = {
         task: "A maioria dos treinadores de digitação está cheia de anúncios, exige conta ou lida mal com teclados que não são ingleses.",
         solution: "Um treinador leve que abre num instante: escreves palavras, provérbios ou o teu próprio texto, e ele mostra a velocidade, os erros e as teclas a melhorar.",
         result: "Funciona diretamente no navegador em qualquer computador, sem instalar nada. O progresso fica guardado no dispositivo, para veres a velocidade a crescer.",
-        features: [
-          "Lições de digitação passo a passo",
-          "Mapa de calor de erros e teclas lentas",
-          "8 idiomas e teclados",
-          "Modos: tempo, palavras, provérbios, texto próprio",
-          "Estatísticas de progresso",
-          "Modo sem distrações"
-        ],
+        features: ["Lições de digitação passo a passo", "Teste de velocidade com mapa de calor de erros", "Arcade: escreve as palavras antes que caiam", "Corrida contra o fantasma e 24 conquistas", "Treino diário das tuas letras fracas", "Funciona offline e instala-se como app"],
         gallery: []
       }
     },
@@ -151,12 +144,14 @@ const site_pt = {
     }
   ],
 
-  skills: ["JavaScript", "React", "Node.js", "Python", "SQL", "Telegram Bot API", "WhatsApp API", "Git"],
+  skills: ["JavaScript", "React", "React Native", "Node.js", "Python", "Swift", "SQL", "Supabase", "Apple Health", "Telegram Bot API", "WhatsApp API", "Git"],
 
   experience: [
-    { period: "2025 — hoje", title: "Plataforma para hotel", place: "Projeto da equipa" },
-    { period: "2025 — hoje", title: "Bots para Telegram e WhatsApp", place: "Por encomenda" },
-    { period: "2024 — 2025", title: "Desenvolvimento de apps", place: "Para um cliente" }
+    { period: "2026 — hoje", title: "Plataforma para hotel", place: "Projeto da equipa" },
+    { period: "2026 — hoje", title: "Jogo mobile", place: "Projeto da equipa" },
+    { period: "2025 — 2026", title: "Plai — app desportiva", place: "Projeto da equipa" },
+    { period: "2026", title: "Klavogin — treinador de digitação", place: "Projeto da equipa" },
+    { period: "2025 — hoje", title: "Bots para Telegram e WhatsApp", place: "Por encomenda" }
   ],
 
   // Testimonials — the section stays hidden while the list is empty.

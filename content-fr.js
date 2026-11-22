@@ -94,14 +94,7 @@ const site_fr = {
         task: "La plupart des entraîneurs de frappe sont bourrés de pub, exigent un compte ou gèrent mal les dispositions non anglaises.",
         solution: "Un entraîneur léger qui s'ouvre instantanément : tapez des mots, des proverbes ou votre propre texte, il affiche votre vitesse, vos erreurs et les touches à travailler.",
         result: "Fonctionne directement dans le navigateur sur n'importe quel ordinateur, rien à installer. La progression est enregistrée sur l'appareil pour voir sa vitesse augmenter.",
-        features: [
-          "Leçons de dactylo pas à pas",
-          "Carte thermique des erreurs et touches lentes",
-          "8 langues et dispositions",
-          "Modes : temps, mots, proverbes, texte perso",
-          "Statistiques de progression",
-          "Mode sans distraction"
-        ],
+        features: ["Leçons de dactylo pas à pas", "Test de vitesse avec carte thermique des erreurs", "Arcade : tapez les mots avant qu'ils ne tombent", "Course contre le fantôme et 24 succès", "Entraînement quotidien de vos lettres faibles", "Fonctionne hors ligne et s'installe comme une appli"],
         gallery: []
       }
     },
@@ -151,12 +144,14 @@ const site_fr = {
     }
   ],
 
-  skills: ["JavaScript", "React", "Node.js", "Python", "SQL", "Telegram Bot API", "WhatsApp API", "Git"],
+  skills: ["JavaScript", "React", "React Native", "Node.js", "Python", "Swift", "SQL", "Supabase", "Apple Health", "Telegram Bot API", "WhatsApp API", "Git"],
 
   experience: [
-    { period: "2025 — aujourd'hui", title: "Plateforme hôtelière", place: "Projet d'équipe" },
-    { period: "2025 — aujourd'hui", title: "Bots pour Telegram et WhatsApp", place: "Sur commande" },
-    { period: "2024 — 2025", title: "Développement d'applis", place: "Pour un client" }
+    { period: "2026 — aujourd'hui", title: "Plateforme hôtelière", place: "Projet d'équipe" },
+    { period: "2026 — aujourd'hui", title: "Jeu mobile", place: "Projet d'équipe" },
+    { period: "2025 — 2026", title: "Plai — appli sportive", place: "Projet d'équipe" },
+    { period: "2026", title: "Klavogin — entraîneur de frappe", place: "Projet d'équipe" },
+    { period: "2025 — aujourd'hui", title: "Bots pour Telegram et WhatsApp", place: "Sur commande" }
   ],
 
   // Testimonials — the section stays hidden while the list is empty.

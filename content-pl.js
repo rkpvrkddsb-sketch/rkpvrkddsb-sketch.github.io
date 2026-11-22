@@ -94,14 +94,7 @@ const site_pl = {
         task: "Większość trenerów pisania jest pełna reklam, wymaga konta albo słabo obsługuje nieangielskie układy klawiatury.",
         solution: "Lekki trener, który otwiera się od razu: piszesz słowa, przysłowia lub własny tekst, a on pokazuje szybkość, błędy i podpowiada, nad którymi klawiszami popracować.",
         result: "Działa prosto w przeglądarce na każdym komputerze, bez instalacji. Postęp zapisuje się na urządzeniu, więc widać, jak rośnie szybkość.",
-        features: [
-          "Lekcje pisania bezwzrokowego krok po kroku",
-          "Mapa cieplna błędów i wolnych klawiszy",
-          "8 języków i układów",
-          "Tryby: czas, słowa, przysłowia, własny tekst",
-          "Statystyki postępów",
-          "Tryb bez rozpraszaczy"
-        ],
+        features: ["Lekcje pisania bezwzrokowego krok po kroku", "Test szybkości z mapą cieplną błędów", "Arkada: wpisz spadające słowa, zanim spadną", "Wyścig z duchem i 24 osiągnięcia", "Codzienny trening Twoich słabych liter", "Działa offline i instaluje się jak aplikacja"],
         gallery: []
       }
     },
@@ -151,12 +144,14 @@ const site_pl = {
     }
   ],
 
-  skills: ["JavaScript", "React", "Node.js", "Python", "SQL", "Telegram Bot API", "WhatsApp API", "Git"],
+  skills: ["JavaScript", "React", "React Native", "Node.js", "Python", "Swift", "SQL", "Supabase", "Apple Health", "Telegram Bot API", "WhatsApp API", "Git"],
 
   experience: [
-    { period: "2025 — teraz", title: "Platforma dla hotelu", place: "Projekt zespołu" },
-    { period: "2025 — teraz", title: "Boty dla Telegram i WhatsApp", place: "Na zamówienie" },
-    { period: "2024 — 2025", title: "Tworzenie aplikacji", place: "Dla klienta" }
+    { period: "2026 — teraz", title: "Platforma dla hotelu", place: "Projekt zespołu" },
+    { period: "2026 — teraz", title: "Gra mobilna", place: "Projekt zespołu" },
+    { period: "2025 — 2026", title: "Plai — aplikacja sportowa", place: "Projekt zespołu" },
+    { period: "2026", title: "Klavogin — trener pisania", place: "Projekt zespołu" },
+    { period: "2025 — teraz", title: "Boty dla Telegram i WhatsApp", place: "Na zamówienie" }
   ],
 
   // Testimonials — the section stays hidden while the list is empty.

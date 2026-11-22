@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=57">
+  <link rel="stylesheet" href="style.css?v=59">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -245,7 +245,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=57"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=59"><\/script>');
     })();
   </script>
   <script>
@@ -331,7 +331,12 @@
     $("about-text").textContent = site.intro;
     $("foot-name").textContent = "© " + new Date().getFullYear() + " " + site.name;
     $("foot-loc").textContent = site.location;
-    $("projects-count").textContent = site.projects.length + T.projects_word + site.role;
+    // правильна форма слова «проєкт» для кожної мови (1 проєкт, 3 проєкти, 5 проєктів…)
+    const PW = { uk: { one: "проєкт", few: "проєкти", many: "проєктів" }, en: { one: "project", other: "projects" },
+      es: { one: "proyecto", other: "proyectos" }, de: { one: "Projekt", other: "Projekte" }, fr: { one: "projet", other: "projets" },
+      pl: { one: "projekt", few: "projekty", many: "projektów" }, pt: { one: "projeto", other: "projetos" }, it: { one: "progetto", other: "progetti" } }[LANG];
+    const nP = site.projects.length, form = new Intl.PluralRules(LANG).select(nP);
+    $("projects-count").textContent = nP + " " + (PW[form] || PW.other || PW.many) + " · " + site.role;
 
     // Анімований заголовок: кожне слово виїжджає знизу по черзі
     const words = site.headline.split(" ");

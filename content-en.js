@@ -94,14 +94,7 @@ const site_en = {
         task: "Most typing trainers are full of ads, require an account or handle non-English layouts poorly.",
         solution: "A lightweight trainer that opens instantly: type words, proverbs or your own text, and it shows your speed and mistakes and points out which keys to work on.",
         result: "Runs right in the browser on any computer, nothing to install. Progress is saved on the device, so you can watch your speed grow.",
-        features: [
-          "Step-by-step touch-typing lessons",
-          "Heatmap of mistakes and slow keys",
-          "8 languages and layouts",
-          "Modes: time, words, proverbs, custom text",
-          "Progress statistics",
-          "Distraction-free mode"
-        ],
+        features: ["Step-by-step touch-typing lessons", "Speed test with an error heatmap", "Arcade: type the falling words before they land", "Ghost race and 24 achievements", "Daily training of your own weak letters", "Works offline and installs as an app"],
         gallery: []
       }
     },
@@ -151,12 +144,14 @@ const site_en = {
     }
   ],
 
-  skills: ["JavaScript", "React", "Node.js", "Python", "SQL", "Telegram Bot API", "WhatsApp API", "Git"],
+  skills: ["JavaScript", "React", "React Native", "Node.js", "Python", "Swift", "SQL", "Supabase", "Apple Health", "Telegram Bot API", "WhatsApp API", "Git"],
 
   experience: [
-    { period: "2025 — now", title: "Hotel platform", place: "Team project" },
-    { period: "2025 — now", title: "Bots for Telegram and WhatsApp", place: "Made to order" },
-    { period: "2024 — 2025", title: "App development", place: "For a client" }
+    { period: "2026 — now", title: "Hotel platform", place: "Team project" },
+    { period: "2026 — now", title: "Mobile game", place: "Team project" },
+    { period: "2025 — 2026", title: "Plai — sports app", place: "Team project" },
+    { period: "2026", title: "Klavogin — typing trainer", place: "Team project" },
+    { period: "2025 — now", title: "Bots for Telegram and WhatsApp", place: "Made to order" }
   ],
 
   // Testimonials — the section stays hidden while the list is empty.

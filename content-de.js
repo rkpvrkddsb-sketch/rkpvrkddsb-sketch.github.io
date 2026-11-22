@@ -94,14 +94,7 @@ const site_de = {
         task: "Die meisten Tipptrainer sind voller Werbung, verlangen ein Konto oder kommen mit nicht-englischen Tastaturlayouts schlecht zurecht.",
         solution: "Ein leichter Trainer, der sofort startet: Wörter, Sprichwörter oder eigenen Text tippen – er zeigt Tempo und Fehler und sagt, an welchen Tasten man arbeiten sollte.",
         result: "Läuft direkt im Browser auf jedem Computer, ohne Installation. Der Fortschritt wird auf dem Gerät gespeichert, so sieht man, wie das Tempo wächst.",
-        features: [
-          "Zehnfinger-Lektionen Schritt für Schritt",
-          "Heatmap von Fehlern und langsamen Tasten",
-          "8 Sprachen und Layouts",
-          "Modi: Zeit, Wörter, Sprichwörter, eigener Text",
-          "Fortschrittsstatistik",
-          "Ablenkungsfreier Modus"
-        ],
+        features: ["Zehnfinger-Lektionen Schritt für Schritt", "Tempotest mit Fehler-Heatmap", "Arcade: tippe die fallenden Wörter, bevor sie landen", "Rennen gegen den Geist und 24 Erfolge", "Tägliches Training deiner schwachen Buchstaben", "Funktioniert offline und lässt sich als App installieren"],
         gallery: []
       }
     },
@@ -151,12 +144,14 @@ const site_de = {
     }
   ],
 
-  skills: ["JavaScript", "React", "Node.js", "Python", "SQL", "Telegram Bot API", "WhatsApp API", "Git"],
+  skills: ["JavaScript", "React", "React Native", "Node.js", "Python", "Swift", "SQL", "Supabase", "Apple Health", "Telegram Bot API", "WhatsApp API", "Git"],
 
   experience: [
-    { period: "2025 — heute", title: "Hotelplattform", place: "Teamprojekt" },
-    { period: "2025 — heute", title: "Bots für Telegram und WhatsApp", place: "Auf Bestellung" },
-    { period: "2024 — 2025", title: "App-Entwicklung", place: "Für einen Kunden" }
+    { period: "2026 — heute", title: "Hotelplattform", place: "Teamprojekt" },
+    { period: "2026 — heute", title: "Mobile Game", place: "Teamprojekt" },
+    { period: "2025 — 2026", title: "Plai — Sport-App", place: "Teamprojekt" },
+    { period: "2026", title: "Klavogin — Tipptrainer", place: "Teamprojekt" },
+    { period: "2025 — heute", title: "Bots für Telegram und WhatsApp", place: "Auf Bestellung" }
   ],
 
   // Testimonials — the section stays hidden while the list is empty.

@@ -94,14 +94,7 @@ const site_es = {
         task: "La mayoría de los entrenadores de mecanografía están llenos de anuncios, piden una cuenta o manejan mal las distribuciones de teclado no inglesas.",
         solution: "Un entrenador ligero que se abre al instante: escribes palabras, refranes o tu propio texto, y te muestra la velocidad, los errores y qué teclas mejorar.",
         result: "Funciona directamente en el navegador de cualquier ordenador, sin instalar nada. El progreso se guarda en el dispositivo, así ves cómo crece tu velocidad.",
-        features: [
-          "Lecciones de mecanografía paso a paso",
-          "Mapa de calor de errores y teclas lentas",
-          "8 idiomas y distribuciones",
-          "Modos: tiempo, palabras, refranes, texto propio",
-          "Estadísticas de progreso",
-          "Modo sin distracciones"
-        ],
+        features: ["Lecciones de mecanografía paso a paso", "Test de velocidad con mapa de calor de errores", "Arcade: escribe las palabras antes de que caigan", "Carrera contra el fantasma y 24 logros", "Entrenamiento diario de tus letras débiles", "Funciona sin conexión y se instala como app"],
         gallery: []
       }
     },
@@ -151,12 +144,14 @@ const site_es = {
     }
   ],
 
-  skills: ["JavaScript", "React", "Node.js", "Python", "SQL", "Telegram Bot API", "WhatsApp API", "Git"],
+  skills: ["JavaScript", "React", "React Native", "Node.js", "Python", "Swift", "SQL", "Supabase", "Apple Health", "Telegram Bot API", "WhatsApp API", "Git"],
 
   experience: [
-    { period: "2025 — hoy", title: "Plataforma para hotel", place: "Proyecto del equipo" },
-    { period: "2025 — hoy", title: "Bots para Telegram y WhatsApp", place: "Por encargo" },
-    { period: "2024 — 2025", title: "Desarrollo de apps", place: "Para un cliente" }
+    { period: "2026 — hoy", title: "Plataforma para hotel", place: "Proyecto del equipo" },
+    { period: "2026 — hoy", title: "Juego móvil", place: "Proyecto del equipo" },
+    { period: "2025 — 2026", title: "Plai — app deportiva", place: "Proyecto del equipo" },
+    { period: "2026", title: "Klavogin — entrenador de mecanografía", place: "Proyecto del equipo" },
+    { period: "2025 — hoy", title: "Bots para Telegram y WhatsApp", place: "Por encargo" }
   ],
 
   // Testimonials — the section stays hidden while the list is empty.
