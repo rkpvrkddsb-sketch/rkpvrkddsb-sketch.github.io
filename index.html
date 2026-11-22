@@ -27,14 +27,28 @@
   <meta http-equiv="X-Content-Type-Options" content="nosniff">
   <script>
     // Захист від «клікджекінгу»: сайт не можна непомітно вбудувати в чужу сторінку
+    //  (вбудовувати можна лише в сторінки цього ж сайту — наприклад, у перегляд для розкладних fold.html)
     if (/github\.io$/.test(location.hostname) && window.top !== window.self) {
-      try { window.top.location = window.self.location.href; } catch (e) { document.documentElement.style.display = "none"; }
+      let same = false; try { same = window.top.location.origin === location.origin; } catch (e) {}
+      if (!same) { try { window.top.location = window.self.location.href; } catch (e) { document.documentElement.style.display = "none"; } }
     }
+    // Розкладні телефони: сайт розтягнуто на дві половини екрана (або симуляція через ?fold=h / ?fold=v)
+    (function () {
+      const sim = new URLSearchParams(location.search).get("fold"), H = "(horizontal-viewport-segments: 2)", V = "(vertical-viewport-segments: 2)";
+      const set = () => {
+        const r = document.documentElement.classList;
+        r.toggle("span-h", sim === "h" || (window.matchMedia && matchMedia(H).matches));
+        r.toggle("span-v", sim === "v" || (window.matchMedia && matchMedia(V).matches));
+        r.toggle("sim-fold", sim === "h" || sim === "v");
+      };
+      set();
+      if (window.matchMedia) [H, V].forEach(q => { try { matchMedia(q).addEventListener("change", set); } catch (e) {} });
+    })();
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=60">
+  <link rel="stylesheet" href="style.css?v=62">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -245,7 +259,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=60"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=62"><\/script>');
     })();
   </script>
   <script>

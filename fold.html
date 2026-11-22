@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="theme-color" content="#0c0d0c">
+  <title>j13 — перегляд на розкладних телефонах</title>
+  <!--
+    Службова сторінка: показує сайт у розмірах розкладних телефонів.
+    Відкрий https://rkpvrkddsb-sketch.github.io/fold.html з будь-якого телефона чи комп'ютера.
+    Пристрої — в масиві DEVICES нижче (ширина × висота в CSS-пікселях, fold: "h" / "v" — симуляція згину).
+  -->
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body { background: #0c0d0c; color: #e4e4dc; font-family: -apple-system, "Segoe UI", Manrope, sans-serif; display: flex; flex-direction: column; overflow: hidden; }
+    header { flex: none; padding: max(10px, env(safe-area-inset-top)) 12px 10px; border-bottom: 1px solid #252925; }
+    .top { display: flex; align-items: baseline; gap: 10px; margin-bottom: 9px; }
+    .top b { font-size: 15px; }
+    .top small { color: #8e938a; font-size: 12px; }
+    .top a { margin-left: auto; color: #b5d65a; font-size: 13px; text-decoration: none; }
+    .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+    .chips::-webkit-scrollbar { display: none; }
+    .chips button { flex: none; border: 1px solid #353a35; background: #161816; color: #c9ccc4; border-radius: 99px; padding: 7px 12px; font: inherit; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .chips button.on { background: #b5d65a; border-color: #b5d65a; color: #10120f; font-weight: 700; }
+    .opts { display: flex; gap: 6px; margin-top: 8px; }
+    .opts button { border: 0; background: #1d201d; color: #c9ccc4; border-radius: 8px; padding: 6px 10px; font: inherit; font-size: 12px; cursor: pointer; }
+    .opts button.on { background: #2f3a24; color: #b5d65a; }
+    main { flex: 1; min-height: 0; display: grid; place-items: center; padding: 14px; position: relative; }
+    .stage { position: relative; }
+    .device { position: absolute; left: 0; top: 0; transform-origin: 0 0; border-radius: 26px; padding: 10px; background: #050505;
+      box-shadow: 0 0 0 1px #2a2d2a, 0 30px 70px rgba(0,0,0,.6); }
+    .device iframe { display: block; border: 0; border-radius: 16px; background: #131513; }
+    .caption { position: absolute; left: 0; right: 0; bottom: max(8px, env(safe-area-inset-bottom)); text-align: center; color: #8e938a; font-size: 12px; pointer-events: none; }
+    .note { color: #8e938a; font-size: 11.5px; margin-top: 7px; line-height: 1.4; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="top"><b>Розкладні телефони</b><small id="size"></small><a href="./">← на сайт</a></div>
+    <div class="chips" id="chips"></div>
+    <div class="opts" id="opts">
+      <button data-o="fit" class="on">Вписати в екран</button>
+      <button data-o="real">Справжній розмір</button>
+      <button data-o="reload">Оновити ↻</button>
+    </div>
+    <p class="note" id="note"></p>
+  </header>
+  <main id="main"><div class="stage" id="stage"><div class="device" id="device"><iframe id="frame" title="Перегляд сайту"></iframe></div></div></main>
+
+  <script>
+    const DEVICES = [
+      { id: "fold-cover", name: "Galaxy Fold · складений", w: 344, h: 882, note: "Зовнішній екран — дуже вузький і високий." },
+      { id: "fold-open", name: "Galaxy Fold · розгорнутий", w: 673, h: 841, note: "Внутрішній екран — майже квадратний, проміжний макет між телефоном і планшетом." },
+      { id: "fold-span", name: "Fold · на дві половини", w: 673, h: 841, fold: "h", note: "Сайт розтягнуто на обидві половини: темна смуга — це згин, на ньому нічого важливого немає." },
+      { id: "flip", name: "Galaxy Flip", w: 360, h: 780, note: "Розкладний «раскладушка» у звичайному положенні." },
+      { id: "flip-half", name: "Flip · напівзігнутий", w: 360, h: 780, fold: "v", note: "Зігнутий як ноутбук: зверху перегляд, знизу керування." },
+      { id: "pixel-fold", name: "Pixel Fold · розгорнутий", w: 841, h: 701, note: "Широкий розгорнутий екран Google Pixel Fold." }
+    ];
+    const $ = id => document.getElementById(id);
+    let cur = DEVICES[0], mode = "fit";
+    try { const s = localStorage.getItem("foldPreview"); const d = DEVICES.find(x => x.id === s); if (d) cur = d; } catch (e) {}
+
+    $("chips").innerHTML = DEVICES.map(d => `<button data-id="${d.id}">${d.name}</button>`).join("");
+    function load() {
+      const u = new URL("index.html", location.href);
+      if (cur.fold) u.searchParams.set("fold", cur.fold);
+      $("frame").src = u.toString();
+    }
+    function layout() {
+      const dev = $("device"), fr = $("frame"), pad = 20;
+      fr.style.width = cur.w + "px"; fr.style.height = cur.h + "px";
+      const W = cur.w + pad, H = cur.h + pad;
+      const m = $("main").getBoundingClientRect();
+      const k = mode === "fit" ? Math.min(1, (m.width - 28) / W, (m.height - 40) / H) : 1;
+      dev.style.transform = `scale(${k})`;
+      $("stage").style.width = W * k + "px"; $("stage").style.height = H * k + "px";
+      $("main").style.overflow = mode === "fit" ? "hidden" : "auto";
+      $("main").style.placeItems = mode === "fit" ? "center" : "start center";
+      $("size").textContent = `${cur.w}×${cur.h}` + (k < 1 ? ` · ${Math.round(k * 100)}%` : "");
+      $("note").textContent = cur.note;
+      document.querySelectorAll("#chips button").forEach(b => b.classList.toggle("on", b.dataset.id === cur.id));
+    }
+    $("chips").onclick = e => {
+      const b = e.target.closest("button"); if (!b) return;
+      cur = DEVICES.find(d => d.id === b.dataset.id); try { localStorage.setItem("foldPreview", cur.id); } catch (e) {}
+      layout(); load(); b.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+    };
+    $("opts").onclick = e => {
+      const b = e.target.closest("button"); if (!b) return;
+      if (b.dataset.o === "reload") return load();
+      mode = b.dataset.o;
+      document.querySelectorAll("#opts button[data-o=fit], #opts button[data-o=real]").forEach(x => x.classList.toggle("on", x.dataset.o === mode));
+      layout();
+    };
+    addEventListener("resize", layout);
+    layout(); load();
+  </script>
+</body>
+</html>
