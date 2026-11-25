@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>j13 — логотип з анімацією</title>
+<!--
+  ЛОГОТИП j13 З АНІМАЦІЄЮ — готовий шматок, щоб вставити в будь-який проєкт.
+  Джерело: https://rkpvrkddsb-sketch.github.io/brand/j13-logo.html
+
+  Що в ньому:
+   • слово j13 (SVG, колір = currentColor — бере колір тексту);
+   • червона крапка над j — «кібер-імплант»: сильне світіння, повільно пульсує, час від часу «мерехтить»;
+   • кіберпанк-глюк раз на 2–6 с: жовта / синя / обидві копії зі зсувом + «роз'їзд» смужок; і при наведенні.
+
+  ЯК ВСТАВИТИ В ІНШИЙ ПРОЄКТ — скопіюй три блоки між позначками:
+   1) <style> … </style>            → у свій CSS
+   2) розмітку <a class="j13-logo"> → туди, де має бути логотип
+   3) <script> … </script>           → перед </body>
+  Розмір — змінна --j13-h (висота, за замовчуванням 32px). Колір імпланту — --implant.
+  Якщо логотипів кілька на сторінці — у SVG-фільтрів однакові id, тоді переймену wmGlow/wmGlow2/wmGlow3 у копії.
+-->
+<!-- ===== 1) СТИЛІ ЛОГОТИПА ===== -->
+<style>
+.j13-logo { --j13-h: 32px; --implant: #ff2a3a; display: inline-flex; align-items: center; position: relative; isolation: isolate; color: inherit; text-decoration: none; }
+.j13-logo .wordmark { height: var(--j13-h); width: auto; display: block; overflow: visible; position: relative; z-index: 1; }
+.j13-logo .wm-ghost, .j13-logo .wm-implant { position: absolute; left: 0; top: 50%; height: var(--j13-h); width: auto; margin-top: calc(var(--j13-h) / -2); overflow: visible; pointer-events: none; }
+.j13-logo .wm-ghost { opacity: 0; }
+.j13-logo .wm-ghost-y { z-index: -1; }
+.j13-logo .wm-ghost-c { z-index: -2; }
+.j13-logo .wm-slice { z-index: 1; }
+.j13-logo .wm-implant { z-index: 0; animation: j13Pulse 2.6s ease-in-out infinite; will-change: opacity; }
+.j13-logo .wm-dot, .j13-logo .wm-glow { fill: var(--implant); }
+.j13-logo .wm-glow { opacity: .95; }
+@keyframes j13Pulse { 0%, 100% { opacity: 1; } 50% { opacity: .74; } }
+.j13-logo.glitch .wm-implant { animation: none; opacity: .12; }
+.j13-logo:hover .wm-implant { animation-duration: .5s; }
+@media (prefers-reduced-motion: reduce) { .j13-logo .wm-implant { animation: none; } }
+</style>
+<!-- ===== /1 ===== -->
+<style>
+  /* тільки для цієї демо-сторінки */
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; gap: 40px; background: #131513; color: #e4e4dc; font-family: Manrope, system-ui, sans-serif; }
+  .demo { display: grid; gap: 60px; justify-items: center; padding: 60px 20px; }
+  .demo .big { --j13-h: 140px; }
+  .light { background: #f3f2ee; color: #1d1d1b; padding: 30px 46px; border-radius: 20px; }
+  p { color: #8e938a; max-width: 52ch; text-align: center; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="demo">
+  <!-- ===== 2) РОЗМІТКА ЛОГОТИПА (великий приклад) ===== -->
+  <a href="#" class="logo j13-logo big" aria-label="j13"><svg class="wm-ghost wm-ghost-y" viewBox="0 0 377 244" aria-hidden="true"><g fill="#fcee0a"><path d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-ghost wm-ghost-c" viewBox="0 0 377 244" aria-hidden="true"><g fill="#2b7fff"><path d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-ghost wm-slice" viewBox="0 0 377 244" aria-hidden="true"><g fill="currentColor"><path fill="#ff2a3a" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-implant" viewBox="0 0 377 244" aria-hidden="true"><defs><filter id="wmGlow" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="40"/></filter><filter id="wmGlow3" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="20"/></filter><filter id="wmGlow2" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="8"/></filter></defs><g><path class="wm-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-glow wm-glow-x" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-glow wm-glow3" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow3)"/><path class="wm-glow wm-glow2" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow2)"/><path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/></g></svg><svg class="wordmark" viewBox="0 0 377 244" role="img" aria-label="j13"><g fill="currentColor"><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg></a>
+  <!-- ===== /2 ===== -->
+  <div class="light"><a href="#" class="logo j13-logo" aria-label="j13"><svg class="wm-ghost wm-ghost-y" viewBox="0 0 377 244" aria-hidden="true"><g fill="#fcee0a"><path d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-ghost wm-ghost-c" viewBox="0 0 377 244" aria-hidden="true"><g fill="#2b7fff"><path d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-ghost wm-slice" viewBox="0 0 377 244" aria-hidden="true"><g fill="currentColor"><path fill="#ff2a3a" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-implant" viewBox="0 0 377 244" aria-hidden="true"><defs><filter id="wmGlowB" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="40"/></filter><filter id="wmGlow3B" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="20"/></filter><filter id="wmGlow2B" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="8"/></filter></defs><g><path class="wm-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlowB)"/><path class="wm-glow wm-glow-x" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlowB)"/><path class="wm-glow wm-glow3" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow3B)"/><path class="wm-glow wm-glow2" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow2B)"/><path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/></g></svg><svg class="wordmark" viewBox="0 0 377 244" role="img" aria-label="j13"><g fill="currentColor"><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg></a></div>
+  <p>Логотип j13 з анімацією: червоний імплант, що пульсує й мерехтить, і кіберпанк-глюк (жовта / синя копія зі зсувом). Наведи курсор на логотип. Відкрий код сторінки — там інструкція, як вставити в інший проєкт.</p>
+</div>
+<!-- ===== 3) СКРИПТ ЛОГОТИПА ===== -->
+<script>
+(function () {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  document.querySelectorAll(".j13-logo").forEach(function (logo, n) {
+    // імплант час від часу мерехтить
+    (function flicker() {
+      var k = 2 + Math.floor(Math.random() * 4), i = 0;
+      setTimeout(function step() {
+        logo.classList.toggle("glitch");
+        if (++i < k * 2) setTimeout(step, 40 + Math.random() * 90);
+        else { logo.classList.remove("glitch"); setTimeout(flicker, 1200 + Math.random() * 4200); }
+      }, 1500 + n * 900);
+    })();
+    // кіберпанк-глюк: жовта / синя / обидві копії зі зсувом + «роз'їзд» смужок
+    var yel = logo.querySelector(".wm-ghost-y"), cy = logo.querySelector(".wm-ghost-c"), sl = logo.querySelector(".wm-slice"), wm = logo.querySelector(".wordmark");
+    var R = function (a, b) { return a + Math.random() * (b - a); };
+    var band = function () { var t = R(0, 80), h = R(8, 28); return "inset(" + t + "% 0 " + Math.max(0, 100 - t - h) + "% 0)"; };
+    var mode = 0;
+    // зсув рахуємо від висоти логотипа, щоб великий логотип «смикався» пропорційно
+    var unit = function () { return wm.getBoundingClientRect().height / 32; };
+    function frame(on) {
+      if (!on) { [yel, cy, sl].forEach(function (e) { e.style.opacity = 0; }); wm.style.transform = ""; return; }
+      var u = unit(), dx = R(1.5, 4.5) * u * (Math.random() < .5 ? -1 : 1), dy = R(-1.5, 1.5) * u;
+      var show = function (e, vis, x) { e.style.opacity = vis ? 1 : 0; e.style.transform = "translate(" + x.toFixed(1) + "px," + dy.toFixed(1) + "px)"; e.style.clipPath = Math.random() < .5 ? band() : "none"; };
+      show(yel, mode !== 1, dx); show(cy, mode !== 0, mode === 2 ? -dx : dx);
+      sl.style.opacity = 1; sl.style.transform = "translate(" + (R(-5, 5) * u).toFixed(1) + "px,0)"; sl.style.clipPath = band();
+      wm.style.transform = Math.random() < .5 ? "translate(" + (R(-1.5, 1.5) * u).toFixed(1) + "px,0)" : "";
+    }
+    function burst() {
+      mode = Math.floor(Math.random() * 3);
+      var k = 3 + Math.floor(Math.random() * 5), i = 0;
+      (function step() {
+        frame(i % 2 === 0 || Math.random() < .4);
+        if (++i < k) setTimeout(step, R(35, 85));
+        else { frame(false); setTimeout(burst, R(2200, 6500)); }
+      })();
+    }
+    setTimeout(burst, 2600 + n * 700);
+    logo.addEventListener("mouseenter", function () {
+      mode = Math.floor(Math.random() * 3); frame(true);
+      setTimeout(function () { frame(false); }, 90); setTimeout(function () { frame(true); }, 140); setTimeout(function () { frame(false); }, 220);
+    });
+  });
+})();
+</script>
+<!-- ===== /3 ===== -->
+</body>
+</html>
