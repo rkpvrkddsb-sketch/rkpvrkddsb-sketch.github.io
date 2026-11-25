@@ -69,8 +69,7 @@ const site_it = {
       slug: "maps",
       title: "Mappe della conoscenza",
       year: "2026",
-      status: "online",
-      live: true,
+      status: "in sviluppo",
       description:
         "Mappe della conoscenza per il team: dividi qualsiasi tema in rami, aggiungi schede, foto e collegamenti e fatele crescere insieme. Claude aiuta a creare i rami.",
       tech: ["Web app", "Lavoro di squadra", "Claude AI"],
@@ -80,7 +79,7 @@ const site_it = {
       details: {
         task: "La conoscenza del team è sparsa tra note, chat e documenti: una persona nuova impiega una settimana a orientarsi.",
         solution: "Mappe vive: tema → rami → schede «Come funziona», «Sfumatura», «Rischio». Mappe di team, condivise e personali, 6 temi, cronologia, e Claude propone sottotemi e spiegazioni in pochi secondi.",
-        result: "Un tema complesso sta in una schermata, ognuno arricchisce la mappa e tutti vedono subito le modifiche.",
+        result: "L'obiettivo: un tema complesso sta in una schermata, ognuno arricchisce la mappa e tutti vedono subito le modifiche. Ora in sviluppo.",
         features: ["Rami e sottotemi con trascinamento", "Schede: Come funziona, Sfumatura, Rischio, Esempio…", "Claude crea rami, schede e spiegazioni", "Mappe di team, condivise e personali", "6 temi, colori e font personalizzati", "Foto, collegamenti tra blocchi, cronologia"],
         gallery: [
           { src: "images/km-map.jpg", kind: "desk", cap: "Mappa «Come lanciare un'app mobile»" },

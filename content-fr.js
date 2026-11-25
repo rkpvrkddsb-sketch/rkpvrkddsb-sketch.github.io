@@ -69,8 +69,7 @@ const site_fr = {
       slug: "maps",
       title: "Cartes de connaissances",
       year: "2026",
-      status: "en ligne",
-      live: true,
+      status: "en cours",
       description:
         "Cartes de connaissances en équipe : découpez n'importe quel sujet en branches, ajoutez fiches, photos et liens, et faites-les grandir ensemble. Claude aide à rédiger les branches.",
       tech: ["Appli web", "Travail d'équipe", "Claude AI"],
@@ -80,7 +79,7 @@ const site_fr = {
       details: {
         task: "Le savoir de l'équipe est éparpillé entre notes, chats et documents — un nouveau met une semaine à s'y retrouver.",
         solution: "Des cartes vivantes : sujet → branches → fiches « Comment ça marche », « Nuance », « Risque ». Cartes d'équipe, partagées et personnelles, 6 thèmes, historique, et Claude propose sous-thèmes et explications en quelques secondes.",
-        result: "Un sujet complexe tient sur un écran, chacun enrichit la carte et tout le monde voit les changements aussitôt.",
+        result: "L'objectif : qu'un sujet complexe tienne sur un écran, que chacun enrichisse la carte et que tous voient les changements aussitôt. En cours de développement.",
         features: ["Branches et sous-thèmes en glisser-déposer", "Fiches : Comment ça marche, Nuance, Risque, Exemple…", "Claude rédige branches, fiches et explications", "Cartes d'équipe, partagées et personnelles", "6 thèmes, couleurs et polices perso", "Photos, liens entre blocs, historique"],
         gallery: [
           { src: "images/km-map.jpg", kind: "desk", cap: "Carte « Lancer une appli mobile »" },

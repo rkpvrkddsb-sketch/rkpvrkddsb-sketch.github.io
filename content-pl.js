@@ -69,8 +69,7 @@ const site_pl = {
       slug: "maps",
       title: "Mapy wiedzy",
       year: "2026",
-      status: "działa",
-      live: true,
+      status: "w trakcie",
       description:
         "Zespołowe mapy wiedzy: rozbij dowolny temat na gałęzie, dodawaj karty z wyjaśnieniami, zdjęcia i powiązania, rozwijajcie mapy razem. Claude pomaga ułożyć gałęzie.",
       tech: ["Aplikacja webowa", "Praca zespołowa", "Claude AI"],
@@ -80,7 +79,7 @@ const site_pl = {
       details: {
         task: "Wiedza zespołu jest rozrzucona po notatkach, czatach i dokumentach — nowa osoba tydzień szuka, co gdzie jest.",
         solution: "Żywe mapy wiedzy: temat → gałęzie → karty «Jak działa», «Niuans», «Ryzyko». Mapy zespołowe, współdzielone i prywatne, 6 motywów, dziennik zmian, a Claude w sekundy proponuje podtematy i wyjaśnienia.",
-        result: "Złożony temat mieści się na jednym ekranie, każdy uzupełnia mapę, a zmiany od razu widzą wszyscy.",
+        result: "Cel: złożony temat mieści się na jednym ekranie, każdy uzupełnia mapę, a zmiany od razu widzą wszyscy. Teraz w produkcji.",
         features: ["Gałęzie i podtematy z przeciąganiem", "Karty: Jak działa, Niuans, Ryzyko, Przykład…", "Claude układa gałęzie, karty i wyjaśnienia", "Mapy zespołowe, współdzielone i prywatne", "6 motywów, własne kolory i czcionki", "Zdjęcia, powiązania bloków, dziennik zmian"],
         gallery: [
           { src: "images/km-map.jpg", kind: "desk", cap: "Mapa «Jak wypuścić aplikację mobilną»" },

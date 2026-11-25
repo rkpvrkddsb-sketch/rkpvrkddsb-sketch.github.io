@@ -69,8 +69,7 @@ const site_en = {
       slug: "maps",
       title: "Knowledge maps",
       year: "2026",
-      status: "live",
-      live: true,
+      status: "in progress",
       description:
         "Team knowledge maps: break any topic into branches, add explanation cards, photos and links, and grow maps together. Claude helps draft the branches.",
       tech: ["Web app", "Collaboration", "Claude AI"],
@@ -80,7 +79,7 @@ const site_en = {
       details: {
         task: "Team knowledge is scattered across notes, chats and documents — a new person spends a week figuring out where things are.",
         solution: "Living knowledge maps: topic → branches → cards like «How it works», «Nuance», «Risk». Team, shared and personal maps, 6 themes, a change log, and Claude suggests subtopics and explanations in seconds.",
-        result: "A complex topic fits on one screen, every member adds to the map, and changes show up for everyone instantly.",
+        result: "The goal: a complex topic fits on one screen, every member adds to the map, and changes show up for everyone instantly. In development now.",
         features: ["Branches and subtopics with drag & drop", "Cards: How it works, Nuance, Risk, Example…", "Claude drafts branches, cards and explanations", "Team, shared and personal maps", "6 themes, custom colours and fonts", "Photos, links between blocks, change log"],
         gallery: [
           { src: "images/km-map.jpg", kind: "desk", cap: "Map «How to launch a mobile app»" },

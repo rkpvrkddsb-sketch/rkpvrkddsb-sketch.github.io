@@ -69,8 +69,7 @@ const site_de = {
       slug: "maps",
       title: "Wissenskarten",
       year: "2026",
-      status: "online",
-      live: true,
+      status: "in Arbeit",
       description:
         "Wissenskarten fürs Team: Zerlege jedes Thema in Zweige, füge Erklärkarten, Fotos und Verknüpfungen hinzu und baue die Karten gemeinsam aus. Claude hilft beim Entwurf.",
       tech: ["Web-App", "Zusammenarbeit", "Claude AI"],
@@ -80,7 +79,7 @@ const site_de = {
       details: {
         task: "Teamwissen liegt verstreut in Notizen, Chats und Dokumenten — neue Leute brauchen eine Woche, um sich zurechtzufinden.",
         solution: "Lebendige Wissenskarten: Thema → Zweige → Karten wie «So funktioniert's», «Nuance», «Risiko». Team-, geteilte und private Karten, 6 Designs, Änderungsprotokoll, und Claude schlägt in Sekunden Unterthemen vor.",
-        result: "Ein komplexes Thema passt auf einen Bildschirm, jeder ergänzt die Karte, und Änderungen sind sofort für alle sichtbar.",
+        result: "Das Ziel: Ein komplexes Thema passt auf einen Bildschirm, jeder ergänzt die Karte, und Änderungen sind sofort für alle sichtbar. Gerade in Entwicklung.",
         features: ["Zweige und Unterthemen per Drag & Drop", "Karten: So funktioniert's, Nuance, Risiko, Beispiel…", "Claude entwirft Zweige, Karten und Erklärungen", "Team-, geteilte und private Karten", "6 Designs, eigene Farben und Schriften", "Fotos, Verknüpfungen, Änderungsprotokoll"],
         gallery: [
           { src: "images/km-map.jpg", kind: "desk", cap: "Karte «Eine Mobile App starten»" },
