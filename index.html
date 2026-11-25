@@ -48,7 +48,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=66">
+  <link rel="stylesheet" href="style.css?v=67">
   <script>
     // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
     try {
@@ -259,7 +259,7 @@
       try { localStorage.setItem("homeLang", home); } catch (e) {}
       window.SITE_LANG = lang; window.HOME_LANG = home;
       document.documentElement.lang = lang;
-      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=66"><\/script>');
+      document.write('<script src="' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=67"><\/script>');
     })();
   </script>
   <script>
@@ -415,7 +415,7 @@
       return `<div class="mock duo"><div class="win shot duo-desk"><div class="bar"><i></i><i></i><i></i><span class="addr">${esc(p.title)}</span></div>
         <img src="${esc(d.src)}" alt="${esc(d.cap)}" loading="lazy" decoding="async"></div>
         <div class="duo-phone"><img src="${esc(ph.src)}" alt="${esc(ph.cap)}" loading="lazy" decoding="async"></div></div>`; };
-    const visual = p => p.image ? shot(p) : (p.mock === "chat" ? chatMock : p.mock === "game" ? gameMock : p.mock === "plai" ? plaiMock : p.mock === "hotel" ? hotelMock(p) : mock);
+    const visual = p => p.image ? shot(p) : (p.mock === "chat" ? chatMock : p.mock === "game" ? gameMock : p.mock === "plai" ? plaiMock : (p.mock === "hotel" || p.mock === "duo") ? hotelMock(p) : mock);
     const pills = (p, i) => `
       <span class="num">${pad(i)}</span>
       <span class="pill ${p.live || p.status === 'в розробці' ? 'live' : ''}">${esc(p.status)}</span>

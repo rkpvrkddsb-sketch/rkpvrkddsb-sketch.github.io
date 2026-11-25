@@ -19,6 +19,7 @@ const site_fr = {
   // Running line under the first screen
   marquee: [
     { text: "Plateformes web",     project: "hotel" },
+    { text: "Cartes de connaissances", project: "maps" },
     { text: "Jeu mobile", project: "game" },
     { text: "Bots Telegram",     project: "bots" },
     { text: "Bots WhatsApp",     project: "bots" },
@@ -31,7 +32,7 @@ const site_fr = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "bots pour réseaux sociaux créés par notre équipe" },
-    { value: 5,  suffix: "+",  label: "grands projets dans le portfolio" },
+    { value: 6,  suffix: "+",  label: "grands projets dans le portfolio" },
     { value: 24, suffix: "/7", label: "nos bots travaillent sans jour de repos" }
   ],
 
@@ -61,6 +62,30 @@ const site_fr = {
           { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Briefing du matin de la gouvernante" },
           { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Gouvernante : arrivées à risque" },
           { src: "images/hotel-team.jpg", kind: "phone", cap: "Équipe en service" }
+        ]
+      }
+    },
+    {
+      slug: "maps",
+      title: "Cartes de connaissances",
+      year: "2026",
+      status: "en ligne",
+      live: true,
+      description:
+        "Cartes de connaissances en équipe : découpez n'importe quel sujet en branches, ajoutez fiches, photos et liens, et faites-les grandir ensemble. Claude aide à rédiger les branches.",
+      tech: ["Appli web", "Travail d'équipe", "Claude AI"],
+      mock: "duo",            // картка: великий скрін у браузері + телефон (з gallery)
+      image: "",
+      link: "",
+      details: {
+        task: "Le savoir de l'équipe est éparpillé entre notes, chats et documents — un nouveau met une semaine à s'y retrouver.",
+        solution: "Des cartes vivantes : sujet → branches → fiches « Comment ça marche », « Nuance », « Risque ». Cartes d'équipe, partagées et personnelles, 6 thèmes, historique, et Claude propose sous-thèmes et explications en quelques secondes.",
+        result: "Un sujet complexe tient sur un écran, chacun enrichit la carte et tout le monde voit les changements aussitôt.",
+        features: ["Branches et sous-thèmes en glisser-déposer", "Fiches : Comment ça marche, Nuance, Risque, Exemple…", "Claude rédige branches, fiches et explications", "Cartes d'équipe, partagées et personnelles", "6 thèmes, couleurs et polices perso", "Photos, liens entre blocs, historique"],
+        gallery: [
+          { src: "images/km-map.jpg", kind: "desk", cap: "Carte « Lancer une appli mobile »" },
+          { src: "images/km-home.jpg", kind: "desk", cap: "Toutes les cartes de l'équipe" },
+          { src: "images/km-phone.jpg", kind: "phone", cap: "Sur téléphone" }
         ]
       }
     },

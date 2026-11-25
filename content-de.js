@@ -19,6 +19,7 @@ const site_de = {
   // Running line under the first screen
   marquee: [
     { text: "Webplattformen",     project: "hotel" },
+    { text: "Wissenskarten", project: "maps" },
     { text: "Mobile Game", project: "game" },
     { text: "Telegram-Bots",     project: "bots" },
     { text: "WhatsApp-Bots",     project: "bots" },
@@ -31,7 +32,7 @@ const site_de = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "Social-Media-Bots hat unser Team gebaut" },
-    { value: 5,  suffix: "+",  label: "große Projekte im Portfolio" },
+    { value: 6,  suffix: "+",  label: "große Projekte im Portfolio" },
     { value: 24, suffix: "/7", label: "unsere Bots arbeiten ohne freie Tage" }
   ],
 
@@ -61,6 +62,30 @@ const site_de = {
           { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Morgenbriefing der Hausdame" },
           { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Hausdame: gefährdete Anreisen" },
           { src: "images/hotel-team.jpg", kind: "phone", cap: "Team im Dienst" }
+        ]
+      }
+    },
+    {
+      slug: "maps",
+      title: "Wissenskarten",
+      year: "2026",
+      status: "online",
+      live: true,
+      description:
+        "Wissenskarten fürs Team: Zerlege jedes Thema in Zweige, füge Erklärkarten, Fotos und Verknüpfungen hinzu und baue die Karten gemeinsam aus. Claude hilft beim Entwurf.",
+      tech: ["Web-App", "Zusammenarbeit", "Claude AI"],
+      mock: "duo",            // картка: великий скрін у браузері + телефон (з gallery)
+      image: "",
+      link: "",
+      details: {
+        task: "Teamwissen liegt verstreut in Notizen, Chats und Dokumenten — neue Leute brauchen eine Woche, um sich zurechtzufinden.",
+        solution: "Lebendige Wissenskarten: Thema → Zweige → Karten wie «So funktioniert's», «Nuance», «Risiko». Team-, geteilte und private Karten, 6 Designs, Änderungsprotokoll, und Claude schlägt in Sekunden Unterthemen vor.",
+        result: "Ein komplexes Thema passt auf einen Bildschirm, jeder ergänzt die Karte, und Änderungen sind sofort für alle sichtbar.",
+        features: ["Zweige und Unterthemen per Drag & Drop", "Karten: So funktioniert's, Nuance, Risiko, Beispiel…", "Claude entwirft Zweige, Karten und Erklärungen", "Team-, geteilte und private Karten", "6 Designs, eigene Farben und Schriften", "Fotos, Verknüpfungen, Änderungsprotokoll"],
+        gallery: [
+          { src: "images/km-map.jpg", kind: "desk", cap: "Karte «Eine Mobile App starten»" },
+          { src: "images/km-home.jpg", kind: "desk", cap: "Alle Teamkarten" },
+          { src: "images/km-phone.jpg", kind: "phone", cap: "Auf dem Handy" }
         ]
       }
     },

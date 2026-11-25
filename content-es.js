@@ -19,6 +19,7 @@ const site_es = {
   // Running line under the first screen
   marquee: [
     { text: "Plataformas web",     project: "hotel" },
+    { text: "Mapas de conocimiento", project: "maps" },
     { text: "Juego móvil", project: "game" },
     { text: "Bots de Telegram",     project: "bots" },
     { text: "Bots de WhatsApp",     project: "bots" },
@@ -31,7 +32,7 @@ const site_es = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "bots para redes sociales creados por nuestro equipo" },
-    { value: 5,  suffix: "+",  label: "grandes proyectos en el portafolio" },
+    { value: 6,  suffix: "+",  label: "grandes proyectos en el portafolio" },
     { value: 24, suffix: "/7", label: "nuestros bots trabajan sin días libres" }
   ],
 
@@ -61,6 +62,30 @@ const site_es = {
           { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Briefing matinal de la supervisora" },
           { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Supervisora: llegadas en riesgo" },
           { src: "images/hotel-team.jpg", kind: "phone", cap: "Equipo en turno" }
+        ]
+      }
+    },
+    {
+      slug: "maps",
+      title: "Mapas de conocimiento",
+      year: "2026",
+      status: "en marcha",
+      live: true,
+      description:
+        "Mapas de conocimiento en equipo: divide cualquier tema en ramas, añade tarjetas, fotos y conexiones y hazlos crecer juntos. Claude ayuda a crear las ramas.",
+      tech: ["App web", "Trabajo en equipo", "Claude AI"],
+      mock: "duo",            // картка: великий скрін у браузері + телефон (з gallery)
+      image: "",
+      link: "",
+      details: {
+        task: "El conocimiento del equipo está disperso en notas, chats y documentos: una persona nueva tarda una semana en orientarse.",
+        solution: "Mapas vivos: tema → ramas → tarjetas «Cómo funciona», «Matiz», «Riesgo». Mapas de equipo, compartidos y personales, 6 temas, historial de cambios, y Claude propone subtemas y explicaciones al instante.",
+        result: "Un tema complejo cabe en una pantalla, cada miembro amplía el mapa y todos ven los cambios al momento.",
+        features: ["Ramas y subtemas con arrastrar y soltar", "Tarjetas: Cómo funciona, Matiz, Riesgo, Ejemplo…", "Claude crea ramas, tarjetas y explicaciones", "Mapas de equipo, compartidos y personales", "6 temas, colores y fuentes propios", "Fotos, conexiones entre bloques, historial"],
+        gallery: [
+          { src: "images/km-map.jpg", kind: "desk", cap: "Mapa «Cómo lanzar una app móvil»" },
+          { src: "images/km-home.jpg", kind: "desk", cap: "Todos los mapas del equipo" },
+          { src: "images/km-phone.jpg", kind: "phone", cap: "En el móvil" }
         ]
       }
     },

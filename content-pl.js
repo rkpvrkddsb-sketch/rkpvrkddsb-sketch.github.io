@@ -19,6 +19,7 @@ const site_pl = {
   // Running line under the first screen
   marquee: [
     { text: "Platformy internetowe",     project: "hotel" },
+    { text: "Mapy wiedzy", project: "maps" },
     { text: "Gra mobilna", project: "game" },
     { text: "Boty Telegram",     project: "bots" },
     { text: "Boty WhatsApp",     project: "bots" },
@@ -31,7 +32,7 @@ const site_pl = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "botów do social mediów stworzył nasz zespół" },
-    { value: 5,  suffix: "+",  label: "duże projekty w portfolio" },
+    { value: 6,  suffix: "+",  label: "duże projekty w portfolio" },
     { value: 24, suffix: "/7", label: "nasze boty pracują bez dni wolnych" }
   ],
 
@@ -61,6 +62,30 @@ const site_pl = {
           { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Poranna odprawa od kierowniczki" },
           { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Kierowniczka: zagrożone przyjazdy" },
           { src: "images/hotel-team.jpg", kind: "phone", cap: "Zespół na zmianie" }
+        ]
+      }
+    },
+    {
+      slug: "maps",
+      title: "Mapy wiedzy",
+      year: "2026",
+      status: "działa",
+      live: true,
+      description:
+        "Zespołowe mapy wiedzy: rozbij dowolny temat na gałęzie, dodawaj karty z wyjaśnieniami, zdjęcia i powiązania, rozwijajcie mapy razem. Claude pomaga ułożyć gałęzie.",
+      tech: ["Aplikacja webowa", "Praca zespołowa", "Claude AI"],
+      mock: "duo",            // картка: великий скрін у браузері + телефон (з gallery)
+      image: "",
+      link: "",
+      details: {
+        task: "Wiedza zespołu jest rozrzucona po notatkach, czatach i dokumentach — nowa osoba tydzień szuka, co gdzie jest.",
+        solution: "Żywe mapy wiedzy: temat → gałęzie → karty «Jak działa», «Niuans», «Ryzyko». Mapy zespołowe, współdzielone i prywatne, 6 motywów, dziennik zmian, a Claude w sekundy proponuje podtematy i wyjaśnienia.",
+        result: "Złożony temat mieści się na jednym ekranie, każdy uzupełnia mapę, a zmiany od razu widzą wszyscy.",
+        features: ["Gałęzie i podtematy z przeciąganiem", "Karty: Jak działa, Niuans, Ryzyko, Przykład…", "Claude układa gałęzie, karty i wyjaśnienia", "Mapy zespołowe, współdzielone i prywatne", "6 motywów, własne kolory i czcionki", "Zdjęcia, powiązania bloków, dziennik zmian"],
+        gallery: [
+          { src: "images/km-map.jpg", kind: "desk", cap: "Mapa «Jak wypuścić aplikację mobilną»" },
+          { src: "images/km-home.jpg", kind: "desk", cap: "Wszystkie mapy zespołu" },
+          { src: "images/km-phone.jpg", kind: "phone", cap: "Na telefonie" }
         ]
       }
     },

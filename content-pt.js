@@ -19,6 +19,7 @@ const site_pt = {
   // Running line under the first screen
   marquee: [
     { text: "Plataformas web",     project: "hotel" },
+    { text: "Mapas de conhecimento", project: "maps" },
     { text: "Jogo mobile", project: "game" },
     { text: "Bots de Telegram",     project: "bots" },
     { text: "Bots de WhatsApp",     project: "bots" },
@@ -31,7 +32,7 @@ const site_pt = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "bots para redes sociais criados pela nossa equipa" },
-    { value: 5,  suffix: "+",  label: "grandes projetos no portfólio" },
+    { value: 6,  suffix: "+",  label: "grandes projetos no portfólio" },
     { value: 24, suffix: "/7", label: "os nossos bots trabalham sem folgas" }
   ],
 
@@ -61,6 +62,30 @@ const site_pt = {
           { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Briefing da manhã da governanta" },
           { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Governanta: chegadas em risco" },
           { src: "images/hotel-team.jpg", kind: "phone", cap: "Equipa de serviço" }
+        ]
+      }
+    },
+    {
+      slug: "maps",
+      title: "Mapas de conhecimento",
+      year: "2026",
+      status: "ativo",
+      live: true,
+      description:
+        "Mapas de conhecimento em equipa: divide qualquer tema em ramos, junta cartões, fotos e ligações e fá-los crescer juntos. O Claude ajuda a criar os ramos.",
+      tech: ["App web", "Trabalho em equipa", "Claude AI"],
+      mock: "duo",            // картка: великий скрін у браузері + телефон (з gallery)
+      image: "",
+      link: "",
+      details: {
+        task: "O conhecimento da equipa está espalhado por notas, chats e documentos — uma pessoa nova demora uma semana a orientar-se.",
+        solution: "Mapas vivos: tema → ramos → cartões «Como funciona», «Nuance», «Risco». Mapas de equipa, partilhados e pessoais, 6 temas, histórico de alterações, e o Claude sugere subtemas e explicações em segundos.",
+        result: "Um tema complexo cabe num ecrã, cada membro completa o mapa e todos veem as mudanças na hora.",
+        features: ["Ramos e subtemas com arrastar e largar", "Cartões: Como funciona, Nuance, Risco, Exemplo…", "O Claude cria ramos, cartões e explicações", "Mapas de equipa, partilhados e pessoais", "6 temas, cores e fontes próprias", "Fotos, ligações entre blocos, histórico"],
+        gallery: [
+          { src: "images/km-map.jpg", kind: "desk", cap: "Mapa «Como lançar uma app móvel»" },
+          { src: "images/km-home.jpg", kind: "desk", cap: "Todos os mapas da equipa" },
+          { src: "images/km-phone.jpg", kind: "phone", cap: "No telemóvel" }
         ]
       }
     },

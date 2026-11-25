@@ -19,6 +19,7 @@ const site_en = {
   // Running line under the first screen
   marquee: [
     { text: "Web platforms",     project: "hotel" },
+    { text: "Knowledge maps", project: "maps" },
     { text: "Mobile game", project: "game" },
     { text: "Telegram bots",     project: "bots" },
     { text: "WhatsApp bots",     project: "bots" },
@@ -31,7 +32,7 @@ const site_en = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "social media bots built by our team" },
-    { value: 5,  suffix: "+",  label: "major projects in the portfolio" },
+    { value: 6,  suffix: "+",  label: "major projects in the portfolio" },
     { value: 24, suffix: "/7", label: "our bots work without days off" }
   ],
 
@@ -61,6 +62,30 @@ const site_en = {
           { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Morning briefing from the supervisor" },
           { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Supervisor: arrivals at risk" },
           { src: "images/hotel-team.jpg", kind: "phone", cap: "Team on shift" }
+        ]
+      }
+    },
+    {
+      slug: "maps",
+      title: "Knowledge maps",
+      year: "2026",
+      status: "live",
+      live: true,
+      description:
+        "Team knowledge maps: break any topic into branches, add explanation cards, photos and links, and grow maps together. Claude helps draft the branches.",
+      tech: ["Web app", "Collaboration", "Claude AI"],
+      mock: "duo",            // картка: великий скрін у браузері + телефон (з gallery)
+      image: "",
+      link: "",
+      details: {
+        task: "Team knowledge is scattered across notes, chats and documents — a new person spends a week figuring out where things are.",
+        solution: "Living knowledge maps: topic → branches → cards like «How it works», «Nuance», «Risk». Team, shared and personal maps, 6 themes, a change log, and Claude suggests subtopics and explanations in seconds.",
+        result: "A complex topic fits on one screen, every member adds to the map, and changes show up for everyone instantly.",
+        features: ["Branches and subtopics with drag & drop", "Cards: How it works, Nuance, Risk, Example…", "Claude drafts branches, cards and explanations", "Team, shared and personal maps", "6 themes, custom colours and fonts", "Photos, links between blocks, change log"],
+        gallery: [
+          { src: "images/km-map.jpg", kind: "desk", cap: "Map «How to launch a mobile app»" },
+          { src: "images/km-home.jpg", kind: "desk", cap: "All team maps" },
+          { src: "images/km-phone.jpg", kind: "phone", cap: "On the phone" }
         ]
       }
     },

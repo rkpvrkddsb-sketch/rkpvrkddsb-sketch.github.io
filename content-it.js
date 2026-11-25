@@ -19,6 +19,7 @@ const site_it = {
   // Running line under the first screen
   marquee: [
     { text: "Piattaforme web",     project: "hotel" },
+    { text: "Mappe della conoscenza", project: "maps" },
     { text: "Gioco mobile", project: "game" },
     { text: "Bot Telegram",     project: "bots" },
     { text: "Bot WhatsApp",     project: "bots" },
@@ -31,7 +32,7 @@ const site_it = {
   // Counters
   stats: [
     { value: 15, suffix: "+",  label: "bot per social creati dal nostro team" },
-    { value: 5,  suffix: "+",  label: "grandi progetti nel portfolio" },
+    { value: 6,  suffix: "+",  label: "grandi progetti nel portfolio" },
     { value: 24, suffix: "/7", label: "i nostri bot lavorano senza giorni liberi" }
   ],
 
@@ -61,6 +62,30 @@ const site_it = {
           { src: "images/hotel-briefing.jpg", kind: "phone", cap: "Briefing mattutino della governante" },
           { src: "images/hotel-inspect.jpg", kind: "phone", cap: "Governante: arrivi a rischio" },
           { src: "images/hotel-team.jpg", kind: "phone", cap: "Team in servizio" }
+        ]
+      }
+    },
+    {
+      slug: "maps",
+      title: "Mappe della conoscenza",
+      year: "2026",
+      status: "online",
+      live: true,
+      description:
+        "Mappe della conoscenza per il team: dividi qualsiasi tema in rami, aggiungi schede, foto e collegamenti e fatele crescere insieme. Claude aiuta a creare i rami.",
+      tech: ["Web app", "Lavoro di squadra", "Claude AI"],
+      mock: "duo",            // картка: великий скрін у браузері + телефон (з gallery)
+      image: "",
+      link: "",
+      details: {
+        task: "La conoscenza del team è sparsa tra note, chat e documenti: una persona nuova impiega una settimana a orientarsi.",
+        solution: "Mappe vive: tema → rami → schede «Come funziona», «Sfumatura», «Rischio». Mappe di team, condivise e personali, 6 temi, cronologia, e Claude propone sottotemi e spiegazioni in pochi secondi.",
+        result: "Un tema complesso sta in una schermata, ognuno arricchisce la mappa e tutti vedono subito le modifiche.",
+        features: ["Rami e sottotemi con trascinamento", "Schede: Come funziona, Sfumatura, Rischio, Esempio…", "Claude crea rami, schede e spiegazioni", "Mappe di team, condivise e personali", "6 temi, colori e font personalizzati", "Foto, collegamenti tra blocchi, cronologia"],
+        gallery: [
+          { src: "images/km-map.jpg", kind: "desk", cap: "Mappa «Come lanciare un'app mobile»" },
+          { src: "images/km-home.jpg", kind: "desk", cap: "Tutte le mappe del team" },
+          { src: "images/km-phone.jpg", kind: "phone", cap: "Sul telefono" }
         ]
       }
     },
