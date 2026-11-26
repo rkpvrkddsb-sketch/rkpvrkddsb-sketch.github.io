@@ -123,7 +123,13 @@ const site_pt = {
         solution: "Um treinador leve que abre num instante: escreves palavras, provérbios ou o teu próprio texto, e ele mostra a velocidade, os erros e as teclas a melhorar.",
         result: "Funciona diretamente no navegador em qualquer computador, sem instalar nada. O progresso fica guardado no dispositivo, para veres a velocidade a crescer.",
         features: ["Lições de digitação passo a passo", "Teste de velocidade com mapa de calor de erros", "Arcade: escreve as palavras antes que caiam", "Corrida contra o fantasma e 24 conquistas", "Treino diário das tuas letras fracas", "Funciona offline e instala-se como app"],
-        gallery: []
+        gallery: [
+          { src: "images/kl-home.jpg", kind: "desk", cap: "Início: quatro modos" },
+          { src: "images/kl-lessons.jpg", kind: "desk", cap: "Lições de digitação" },
+          { src: "images/kl-test.jpg", kind: "desk", cap: "Teste de velocidade com teclado no ecrã" },
+          { src: "images/kl-arcade.jpg", kind: "desk", cap: "Arcade: as palavras caem" },
+          { src: "images/kl-ach.jpg", kind: "desk", cap: "24 conquistas" }
+        ]
       }
     },
     {
@@ -134,7 +140,7 @@ const site_pt = {
       description:
         "Uma comunidade desportiva para quem gosta de se mexer: corrida, caminhada, trilhos e bicicleta. Treinos com GPS, rotas no mapa, desafios com amigos e dados do Apple Health num só lugar.",
       tech: ["iOS", "Android", "Apple Health", "Mapas e GPS"],
-      mock: "plai",
+      mock: "phones",
       image: "",
       link: "",
       details: {
@@ -142,7 +148,12 @@ const site_pt = {
         solution: "O Plai junta o teu dia a partir do Apple Health e do Health Connect, grava corridas e trilhos com GPS, mostra rotas por perto e acrescenta o lado social: feed de amigos, gostos, clubes, saídas em grupo e desafios.",
         result: "A app está pronta e a ser preparada para a App Store. Todos os requisitos da Apple já estão cumpridos: eliminação de conta, moderação e privacidade.",
         features: ["Passos, sono e prontidão para treinar a partir do Apple Health", "Gravação GPS de corridas e trilhos: ritmo, distância, desnível", "Rotas por perto com avaliações e fotos", "Feed de amigos, comentários, clubes e saídas em grupo", "Desafios e ranking de passos entre amigos", "Sem anúncios nem rastreio, zonas de privacidade no mapa"],
-        gallery: []
+        gallery: [
+          { src: "images/plai-today.jpg", kind: "phone", cap: "Hoje: novo treino do Apple Health" },
+          { src: "images/plai-social.jpg", kind: "phone", cap: "Comunidade: feed de amigos" },
+          { src: "images/plai-explore.jpg", kind: "phone", cap: "Explorar: rotas e treinos" },
+          { src: "images/plai-today2.jpg", kind: "phone", cap: "Passos dos amigos hoje" }
+        ]
       }
     },
     {
@@ -153,7 +164,7 @@ const site_pt = {
       description:
         "Chatbots para empresas: recebem pedidos e reservas, respondem a perguntas frequentes e enviam lembretes.",
       tech: ["Telegram Bot API", "WhatsApp API", "Automação"],
-      mock: "chat",
+      mock: "phones",
       image: "",
       link: "",
       details: {
@@ -167,7 +178,11 @@ const site_pt = {
           "Passar a conversa a um gestor",
           "Alertas ao dono sobre novos pedidos"
         ],
-        gallery: []
+        gallery: [
+          { src: "images/bot-book.jpg", kind: "phone", cap: "Reserva de mesa em 4 passos" },
+          { src: "images/bot-menu.jpg", kind: "phone", cap: "Menu e respostas" },
+          { src: "images/bot-human.jpg", kind: "phone", cap: "Passar a conversa a um gestor" }
+        ]
       }
     }
   ],

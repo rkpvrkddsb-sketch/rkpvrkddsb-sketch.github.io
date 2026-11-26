@@ -123,7 +123,13 @@ const site_pl = {
         solution: "Lekki trener, który otwiera się od razu: piszesz słowa, przysłowia lub własny tekst, a on pokazuje szybkość, błędy i podpowiada, nad którymi klawiszami popracować.",
         result: "Działa prosto w przeglądarce na każdym komputerze, bez instalacji. Postęp zapisuje się na urządzeniu, więc widać, jak rośnie szybkość.",
         features: ["Lekcje pisania bezwzrokowego krok po kroku", "Test szybkości z mapą cieplną błędów", "Arkada: wpisz spadające słowa, zanim spadną", "Wyścig z duchem i 24 osiągnięcia", "Codzienny trening Twoich słabych liter", "Działa offline i instaluje się jak aplikacja"],
-        gallery: []
+        gallery: [
+          { src: "images/kl-home.jpg", kind: "desk", cap: "Start: cztery tryby" },
+          { src: "images/kl-lessons.jpg", kind: "desk", cap: "Lekcje pisania bezwzrokowego" },
+          { src: "images/kl-test.jpg", kind: "desk", cap: "Test szybkości z klawiaturą na ekranie" },
+          { src: "images/kl-arcade.jpg", kind: "desk", cap: "Arkada: słowa spadają z góry" },
+          { src: "images/kl-ach.jpg", kind: "desk", cap: "24 osiągnięcia" }
+        ]
       }
     },
     {
@@ -134,7 +140,7 @@ const site_pl = {
       description:
         "Sportowa społeczność dla tych, którzy kochają ruch: bieganie, chodzenie, hiking i rower. Treningi z GPS, trasy na mapie, wyzwania ze znajomymi i dane z Apple Health w jednym miejscu.",
       tech: ["iOS", "Android", "Apple Health", "Mapy i GPS"],
-      mock: "plai",
+      mock: "phones",
       image: "",
       link: "",
       details: {
@@ -142,7 +148,12 @@ const site_pl = {
         solution: "Plai zbiera Twój dzień z Apple Health i Health Connect, zapisuje biegi i wędrówki z GPS, pokazuje trasy w pobliżu i dodaje część społeczną: tablicę znajomych, polubienia, kluby, wspólne wyjścia i wyzwania.",
         result: "Aplikacja jest gotowa i przygotowywana do App Store. Wszystkie wymagania Apple są już spełnione: usuwanie konta, moderacja i prywatność.",
         features: ["Kroki, sen i gotowość do treningu z Apple Health", "Zapis biegów i wędrówek z GPS: tempo, dystans, przewyższenie", "Trasy w pobliżu z opiniami i zdjęciami", "Tablica znajomych, komentarze, kluby i wspólne wyjścia", "Wyzwania i ranking kroków wśród znajomych", "Bez reklam i śledzenia, strefy prywatności na mapie"],
-        gallery: []
+        gallery: [
+          { src: "images/plai-today.jpg", kind: "phone", cap: "Dziś: nowy trening z Apple Health" },
+          { src: "images/plai-social.jpg", kind: "phone", cap: "Społeczność: tablica znajomych" },
+          { src: "images/plai-explore.jpg", kind: "phone", cap: "Odkrywaj: trasy i treningi" },
+          { src: "images/plai-today2.jpg", kind: "phone", cap: "Kroki znajomych dziś" }
+        ]
       }
     },
     {
@@ -153,7 +164,7 @@ const site_pl = {
       description:
         "Chatboty dla biznesu: przyjmują zgłoszenia i rezerwacje, odpowiadają na częste pytania i wysyłają przypomnienia.",
       tech: ["Telegram Bot API", "WhatsApp API", "Automatyzacja"],
-      mock: "chat",
+      mock: "phones",
       image: "",
       link: "",
       details: {
@@ -167,7 +178,11 @@ const site_pl = {
           "Przekazanie rozmowy menedżerowi",
           "Powiadomienia dla właściciela o nowych zgłoszeniach"
         ],
-        gallery: []
+        gallery: [
+          { src: "images/bot-book.jpg", kind: "phone", cap: "Rezerwacja stolika w 4 krokach" },
+          { src: "images/bot-menu.jpg", kind: "phone", cap: "Menu i odpowiedzi na pytania" },
+          { src: "images/bot-human.jpg", kind: "phone", cap: "Przekazanie rozmowy menedżerowi" }
+        ]
       }
     }
   ],

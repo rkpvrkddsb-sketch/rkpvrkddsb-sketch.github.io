@@ -123,7 +123,13 @@ const site_de = {
         solution: "Ein leichter Trainer, der sofort startet: Wörter, Sprichwörter oder eigenen Text tippen – er zeigt Tempo und Fehler und sagt, an welchen Tasten man arbeiten sollte.",
         result: "Läuft direkt im Browser auf jedem Computer, ohne Installation. Der Fortschritt wird auf dem Gerät gespeichert, so sieht man, wie das Tempo wächst.",
         features: ["Zehnfinger-Lektionen Schritt für Schritt", "Tempotest mit Fehler-Heatmap", "Arcade: tippe die fallenden Wörter, bevor sie landen", "Rennen gegen den Geist und 24 Erfolge", "Tägliches Training deiner schwachen Buchstaben", "Funktioniert offline und lässt sich als App installieren"],
-        gallery: []
+        gallery: [
+          { src: "images/kl-home.jpg", kind: "desk", cap: "Start: vier Modi" },
+          { src: "images/kl-lessons.jpg", kind: "desk", cap: "Zehnfinger-Lektionen" },
+          { src: "images/kl-test.jpg", kind: "desk", cap: "Tempotest mit Bildschirmtastatur" },
+          { src: "images/kl-arcade.jpg", kind: "desk", cap: "Arcade: Wörter fallen von oben" },
+          { src: "images/kl-ach.jpg", kind: "desk", cap: "24 Erfolge" }
+        ]
       }
     },
     {
@@ -134,7 +140,7 @@ const site_de = {
       description:
         "Eine Sport-Community für alle, die sich gern bewegen: Laufen, Gehen, Wandern und Radfahren. GPS-Workouts, Routen auf der Karte, Challenges mit Freunden und Apple-Health-Daten an einem Ort.",
       tech: ["iOS", "Android", "Apple Health", "Karten & GPS"],
-      mock: "plai",
+      mock: "phones",
       image: "",
       link: "",
       details: {
@@ -142,7 +148,12 @@ const site_de = {
         solution: "Plai holt deinen Tag aus Apple Health und Health Connect, zeichnet Läufe und Wanderungen per GPS auf, zeigt Routen in der Nähe und bringt das Soziale dazu: Freundes-Feed, Likes, Clubs, gemeinsame Touren und Challenges.",
         result: "Die App ist fertig und wird für den App Store vorbereitet. Alle Anforderungen von Apple sind schon erfüllt: Kontolöschung, Moderation und Datenschutz.",
         features: ["Schritte, Schlaf und Trainingsbereitschaft aus Apple Health", "GPS-Aufzeichnung für Läufe und Wanderungen: Tempo, Distanz, Höhenmeter", "Routen in der Nähe mit Bewertungen und Fotos", "Freundes-Feed, Kommentare, Clubs und gemeinsame Touren", "Challenges und Schritte-Rangliste unter Freunden", "Keine Werbung, kein Tracking, Privatsphäre-Zonen auf der Karte"],
-        gallery: []
+        gallery: [
+          { src: "images/plai-today.jpg", kind: "phone", cap: "Heute: neues Workout aus Apple Health" },
+          { src: "images/plai-social.jpg", kind: "phone", cap: "Community: Freundes-Feed" },
+          { src: "images/plai-explore.jpg", kind: "phone", cap: "Entdecken: Routen und Workouts" },
+          { src: "images/plai-today2.jpg", kind: "phone", cap: "Schritte der Freunde heute" }
+        ]
       }
     },
     {
@@ -153,7 +164,7 @@ const site_de = {
       description:
         "Chatbots für Unternehmen: Sie nehmen Anfragen und Buchungen an, beantworten häufige Fragen und verschicken Erinnerungen.",
       tech: ["Telegram Bot API", "WhatsApp API", "Automatisierung"],
-      mock: "chat",
+      mock: "phones",
       image: "",
       link: "",
       details: {
@@ -167,7 +178,11 @@ const site_de = {
           "Übergabe des Chats an einen Mitarbeiter",
           "Benachrichtigung des Inhabers über neue Anfragen"
         ],
-        gallery: []
+        gallery: [
+          { src: "images/bot-book.jpg", kind: "phone", cap: "Tischreservierung in 4 Schritten" },
+          { src: "images/bot-menu.jpg", kind: "phone", cap: "Speisekarte und Antworten" },
+          { src: "images/bot-human.jpg", kind: "phone", cap: "Übergabe an einen Mitarbeiter" }
+        ]
       }
     }
   ],

@@ -1287,3 +1287,37 @@ body[data-accent="glow"] .shot-frame:hover { box-shadow: 0 30px 50px -24px rgba(
   transition: clip-path .38s cubic-bezier(.6,0,.2,1), opacity .4s ease; }
 .morph.grow::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 40%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 70%); }
 .morph.out { opacity: 0; }
+
+/* Телефон: картинка картки росте під свій вміст — телефони-заглушки й чат більше не обрізаються */
+@media (max-width: 599px) {
+  .project .visual, .project .visual:has(.phone), .project .visual:has(.plai-wrap), .project .visual:has(.phone.game) { min-height: 0; height: auto; }
+  .project .visual .mock { position: relative; inset: auto; padding: 34px 0; display: flex; align-items: center; justify-content: center; }
+  .project .visual .mock.duo { padding: 30px 0 34px; }
+  .project .phone { width: 80%; }
+  .project .phone.game { width: 52%; height: auto; max-height: none; }
+  .project .plai-wrap { height: auto; width: 54%; }
+  .project .plai-wrap .phone.plai { height: auto; aspect-ratio: 9 / 16; }
+  .project .visual .win:not(.shot) { width: 88%; }
+  .project .visual img { height: auto; }
+  .project .visual .duo-phone img { height: 100%; }
+}
+
+
+/* Віяло з 2–3 справжніх екранів телефона */
+.mock.fan { display: flex; align-items: center; justify-content: center; }
+.fan-ph { position: absolute; top: 50%; left: 50%; width: 30%; max-width: 210px; padding: 5px; border-radius: 26px; background: #0b0c0b;
+  box-shadow: 0 30px 50px -18px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06); transition: transform .55s cubic-bezier(.2,.7,.2,1); }
+.fan-ph img { display: block; width: 100%; height: auto; border-radius: 21px; }
+.fan-ph.f0 { z-index: 3; transform: translate(-50%, -50%); }
+.fan-ph.f1 { z-index: 2; transform: translate(-112%, -46%) rotate(-7deg) scale(.88); }
+.fan-ph.f2 { z-index: 1; transform: translate(12%, -46%) rotate(7deg) scale(.88); }
+.fan-2 .fan-ph.f1 { transform: translate(-100%, -46%) rotate(-6deg) scale(.9); }
+.project:hover .fan-ph.f0 { transform: translate(-50%, -53%) scale(1.03); }
+.project:hover .fan-ph.f1 { transform: translate(-122%, -46%) rotate(-10deg) scale(.88); }
+.project:hover .fan-ph.f2 { transform: translate(22%, -46%) rotate(10deg) scale(.88); }
+.pp-visual .fan-ph { max-width: 270px; }
+@media (max-width: 599px) {
+  .project .visual .mock.fan { height: 420px; padding: 0; }
+  .fan-ph { width: 36%; border-radius: 18px; padding: 4px; } .fan-ph img { border-radius: 14px; }
+  .fan-ph.f1 { transform: translate(-104%, -46%) rotate(-6deg) scale(.86); } .fan-ph.f2 { transform: translate(4%, -46%) rotate(6deg) scale(.86); }
+}

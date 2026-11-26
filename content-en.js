@@ -123,7 +123,13 @@ const site_en = {
         solution: "A lightweight trainer that opens instantly: type words, proverbs or your own text, and it shows your speed and mistakes and points out which keys to work on.",
         result: "Runs right in the browser on any computer, nothing to install. Progress is saved on the device, so you can watch your speed grow.",
         features: ["Step-by-step touch-typing lessons", "Speed test with an error heatmap", "Arcade: type the falling words before they land", "Ghost race and 24 achievements", "Daily training of your own weak letters", "Works offline and installs as an app"],
-        gallery: []
+        gallery: [
+          { src: "images/kl-home.jpg", kind: "desk", cap: "Home: four modes" },
+          { src: "images/kl-lessons.jpg", kind: "desk", cap: "Touch-typing lessons" },
+          { src: "images/kl-test.jpg", kind: "desk", cap: "Speed test with on-screen keyboard" },
+          { src: "images/kl-arcade.jpg", kind: "desk", cap: "Arcade: words fall from above" },
+          { src: "images/kl-ach.jpg", kind: "desk", cap: "24 achievements" }
+        ]
       }
     },
     {
@@ -134,7 +140,7 @@ const site_en = {
       description:
         "A sports community for people who love to move: running, walking, hiking and cycling. GPS workouts, trails on the map, challenges with friends and Apple Health data in one place.",
       tech: ["iOS", "Android", "Apple Health", "Maps & GPS"],
-      mock: "plai",
+      mock: "phones",
       image: "",
       link: "",
       details: {
@@ -142,7 +148,12 @@ const site_en = {
         solution: "Plai pulls your day from Apple Health and Health Connect, records runs and hikes with GPS, shows trails nearby and adds the social side: a friends feed, likes, clubs, group outings and challenges.",
         result: "The app is finished and being prepared for the App Store. All of Apple's requirements are already covered: account deletion, moderation and privacy.",
         features: ["Steps, sleep and training readiness from Apple Health", "GPS recording for runs and hikes: pace, distance, elevation", "Trails nearby with reviews and photos", "Friends feed, comments, clubs and group outings", "Challenges and a friends' step leaderboard", "No ads, no tracking, privacy zones on the map"],
-        gallery: []
+        gallery: [
+          { src: "images/plai-today.jpg", kind: "phone", cap: "Today: a new workout from Apple Health" },
+          { src: "images/plai-social.jpg", kind: "phone", cap: "Community: friends feed" },
+          { src: "images/plai-explore.jpg", kind: "phone", cap: "Explore: trails and workouts" },
+          { src: "images/plai-today2.jpg", kind: "phone", cap: "Friends' steps today" }
+        ]
       }
     },
     {
@@ -153,7 +164,7 @@ const site_en = {
       description:
         "Chatbots for business: they take requests and bookings, answer common questions and send reminders.",
       tech: ["Telegram Bot API", "WhatsApp API", "Automation"],
-      mock: "chat",
+      mock: "phones",
       image: "",
       link: "",
       details: {
@@ -167,7 +178,11 @@ const site_en = {
           "Handing the chat to a manager",
           "Alerts to the owner about new requests"
         ],
-        gallery: []
+        gallery: [
+          { src: "images/bot-book.jpg", kind: "phone", cap: "Booking a table in 4 steps" },
+          { src: "images/bot-menu.jpg", kind: "phone", cap: "Menu and answers to questions" },
+          { src: "images/bot-human.jpg", kind: "phone", cap: "Handing the chat to a manager" }
+        ]
       }
     }
   ],
