@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>j13 — команда розробки</title>
+
+  <!-- Опис і прев'ю, коли посилання кидають у Telegram / Instagram / Google.
+       Якщо зміниш адресу сайту (свій домен) — онови og:url і og:image. -->
+  <meta name="description" content="j13 — команда розробки: програми, веб-платформи й боти для Telegram і WhatsApp. Від ідеї до запуску.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="j13 — команда розробки">
+  <meta property="og:description" content="Програми, веб-платформи й боти для Telegram і WhatsApp. Від ідеї до запуску.">
+  <meta property="og:image" content="https://rkpvrkddsb-sketch.github.io/images/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://rkpvrkddsb-sketch.github.io/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#131513">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <meta name="apple-mobile-web-app-title" content="j13">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-60 -126 497 497'%3E%3Crect x='-60' y='-126' width='497' height='497' rx='110' fill='%23121212'/%3E%3Cg fill='%23f6f5f1'%3E%3Cpath d='M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z'/%3E%3Cpath d='M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z'/%3E%3Cpath d='M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z'/%3E%3Cpath d='M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z'/%3E%3C/g%3E%3C/svg%3E">
+  <!-- Захист: що сторінці дозволено завантажувати (лише свої файли + шрифти Google), без чужих скриптів і плагінів -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <script>
+    // Захист від «клікджекінгу»: сайт не можна непомітно вбудувати в чужу сторінку
+    //  (вбудовувати можна лише в сторінки цього ж сайту — наприклад, у перегляд для розкладних fold.html)
+    if (/github\.io$/.test(location.hostname) && window.top !== window.self) {
+      let same = false; try { same = window.top.location.origin === location.origin; } catch (e) {}
+      if (!same) { try { window.top.location = window.self.location.href; } catch (e) { document.documentElement.style.display = "none"; } }
+    }
+    // Розкладні телефони: сайт розтягнуто на дві половини екрана (або симуляція через ?fold=h / ?fold=v)
+    (function () {
+      const sim = new URLSearchParams(location.search).get("fold"), H = "(horizontal-viewport-segments: 2)", V = "(vertical-viewport-segments: 2)";
+      const set = () => {
+        const r = document.documentElement.classList;
+        r.toggle("span-h", sim === "h" || (window.matchMedia && matchMedia(H).matches));
+        r.toggle("span-v", sim === "v" || (window.matchMedia && matchMedia(V).matches));
+        r.toggle("sim-fold", sim === "h" || sim === "v");
+      };
+      set();
+      if (window.matchMedia) [H, V].forEach(q => { try { matchMedia(q).addEventListener("change", set); } catch (e) {} });
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css?v=70">
+  <link rel="stylesheet" href="lite.css?v=1">
+  <script>
+    // Заставка: перший візит — «креслення» логотипа; перезавантаження / зміна мови — коротке «Завантаження…»
+    try {
+      const forceIntro = new URLSearchParams(location.search).has("intro"); // ?intro — завжди повна заставка
+      const html = document.documentElement;
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";   // самі вирішуємо, куди скролити
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches && !forceIntro) html.classList.add("no-loader");
+      else {
+        html.classList.add("loader-active");                                        // поки заставка — курсор схований
+        if (!forceIntro && (sessionStorage.getItem("seenLoader") || window.name === "seenLoader")) html.classList.add("loader-short");
+        else html.classList.add("loader-draft");
+      }
+      // ?intro спрацьовує один раз — прибираємо його з адреси, щоб перезавантаження показувало «Завантаження…»
+      if (forceIntro) { const u = new URL(location.href); u.searchParams.delete("intro"); history.replaceState(null, "", u); }
+    } catch (e) {}
+  </script>
+</head>
+<body data-accent="glow" class="loading">
+  <script>
+    // тема ставиться одразу, ще до першого кадру, щоб заставка була в кольорах сайту
+    try { const t = localStorage.getItem("theme"); if (t === "orb" || t === "glow") document.body.dataset.accent = t; } catch (e) {}
+  </script>
+
+  <!-- Завантажувальний екран -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="ld-grid"></div>
+    <svg class="ld-logo" id="ld-logo" viewBox="0 0 377 244"><defs><filter id="ldGlow" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="22"/></filter></defs><path class="ld-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#ldGlow)"/><path data-o="4" class="ld-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path data-o="1" d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path data-o="2" d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path data-o="3" d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></svg>
+    <i class="ld-pen" id="ld-pen"></i>
+    <canvas class="ld-scope" id="ld-scope"></canvas>
+    <div class="ld-label" id="ld-label"></div>
+    <div class="ld-word"><i></i><span id="ld-word"></span><b class="ld-dots"><i></i><i></i><i></i></b></div>
+    <div class="ld-count"><span id="ld-count">0</span>%</div>
+  </div>
+
+  <div class="progress" id="progress"></div>
+
+  <nav class="nav" id="nav">
+    <div class="wrap">
+      <a href="#top" class="logo" aria-label="j13"><svg class="wm-ghost wm-ghost-y" viewBox="0 0 377 244" aria-hidden="true"><g fill="#fcee0a"><path d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-ghost wm-ghost-c" viewBox="0 0 377 244" aria-hidden="true"><g fill="#2b7fff"><path d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-ghost wm-slice" viewBox="0 0 377 244" aria-hidden="true"><g fill="currentColor"><path fill="#ff2a3a" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg><svg class="wm-implant" viewBox="0 0 377 244" aria-hidden="true"><defs><filter id="wmGlow" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="40"/></filter><filter id="wmGlow3" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="20"/></filter><filter id="wmGlow2" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="8"/></filter></defs><g><path class="wm-glow" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-glow wm-glow-x" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow)"/><path class="wm-glow wm-glow3" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow3)"/><path class="wm-glow wm-glow2" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z" filter="url(#wmGlow2)"/><path class="wm-dot" d="M188 57.5L226 11L182 14.5L142.5 65.5L188 57.5Z"/></g></svg><svg class="wordmark" viewBox="0 0 377 244" role="img" aria-label="j13"><g fill="currentColor"><path d="M132 88L171 94L75.9615 239.5H0V199.5H50.641L132 88Z"/><path d="M199.848 57.8908L288.5 7L124.796 240H84.5L179.196 92.8158L90 79L199.848 57.8908Z"/><path d="M296.834 6.5L376.5 0L306.5 139.5L301 244H131L171 185L240 212L261.5 144H199L233 97L272.5 117.5L313.5 44L253.5 67.5L280 29L296.834 6.5Z"/></g></svg></a>
+      <ul>
+        <li><a href="#projects" data-i18n="nav_projects">Проєкти</a></li>
+        <li><a href="#about" data-i18n="nav_about">Про нас</a></li>
+        <li><a href="#faq" data-i18n="nav_faq">Питання</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">Контакти</a></li>
+      </ul>
+      <div class="lang" id="lang" role="group" aria-label="Мова / Language">
+        <button data-l="uk">UA</button><button data-l="en">EN</button>
+      </div>
+      <div class="themes" id="themes" aria-label="Тема сайту">
+        <button data-v="glow" title="Ніч" aria-label="Ніч"></button>
+        <button data-v="orb" title="Сяйво" aria-label="Сяйво"></button>
+      </div>
+      <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><i></i><i></i></button>
+    </div>
+  </nav>
+
+  <!-- Мобільне меню -->
+  <div class="m-menu" id="m-menu" aria-hidden="true">
+    <div class="wrap">
+      <nav class="m-links">
+        <a href="#projects" data-i18n="nav_projects">Проєкти</a>
+        <a href="#about" data-i18n="nav_about">Про нас</a>
+        <a href="#experience" data-i18n="nav_exp">Досвід</a>
+        <a href="#faq" data-i18n="nav_faq">Питання</a>
+        <a href="#contact" data-i18n="nav_contact">Контакти</a>
+      </nav>
+      <div class="m-foot" id="m-foot"></div>
+    </div>
+  </div>
+
+  <!-- ============ ГОЛОВНА ============ -->
+  <div id="home">
+    <header class="hero" id="top">
+      <div class="orb"></div>
+      <div class="grid-bg"></div><div class="spot"></div>
+      <div class="wrap">
+        <span class="badge fade-in" style="--d:0s"><i></i><span id="available"></span></span>
+        <h1 id="headline"></h1>
+        <p class="intro fade-in" id="intro"></p>
+        <div class="meta fade-in" id="hero-meta">
+          <a href="#contact" class="btn primary magnet" data-i18n="btn_order">Замовити</a>
+          <a href="#projects" class="btn magnet" data-i18n="btn_work">Проєкти</a>
+        </div>
+      </div>
+    </header>
+
+    <div class="marquee"><div class="track" id="marquee"></div></div>
+
+    <section id="projects">
+      <div class="wrap">
+        <div class="sec-head reveal">
+          <h2 data-i18n="h_projects">Вибрані <span class="em">проєкти</span></h2>
+          <span id="projects-count"></span>
+        </div>
+        <div class="projects" id="projects-list"></div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap">
+        <div class="stats reveal" id="stats"></div>
+        <div class="about-grid">
+          <div class="reveal">
+            <span class="label" data-i18n="l_about">Про нас</span>
+            <p class="big" id="about-text"></p>
+          </div>
+          <div class="reveal">
+            <span class="label" data-i18n="l_skills">Навички та інструменти</span>
+            <div class="skills" id="skills"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="wrap">
+        <div class="sec-head reveal"><h2 data-i18n="h_exp">Досвід</h2></div>
+        <div class="timeline" id="timeline"></div>
+      </div>
+    </section>
+
+    <section id="demo">
+      <div class="wrap demo-grid">
+        <div class="demo-text reveal">
+          <h2 id="demo-h"></h2>
+          <p id="demo-p"></p>
+          <a href="#contact" class="btn primary magnet" id="demo-cta"></a>
+        </div>
+        <div class="demo-phone reveal" id="demo-phone" aria-live="polite">
+          <div class="dp-top"><i>j13</i><div><b id="demo-name"></b><small id="demo-online"></small></div></div>
+          <div class="dp-msgs" id="demo-msgs"></div>
+          <div class="dp-btns" id="demo-btns"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process">
+      <div class="wrap">
+        <div class="sec-head reveal"><h2 data-i18n="h_process">Як ми <span class="em">працюємо</span></h2></div>
+        <ol class="steps" id="steps"></ol>
+      </div>
+    </section>
+
+    <section id="reviews" hidden>
+      <div class="wrap">
+        <div class="sec-head reveal"><h2 data-i18n="h_reviews">Що кажуть <span class="em">клієнти</span></h2></div>
+        <div class="reviews" id="reviews-list"></div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="wrap faq-grid">
+        <div class="reveal">
+          <span class="label" data-i18n="l_faq">Питання</span>
+          <h2 class="faq-title" data-i18n="h_faq">Часті <span class="em">питання</span></h2>
+        </div>
+        <div class="faq-list" id="faq-list"></div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="wrap reveal">
+        <span class="label" data-i18n="l_contact">Контакти</span>
+        <h2 data-i18n="h_contact">Давайте зробимо<br><span class="em">щось класне</span></h2>
+        <a class="mail" id="mail"></a>
+        <div class="socials" id="socials"></div>
+        <p class="soon" id="contact-soon" hidden data-i18n="contact_soon">Контакти для замовлень з'являться тут зовсім скоро.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ СТОРІНКА ПРОЄКТУ ============ -->
+  <main id="project-page" hidden></main>
+
+  <footer><div class="wrap"><span id="foot-name"></span><button class="term-hint" id="term-hint" type="button" aria-label="Terminal"><kbd>~</kbd> terminal</button><span id="foot-loc"></span></div></footer>
+
+  <!-- Термінал-пасхалка: відкривається клавішею ~ -->
+  <div class="term" id="term" role="dialog" aria-label="j13 terminal" hidden>
+    <div class="term-bar"><i></i><i></i><i></i><span>guest@j13 — terminal</span><button type="button" class="term-x" id="term-x" aria-label="Close">×</button></div>
+    <div class="term-out" id="term-out"></div>
+    <label class="term-line"><span class="term-ps">guest@j13:~$</span><input id="term-in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="command"></label>
+  </div>
+
+  <!-- Курсор -->
+  <div class="cur" id="cur"><i class="cur-shape"></i><span class="cur-label" data-i18n="cur_view">Дивитись →</span></div>
+
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Кнопка «вгору» з кільцем прогресу прокрутки -->
+  <button class="to-top magnet" id="to-top" type="button" aria-label="Вгору">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><circle class="t" cx="24" cy="24" r="21"/><circle class="p" cx="24" cy="24" r="21" pathLength="1"/><path d="M24 31V17m-6 6 6-6 6 6"/></svg>
+  </button>
+
+  <script>
+    // ---- Мова сайту: ?lang= → збережений вибір → мова браузера ----
+    // HOME_LANG — «рідна» мова відвідувача (кнопка зліва в перемикачі), друга кнопка завжди EN.
+    (function () {
+      var SUP = ["uk", "en", "es", "de", "fr", "pl", "pt", "it"];
+      var norm = function (l) { l = String(l || "").toLowerCase().slice(0, 2); if (l === "ru" || l === "be") l = "uk"; return SUP.indexOf(l) >= 0 ? l : null; };
+      var list = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language];
+      var auto = null, home = null;
+      for (var i = 0; i < list.length; i++) { var m = norm(list[i]); if (m && !auto) auto = m; if (m && m !== "en" && !home) home = m; }
+      var q = norm(new URLSearchParams(location.search).get("lang")), saved = null, savedHome = null;
+      try { saved = norm(localStorage.getItem("lang")); savedHome = norm(localStorage.getItem("homeLang")); } catch (e) {}
+      var lang = q || saved || auto || "en";
+      home = (lang !== "en" ? lang : (savedHome || home)) || "uk";
+      try { localStorage.setItem("homeLang", home); } catch (e) {}
+      window.SITE_LANG = lang; window.HOME_LANG = home;
+      document.documentElement.lang = lang;
+      document.write('<script src="../' + (lang === "uk" ? "content.js" : "content-" + lang + ".js") + '?v=70"><\/script>');
+    })();
+  </script>
+  <script>
+    // ---- Мова сайту: збережений вибір → ?lang= → мова браузера ----
+    const LANG = window.SITE_LANG, HOME = window.HOME_LANG;
+    const NATIVE = {"uk": ["UA", "УКРАЇНСЬКА"], "en": ["EN", "ENGLISH"], "es": ["ES", "ESPAÑOL"], "de": ["DE", "DEUTSCH"], "fr": ["FR", "FRANÇAIS"], "pl": ["PL", "POLSKI"], "pt": ["PT", "PORTUGUÊS"], "it": ["IT", "ITALIANO"]};
+    var site = { uk: () => site_uk, en: () => site_en, es: () => site_es, de: () => site_de, fr: () => site_fr, pl: () => site_pl, pt: () => site_pt, it: () => site_it }[LANG]();
+    site = JSON.parse(JSON.stringify(site).replace(/"(images\/|klavogin\/)/g, '"../$1'));
+
+    // Тексти інтерфейсу (заголовки, кнопки). Тексти про тебе — у content.js / content-en.js
+    const I18N = {
+      uk: {
+        nav_projects: "Проєкти", nav_about: "Про нас", nav_exp: "Досвід", nav_faq: "Питання", nav_contact: "Контакти",
+        btn_order: "Замовити", btn_work: "Проєкти",
+        h_projects: 'Вибрані <span class="em">проєкти</span>', projects_word: " проєкти · ",
+        l_about: "Про нас", l_skills: "Навички та інструменти", contact_soon: "Контакти для замовлень з'являться тут зовсім скоро.", to_top: "Вгору", tab_away: "▮ сигнал втрачено · j13", tab_back: "◉ з'єднання є · j13", h_exp: "Досвід", h_process: 'Як ми <span class="em">працюємо</span>',
+        h_reviews: 'Що кажуть <span class="em">клієнти</span>',
+        l_faq: "Питання", h_faq: 'Часті <span class="em">питання</span>',
+        l_contact: "Контакти", h_contact: 'Давайте зробимо<br><span class="em">щось класне</span>',
+        cur_view: "Дивитись →", more: "Детальніше", back: "← Усі проєкти", open: "Відкрити проєкт ↗",
+        task: "Задача", solution: "Рішення", result: "Результат",
+        features: 'Що <span class="em">вміє</span>', next: "Наступний проєкт",
+        toast_secret: "🎉 Ти знайшов секретну тему!", toast_back: "Повернулись у звичайний світ 👋",
+        themes: ["Ніч", "Сяйво"], loading: "Завантаження",
+        chat: ["Привіт! Хочу забронювати столик на вечір 🙌", "Звісно! На скільки осіб і о котрій?", "Нас 4, о 19:00",
+               "Готово ✅ Чекаємо вас о 19:00. Нагадаю за годину!", "Змінити час", "Скасувати"]
+      },
+      en: {
+        nav_projects: "Projects", nav_about: "About", nav_exp: "Experience", nav_faq: "FAQ", nav_contact: "Contact",
+        btn_order: "Order", btn_work: "Projects",
+        h_projects: 'Selected <span class="em">projects</span>', projects_word: " projects · ",
+        l_about: "About us", l_skills: "Skills and tools", contact_soon: "Contacts for orders will appear here very soon.", to_top: "Back to top", tab_away: "▮ signal lost · j13", tab_back: "◉ connected · j13", h_exp: "Experience", h_process: 'How we <span class="em">work</span>',
+        h_reviews: 'What <span class="em">clients</span> say',
+        l_faq: "FAQ", h_faq: 'Common <span class="em">questions</span>',
+        l_contact: "Contact", h_contact: 'Let\'s build<br><span class="em">something great</span>',
+        cur_view: "View →", more: "Learn more", back: "← All projects", open: "Open project ↗",
+        task: "Challenge", solution: "Solution", result: "Result",
+        features: 'What it <span class="em">does</span>', next: "Next project",
+        toast_secret: "🎉 You found the secret theme!", toast_back: "Back to the normal world 👋",
+        themes: ["Night", "Aurora"], loading: "Loading",
+        chat: ["Hi! I'd like to book a table for tonight 🙌", "Sure! For how many people and what time?", "4 of us, at 7 pm",
+               "Done ✅ See you at 7 pm. I'll remind you an hour before!", "Change time", "Cancel"]
+      },
+      es: { nav_projects: "Proyectos", nav_about: "Nosotros", nav_exp: "Experiencia", nav_faq: "Preguntas", nav_contact: "Contacto", btn_order: "Encargar", btn_work: "Proyectos", h_projects: "Proyectos <span class=\"em\">destacados</span>", projects_word: " proyectos · ", l_about: "Sobre nosotros", l_skills: "Habilidades y herramientas", contact_soon: "Los contactos para pedidos aparecerán aquí muy pronto.", to_top: "Arriba", tab_away: "▮ señal perdida · j13", tab_back: "◉ conectado · j13", h_exp: "Experiencia", h_process: "Cómo <span class=\"em\">trabajamos</span>", h_reviews: "Qué dicen los <span class=\"em\">clientes</span>", l_faq: "Preguntas", h_faq: "Preguntas <span class=\"em\">frecuentes</span>", l_contact: "Contacto", h_contact: "Hagamos<br><span class=\"em\">algo genial</span>", cur_view: "Ver →", more: "Saber más", back: "← Todos los proyectos", open: "Abrir proyecto ↗", task: "Reto", solution: "Solución", result: "Resultado", features: "Qué <span class=\"em\">hace</span>", next: "Siguiente proyecto", toast_secret: "🎉 ¡Has encontrado el tema secreto!", toast_back: "De vuelta al mundo normal 👋", themes: ["Noche", "Aurora"], loading: "Cargando", chat: ["¡Hola! Quiero reservar mesa para esta noche 🙌", "¡Claro! ¿Para cuántas personas y a qué hora?", "Somos 4, a las 19:00", "Listo ✅ Os esperamos a las 19:00. ¡Te lo recuerdo una hora antes!", "Cambiar hora", "Cancelar"] },
+      de: { nav_projects: "Projekte", nav_about: "Über uns", nav_exp: "Erfahrung", nav_faq: "Fragen", nav_contact: "Kontakt", btn_order: "Bestellen", btn_work: "Projekte", h_projects: "Ausgewählte <span class=\"em\">Projekte</span>", projects_word: " Projekte · ", l_about: "Über uns", l_skills: "Skills und Tools", contact_soon: "Kontakte für Bestellungen erscheinen hier schon sehr bald.", to_top: "Nach oben", tab_away: "▮ Signal verloren · j13", tab_back: "◉ verbunden · j13", h_exp: "Erfahrung", h_process: "Wie wir <span class=\"em\">arbeiten</span>", h_reviews: "Was <span class=\"em\">Kunden</span> sagen", l_faq: "Fragen", h_faq: "Häufige <span class=\"em\">Fragen</span>", l_contact: "Kontakt", h_contact: "Lass uns<br><span class=\"em\">etwas Großes bauen</span>", cur_view: "Ansehen →", more: "Mehr erfahren", back: "← Alle Projekte", open: "Projekt öffnen ↗", task: "Aufgabe", solution: "Lösung", result: "Ergebnis", features: "Was es <span class=\"em\">kann</span>", next: "Nächstes Projekt", toast_secret: "🎉 Du hast das geheime Theme gefunden!", toast_back: "Zurück in der normalen Welt 👋", themes: ["Nacht", "Polarlicht"], loading: "Laden", chat: ["Hallo! Ich möchte für heute Abend einen Tisch reservieren 🙌", "Gern! Für wie viele Personen und um wie viel Uhr?", "Wir sind 4, um 19 Uhr", "Erledigt ✅ Wir erwarten euch um 19 Uhr. Ich erinnere eine Stunde vorher!", "Zeit ändern", "Stornieren"] },
+      fr: { nav_projects: "Projets", nav_about: "À propos", nav_exp: "Expérience", nav_faq: "Questions", nav_contact: "Contact", btn_order: "Commander", btn_work: "Projets", h_projects: "Projets <span class=\"em\">choisis</span>", projects_word: " projets · ", l_about: "À propos de nous", l_skills: "Compétences et outils", contact_soon: "Les contacts pour commander apparaîtront ici très bientôt.", to_top: "Haut de page", tab_away: "▮ signal perdu · j13", tab_back: "◉ connecté · j13", h_exp: "Expérience", h_process: "Comment nous <span class=\"em\">travaillons</span>", h_reviews: "Ce que disent nos <span class=\"em\">clients</span>", l_faq: "Questions", h_faq: "Questions <span class=\"em\">fréquentes</span>", l_contact: "Contact", h_contact: "Créons ensemble<br><span class=\"em\">quelque chose de génial</span>", cur_view: "Voir →", more: "En savoir plus", back: "← Tous les projets", open: "Ouvrir le projet ↗", task: "Défi", solution: "Solution", result: "Résultat", features: "Ce qu'il <span class=\"em\">fait</span>", next: "Projet suivant", toast_secret: "🎉 Tu as trouvé le thème secret !", toast_back: "Retour au monde normal 👋", themes: ["Nuit", "Aurore"], loading: "Chargement", chat: ["Bonjour ! Je voudrais réserver une table pour ce soir 🙌", "Bien sûr ! Pour combien de personnes et à quelle heure ?", "Nous sommes 4, à 19 h", "C'est fait ✅ On vous attend à 19 h. Je vous le rappelle une heure avant !", "Changer l'heure", "Annuler"] },
+      pl: { nav_projects: "Projekty", nav_about: "O nas", nav_exp: "Doświadczenie", nav_faq: "Pytania", nav_contact: "Kontakt", btn_order: "Zamów", btn_work: "Projekty", h_projects: "Wybrane <span class=\"em\">projekty</span>", projects_word: " projekty · ", l_about: "O nas", l_skills: "Umiejętności i narzędzia", contact_soon: "Kontakty do zamówień pojawią się tu już wkrótce.", to_top: "Do góry", tab_away: "▮ utracono sygnał · j13", tab_back: "◉ połączono · j13", h_exp: "Doświadczenie", h_process: "Jak <span class=\"em\">pracujemy</span>", h_reviews: "Co mówią <span class=\"em\">klienci</span>", l_faq: "Pytania", h_faq: "Częste <span class=\"em\">pytania</span>", l_contact: "Kontakt", h_contact: "Zróbmy razem<br><span class=\"em\">coś świetnego</span>", cur_view: "Zobacz →", more: "Więcej", back: "← Wszystkie projekty", open: "Otwórz projekt ↗", task: "Zadanie", solution: "Rozwiązanie", result: "Efekt", features: "Co <span class=\"em\">potrafi</span>", next: "Następny projekt", toast_secret: "🎉 Znalazłeś sekretny motyw!", toast_back: "Powrót do zwykłego świata 👋", themes: ["Noc", "Zorza"], loading: "Ładowanie", chat: ["Cześć! Chcę zarezerwować stolik na wieczór 🙌", "Jasne! Na ile osób i na którą?", "Będzie nas 4, na 19:00", "Gotowe ✅ Czekamy o 19:00. Przypomnę godzinę wcześniej!", "Zmień godzinę", "Anuluj"] },
+      pt: { nav_projects: "Projetos", nav_about: "Sobre nós", nav_exp: "Experiência", nav_faq: "Perguntas", nav_contact: "Contacto", btn_order: "Encomendar", btn_work: "Projetos", h_projects: "Projetos <span class=\"em\">escolhidos</span>", projects_word: " projetos · ", l_about: "Sobre nós", l_skills: "Competências e ferramentas", contact_soon: "Os contactos para encomendas vão aparecer aqui muito em breve.", to_top: "Topo", tab_away: "▮ sinal perdido · j13", tab_back: "◉ ligado · j13", h_exp: "Experiência", h_process: "Como <span class=\"em\">trabalhamos</span>", h_reviews: "O que dizem os <span class=\"em\">clientes</span>", l_faq: "Perguntas", h_faq: "Perguntas <span class=\"em\">frequentes</span>", l_contact: "Contacto", h_contact: "Vamos criar<br><span class=\"em\">algo incrível</span>", cur_view: "Ver →", more: "Saber mais", back: "← Todos os projetos", open: "Abrir projeto ↗", task: "Desafio", solution: "Solução", result: "Resultado", features: "O que <span class=\"em\">faz</span>", next: "Próximo projeto", toast_secret: "🎉 Encontraste o tema secreto!", toast_back: "De volta ao mundo normal 👋", themes: ["Noite", "Aurora"], loading: "A carregar", chat: ["Olá! Quero reservar uma mesa para hoje à noite 🙌", "Claro! Para quantas pessoas e a que horas?", "Somos 4, às 19:00", "Feito ✅ Esperamos por vocês às 19:00. Lembro uma hora antes!", "Mudar hora", "Cancelar"] },
+      it: { nav_projects: "Progetti", nav_about: "Chi siamo", nav_exp: "Esperienza", nav_faq: "Domande", nav_contact: "Contatti", btn_order: "Ordina", btn_work: "Progetti", h_projects: "Progetti <span class=\"em\">scelti</span>", projects_word: " progetti · ", l_about: "Chi siamo", l_skills: "Competenze e strumenti", contact_soon: "I contatti per gli ordini appariranno qui molto presto.", to_top: "Torna su", tab_away: "▮ segnale perso · j13", tab_back: "◉ connesso · j13", h_exp: "Esperienza", h_process: "Come <span class=\"em\">lavoriamo</span>", h_reviews: "Cosa dicono i <span class=\"em\">clienti</span>", l_faq: "Domande", h_faq: "Domande <span class=\"em\">frequenti</span>", l_contact: "Contatti", h_contact: "Creiamo insieme<br><span class=\"em\">qualcosa di grande</span>", cur_view: "Vedi →", more: "Scopri di più", back: "← Tutti i progetti", open: "Apri progetto ↗", task: "Sfida", solution: "Soluzione", result: "Risultato", features: "Cosa <span class=\"em\">fa</span>", next: "Progetto successivo", toast_secret: "🎉 Hai trovato il tema segreto!", toast_back: "Di nuovo nel mondo normale 👋", themes: ["Notte", "Aurora"], loading: "Caricamento", chat: ["Ciao! Vorrei prenotare un tavolo per stasera 🙌", "Certo! Per quante persone e a che ora?", "Siamo in 4, alle 19:00", "Fatto ✅ Vi aspettiamo alle 19:00. Ve lo ricordo un'ora prima!", "Cambia orario", "Annulla"] }
+    };
+    const T = I18N[LANG];
+    document.documentElement.lang = LANG;
+    document.querySelectorAll("[data-i18n]").forEach(el => { if (T[el.dataset.i18n] != null) el.innerHTML = T[el.dataset.i18n]; });
+    document.querySelectorAll("#themes button").forEach((b, i) => { b.title = T.themes[i]; b.setAttribute("aria-label", T.themes[i]); });
+    // перемикач: рідна мова відвідувача ↔ англійська
+    document.getElementById("lang").innerHTML = `<button data-l="${HOME}" title="${NATIVE[HOME][1]}">${NATIVE[HOME][0]}</button><button data-l="en" title="ENGLISH">EN</button>`;
+    document.querySelectorAll("#lang button").forEach(b => {
+      b.classList.toggle("on", b.dataset.l === LANG);
+      b.onclick = () => {
+        if (b.dataset.l === LANG) return;
+        try { localStorage.setItem("lang", b.dataset.l); sessionStorage.setItem("keepScroll", scrollY); sessionStorage.setItem("drawLang", b.dataset.l); } catch (e) {}
+        // екран «вмикається» як кінескоп і закриває сторінку, потім перезавантаження — і нова мова з'являється з того ж екрана
+        const cover = document.createElement("div"); cover.className = "crt-cover";
+        cover.innerHTML = "";
+        document.body.appendChild(cover);
+        document.documentElement.classList.add("loader-active");
+        setTimeout(() => {
+          const u = new URL(location.href); u.searchParams.delete("lang"); u.searchParams.delete("intro"); u.hash = "";
+          if (u.toString() === location.href.split("#")[0] || u.toString() === location.href) location.reload();
+          else location.replace(u.toString());
+        }, 520);
+      };
+    });
+  </script>
+  <script>
+    // ---- Збирає сторінку з content.js (тут нічого міняти не треба) ----
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    const pad = i => String(i + 1).padStart(2, "0");
+    const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    $("available").textContent = site.available;
+    $("intro").textContent = site.tagline || ""; if (!site.tagline) $("intro").hidden = true;
+    $("about-text").textContent = site.intro;
+    $("foot-name").textContent = "© " + new Date().getFullYear() + " " + site.name;
+    $("foot-loc").textContent = site.location;
+    // правильна форма слова «проєкт» для кожної мови (1 проєкт, 3 проєкти, 5 проєктів…)
+    const PW = { uk: { one: "проєкт", few: "проєкти", many: "проєктів" }, en: { one: "project", other: "projects" },
+      es: { one: "proyecto", other: "proyectos" }, de: { one: "Projekt", other: "Projekte" }, fr: { one: "projet", other: "projets" },
+      pl: { one: "projekt", few: "projekty", many: "projektów" }, pt: { one: "projeto", other: "projetos" }, it: { one: "progetto", other: "progetti" } }[LANG];
+    const nP = site.projects.length, form = new Intl.PluralRules(LANG).select(nP);
+    $("projects-count").textContent = nP + " " + (PW[form] || PW.other || PW.many) + " · " + site.role;
+
+    // Анімований заголовок: кожне слово виїжджає знизу по черзі
+    const words = site.headline.split(" ");
+    $("headline").innerHTML = words.map((w, i) => `<span class="w"><span style="--i:${i}">${esc(w)}</span></span>`).join(" ");
+    const afterTitle = (words.length * 70 + 500) / 1000;
+    $("intro").style.setProperty("--d", afterTitle + "s");
+    $("hero-meta").style.setProperty("--d", (afterTitle + .15) + "s");
+
+    // Біжучий рядок
+    const mq = (site.marquee || []).map(m => {
+      const t = typeof m === "string" ? { text: m } : m;
+      const p = t.project && site.projects.find(x => x.slug === t.project);
+      return (p ? `<a href="#p-${esc(p.slug)}" title="${esc(p.title)}">${esc(t.text)}</a>` : `<span>${esc(t.text)}</span>`) + `<i>✦</i>`;
+    }).join("");
+    $("marquee").innerHTML = [mq, mq, mq, mq].map((h, k) => k ? h.replace(/<a /g, '<a tabindex="-1" ') : h).join("");
+
+    // Лічильники
+    $("stats").innerHTML = (site.stats || []).map(s => `
+      <div class="stat"><div class="n"><span data-to="${+s.value}">0</span><em>${esc(s.suffix)}</em></div>
+      <p>${esc(s.label)}</p></div>`).join("");
+
+    const mock = `<div class="mock"><div class="win"><div class="bar"><i></i><i></i><i></i></div>
+      <div class="body"><div class="side"><b></b><b></b><b style="width:70%"></b><b></b></div>
+      <div class="main"><b style="width:45%;height:12px"></b><div class="cards"><div></div><div></div><div></div></div>
+      <div class="chart"></div><b></b><b style="width:80%"></b></div></div></div></div>`;
+
+    const chatMock = `<div class="mock"><div class="phone"><div class="ph-top"><i></i><div><b></b><b style="width:50%"></b></div></div>
+      <div class="msgs"><div class="m in">${T.chat[0]}</div>
+      <div class="m out">${T.chat[1]}</div>
+      <div class="m in">${T.chat[2]}</div>
+      <div class="m out">${T.chat[3]}</div>
+      <div class="btns"><span>${T.chat[4]}</span><span>${T.chat[5]}</span></div></div></div></div>`;
+
+    // скріншот показуємо у «вікні браузера» на тому ж кольоровому фоні, що й заглушки
+    const shot = p => `<div class="mock"><div class="win shot"><div class="bar"><i></i><i></i><i></i><span class="addr">${esc(p.title)}</span></div>
+      <img src="${esc(p.image)}" alt="${esc(p.title)}" loading="lazy" decoding="async"></div></div>`;
+    // заглушка для гри: телефон з ігровим екраном
+    const gameMock = `<div class="mock"><div class="phone game"><div class="gm-screen">
+      <div class="gm-hud"><span>★ 1 280</span><span class="gm-lives"><i></i><i></i><i></i></span></div>
+      <div class="gm-stars"></div>
+      <div class="gm-coin c1"></div><div class="gm-coin c2"></div><div class="gm-coin c3"></div>
+      <div class="gm-hero"><i></i></div>
+      <div class="gm-plat p1"></div><div class="gm-plat p2"></div><div class="gm-plat p3"></div>
+      <div class="gm-play">▶</div>
+    </div></div></div>`;
+    // заглушка для Plai: екран «Сьогодні» в стилі iOS + іконка застосунку
+    const PL = {"uk": ["Сьогодні", "кроків", "Біг", "Сон", "Готовність"], "en": ["Today", "steps", "Run", "Sleep", "Readiness"], "es": ["Hoy", "pasos", "Carrera", "Sueño", "Preparación"], "de": ["Heute", "Schritte", "Lauf", "Schlaf", "Bereitschaft"], "fr": ["Aujourd'hui", "pas", "Course", "Sommeil", "Forme"], "pl": ["Dziś", "kroków", "Bieg", "Sen", "Gotowość"], "pt": ["Hoje", "passos", "Corrida", "Sono", "Prontidão"], "it": ["Oggi", "passi", "Corsa", "Sonno", "Prontezza"]}[LANG] || ["Today", "steps", "Run", "Sleep", "Readiness"];
+    const plaiMock = `<div class="mock"><div class="plai-wrap">
+      <div class="plai-icon" aria-hidden="true"></div>
+      <div class="phone plai"><div class="pl-screen">
+        <div class="pl-h">${PL[0]}</div>
+        <div class="pl-card pl-steps"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18"/><circle class="v" cx="22" cy="22" r="18" pathLength="100"/></svg>
+          <div><b>8 432</b><small>${PL[1]}</small></div></div>
+        <div class="pl-card pl-run"><div class="pl-map"><svg viewBox="0 0 120 50" preserveAspectRatio="none"><path d="M6 40 C 22 10, 38 44, 54 22 S 84 6, 96 26 S 112 38, 116 12"/></svg></div>
+          <div class="pl-row"><span>🏃 ${PL[2]}</span><b>5,2 km</b></div></div>
+        <div class="pl-duo"><div class="pl-card"><small>🌙 ${PL[3]}</small><b>86</b></div><div class="pl-card"><small>⚡ ${PL[4]}</small><b>72</b></div></div>
+        <div class="pl-tabs"><i class="on"></i><i></i><i></i><i></i></div>
+      </div></div>
+    </div></div>`;
+    // готель: справжні скріни — ПК рецепції в рамці браузера + телефон покоївки поверх
+    const hotelMock = p => { const g = p.details.gallery || [], d = g.find(x => x.kind === "desk"), ph = g.find(x => x.kind === "phone");
+      return `<div class="mock duo"><div class="win shot duo-desk"><div class="bar"><i></i><i></i><i></i><span class="addr">${esc(p.title)}</span></div>
+        <img src="${esc(d.src)}" alt="${esc(d.cap)}" loading="lazy" decoding="async"></div>
+        <div class="duo-phone"><img src="${esc(ph.src)}" alt="${esc(ph.cap)}" loading="lazy" decoding="async"></div></div>`; };
+    // кілька справжніх екранів телефона віялом
+    const phonesMock = p => { const g = (p.details.gallery || []).filter(x => x.kind === "phone").slice(0, 3);
+      return `<div class="mock fan fan-${g.length}">${g.map((x, i) => `<div class="fan-ph f${i}"><img src="${esc(x.src)}" alt="${esc(x.cap || "")}" loading="lazy" decoding="async"></div>`).join("")}</div>`; };
+    const visual = p => p.image ? shot(p) : (p.mock === "chat" ? chatMock : p.mock === "game" ? gameMock : p.mock === "plai" ? plaiMock : (p.mock === "hotel" || p.mock === "duo") ? hotelMock(p) : p.mock === "phones" ? phonesMock(p) : mock);
+    const pills = (p, i) => `
+      <span class="num">${pad(i)}</span>
+      <span class="pill ${p.live || p.status === 'в розробці' ? 'live' : ''}">${esc(p.status)}</span>
+      <span class="pill">${esc(p.year)}</span>`;
+
+    $("projects-list").innerHTML = site.projects.map((p, i) => `
+      <a class="project reveal" href="#p-${esc(p.slug)}">
+        <div class="info">
+          <div class="row">${pills(p, i)}</div>
+          <h3>${esc(p.title)}</h3>
+          <p>${esc(p.description)}</p>
+          <span class="more">${T.more} <b>→</b></span>
+          <div class="tags">${(p.tech || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+        </div>
+        <div class="visual">${visual(p)}</div>
+      </a>`).join('');
+
+    $("skills").innerHTML = site.skills.map(s => `<span>${esc(s)}</span>`).join('');
+
+    $("timeline").innerHTML = site.experience.map(e => `
+      <div class="tl-row reveal"><span class="p">${esc(e.period)}</span>
+      <span class="t">${esc(e.title)}</span><span class="pl">${esc(e.place)}</span></div>`).join('');
+
+    // Відгуки (секція з'являється, тільки коли є хоч один)
+    if ((site.testimonials || []).length) {
+      $("reviews").hidden = false;
+      $("reviews-list").innerHTML = site.testimonials.map(t => `
+        <figure class="review reveal"><span class="q">“</span>
+          <blockquote>${esc(t.text)}</blockquote>
+          <figcaption><b>${esc(t.name)}</b><span>${esc(t.role)}</span></figcaption></figure>`).join('');
+    }
+
+    // Як ми працюємо
+    $("steps").innerHTML = (site.process || []).map((s, i) => `
+      <li class="step reveal" style="transition-delay:${i * .08}s"><span class="step-n">0${i + 1}</span><h3>${esc(s.title)}</h3><p>${esc(s.text)}</p></li>`).join('');
+    if (!(site.process || []).length) $("process").hidden = true;
+
+    // FAQ
+    $("faq-list").innerHTML = (site.faq || []).map(f => `
+      <details class="qa reveal"><summary>${esc(f.q)}<i></i></summary><div class="a"><p>${esc(f.a)}</p></div></details>`).join('');
+
+    // Контакти: заглушки (example.com, посилання без імені користувача) не показуємо
+    const c = Object.assign({}, site.contacts);
+    const realUrl = u => { try { return new URL(u).pathname.replace(/\/+$/, "").length > 1; } catch (e) { return false; } };
+    ["github", "linkedin", "telegram"].forEach(k => { if (!realUrl(c[k])) c[k] = ""; });
+    if (!c.email || /@example\./i.test(c.email)) c.email = "";
+    $("mail").textContent = c.email; $("mail").href = "mailto:" + c.email; $("mail").hidden = !c.email;
+    $("socials").innerHTML = [["GitHub", c.github], ["LinkedIn", c.linkedin], ["Telegram", c.telegram]]
+      .filter(([, u]) => u).map(([n, u]) => `<a class="btn magnet" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${n} ↗</a>`).join('');
+
+    $("contact-soon").hidden = !!(c.email || c.github || c.linkedin || c.telegram);
+
+    // ---- Мобільне меню ----
+    $("m-foot").innerHTML = (c.email ? `<a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : "") +
+      [["GitHub", c.github], ["LinkedIn", c.linkedin], ["Telegram", c.telegram]].filter(([, u]) => u)
+        .map(([n, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${n} ↗</a>`).join("");
+    function setMenu(open) {
+      document.body.classList.toggle("menu-open", open);
+      $("burger").setAttribute("aria-expanded", open);
+      $("m-menu").setAttribute("aria-hidden", !open);
+    }
+    $("burger").onclick = () => setMenu(!document.body.classList.contains("menu-open"));
+    document.querySelectorAll("#m-menu a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+    addEventListener("keydown", e => e.key === "Escape" && setMenu(false));
+
+    // ---- Сторінка окремого проєкту ----
+    function renderProject(p, i) {
+      const d = p.details || {};
+      const next = site.projects[(i + 1) % site.projects.length];
+      $("project-page").innerHTML = `
+        <section class="pp">
+          <div class="wrap">
+            <a href="#projects" class="back">${T.back}</a>
+            <div class="row reveal">${pills(p, i)}</div>
+            <h1 class="pp-title reveal">${esc(p.title)}</h1>
+            <p class="pp-lead reveal">${esc(p.description)}</p>
+            <div class="row reveal" style="margin-top:28px">
+              <div class="tags" style="padding:0;margin:0">${(p.tech || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+              ${p.link ? `<a class="btn primary magnet" href="${esc(p.link)}" target="_blank" rel="noopener noreferrer">${T.open}</a>` : ''}
+            </div>
+            <div class="pp-visual reveal">${visual(p)}</div>
+
+            <div class="pp-story">
+              ${[[T.task, d.task], [T.solution, d.solution], [T.result, d.result]].filter(([, t]) => t).map(([h, t], k) => `
+                <div class="reveal"><span class="label">${pad(k)} — ${h}</span><p>${esc(t)}</p></div>`).join('')}
+            </div>
+
+            ${(d.features || []).length ? `
+              <div class="sec-head reveal" style="margin-top:110px"><h2>${T.features}</h2></div>
+              <div class="features">${d.features.map(f => `<div class="feat reveal"><i>✦</i>${esc(f)}</div>`).join('')}</div>` : ''}
+
+            ${(d.gallery || []).length ? `
+              <div class="shots reveal"><div class="shots-track" tabindex="0">${d.gallery.map((g, i) => { g = typeof g === "string" ? { src: g, kind: "desk", cap: "" } : g;
+                return `<figure class="shot-item ${g.kind === "phone" ? "is-phone" : "is-desk"}"><button type="button" class="shot-frame" data-zoom="${i}">
+                  ${g.kind === "phone" ? "" : `<span class="bar"><i></i><i></i><i></i></span>`}<img src="${esc(g.src)}" alt="${esc(g.cap || "")}" loading="lazy" decoding="async"></button>
+                  ${g.cap ? `<figcaption>${esc(g.cap)}</figcaption>` : ""}</figure>`; }).join('')}</div>
+                <div class="shots-nav"><button type="button" class="shots-prev magnet" aria-label="←">←</button><button type="button" class="shots-next magnet" aria-label="→">→</button></div></div>` : ''}
+
+            <a class="next reveal" href="#p-${esc(next.slug)}">
+              <span class="label">${T.next}</span>
+              <span class="nt">${esc(next.title)} <b>→</b></span>
+            </a>
+          </div>
+        </section>`;
+      observeReveal($("project-page"));
+    }
+
+    // ---- Навігація між головною і сторінками проєктів ----
+    function route() {
+      const h = location.hash.slice(1);
+      const i = site.projects.findIndex(p => "p-" + p.slug === h);
+      const page = i >= 0 ? $("project-page") : $("home");
+      if (i >= 0) {
+        $("home").hidden = true; $("project-page").hidden = false;
+        renderProject(site.projects[i], i);
+        document.title = site.projects[i].title + " — " + site.name;
+        scrollTo(0, 0);
+      } else {
+        const wasHidden = $("home").hidden;
+        $("home").hidden = false; $("project-page").hidden = true;
+        document.title = site.name + " — " + site.role;
+        const el = h && document.getElementById(h);
+        if (el && wasHidden) requestAnimationFrame(() => el.scrollIntoView());
+        if (!wasHidden) return;
+      }
+      page.classList.remove("page-in"); void page.offsetWidth; page.classList.add("page-in");
+    }
+    document.addEventListener("click", e => {
+      const a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a || a.matches("a.project, .marquee a, .next")) return;
+      const id = a.getAttribute("href").slice(1);
+      if (!id || id.startsWith("p-")) return;
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      const fromProject = !$("home").hidden ? false : true;
+      if (fromProject) { $("home").hidden = false; $("project-page").hidden = true; document.title = site.name + " — " + site.role; history.replaceState(null, "", location.pathname + location.search); }
+      if (id === "top") scrollTo({ top: 0, behavior: fromProject ? "auto" : "smooth" });
+      else target.scrollIntoView({ behavior: fromProject ? "auto" : "smooth" });
+    });
+    // плавний перехід між сторінками: екран коротко «гасне», підміняється вміст, потім проявляється
+    const curtain = document.createElement("div"); curtain.className = "curtain"; document.body.appendChild(curtain);
+    const resetCards = () => document.querySelectorAll(".project.tilting").forEach(c => { c.classList.remove("tilting"); c.style.transform = ""; });
+    let switching = 0;
+    addEventListener("hashchange", () => {
+      $("cur").classList.remove("view", "hover"); resetCards();
+      const toProject = /^#p-/.test(location.hash), fromProject = !$("project-page").hidden;
+      if (morphing) { morphing = false; return route(); }
+      if ((!toProject && !fromProject) || matchMedia("(prefers-reduced-motion: reduce)").matches) return route();
+      const my = ++switching;
+      curtain.classList.add("on");
+      setTimeout(() => { if (my !== switching) return; route(); requestAnimationFrame(() => requestAnimationFrame(() => curtain.classList.remove("on"))); }, 230);
+    });
+
+    // Перехід: картка «розкривається» — її форма плавно росте на весь екран, під нею підміняється сторінка
+    let morphing = false;
+    document.addEventListener("click", e => {
+      const card = e.target.closest("a.project");
+      if (!card || e.metaKey || e.ctrlKey || e.shiftKey || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      e.preventDefault(); resetCards();
+      const r = card.getBoundingClientRect(), W = innerWidth, H = innerHeight;
+      const ov = document.createElement("div"); ov.className = "morph";
+      ov.style.clipPath = `inset(${r.top}px ${W - r.right}px ${H - r.bottom}px ${r.left}px round 22px)`;
+      document.body.appendChild(ov); ov.getBoundingClientRect();
+      ov.classList.add("grow"); ov.style.clipPath = "inset(0px 0px 0px 0px round 0px)";
+      setTimeout(() => {
+        morphing = true; location.hash = card.getAttribute("href");
+        requestAnimationFrame(() => requestAnimationFrame(() => { ov.classList.add("out"); setTimeout(() => ov.remove(), 450); }));
+      }, 380);
+    });
+
+    // ---- Теми ----
+    const THEMES = ["orb", "glow"];   // «Помаранч» прибрали — збережений вибір перейде на «Сяйво»
+    let theme = "glow";
+    function setTheme(v, save = true) {
+      theme = v; document.body.dataset.accent = v;
+      const tc = document.querySelector('meta[name="theme-color"]');
+      if (tc) tc.content = getComputedStyle(document.body).getPropertyValue("--bg").trim() || "#f6f5f1";
+      document.querySelectorAll("#themes button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+      if (save) try { localStorage.setItem("theme", v); } catch (e) {}
+    }
+    document.querySelectorAll("#themes button").forEach(b => b.onclick = () => setTheme(b.dataset.v));
+    let saved = "glow"; try { saved = localStorage.getItem("theme") || "glow"; } catch (e) {}
+    const q = new URLSearchParams(location.search).get("theme");
+    setTheme(THEMES.includes(q) ? q : (THEMES.includes(saved) ? saved : "glow"), false);
+
+    // ---- Пасхалка: ↑ ↑ ↓ ↓ ← → ← → B A ----
+    const KONAMI = ["arrowup","arrowup","arrowdown","arrowdown","arrowleft","arrowright","arrowleft","arrowright","b","a"];
+    let kpos = 0, beforeSecret = "glow";
+    addEventListener("keydown", e => {
+      const k = e.key.toLowerCase(), want = KONAMI[kpos];
+      kpos = (k === want || (want === "b" && k === "и") || (want === "a" && k === "ф")) ? kpos + 1 : (k === KONAMI[0] ? 1 : 0);
+      if (kpos < KONAMI.length) return;
+      kpos = 0;
+      if (theme === "secret") { setTheme(beforeSecret, false); toast(T.toast_back); return; }
+      beforeSecret = theme; setTheme("secret", false);
+      toast(T.toast_secret); confetti();
+    });
+    function toast(msg) {
+      const t = $("toast"); t.textContent = msg; t.classList.add("show");
+      clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 2600);
+    }
+    function confetti() {
+      const colors = ["#ff2fd0", "#00e5ff", "#ffe600", "#7c4dff", "#00ff9c"];
+      for (let i = 0; i < 90; i++) {
+        const s = document.createElement("i"); s.className = "confetti";
+        s.style.left = Math.random() * 100 + "vw";
+        s.style.background = colors[i % colors.length];
+        s.style.setProperty("--dx", (Math.random() * 200 - 100) + "px");
+        s.style.setProperty("--r", (Math.random() * 720 - 360) + "deg");
+        s.style.animationDuration = (1.8 + Math.random() * 1.6) + "s";
+        s.style.animationDelay = Math.random() * .4 + "s";
+        document.body.appendChild(s); setTimeout(() => s.remove(), 4000);
+      }
+    }
+
+    // ---- «Кібер-імплант»: крапка над j час від часу збоїть і мерехтить ----
+    document.querySelectorAll(".logo").forEach(function implant(logo, n) {
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const glitch = () => {
+        let n = 2 + Math.floor(Math.random() * 4), i = 0;
+        (function step() {
+          logo.classList.toggle("glitch");
+          if (++i < n * 2) setTimeout(step, 40 + Math.random() * 90);
+          else { logo.classList.remove("glitch"); setTimeout(glitch, 1200 + Math.random() * 4200); }
+        })();
+      };
+      setTimeout(glitch, 1500 + n * 900);
+    });
+
+    // ---- Кіберпанк-глюк логотипа: жовта копія зі зсувом + «роз'їзд» смужок ----
+    (function cyberGlitch() {
+      const logo = document.querySelector(".nav .logo");
+      if (!logo || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const yel = logo.querySelector(".wm-ghost-y"), cy = logo.querySelector(".wm-ghost-c"), sl = logo.querySelector(".wm-slice"), wm = logo.querySelector(".wordmark");
+      const R = (a, b) => a + Math.random() * (b - a);
+      const band = () => { const t = R(0, 80), h = R(8, 28); return `inset(${t}% 0 ${Math.max(0, 100 - t - h)}% 0)`; };
+      const frame = on => {
+        if (!on) { [yel, cy, sl].forEach(e => { e.style.opacity = 0; }); wm.style.transform = ""; return; }
+        // режим кожного «збою»: 0 — жовтий, 1 — синій, 2 — обидва (розходяться в різні боки)
+        const dx = R(1.5, 4.5) * (Math.random() < .5 ? -1 : 1), dy = R(-1.5, 1.5);
+        const show = (e, on, x) => { e.style.opacity = on ? 1 : 0; e.style.transform = `translate(${x.toFixed(1)}px, ${dy.toFixed(1)}px)`; e.style.clipPath = Math.random() < .5 ? band() : "none"; };
+        show(yel, mode !== 1, dx); show(cy, mode !== 0, mode === 2 ? -dx : dx);
+        sl.style.opacity = 1; sl.style.transform = `translate(${R(-5, 5).toFixed(1)}px, 0)`; sl.style.clipPath = band();
+        wm.style.transform = Math.random() < .5 ? `translate(${R(-1.5, 1.5).toFixed(1)}px, 0)` : "";
+      };
+      let mode = 0;
+      const burst = () => {
+        mode = Math.floor(Math.random() * 3);
+        let n = 3 + Math.floor(Math.random() * 5), i = 0;
+        (function step() {
+          frame(i % 2 === 0 || Math.random() < .4);
+          if (++i < n) setTimeout(step, R(35, 85));
+          else { frame(false); setTimeout(burst, R(2200, 6500)); }
+        })();
+      };
+      setTimeout(burst, 2600);
+      logo.addEventListener("mouseenter", () => { mode = Math.floor(Math.random() * 3); frame(true); setTimeout(() => frame(false), 90); setTimeout(() => frame(true), 140); setTimeout(() => frame(false), 220); });
+    })();
+
+    // ---- Ефекти ----
+    const nav = $("nav"), prog = $("progress");
+    const toTop = $("to-top"), ring = toTop.querySelector("circle.p");
+    toTop.setAttribute("aria-label", T.to_top);
+    let scrollTick = false;
+    function onScroll() {
+      scrollTick = false;
+      nav.classList.toggle("scrolled", scrollY > 20);
+      const max = document.documentElement.scrollHeight - innerHeight, k = max > 0 ? scrollY / max : 0;
+      prog.style.transform = `scaleX(${k})`;
+      ring.style.strokeDashoffset = (1 - k).toFixed(4);
+      toTop.classList.toggle("show", scrollY > innerHeight * .9 && $("project-page").hidden);
+    }
+    addEventListener("scroll", () => { if (!scrollTick) { scrollTick = true; requestAnimationFrame(onScroll); } }, { passive: true });
+    addEventListener("resize", onScroll); onScroll();
+    toTop.onclick = () => scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+
+    // Підсвітка в меню розділу, який зараз на екрані
+    const spyLinks = [...document.querySelectorAll('.nav ul a[href^="#"]')];
+    const spy = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      spyLinks.forEach(a => a.classList.toggle("here", a.getAttribute("href") === "#" + e.target.id));
+    }), { rootMargin: "-45% 0px -50% 0px" });
+    spyLinks.forEach(a => { const s = document.querySelector(a.getAttribute("href")); if (s) spy.observe(s); });
+    new IntersectionObserver(es => { if (es[0].isIntersecting) spyLinks.forEach(a => a.classList.remove("here")); }, { rootMargin: "-45% 0px -50% 0px" }).observe(document.querySelector(".hero"));
+
+    // Безкінечні анімації ставимо на паузу, коли їх не видно (менше навантаження на процесор і батарею)
+    const pauseIO = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("off", !e.isIntersecting)), { rootMargin: "100px" });
+    document.querySelectorAll(".hero").forEach(el => pauseIO.observe(el));
+
+    // Коли користувач іде на іншу вкладку — «сигнал втрачено»
+    const realTitle = () => document.title;
+    let savedTitle = document.title;
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) { savedTitle = realTitle(); document.title = T.tab_away; }
+      else { document.title = T.tab_back; setTimeout(() => { document.title = savedTitle; }, 1400); }
+    });
+
+    const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add("in")), { threshold: .12 });
+    function observeReveal(root) { root.querySelectorAll(".reveal").forEach(el => io.observe(el)); }
+    observeReveal(document);
+
+    // Лічильники
+    const countIO = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      countIO.unobserve(e.target);
+      const el = e.target, to = +el.dataset.to, t0 = performance.now(), dur = 1600;
+      (function tick(t) {
+        const k = Math.min((t - t0) / dur, 1), ease = 1 - Math.pow(1 - k, 4);
+        el.textContent = Math.round(to * ease);
+        if (k < 1) requestAnimationFrame(tick);
+      })(t0);
+    }), { threshold: .6 });
+    document.querySelectorAll("[data-to]").forEach(el => countIO.observe(el));
+
+    // Нахил карток проєктів у 3D
+    const TILT = 8; // максимальний нахил у градусах
+    function tiltAt(x, y, el) {
+      const card = el && el.closest && el.closest(".project");
+      document.querySelectorAll(".project.tilting").forEach(c => { if (c !== card) { c.classList.remove("tilting"); c.style.transform = ""; c.style.removeProperty("--px"); c.style.removeProperty("--py"); } });
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      const px = (x - r.left) / r.width - .5, py = (y - r.top) / r.height - .5;
+      card.classList.add("tilting");
+      card.style.transform = `perspective(1100px) rotateX(${(-py * TILT).toFixed(2)}deg) rotateY(${(px * TILT).toFixed(2)}deg) translateY(-6px) scale(1.01)`;
+      // відблиск іде за курсором, «вікно» з картинкою зсувається — ніби воно ближче до тебе
+      card.style.setProperty("--gx", ((px + .5) * 100).toFixed(1) + "%");
+      card.style.setProperty("--gy", ((py + .5) * 100).toFixed(1) + "%");
+      card.style.setProperty("--px", px.toFixed(3)); card.style.setProperty("--py", py.toFixed(3));
+    }
+    if (finePointer) document.addEventListener("mousemove", e => tiltAt(e.clientX, e.clientY, e.target), { passive: true });
+    else if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const shineIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("shine"); shineIO.unobserve(e.target); } }), { threshold: .55 });
+      document.querySelectorAll(".project").forEach(c => shineIO.observe(c));
+    }
+
+    // ---- Живе демо бота ----
+    (function botDemo() {
+      const DEMO = {"uk": {"h": "Спробуйте <span class=\"em\">нашого бота</span>", "p": "Це живе демо: натискайте кнопки й забронюйте столик у вигаданому ресторані. Так само ваш бот може приймати заявки, записи й замовлення — 24/7.", "cta": "Хочу такого бота", "name": "j13 Bistro · бот", "online": "онлайн", "hi": "Привіт! 👋 Я бот ресторану j13 Bistro. Чим допомогти?", "b_book": "Забронювати столик", "b_menu": "Меню", "b_hours": "Години роботи", "b_human": "Покликати людину", "q_people": "Чудово! На скільки гостей?", "q_when": "На коли бронюємо?", "t1": "Сьогодні, 19:00", "t2": "Завтра, 20:00", "done": "Готово ✅ Столик на {n} гостей — {t}. Надішлю нагадування за годину!", "menu": "Сьогодні рекомендуємо:\n🍝 Паста з трюфелем\n🎃 Салат з печеним гарбузом\n🍰 Чізкейк", "hours": "Працюємо щодня з 10:00 до 23:00 🕙", "human": "Передаю розмову менеджеру 👩‍💼 Зазвичай відповідаємо за 5 хвилин.", "back": "← Назад", "restart": "Почати спочатку", "typing": "друкує…"}, "en": {"h": "Try <span class=\"em\">our bot</span>", "p": "This is a live demo: tap the buttons and book a table at a made-up restaurant. Your bot can take requests, appointments and orders the same way — 24/7.", "cta": "I want a bot like this", "name": "j13 Bistro · bot", "online": "online", "hi": "Hi! 👋 I'm the j13 Bistro bot. How can I help?", "b_book": "Book a table", "b_menu": "Menu", "b_hours": "Opening hours", "b_human": "Talk to a person", "q_people": "Great! How many guests?", "q_when": "When would you like to come?", "t1": "Today, 7 pm", "t2": "Tomorrow, 8 pm", "done": "Done ✅ Table for {n} — {t}. I'll send you a reminder an hour before!", "menu": "Today we recommend:\n🍝 Truffle pasta\n🎃 Roasted pumpkin salad\n🍰 Cheesecake", "hours": "We're open every day, 10 am – 11 pm 🕙", "human": "Handing you over to a manager 👩‍💼 We usually reply within 5 minutes.", "back": "← Back", "restart": "Start over", "typing": "typing…"}, "es": {"h": "Prueba <span class=\"em\">nuestro bot</span>", "p": "Es una demo real: pulsa los botones y reserva mesa en un restaurante inventado. Tu bot puede recibir solicitudes, citas y pedidos igual — 24/7.", "cta": "Quiero un bot así", "name": "j13 Bistro · bot", "online": "en línea", "hi": "¡Hola! 👋 Soy el bot de j13 Bistro. ¿En qué te ayudo?", "b_book": "Reservar mesa", "b_menu": "Menú", "b_hours": "Horario", "b_human": "Hablar con una persona", "q_people": "¡Genial! ¿Cuántos comensales?", "q_when": "¿Para cuándo?", "t1": "Hoy, 19:00", "t2": "Mañana, 20:00", "done": "Listo ✅ Mesa para {n} — {t}. ¡Te enviaré un recordatorio una hora antes!", "menu": "Hoy recomendamos:\n🍝 Pasta con trufa\n🎃 Ensalada de calabaza asada\n🍰 Tarta de queso", "hours": "Abrimos todos los días de 10:00 a 23:00 🕙", "human": "Te paso con un responsable 👩‍💼 Solemos responder en 5 minutos.", "back": "← Atrás", "restart": "Empezar de nuevo", "typing": "escribiendo…"}, "de": {"h": "Teste <span class=\"em\">unseren Bot</span>", "p": "Das ist eine echte Demo: Tippe auf die Buttons und reserviere einen Tisch in einem erfundenen Restaurant. Genauso kann dein Bot Anfragen, Termine und Bestellungen annehmen — rund um die Uhr.", "cta": "So einen Bot will ich", "name": "j13 Bistro · Bot", "online": "online", "hi": "Hallo! 👋 Ich bin der Bot vom j13 Bistro. Wie kann ich helfen?", "b_book": "Tisch reservieren", "b_menu": "Speisekarte", "b_hours": "Öffnungszeiten", "b_human": "Mit einem Menschen sprechen", "q_people": "Super! Für wie viele Gäste?", "q_when": "Wann möchtet ihr kommen?", "t1": "Heute, 19:00", "t2": "Morgen, 20:00", "done": "Erledigt ✅ Tisch für {n} — {t}. Ich erinnere dich eine Stunde vorher!", "menu": "Heute empfehlen wir:\n🍝 Trüffelpasta\n🎃 Salat mit Ofenkürbis\n🍰 Käsekuchen", "hours": "Wir haben täglich von 10 bis 23 Uhr geöffnet 🕙", "human": "Ich verbinde dich mit einem Mitarbeiter 👩‍💼 Wir antworten meist innerhalb von 5 Minuten.", "back": "← Zurück", "restart": "Neu starten", "typing": "schreibt…"}, "fr": {"h": "Essayez <span class=\"em\">notre bot</span>", "p": "C'est une vraie démo : touchez les boutons et réservez une table dans un restaurant imaginaire. Votre bot peut prendre demandes, rendez-vous et commandes de la même façon — 24h/24.", "cta": "Je veux un bot comme ça", "name": "j13 Bistro · bot", "online": "en ligne", "hi": "Bonjour ! 👋 Je suis le bot du j13 Bistro. Comment puis-je aider ?", "b_book": "Réserver une table", "b_menu": "Menu", "b_hours": "Horaires", "b_human": "Parler à quelqu'un", "q_people": "Parfait ! Pour combien de personnes ?", "q_when": "Pour quand ?", "t1": "Aujourd'hui, 19 h", "t2": "Demain, 20 h", "done": "C'est fait ✅ Table pour {n} — {t}. Je vous enverrai un rappel une heure avant !", "menu": "Aujourd'hui, on recommande :\n🍝 Pâtes à la truffe\n🎃 Salade de potiron rôti\n🍰 Cheesecake", "hours": "Ouvert tous les jours de 10 h à 23 h 🕙", "human": "Je vous passe un conseiller 👩‍💼 Nous répondons en général en 5 minutes.", "back": "← Retour", "restart": "Recommencer", "typing": "écrit…"}, "pl": {"h": "Wypróbuj <span class=\"em\">naszego bota</span>", "p": "To prawdziwe demo: klikaj przyciski i zarezerwuj stolik w wymyślonej restauracji. Tak samo Twój bot może przyjmować zgłoszenia, wizyty i zamówienia — 24/7.", "cta": "Chcę takiego bota", "name": "j13 Bistro · bot", "online": "online", "hi": "Cześć! 👋 Jestem botem restauracji j13 Bistro. W czym pomóc?", "b_book": "Zarezerwuj stolik", "b_menu": "Menu", "b_hours": "Godziny otwarcia", "b_human": "Połącz z człowiekiem", "q_people": "Super! Na ile osób?", "q_when": "Na kiedy?", "t1": "Dziś, 19:00", "t2": "Jutro, 20:00", "done": "Gotowe ✅ Stolik dla {n} os. — {t}. Wyślę przypomnienie godzinę wcześniej!", "menu": "Dziś polecamy:\n🍝 Makaron z truflą\n🎃 Sałatka z pieczoną dynią\n🍰 Sernik", "hours": "Otwarte codziennie od 10:00 do 23:00 🕙", "human": "Przekazuję rozmowę menedżerowi 👩‍💼 Zwykle odpowiadamy w 5 minut.", "back": "← Wstecz", "restart": "Zacznij od nowa", "typing": "pisze…"}, "pt": {"h": "Experimenta <span class=\"em\">o nosso bot</span>", "p": "É uma demo real: toca nos botões e reserva mesa num restaurante inventado. O teu bot pode receber pedidos, marcações e encomendas da mesma forma — 24/7.", "cta": "Quero um bot assim", "name": "j13 Bistro · bot", "online": "online", "hi": "Olá! 👋 Sou o bot do j13 Bistro. Como posso ajudar?", "b_book": "Reservar mesa", "b_menu": "Menu", "b_hours": "Horário", "b_human": "Falar com uma pessoa", "q_people": "Ótimo! Para quantas pessoas?", "q_when": "Para quando?", "t1": "Hoje, 19:00", "t2": "Amanhã, 20:00", "done": "Feito ✅ Mesa para {n} — {t}. Envio um lembrete uma hora antes!", "menu": "Hoje recomendamos:\n🍝 Massa com trufa\n🎃 Salada de abóbora assada\n🍰 Cheesecake", "hours": "Abertos todos os dias das 10:00 às 23:00 🕙", "human": "Vou passar-te a um gestor 👩‍💼 Costumamos responder em 5 minutos.", "back": "← Voltar", "restart": "Recomeçar", "typing": "a escrever…"}, "it": {"h": "Prova <span class=\"em\">il nostro bot</span>", "p": "È una demo vera: tocca i pulsanti e prenota un tavolo in un ristorante inventato. Allo stesso modo il tuo bot può ricevere richieste, appuntamenti e ordini — 24/7.", "cta": "Voglio un bot così", "name": "j13 Bistro · bot", "online": "online", "hi": "Ciao! 👋 Sono il bot di j13 Bistro. Come posso aiutarti?", "b_book": "Prenota un tavolo", "b_menu": "Menù", "b_hours": "Orari", "b_human": "Parla con una persona", "q_people": "Perfetto! Per quante persone?", "q_when": "Per quando?", "t1": "Oggi, 19:00", "t2": "Domani, 20:00", "done": "Fatto ✅ Tavolo per {n} — {t}. Ti mando un promemoria un'ora prima!", "menu": "Oggi consigliamo:\n🍝 Pasta al tartufo\n🎃 Insalata di zucca al forno\n🍰 Cheesecake", "hours": "Aperti tutti i giorni dalle 10:00 alle 23:00 🕙", "human": "Ti passo a un responsabile 👩‍💼 Di solito rispondiamo entro 5 minuti.", "back": "← Indietro", "restart": "Ricomincia", "typing": "sta scrivendo…"}};
+      const L = DEMO[LANG] || DEMO.en;
+      $("demo-h").innerHTML = L.h; $("demo-p").textContent = L.p; $("demo-cta").textContent = L.cta + " →";
+      $("demo-name").textContent = L.name; $("demo-online").textContent = L.online;
+      const msgs = $("demo-msgs"), btns = $("demo-btns");
+      let busy = false, started = false, people = "";
+      const scroll = () => requestAnimationFrame(() => msgs.scrollTo({ top: msgs.scrollHeight + 100, behavior: "smooth" }));
+      const add = (text, who) => { const d = document.createElement("div"); d.className = "dm " + who; d.textContent = text; msgs.appendChild(d); scroll(); };
+      const say = (text, next) => {
+        busy = true; btns.innerHTML = "";
+        const t = document.createElement("div"); t.className = "dm in typing"; t.innerHTML = "<i></i><i></i><i></i>"; msgs.appendChild(t); scroll();
+        $("demo-online").textContent = L.typing;
+        setTimeout(() => { t.remove(); $("demo-online").textContent = L.online; add(text, "in"); busy = false; next && next(); }, 650 + Math.min(900, text.length * 12));
+      };
+      const choices = list => {
+        btns.innerHTML = "";
+        list.forEach(([label, fn], i) => {
+          const b = document.createElement("button"); b.type = "button"; b.textContent = label; b.style.animationDelay = i * .06 + "s";
+          b.onclick = () => { if (busy) return; add(label, "out"); fn(); };
+          btns.appendChild(b);
+        });
+        requestAnimationFrame(scroll);
+      };
+      const main = () => choices([[L.b_book, book], [L.b_menu, menu], [L.b_hours, hours], [L.b_human, human]]);
+      const backBtn = () => choices([[L.back, () => say(L.hi, main)], [L.b_book, book]]);
+      function book() { say(L.q_people, () => choices(["2", "4", "6+"].map(n => [n, () => { people = n; say(L.q_when, () => choices([L.t1, L.t2].map(t => [t, () => say(L.done.replace("{n}", people).replace("{t}", t), () => choices([[L.restart, restart], [L.b_menu, menu]]))])))}]))); }
+      function menu() { say(L.menu, backBtn); }
+      function hours() { say(L.hours, backBtn); }
+      function human() { say(L.human, backBtn); }
+      function restart() { msgs.innerHTML = ""; say(L.hi, main); }
+      // бот «прокидається», коли блок з'являється на екрані
+      new IntersectionObserver((es, o) => { if (es[0].isIntersecting && !started) { started = true; o.disconnect(); say(L.hi, main); } }, { threshold: .4 }).observe($("demo-phone"));
+    })();
+
+    // ---- Галерея скріншотів на сторінці проєкту: гортання + перегляд на весь екран ----
+    (function shots() {
+      const lb = document.createElement("div"); lb.className = "lightbox"; lb.hidden = true;
+      lb.innerHTML = `<button type="button" class="lb-x" aria-label="Close">×</button><button type="button" class="lb-p" aria-label="←">←</button><img alt=""><button type="button" class="lb-n" aria-label="→">→</button><p class="lb-c"></p>`;
+      document.body.appendChild(lb);
+      let list = [], idx = 0;
+      const show = i => { idx = (i + list.length) % list.length; const im = list[idx]; lb.querySelector("img").src = im.src; lb.querySelector("img").className = im.closest(".is-phone") ? "ph" : ""; lb.querySelector(".lb-c").textContent = im.alt; };
+      const close = () => { lb.classList.remove("show"); setTimeout(() => lb.hidden = true, 250); };
+      document.addEventListener("click", e => {
+        const z = e.target.closest("[data-zoom]");
+        if (z) { list = [...z.closest(".shots-track").querySelectorAll("img")]; show(+z.dataset.zoom); lb.hidden = false; requestAnimationFrame(() => lb.classList.add("show")); return; }
+        const nv = e.target.closest(".shots-prev, .shots-next");
+        if (nv) { const tr = nv.closest(".shots").querySelector(".shots-track"); tr.scrollBy({ left: (nv.classList.contains("shots-next") ? 1 : -1) * tr.clientWidth * .8, behavior: "smooth" }); return; }
+        if (!lb.hidden) { if (e.target.closest(".lb-n")) show(idx + 1); else if (e.target.closest(".lb-p")) show(idx - 1); else if (!e.target.closest("img")) close(); }
+      });
+      addEventListener("keydown", e => { if (lb.hidden) return; if (e.key === "Escape") close(); if (e.key === "ArrowRight") show(idx + 1); if (e.key === "ArrowLeft") show(idx - 1); });
+    })();
+
+    // ---- Термінал-пасхалка (клавіша ~ або кнопка в підвалі) ----
+    (function terminal() {
+      const box = $("term"), out = $("term-out"), inp = $("term-in");
+      const hist = []; let hpos = 0, booted = false;
+      const esc2 = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+      const print = (html, cls = "") => { const d = document.createElement("div"); d.className = "tl " + cls; d.innerHTML = html; out.appendChild(d); out.scrollTop = out.scrollHeight; return d; };
+      const typeOut = (lines, cls, step = 55) => new Promise(res => { let i = 0; (function n() { if (i >= lines.length) return res(); print(lines[i++], cls); setTimeout(n, step); })(); });
+      const LANGS_OK = ["uk", "en", "es", "de", "fr", "pl", "pt", "it"];
+      const C = {
+        help: () => print([
+          ["help", "this list"], ["about", "who we are"], ["projects", "list projects"], ["open &lt;n|name&gt;", "open a project"],
+          ["order", "start a project with us"], ["theme night|aurora|secret", "switch theme"], ["lang &lt;code&gt;", "uk en es de fr pl pt it"],
+          ["glitch", "¯\\_(ツ)_/¯"], ["hack", "try it"], ["whoami · date · ls · clear · exit", ""]
+        ].map(([c, d]) => `<span class="tc">${c}</span>${d ? `<span class="td">${d}</span>` : ""}`).join("<br>")),
+        about: () => print(esc2(site.intro)),
+        whoami: () => print("guest @ " + esc2(site.location).toLowerCase().replace(/\s+/g, "-")),
+        date: () => print(new Date().toString().split(" (")[0]),
+        ls: () => print(["projects/", "about.txt", "process/", "faq/", "contact/", ".secret"].map(s => `<span class="${s.endsWith("/") ? "tc" : ""}">${s}</span>`).join("   ")),
+        "cat": a => print(a[0] === ".secret" ? "↑ ↑ ↓ ↓ ← → ← → B A" : a[0] === "about.txt" ? esc2(site.intro) : "cat: " + esc2(a[0] || "") + ": no such file"),
+        projects: () => print(site.projects.map((p, i) => `<span class="tc">${i + 1}</span>  ${esc2(p.title)} <span class="td">— ${esc2(p.status || "")}</span>`).join("<br>") + `<br><span class="td">open &lt;n&gt; to view</span>`),
+        open: a => {
+          const k = (a[0] || "").toLowerCase(), n = parseInt(k, 10);
+          const p = site.projects[n - 1] || site.projects.find(p => p.slug === k || p.title.toLowerCase().startsWith(k));
+          if (!k || !p) return print("open: project not found — try <span class='tc'>projects</span>", "err");
+          print("opening " + esc2(p.title) + " …"); setTimeout(() => { close(); location.hash = "#p-" + p.slug; }, 450);
+        },
+        order: () => { print("→ " + esc2(T.btn_order) + " …"); setTimeout(() => { close(); location.hash = ""; $("contact").scrollIntoView({ behavior: "smooth" }); }, 450); },
+        theme: a => {
+          const m = { night: "glow", aurora: "orb", secret: "secret" }[(a[0] || "").toLowerCase()];
+          if (!m) return print("usage: theme night|aurora|secret", "err");
+          setTheme(m, m !== "secret"); print("theme → " + a[0].toLowerCase());
+          if (m === "secret") confetti();
+        },
+        lang: a => {
+          const l = (a[0] || "").toLowerCase().replace("ua", "uk");
+          if (!LANGS_OK.includes(l)) return print("usage: lang uk|en|es|de|fr|pl|pt|it", "err");
+          const b = document.querySelector(`#lang button[data-l="${l}"]`);
+          print("switching language → " + l + " …");
+          try { localStorage.setItem("lang", l); if (l !== "en") localStorage.setItem("homeLang", l); sessionStorage.setItem("drawLang", l); } catch (e) {}
+          setTimeout(() => { if (b) b.click(); else { const u = new URL(location.href); u.searchParams.delete("lang"); u.hash = ""; location.replace(u.toString()); } }, 400);
+        },
+        glitch: () => { document.body.classList.add("mega-glitch"); setTimeout(() => document.body.classList.remove("mega-glitch"), 900); print("signal distorted ▮▮▯▮"); },
+        hack: async () => {
+          inp.disabled = true;
+          await typeOut(["connecting to mainframe…", "bypassing firewall ███████░░░ 70%", "bypassing firewall ██████████ 100%",
+            "decrypting coffee.recipe …", "downloading more RAM …", "injecting good vibes into the codebase …"], "td", 260);
+          document.body.classList.add("mega-glitch"); setTimeout(() => document.body.classList.remove("mega-glitch"), 700);
+          print("ACCESS GRANTED 🔓", "ok"); print("just kidding. but we can build you something real → <span class='tc'>order</span>");
+          inp.disabled = false; inp.focus();
+        },
+        sudo: () => print("nice try 😏 — permission denied", "err"),
+        rm: () => print("rm: we don't do that here 🙅", "err"),
+        echo: a => print(esc2(a.join(" "))),
+        hello: () => print("hi there 👋"), hi: () => print("hi there 👋"),
+        clear: () => { out.innerHTML = ""; },
+        exit: () => close()
+      };
+      const NAMES = Object.keys(C);
+      function run(line) {
+        print(`<span class="term-ps">guest@j13:~$</span> ${esc2(line)}`, "cmd");
+        const [cmd, ...args] = line.trim().split(/\s+/);
+        if (!cmd) return;
+        const f = C[cmd.toLowerCase()];
+        if (f) f(args); else print(`command not found: ${esc2(cmd)} — type <span class="tc">help</span>`, "err");
+      }
+      function open() {
+        if (!box.hidden) return;
+        box.hidden = false; requestAnimationFrame(() => box.classList.add("show"));
+        document.documentElement.classList.add("term-open");
+        if (!booted) { booted = true; typeOut(["<span class='ok'>j13 terminal v1.3</span> · connected from " + esc2(site.location), "type <span class='tc'>help</span> to see what you can do"], "", 120); }
+        setTimeout(() => inp.focus(), 60);
+      }
+      function close() {
+        box.classList.remove("show"); document.documentElement.classList.remove("term-open");
+        setTimeout(() => { box.hidden = true; }, 260); inp.blur();
+      }
+      // ~ / ` відкриває термінал; на Mac із європейською клавіатурою — клавіша § під Esc
+      addEventListener("keydown", e => {
+        const typing = /input|textarea/i.test(document.activeElement.tagName) && document.activeElement !== inp;
+        if (!typing && !e.metaKey && !e.ctrlKey && (e.code === "Backquote" || e.code === "IntlBackslash" || ["`", "~", "§", "±", "ё", "Ё"].includes(e.key))) { e.preventDefault(); box.hidden ? open() : close(); return; }
+        if (e.key === "Escape" && !box.hidden) close();
+      });
+      inp.addEventListener("keydown", e => {
+        if (e.key === "Escape" || e.code === "Backquote" || e.code === "IntlBackslash") { e.preventDefault(); e.stopPropagation(); close(); return; }
+        if (e.key === "Enter") { const v = inp.value; inp.value = ""; if (v.trim()) { hist.push(v); hpos = hist.length; } run(v); }
+        else if (e.key === "ArrowUp") { e.preventDefault(); if (hpos > 0) inp.value = hist[--hpos]; }
+        else if (e.key === "ArrowDown") { e.preventDefault(); hpos = Math.min(hist.length, hpos + 1); inp.value = hist[hpos] || ""; }
+        else if (e.key === "Tab") { e.preventDefault(); const m = NAMES.filter(n => n.startsWith(inp.value.trim().toLowerCase())); if (m.length === 1) inp.value = m[0] + " "; else if (m.length) print(m.join("   "), "td"); }
+        e.stopPropagation();
+      });
+      $("term-x").onclick = close;
+      $("term-hint").onclick = open;
+      box.addEventListener("click", e => { if (e.target === box || e.target === out) inp.focus(); });
+    })();
+
+    // Власний курсор: крапля, що розтягується в бік руху
+    const CURSOR = "stretch";
+    const cur = $("cur");
+    if (finePointer) {
+      document.documentElement.classList.add("has-cursor");
+      document.documentElement.dataset.cursor = CURSOR;
+      const shape = cur.querySelector(".cur-shape");
+      let mx = -100, my = -100, rx = -100, ry = -100, lastSY = scrollY, moved = false;
+
+      // Магніт: якщо курсор зовсім поруч з кнопкою — він «прилипає» до неї, щоб легше влучити
+      const SNAP_ZONE = 26;     // з якої відстані до краю кнопки (px) курсор примагнічує
+      const SNAP_FOLLOW = .18;  // наскільки курсор ще ворушиться всередині кнопки (0 — стоїть по центру)
+      const SNAP_TARGETS = ".magnet, .nav ul a, .themes button, .lang button, .back, .mail, .socials a, .skills span";
+      let snap = null;
+      function findSnap(x, y) {
+        let best = null, bestD = Infinity;
+        document.querySelectorAll(SNAP_TARGETS).forEach(el => {
+          const r = el.getBoundingClientRect();
+          if (!r.width || !r.height) return;
+          const ex = Math.max(r.left - x, 0, x - r.right), ey = Math.max(r.top - y, 0, y - r.bottom);
+          const d = Math.hypot(ex, ey);
+          if (d <= SNAP_ZONE && d < bestD) { bestD = d; best = { el, cx: r.left + r.width / 2, cy: r.top + r.height / 2 }; }
+        });
+        if (snap && snap.el !== (best && best.el)) snap.el.classList.remove("snapped");
+        snap = best;
+        if (snap) snap.el.classList.add("snapped");
+      }
+      // клік поруч з кнопкою, коли курсор до неї прилип, — натискає кнопку
+      addEventListener("click", e => {
+        if (!snap || snap.el.contains(e.target)) return;
+        if (e.target.closest && e.target.closest("a, button, summary, .project, input, textarea")) return;
+        e.preventDefault(); snap.el.click();
+      }, true);
+
+      // що зараз під курсором: проєкт → «Дивитись», кнопка/посилання → збільшення
+      function stateAt(el) {
+        const view = !snap && !!(el && el.closest && el.closest("a.project"));
+        cur.classList.toggle("view", view);
+        cur.classList.toggle("hover", !!snap || (!view && !!(el && el.closest && el.closest("a, button, summary, .skills span"))));
+        cur.classList.toggle("red", !snap && !!(el && el.closest && el.closest(".nav .logo")));   // над j13 — червоне світіння, як в імпланта
+      }
+      addEventListener("mousemove", e => {
+        mx = e.clientX; my = e.clientY; moved = true;
+        findSnap(mx, my);
+        stateAt(e.target);
+        document.documentElement.classList.remove("cur-hidden");
+      }, { passive: true });
+
+      // прокрутка без руху миші: оновлюємо стан і даємо курсору «відстати», як при русі
+      let scrollQueued = false;
+      addEventListener("scroll", () => {
+        const d = scrollY - lastSY; lastSY = scrollY;
+        if (moved) ry -= Math.max(-45, Math.min(45, d * .45));
+        if (scrollQueued || !moved) return;
+        scrollQueued = true;
+        requestAnimationFrame(() => {
+          scrollQueued = false;
+          const el = document.elementFromPoint(mx, my);
+          findSnap(mx, my); stateAt(el); tiltAt(mx, my, el);
+        });
+      }, { passive: true });
+
+      document.addEventListener("mouseleave", () => document.documentElement.classList.add("cur-hidden"));
+      addEventListener("mousedown", () => cur.classList.add("down"));
+      addEventListener("mouseup", () => cur.classList.remove("down"));
+      let still = false;
+      (function loop() {
+        const ease = snap ? .26 : .22;
+        let gx = mx, gy = my;
+        if (snap) {
+          const r = snap.el.getBoundingClientRect();
+          const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+          gx = cx + (mx - cx) * SNAP_FOLLOW; gy = cy + (my - cy) * SNAP_FOLLOW;
+        }
+        const vx = gx - rx, vy = gy - ry;
+        if (Math.abs(vx) < .05 && Math.abs(vy) < .05 && !snap) {   // курсор стоїть — нічого не перемальовуємо
+          if (!still) { still = true; shape.style.transform = ""; }
+          return requestAnimationFrame(loop);
+        }
+        still = false;
+        rx += vx * ease; ry += vy * ease;
+        cur.style.translate = `${rx}px ${ry}px`;
+        {
+          const speed = Math.hypot(vx, vy), ang = Math.atan2(vy, vx);
+          const sx = 1 + Math.min(speed / 70, .9), sy = 1 - Math.min(speed / 180, .4);
+          shape.style.transform = snap ? "" : `rotate(${ang}rad) scale(${sx}, ${sy})`;
+        }
+        requestAnimationFrame(loop);
+      })();
+    }
+
+    // «Сяйво»: куля плавно летить за курсором
+    const hero = document.querySelector(".hero"), orb = document.querySelector(".orb");
+    let ox = 0, oy = 0, tx = 0, ty = 0, hovering = false;
+    let HW = 0, HH = 0, OW = 0, heroVisible = true, orbRunning = false;
+    const measure = () => { HW = hero.offsetWidth; HH = hero.offsetHeight; OW = orb.offsetWidth || 620; };
+    measure(); addEventListener("resize", measure, { passive: true });
+    const rest = () => [HW - OW * 0.3, HH / 2];
+    [ox, oy] = rest();
+    new IntersectionObserver(es => { heroVisible = es[0].isIntersecting; kickOrb(); }).observe(hero);
+    function kickOrb() { if (!orbRunning && heroVisible && document.body.dataset.accent !== "glow") { orbRunning = true; requestAnimationFrame(orbLoop); } }
+    hero.addEventListener("mousemove", e => {
+      const r = hero.getBoundingClientRect(); hovering = true;
+      tx = e.clientX - r.left; ty = e.clientY - r.top;
+      hero.style.setProperty("--mx", tx + "px");
+      hero.style.setProperty("--my", ty + "px");
+      kickOrb();
+    });
+    hero.addEventListener("mouseleave", () => { hovering = false; kickOrb(); });
+    // куля рухається лише в темі «Сяйво», коли перший екран видно, і поки не доїхала до цілі
+    function orbLoop() {
+      if (!hovering) [tx, ty] = rest();
+      const dx = tx - ox, dy = ty - oy;
+      if (!heroVisible || document.body.dataset.accent === "glow" || (Math.abs(dx) < .3 && Math.abs(dy) < .3)) { orbRunning = false; return; }
+      ox += dx * 0.05; oy += dy * 0.05;
+      orb.style.translate = `${ox - OW / 2}px ${oy - OW / 2}px`;
+      requestAnimationFrame(orbLoop);
+    }
+    orb.style.translate = `${ox - OW / 2}px ${oy - OW / 2}px`;
+    new MutationObserver(() => { measure(); kickOrb(); }).observe(document.body, { attributes: true, attributeFilter: ["data-accent"] });
+
+    route();
+
+    // ---- Завантажувальний екран: «привіт» різними мовами + лічильник ----
+    (function loader() {
+      const el = $("loader");
+      const html = document.documentElement;
+      const done = () => {
+        document.body.classList.remove("loading");
+        try { sessionStorage.setItem("seenLoader", 1); } catch (e) {}
+        try { if (!window.name) window.name = "seenLoader"; } catch (e) {}
+      };
+      if (html.classList.contains("no-loader")) { el.remove(); done(); html.classList.remove("loader-active"); return; }
+
+      // кольори заставок беремо з поточної теми — щоб не відрізнялись від сайту
+      const css = getComputedStyle(document.body);
+      const ACC = css.getPropertyValue("--accent").trim() || "#c6ff3d";
+
+      // ---- коротка (перезавантаження / зміна мови) ----
+      if (html.classList.contains("loader-short")) {
+        const cv = $("ld-scope"), ctx = cv.getContext("2d"), lab = $("ld-label");
+        const dpr = Math.min(devicePixelRatio || 1, 2), W = innerWidth, Hh = innerHeight;
+        cv.width = W * dpr; cv.height = Hh * dpr; ctx.scale(dpr, dpr);
+        let drawLang = null; try { drawLang = sessionStorage.getItem("drawLang"); sessionStorage.removeItem("drawLang"); } catch (e) {}
+        const TOTAL = drawLang ? 1450 : 1100;
+        const glowLine = () => { ctx.strokeStyle = ACC; ctx.shadowColor = ACC; ctx.shadowBlur = 8; ctx.lineWidth = 2; ctx.lineCap = "round"; ctx.lineJoin = "round"; };
+
+        // літери «UA» / «EN» — суцільні фігури в стилі j13 (товсті штрихи, скошені кути): промінь обводить контур, потім заливка
+        let strokes = null, shapes = null;
+        const TXT = css.getPropertyValue("--text").trim() || "#e4e4dc";
+        if (drawLang) {
+          const G = {
+            U: [[[0,0],[16,0],[16,64],[48,64],[48,0],[64,0],[64,66],[50,80],[0,80]]],
+            A: [[[20,0],[64,0],[64,80],[48,80],[48,58],[16,58],[16,80],[0,80],[0,20]], [[23,16],[48,16],[48,42],[16,42],[16,23]]],
+            E: [[[16,0],[64,0],[64,16],[16,16],[16,32],[54,32],[54,48],[16,48],[16,64],[64,64],[64,80],[0,80],[0,16]]],
+            N: [[[0,0],[16,0],[48,50],[48,0],[64,0],[64,80],[48,80],[16,30],[16,80],[0,80]]],
+            S: [[[0,16],[16,0],[64,0],[64,16],[16,16],[16,32],[64,32],[64,66],[50,80],[0,80],[0,64],[48,64],[48,48],[0,48]]],
+            D: [[[0,0],[48,0],[64,16],[64,64],[48,80],[0,80]], [[16,16],[42,16],[48,22],[48,58],[42,64],[16,64]]],
+            F: [[[16,0],[64,0],[64,16],[16,16],[16,32],[54,32],[54,48],[16,48],[16,80],[0,80],[0,16]]],
+            R: [[[0,0],[50,0],[64,14],[64,42],[56,50],[64,80],[47,80],[40,56],[16,56],[16,80],[0,80]], [[16,16],[46,16],[48,18],[48,38],[46,40],[16,40]]],
+            P: [[[0,0],[50,0],[64,14],[64,44],[50,58],[16,58],[16,80],[0,80]], [[16,16],[46,16],[48,18],[48,40],[46,42],[16,42]]],
+            L: [[[0,0],[16,0],[16,64],[64,64],[64,80],[14,80],[0,66]]],
+            T: [[[0,0],[64,0],[64,16],[40,16],[40,80],[24,80],[24,16],[0,16]]],
+            I: [[[0,0],[16,0],[16,80],[0,80]]]
+          };
+          const GW = { I: 16 };                                   // ширина літери (за замовчуванням 64)
+          const word = (NATIVE[drawLang] || NATIVE.en)[0], S = Math.min(1.25, W / 360), gap = 20, slant = .3;
+          const adv = [...word].map(ch => GW[ch] || 64);
+          const totalW = (adv.reduce((a, b) => a + b, 0) + (word.length - 1) * gap) * S;
+          const ox = W / 2 - totalW / 2 - slant * 40 * S, oy = Hh / 2 - 40 * S;
+          shapes = [];
+          let penX = 0;
+          [...word].forEach((ch, i) => { const x0 = penX; G[ch].forEach(poly => shapes.push(poly.map(([x, y]) =>
+            [ox + (x0 + x + slant * (80 - y)) * S, oy + y * S]))); penX += adv[i] + gap; });
+          strokes = shapes.map(s => [...s, s[0]]);          // замкнені контури для променя
+          lab.textContent = (NATIVE[drawLang] || NATIVE.en)[1];
+          lab.style.top = `calc(50% + ${Math.round(40 * S + 30)}px)`;
+        }
+        const segLen = l => l.slice(1).reduce((s, p, i) => s + Math.hypot(p[0] - l[i][0], p[1] - l[i][1]), 0);
+        const totalLen = strokes ? strokes.reduce((s, l) => s + segLen(l), 0) : 0;
+
+        const t0 = performance.now(); let alive = true;
+        (function draw(now) {
+          const t = Math.max(0, now - t0), k = Math.min(t / TOTAL, 1);
+          ctx.clearRect(0, 0, W, Hh);
+          glowLine();
+          if (strokes) {
+            // промінь пробігає літери, слід лишається; наприкінці — рівне світіння
+            let left = totalLen * Math.min(t / (TOTAL * .62), 1), head = null;
+            for (const l of strokes) {
+              if (left <= 0) break;
+              ctx.beginPath(); ctx.moveTo(l[0][0], l[0][1]);
+              for (let i = 1; i < l.length && left > 0; i++) {
+                const [x0, y0] = l[i - 1], [x1, y1] = l[i], d = Math.hypot(x1 - x0, y1 - y0), f = Math.min(left / d, 1);
+                const x = x0 + (x1 - x0) * f, y = y0 + (y1 - y0) * f;
+                ctx.lineTo(x, y); left -= d; head = [x, y];
+              }
+              ctx.stroke();
+            }
+            if (head && t < TOTAL * .62) { ctx.fillStyle = "#fff"; ctx.shadowBlur = 14; ctx.beginPath(); ctx.arc(head[0], head[1], 2.6, 0, 7); ctx.fill(); }
+            // після обведення — заливка, як у логотипі
+            const fk = Math.min(Math.max((t - TOTAL * .6) / (TOTAL * .22), 0), 1);
+            if (fk > 0) {
+              ctx.shadowBlur = 0; ctx.globalAlpha = fk; ctx.fillStyle = TXT;
+              ctx.beginPath();
+              for (const s of shapes) { ctx.moveTo(s[0][0], s[0][1]); for (const p of s.slice(1)) ctx.lineTo(p[0], p[1]); ctx.closePath(); }
+              ctx.fill("evenodd"); ctx.globalAlpha = 1;
+            }
+          } else {
+            // маленька фігура Ліссажу — сигнал осцилографа
+            const grow = Math.min(t / 260, 1), R = 26 * (1 - Math.pow(1 - grow, 3)), cx = W / 2, cy = Hh / 2, ph = t / 520;
+            ctx.beginPath();
+            for (let i = 0; i <= 160; i++) {
+              const u = i / 160 * Math.PI * 2, x = cx + R * Math.sin(2 * u + ph), y = cy + R * Math.sin(3 * u);
+              i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+            }
+            ctx.stroke();
+            lab.textContent = `${T.loading.toUpperCase()}  ${String(Math.round(100 * (1 - Math.pow(1 - k, 2)))).padStart(3, " ")}%`;
+          }
+          if (alive) requestAnimationFrame(draw);
+        })(t0);
+        el.classList.add("draw");
+        setTimeout(() => {
+          el.classList.add("crt-off"); done();
+          setTimeout(() => { alive = false; el.remove(); html.classList.remove("loader-active"); }, 520);
+        }, TOTAL);
+        return;
+      }
+
+      // ---- повна: «креслення» логотипа ----
+      const svg = $("ld-logo"), pen = $("ld-pen");
+      const paths = [...svg.querySelectorAll("path[data-o]")].sort((p, q) => p.dataset.o - q.dataset.o);
+      const SPEED = 1.15;      // одиниць логотипа за мс (швидкість пера)
+      const HOP = 140;         // мс на переліт пера між частинами
+      const toScreen = (p, x, y) => new DOMPoint(x, y).matrixTransform(p.getScreenCTM());
+      paths.forEach(p => { const L = p.getTotalLength(); p._L = L; p.style.strokeDasharray = L; p.style.strokeDashoffset = L; });
+
+      // перо рухається як курсор-крапля: тягнеться за ціллю і розтягується від швидкості
+      let tx = innerWidth / 2, ty = innerHeight / 2, px = tx, py = ty, penOn = true;
+      (function penLoop() {
+        const vx = tx - px, vy = ty - py;
+        px += vx * .55; py += vy * .55;
+        const sp = Math.hypot(vx, vy), ang = Math.atan2(vy, vx);
+        pen.style.transform = `translate(${px}px, ${py}px) rotate(${ang}rad) scale(${1 + Math.min(sp / 22, 1.1)}, ${1 - Math.min(sp / 60, .4)})`;
+        if (penOn) requestAnimationFrame(penLoop);
+      })();
+
+      const wait = ms => new Promise(r => setTimeout(r, ms));
+      const tween = (ms, fn) => new Promise(r => {
+        const t0 = performance.now();
+        (function f(t) { const k = Math.min((t - t0) / ms, 1); fn(k); k < 1 ? requestAnimationFrame(f) : r(); })(t0);
+      });
+      const ease = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+
+      (async () => {
+        el.classList.add("draw");
+        await wait(380);
+        for (const p of paths) {
+          const p0 = p.getPointAtLength(0), s = toScreen(p, p0.x, p0.y);
+          const fx = tx, fy = ty;
+          await tween(HOP, k => { const e = ease(k); tx = fx + (s.x - fx) * e; ty = fy + (s.y - fy) * e; });
+          await tween(p._L / SPEED, k => {
+            const len = p._L * k, pt = p.getPointAtLength(len), sp2 = toScreen(p, pt.x, pt.y);
+            p.style.strokeDashoffset = p._L - len; tx = sp2.x; ty = sp2.y;
+          });
+        }
+        // перо «встановлює» імплант: ховається в крапку над j, логотип заливається
+        el.classList.add("filled");
+        await wait(140);
+        pen.classList.add("gone");
+        await wait(420);                        // застигає на мить
+        penOn = false;
+
+        // переліт у меню
+        const target = document.querySelector(".nav .wordmark").getBoundingClientRect();
+        const from = svg.getBoundingClientRect();
+        const sc = target.height / from.height;
+        svg.style.transformOrigin = "0 0";
+        svg.style.transition = "transform .85s cubic-bezier(.7,0,.2,1)";
+        svg.style.transform = `translate(${target.left - from.left}px, ${target.top - from.top}px) scale(${sc})`;
+        el.classList.add("fly");
+        done();
+        await wait(870);
+        html.classList.add("logo-landed");        // показуємо справжній логотип у меню
+        el.classList.add("gone");
+        await wait(500);
+        el.remove();
+        html.classList.remove("loader-draft", "logo-landed", "loader-active");
+      })();
+    })();
+
+    try {
+      const ks = sessionStorage.getItem("keepScroll");
+      if (ks !== null) { sessionStorage.removeItem("keepScroll"); requestAnimationFrame(() => scrollTo(0, +ks)); }
+      else if (!/^#p-/.test(location.hash)) {
+        if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+        scrollTo(0, 0);
+      }
+    } catch (e) {}
+  </script>
+<script src="lite.js?v=1"></script>
+</body>
+</html>
