@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>j13 — демо «Касета»</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#140b07">
+<link rel="icon" href="../apple-touch-icon.png">
+<!--
+  ДЕМО №5 «Касета»: аналоговий телевізор / VHS. Теплий помаранчевий кінескоп,
+  екранні написи відеомагнітофона, великі білі слова, глобус, піксельне лого.
+  Кнопка FX вимикає всі ефекти. Тексти й проєкти — з ../content.js.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400;0,500;0,700;0,800;0,900;1,900&family=Pixelify+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#140b07; --bg2:#1d110b; --rust:#b9502a; --amber:#e8925a; --glow:#f4b183; --cream:#f3e6d6; --dim:#a88a76;
+  --red:#e0462f; --yel:#f2c45a; --blu:#3346d6;
+  --big:"Inter Tight",system-ui,sans-serif; --osd:"Pixelify Sans","Courier New",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--cream);font:400 17px/1.6 var(--big);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.wrap{width:min(1180px,100% - 44px);margin-inline:auto}
+
+/* ── кінескоп поверх усього ── */
+.crt{position:fixed;inset:0;pointer-events:none;z-index:90}
+.crt::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.16) 0 1px,transparent 1px 3px);mix-blend-mode:multiply}
+.crt::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%,transparent 55%,rgba(0,0,0,.55));}
+#grain{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:91;opacity:.07;mix-blend-mode:screen}
+.calm .crt,.calm #grain{display:none}
+
+/* екранні написи (OSD) */
+.osd{font:400 clamp(13px,1.35vw,19px)/1.15 var(--osd);text-transform:uppercase;color:var(--glow);text-shadow:0 0 6px #e8925a88,1.5px 0 0 #e0462f55,-1.5px 0 0 #3346d655;letter-spacing:.04em}
+.calm .osd{text-shadow:none}
+
+/* ── шапка-OSD ── */
+header{position:absolute;inset:0 0 auto;z-index:50;padding:18px 0;pointer-events:none}
+header .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:16px}
+header .c{text-align:center}
+header .r{text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+header a,header button{pointer-events:auto}
+.fx{background:none;border:1px solid #e8925a66;color:var(--glow);font:inherit;padding:4px 10px;cursor:pointer;margin-top:6px;min-height:32px}
+.fx:hover{background:#e8925a1a}
+.rec::before{content:"●";color:var(--red);margin-right:6px;animation:blink 1.4s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+nav.osd{display:flex;gap:18px;justify-content:center;margin-top:6px}
+nav.osd a{text-decoration:none;opacity:.75}
+nav.osd a:hover{opacity:1}
+
+/* ── перший екран ── */
+.hero{position:relative;min-height:100svh;display:grid;place-items:center;overflow:hidden;background:radial-gradient(80% 70% at 50% 50%,#7a3216 0%,#40180b 55%,#140b07 100%)}
+#bars{position:absolute;inset:0;width:100%;height:100%}
+.hero .center{position:relative;z-index:2;text-align:center;padding:120px 20px 80px;width:100%}
+.hero .center::before{content:"";position:absolute;left:50%;top:58%;width:min(900px,100%);height:52%;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(20,8,4,.82),rgba(20,8,4,.5) 60%,transparent);z-index:-1;pointer-events:none}
+.hero h1,.hero p{text-shadow:0 1px 12px #000}
+.word{font:900 clamp(40px,12vw,200px)/.86 var(--big);letter-spacing:-.05em;color:#fff4ea;text-transform:uppercase;
+  text-shadow:-3px 0 0 rgba(224,70,47,.75),3px 0 0 rgba(51,70,214,.7),0 0 30px rgba(255,200,160,.35);position:relative;display:inline-block}
+.word.jit{animation:track .45s steps(2) 1}
+@keyframes track{0%{transform:translateX(0);clip-path:inset(0)}25%{transform:translateX(-14px);clip-path:inset(18% 0 52% 0)}50%{transform:translateX(10px);clip-path:inset(60% 0 8% 0)}75%{transform:translateX(-4px);clip-path:inset(0 0 70% 0)}100%{transform:none;clip-path:inset(0)}}
+.calm .word{text-shadow:none}
+.hero h1{font:700 clamp(22px,2.6vw,34px)/1.25 var(--big);letter-spacing:-.02em;margin:34px auto 0;max-width:22ch}
+.hero h1 b{color:var(--glow)}
+.hero p{color:var(--dim);margin:14px auto 0;max-width:34ch}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:34px}
+.btn{font:400 18px/1 var(--osd);text-transform:uppercase;letter-spacing:.06em;text-decoration:none;padding:16px 26px;border:2px solid var(--cream);color:var(--bg);background:var(--cream);display:inline-flex;gap:10px;align-items:center;transition:transform .15s,background .2s,color .2s;min-height:48px}
+.btn:hover{transform:translate(-3px,-3px);box-shadow:3px 3px 0 var(--red),6px 6px 0 var(--blu)}
+.btn.o{background:transparent;color:var(--cream)}
+.btn:focus-visible{outline:3px solid var(--yel);outline-offset:3px}
+.hint{position:absolute;bottom:22px;left:0;right:0;text-align:center;z-index:2}
+.osd-row{position:absolute;inset:auto 0 22px;z-index:2}
+.osd-row .wrap{display:flex;justify-content:space-between}
+
+/* великі слова не виходять за краї екрана */
+const fit = el => { el.style.fontSize = ""; const max = innerWidth * .92, w = el.scrollWidth; if (w > max) el.style.fontSize = parseFloat(getComputedStyle(el).fontSize) * max / w + "px" };
+const fitAll = () => ["word", "word2"].forEach(id => fit($(id)));
+new MutationObserver(fitAll).observe($("word"), { childList: true }); addEventListener("resize", fitAll); fitAll();
+document.fonts && document.fonts.ready.then(fitAll);
+
+/* ── цифри ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #e8925a33;border-bottom:1px solid #e8925a33}
+.stat{padding:30px 22px;border-left:1px solid #e8925a22}
+.stat:first-child{border-left:0}
+.stat b{display:block;font:900 clamp(40px,5vw,68px)/1 var(--big);letter-spacing:-.04em;color:#fff4ea}
+.stat span{color:var(--dim);font-size:14.5px;display:block;margin-top:8px}
+.stat .osd{font-size:13px;margin-bottom:12px;display:block}
+
+/* ── заголовки розділів ── */
+section{padding:130px 0 0;position:relative}
+.sh{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:50px;flex-wrap:wrap}
+.sh h2{font:900 clamp(46px,8vw,120px)/.9 var(--big);letter-spacing:-.05em;text-transform:uppercase;color:#fff4ea;text-shadow:-2px 0 0 rgba(224,70,47,.6),2px 0 0 rgba(51,70,214,.55)}
+.calm .sh h2{text-shadow:none}
+.sh p{color:var(--dim);max-width:32ch}
+
+/* ── піксельне лого ── */
+.pix{position:relative;background:#0d0d10;border-radius:22px;overflow:hidden;margin-top:110px}
+#pix{display:block;width:100%;height:clamp(300px,42vw,560px);cursor:crosshair;touch-action:pan-y}
+.pix .cap{position:absolute;left:28px;bottom:24px;right:28px;display:flex;justify-content:space-between;gap:20px;align-items:end;pointer-events:none}
+.pix .cap p{color:#b9b4ad;max-width:28ch;font-size:15px}
+
+/* ── проєкти як вікна старої системи ── */
+.wins{display:grid;grid-template-columns:1fr 1fr;gap:46px 34px}
+.win{background:#0f0806;border:2px solid var(--cream);box-shadow:8px 8px 0 #000,8px 8px 0 1px #e8925a44;text-decoration:none;display:block;transition:transform .25s}
+.win:nth-child(odd){transform:rotate(-.6deg)}
+.win:nth-child(even){transform:rotate(.5deg) translateY(28px)}
+.win:hover{transform:rotate(0) translateY(-4px)}
+.win:focus-visible{outline:3px solid var(--yel);outline-offset:6px}
+.tb{background:var(--cream);color:#1a0e08;display:flex;align-items:center;gap:10px;padding:5px 8px 5px 12px;font:600 15px var(--osd);text-transform:uppercase}
+.tb i{margin-left:auto;display:flex;gap:4px}
+.tb i::before,.tb i::after{content:"";width:14px;height:14px;border:2px solid #1a0e08}
+.tb i::after{background:linear-gradient(45deg,transparent 45%,#1a0e08 45% 55%,transparent 55%),linear-gradient(-45deg,transparent 45%,#1a0e08 45% 55%,transparent 55%)}
+.scr{position:relative;aspect-ratio:16/10;overflow:hidden;background:#2a1209;border-bottom:2px solid var(--cream)}
+.scr img{width:100%;height:100%;object-fit:cover;object-position:top;filter:sepia(1) saturate(2.4) hue-rotate(-16deg) contrast(1.15) brightness(.78);transition:filter .6s,transform .6s}
+.scr.ph{display:flex;gap:4%;justify-content:center;align-items:flex-end;padding:6% 6% 0}
+.scr.ph img{width:28%;height:auto;aspect-ratio:9/19.5;border:3px solid #000;border-bottom:0;border-radius:14px 14px 0 0}
+.scr::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 2px,transparent 2px 4px);transition:opacity .6s;pointer-events:none}
+.win:hover .scr img,.win:focus-visible .scr img,.win.tuned .scr img{filter:none}
+.win.tuned .scr::after{opacity:.25}
+.win:hover .scr::after{opacity:.25}
+.calm .scr img{filter:none}.calm .scr::after{display:none}
+.nosig{position:absolute;inset:0;display:grid;place-items:center}
+.nosig canvas{position:absolute;inset:0;width:100%;height:100%}
+.nosig span{position:relative;background:#000c;padding:10px 18px;font-size:22px}
+.wb{padding:18px 20px 22px}
+.wb h3{font:800 clamp(22px,2.3vw,30px)/1.15 var(--big);letter-spacing:-.03em;color:#fff4ea}
+.wb p{color:var(--dim);font-size:15px;margin-top:8px}
+.prog{display:flex;align-items:center;gap:12px;margin-top:16px;font-size:14px}
+.prog .bar{flex:1;max-width:220px;height:18px;border:2px solid var(--cream);padding:2px;display:flex;gap:2px}
+.prog .bar i{flex:1;background:var(--cream)}
+.prog .bar i.off{background:transparent}
+
+/* ── процес як розділи касети ── */
+.tape{border-top:1px solid #e8925a33}
+.ch{display:grid;grid-template-columns:150px 1fr 1.2fr;gap:24px;padding:28px 0;border-bottom:1px solid #e8925a33;align-items:baseline;transition:background .3s}
+.ch:hover{background:linear-gradient(90deg,#e8925a12,transparent)}
+.ch h4{font:800 clamp(26px,3vw,40px)/1 var(--big);text-transform:uppercase;letter-spacing:-.03em;color:#fff4ea}
+.ch p{color:var(--dim)}
+
+/* ── глобус ── */
+.globe{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+#globe{width:100%;aspect-ratio:1;max-width:520px;justify-self:center;display:block}
+.globe h2{font:900 clamp(40px,6vw,86px)/.92 var(--big);letter-spacing:-.05em;text-transform:uppercase;color:#fff4ea}
+.globe p{color:var(--dim);margin-top:18px;max-width:34ch}
+.globe .osd{display:block;margin-bottom:18px}
+
+/* ── заклик ── */
+.final{margin-top:140px;min-height:80svh;display:grid;place-items:center;text-align:center;background:radial-gradient(70% 60% at 50% 50%,#7a3216,#140b07 75%);position:relative;overflow:hidden}
+.final .word{font-size:clamp(40px,11vw,180px)}
+.final p{color:var(--dim);margin:20px auto 0;max-width:34ch}
+footer{padding:40px 0 100px;color:var(--dim)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+.note{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:95;background:var(--cream);color:#1a0e08;font:400 14px var(--osd);text-transform:uppercase;padding:8px 16px;white-space:nowrap;box-shadow:3px 3px 0 var(--red),6px 6px 0 var(--blu)}
+.note a{font-weight:600;margin-left:8px}
+
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+.win.rv.in:nth-child(odd){transform:rotate(-.6deg)}
+.win.rv.in:nth-child(even){transform:rotate(.5deg) translateY(28px)}
+.win.rv.in:hover{transform:rotate(0) translateY(-4px)}
+
+@media (max-width:860px){
+  header .c{display:none}
+  header .wrap{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .stat:nth-child(3){border-left:0}
+  .stat:nth-child(n+3){border-top:1px solid #e8925a22}
+  .wins{grid-template-columns:1fr;gap:34px}
+  .win:nth-child(n),.win.rv.in:nth-child(n){transform:none}
+  .ch{grid-template-columns:1fr;gap:6px}
+  .globe{grid-template-columns:1fr}
+  .osd-row .wrap span:nth-child(2){display:none}
+}
+@media (max-width:640px){
+  .pix .cap{position:static;flex-direction:column;align-items:flex-start;gap:6px;padding:4px 20px 22px}
+  #pix{height:240px}
+}
+@media (max-width:520px){
+  .stat{padding:22px 14px}
+  .note{font-size:12px}
+  .btn{font-size:16px;padding:14px 18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+<script>try{if(localStorage.getItem("demo5-calm")==="1"||matchMedia("(prefers-reduced-motion:reduce)").matches)document.documentElement.classList.add("calm")}catch(e){}</script>
+</head>
+<body>
+<div class="crt" aria-hidden="true"></div>
+<canvas id="grain" aria-hidden="true"></canvas>
+
+<header><div class="wrap">
+  <div class="osd"><a href="#top" style="text-decoration:none">DECK J13</a><br>▶ PLAY<br><span id="tc">-0:00:00</span><br>SP</div>
+  <div class="c osd">TV VIEW<br>LINES<nav class="osd"><a href="#work">Проєкти</a><a href="#tape">Процес</a><a href="#rec">Зв'язок</a></nav></div>
+  <div class="r osd"><span class="rec">REC</span><span id="clk">00:00:00</span><button class="fx osd" id="fx" aria-pressed="true">FX: ON</button></div>
+</div></header>
+
+<main id="top">
+<div class="hero">
+  <canvas id="bars" aria-hidden="true"></canvas>
+  <div class="center">
+    <div class="word" id="word" aria-hidden="true">СТВОРЮЄМО</div>
+    <h1>Команда <b>j13</b>: сайти, програми й боти для вашого бізнесу.</h1>
+    <p>Від ідеї до запуску — і далі на зв'язку.</p>
+    <div class="cta"><a class="btn" href="../#contact">▶ Замовити</a><a class="btn o" href="#work">Проєкти</a></div>
+  </div>
+  <div class="osd-row osd" aria-hidden="true"><div class="wrap"><span>CH 01</span><span>— — —  — — —  — — .  — — — —  — — : — —</span><span>STEREO</span></div></div>
+</div>
+
+<div class="wrap">
+  <div class="stats rv" id="stats"></div>
+
+  <div class="pix rv" aria-label="Логотип j13 з пікселів">
+    <canvas id="pix"></canvas>
+    <div class="cap"><span class="osd">// PIXEL MODE</span><p>Проведіть курсором або пальцем: ми збираємо продукт з дрібниць, піксель за пікселем.</p></div>
+  </div>
+
+  <section id="work">
+    <div class="sh rv"><h2>Проєкти</h2><p>Наведіть на вікно, щоб «налаштувати сигнал» і побачити справжній скрін.</p></div>
+    <div class="wins" id="wins"></div>
+  </section>
+
+  <section id="tape">
+    <div class="sh rv"><h2>Процес</h2><p>Чотири розділи на одній касеті — від заявки до запуску.</p></div>
+    <div class="tape rv" id="chs"></div>
+  </section>
+
+  <section>
+    <div class="globe rv">
+      <canvas id="globe" aria-hidden="true"></canvas>
+      <div><span class="osd">LOC: ПЛАНЕТА ЗЕМЛЯ</span><h2>Працюємо з усім світом</h2><p>Сайт сам говорить вісьмома мовами, а ми — на зв'язку з клієнтами в будь-якому часовому поясі.</p></div>
+    </div>
+  </section>
+</div>
+
+<div class="final" id="rec">
+  <div>
+    <span class="osd rec">REC · НОВИЙ ПРОЄКТ</span><br><br>
+    <div class="word" id="word2">ЗАПИСУЄМО?</div>
+    <p>Розкажіть про ідею — запропонуємо рішення, ціну й терміни.</p>
+    <div class="cta"><a class="btn" href="../#contact">● Почати запис</a></div>
+  </div>
+</div>
+</main>
+
+<footer><div class="wrap osd"><span>© 2026 J13</span><span>ПЛАНЕТА ЗЕМЛЯ</span></div></footer>
+<div class="note">Демо «Касета» <a href="../next/">Next</a> <a href="../">← нинішній</a></div>
+
+<script src="../content.js"></script>
+<script>
+const S = site_uk, $ = id => document.getElementById(id), D = document.documentElement;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const calm = () => D.classList.contains("calm");
+const vis = new Map(); // який canvas зараз видно — малюємо тільки його
+const vio = new IntersectionObserver(es => es.forEach(e => vis.set(e.target, e.isIntersecting)));
+
+/* ── FX: увімкнути / вимкнути ефекти ── */
+const fxPaint = () => { const on = !calm(); $("fx").textContent = "FX: " + (on ? "ON" : "OFF"); $("fx").setAttribute("aria-pressed", on) };
+$("fx").onclick = () => { D.classList.toggle("calm"); try { localStorage.setItem("demo5-calm", calm() ? "1" : "0") } catch (e) {} fxPaint() };
+fxPaint();
+
+/* ── таймкод і годинник ── */
+const t0 = Date.now(), p2 = n => String(n).padStart(2, "0");
+setInterval(() => { const s = Math.floor((Date.now() - t0) / 1000); $("tc").textContent = `-0:${p2(Math.floor(s / 60) % 60)}:${p2(s % 60)}`; const d = new Date(); $("clk").textContent = `${p2(d.getHours())}:${p2(d.getMinutes())}:${p2(d.getSeconds())}` }, 1000);
+
+/* ── зерно плівки (дрібне й тьмяне) ── */
+(() => { const c = $("grain"), x = c.getContext("2d"); c.width = 160; c.height = 100; const im = x.createImageData(160, 100);
+  let f = 0; (function loop() { if (!calm() && f++ % 3 === 0) { for (let i = 0; i < im.data.length; i += 4) { const v = Math.random() * 255; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = 255 } x.putImageData(im, 0, 0) } requestAnimationFrame(loop) })() })();
+
+/* ── перший екран: «рядки коду» з кінескопних смужок ── */
+(() => { const c = $("bars"), x = c.getContext("2d"); vio.observe(c); let W, H, rows = [];
+  const size = () => { const r = devicePixelRatio > 1 ? 1.5 : 1; W = c.width = c.offsetWidth * r; H = c.height = c.offsetHeight * r; rows = [];
+    const lh = 26 * r; for (let y = lh; y < H; y += lh) rows.push({ y, segs: Array.from({ length: 1 + Math.floor(Math.random() * 3) }, () => ({ x: Math.random() * W * .6, w: 60 * r + Math.random() * W * .35, a: .25 + Math.random() * .55 })), sp: (Math.random() - .5) * .25 * r }) };
+  size(); addEventListener("resize", size);
+  (function loop() { requestAnimationFrame(loop); if (vis.get(c) === false) return;
+    x.clearRect(0, 0, W, H);
+    for (const row of rows) for (const s of row.segs) { if (!calm()) { s.x += row.sp; if (s.x > W) s.x = -s.w; if (s.x < -s.w) s.x = W }
+      // кожна «буква» — вертикальна риска, як на старому екрані
+      x.fillStyle = `rgba(240,140,80,${s.a})`;
+      for (let i = 0; i < s.w; i += 5) if (Math.sin((i + row.y) * .07) > -.6) x.fillRect(s.x + i, row.y, 3, 14) }
+  })() })();
+
+/* ── велике слово: змінюється з глюком «трекінгу» ── */
+(() => { const W = ["СТВОРЮЄМО", "БУДУЄМО", "ЗАПУСКАЄМО"]; let i = 0; const el = $("word");
+  setInterval(() => { i = (i + 1) % W.length; if (calm()) { el.textContent = W[i]; return } el.classList.remove("jit"); void el.offsetWidth; el.classList.add("jit"); setTimeout(() => el.textContent = W[i], 200) }, 3200);
+  // зрідка — коротке тремтіння другого слова
+  setInterval(() => { if (calm()) return; const w2 = $("word2"); w2.classList.remove("jit"); void w2.offsetWidth; w2.classList.add("jit") }, 5200) })();
+
+/* ── цифри ── */
+const st = [...S.stats.slice(0, 3), { value: 8, suffix: "", label: "мов, які сайт визначає сам" }], CH = ["A", "B", "C", "D"];
+$("stats").innerHTML = st.map((s, i) => `<div class="stat"><span class="osd">CH-${CH[i]}</span><b>${s.value}${esc(s.suffix)}</b><span>${esc(s.label)}</span></div>`).join("");
+
+/* ── піксельне лого (як мозаїка з квадратиків) ── */
+(() => { const c = $("pix"), x = c.getContext("2d"); vio.observe(c); let W, H, cell, cells = [], mx = -1e4, my = -1e4, born = 0;
+  const COL = { in: "#efe9df", red: "#e0462f", yel: "#f2c45a", org: "#f0a24a", blu: "#3346d6" };
+  const build = () => { const r = Math.min(2, devicePixelRatio || 1); W = c.width = c.offsetWidth * r; H = c.height = c.offsetHeight * r; cell = Math.max(8, Math.round(W / 70));
+    const o = document.createElement("canvas"), ox = o.getContext("2d"), cw = Math.ceil(W / cell), ch = Math.ceil(H / cell); o.width = cw; o.height = ch;
+    ox.fillStyle = "#fff"; ox.textAlign = "center"; ox.textBaseline = "middle"; ox.font = `italic 900 ${ch * .95}px "Inter Tight", Arial Black, sans-serif`;
+    ox.save(); ox.translate(cw / 2, ch / 2 + ch * .04); ox.transform(1, 0, -.12, 1, 0, 0); ox.fillText("j13", 0, 0); ox.restore();
+    const d = ox.getImageData(0, 0, cw, ch).data, on = (i, j) => i >= 0 && j >= 0 && i < cw && j < ch && d[(j * cw + i) * 4 + 3] > 110;
+    cells = [];
+    for (let j = 0; j < ch; j++) for (let i = 0; i < cw; i++) {
+      const In = on(i, j); let edge = 0; for (const [a, b] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (on(i + a, j + b) !== In) edge++;
+      const near = !In && (on(i + 2, j) || on(i - 2, j) || on(i, j + 2) || on(i, j - 2));
+      if (!In && !near && Math.random() > .012) continue;
+      let kind = In ? (edge ? (Math.random() < .5 ? "red" : Math.random() < .6 ? "yel" : "org") : "in") : (near ? (Math.random() < .08 ? "blu" : "out") : "dot");
+      if (In && !edge && Math.random() < .04) kind = "org";
+      cells.push({ i, j, kind, fill: !(kind === "out" || kind === "dot" || (kind !== "in" && Math.random() < .35)), d: Math.random() });
+    } born = performance.now() };
+  const go = () => document.fonts && document.fonts.load('italic 900 40px "Inter Tight"').then(build, build);
+  build(); go(); addEventListener("resize", build);
+  const pos = e => { const r = c.getBoundingClientRect(), k = W / r.width; mx = (e.clientX - r.left) * k; my = (e.clientY - r.top) * k };
+  c.addEventListener("pointermove", pos); c.addEventListener("pointerleave", () => { mx = my = -1e4 });
+  (function loop(t) { requestAnimationFrame(loop); if (vis.get(c) === false) return;
+    x.fillStyle = "#0d0d10"; x.fillRect(0, 0, W, H);
+    const age = calm() ? 1e9 : t - born;
+    for (const p of cells) { if (age < p.d * 1400) continue;
+      let px = p.i * cell, py = p.j * cell, s = cell - 2, k = p.kind;
+      const dx = px - mx, dy = py - my, dd = Math.hypot(dx, dy), R = cell * 6;
+      if (dd < R && !calm()) { const f = (1 - dd / R); px += dx / dd * f * cell * 1.6; py += dy / dd * f * cell * 1.6; if (k === "in" && f > .55) k = f > .8 ? "red" : "yel" }
+      if (k === "dot") { x.fillStyle = "#3a3a44"; x.fillRect(px + s / 2 - 1, py + s / 2 - 1, 2, 2); continue }
+      const col = k === "out" ? "#55555f" : COL[k];
+      if (p.fill && k !== "out") { x.fillStyle = col; x.fillRect(px, py, s, s); if (k !== "in") { x.strokeStyle = "#0d0d10"; x.lineWidth = 1; x.strokeRect(px + 2.5, py + 2.5, s - 5, s - 5) } }
+      else { x.strokeStyle = col; x.lineWidth = Math.max(1.5, cell / 7); const q = k === "out" ? s * .5 : s; x.strokeRect(px + (s - q) / 2 + 1, py + (s - q) / 2 + 1, q - 2, q - 2) }
+    } })(0) })();
+
+/* ── проєкти ── */
+const G = p => p.details.gallery || [];
+const ok = p => p.live && !/розроб/i.test(p.status);
+const desk = p => p.mock !== "phones" && (p.image || (G(p).find(g => g.kind === "desk") || {}).src);
+const exe = p => (p.slug || "app").toUpperCase().slice(0, 8) + ".EXE";
+$("wins").innerHTML = S.projects.map((p, n) => {
+  const d = desk(p), ph = G(p).filter(g => g.kind === "phone");
+  const scr = d ? `<div class="scr"><img src="../${esc(d)}" alt="${esc(p.title)}" loading="lazy"></div>`
+    : ph.length ? `<div class="scr ph">${ph.slice(0, 3).map(g => `<img src="../${esc(g.src)}" alt="" loading="lazy">`).join("")}</div>`
+    : `<div class="scr nosig"><canvas data-noise></canvas><span class="osd">NO SIGNAL · СЕКРЕТ</span></div>`;
+  const lv = ok(p) ? 10 : (p.mock === "game" ? 3 : 6);
+  return `<a class="win rv" href="../#p-${esc(p.slug)}"><div class="tb">${exe(p)}<i></i></div>${scr}
+    <div class="wb"><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p>
+    <div class="prog osd"><span class="bar">${Array.from({ length: 10 }, (_, k) => `<i class="${k < lv ? "" : "off"}"></i>`).join("")}</span>${esc(p.status)}</div></div></a>` }).join("");
+// шум «немає сигналу»
+document.querySelectorAll("[data-noise]").forEach(c => { const x = c.getContext("2d"); c.width = 160; c.height = 100; vio.observe(c); const im = x.createImageData(160, 100);
+  (function f() { requestAnimationFrame(f); if (vis.get(c) === false) return; for (let i = 0; i < im.data.length; i += 4) { const v = Math.random() * (calm() ? 90 : 230); im.data[i] = v; im.data[i + 1] = v * .62; im.data[i + 2] = v * .42; im.data[i + 3] = 255 } x.putImageData(im, 0, 0) })() });
+
+// на телефоні наведення немає — «налаштовуємо сигнал», коли вікно посередині екрана
+if (matchMedia("(hover:none)").matches) { const tio = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("tuned", e.isIntersecting)), { rootMargin: "-35% 0px -35% 0px" }); document.querySelectorAll(".win").forEach(w => tio.observe(w)) }
+
+/* ── процес ── */
+$("chs").innerHTML = S.process.map((s, i) => `<div class="ch"><span class="osd">CH ${p2(i + 1)} · 0:0${i * 2}:${p2(i * 17 % 60)}</span><h4>${esc(s.title)}</h4><p>${esc(s.text)}</p></div>`).join("");
+
+/* ── контурний глобус з орбітами ── */
+(() => { const c = $("globe"), x = c.getContext("2d"); vio.observe(c); let S2, rot = 0;
+  const size = () => { const r = Math.min(2, devicePixelRatio || 1); S2 = c.width = c.height = c.offsetWidth * r };
+  size(); addEventListener("resize", size);
+  const tilt = .38, ct = Math.cos(tilt), st2 = Math.sin(tilt);
+  const P = (lat, lon) => { const la = lat * Math.PI / 180, lo = lon * Math.PI / 180 + rot; let X = Math.cos(la) * Math.sin(lo), Y = Math.sin(la), Z = Math.cos(la) * Math.cos(lo); const y2 = Y * ct - Z * st2, z2 = Y * st2 + Z * ct; return [X, -y2, z2] };
+  const line = (pts, R, cx, cy) => { for (let k = 1; k < pts.length; k++) { const a = pts[k - 1], b = pts[k]; x.globalAlpha = (a[2] > 0 && b[2] > 0) ? .95 : .16; x.beginPath(); x.moveTo(cx + a[0] * R, cy + a[1] * R); x.lineTo(cx + b[0] * R, cy + b[1] * R); x.stroke() } };
+  (function loop() { requestAnimationFrame(loop); if (vis.get(c) === false) return; if (!calm()) rot += .0035;
+    const R = S2 * .36, cx = S2 / 2, cy = S2 / 2; x.clearRect(0, 0, S2, S2);
+    x.strokeStyle = "#f3e6d6"; x.lineWidth = Math.max(1, S2 / 420); x.shadowColor = "#e8925a"; x.shadowBlur = calm() ? 0 : 8;
+    for (let lon = 0; lon < 360; lon += 30) line(Array.from({ length: 37 }, (_, k) => P(-90 + k * 5, lon)), R, cx, cy);
+    for (let lat = -60; lat <= 60; lat += 30) line(Array.from({ length: 73 }, (_, k) => P(lat, k * 5)), R, cx, cy);
+    x.globalAlpha = 1; x.lineWidth *= 1.6; x.beginPath(); x.arc(cx, cy, R, 0, 7); x.stroke();
+    // орбіти
+    x.lineWidth = Math.max(1, S2 / 500);
+    for (const [a, b, ang] of [[1.32, .42, -.35], [1.18, .3, .55]]) { x.save(); x.translate(cx, cy); x.rotate(ang + (calm() ? 0 : rot * .2)); x.globalAlpha = .7; x.beginPath(); x.ellipse(0, 0, R * a, R * b, 0, 0, 7); x.stroke();
+      const m = performance.now() / 2400 * (a > 1.25 ? 1 : -1.3); x.globalAlpha = 1; x.fillStyle = "#f2c45a"; x.beginPath(); x.arc(Math.cos(m) * R * a, Math.sin(m) * R * b, S2 / 110, 0, 7); x.fill(); x.restore() }
+    x.shadowBlur = 0 })() })();
+
+/* поява при прокручуванні */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target) } }), { threshold: .12 });
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
