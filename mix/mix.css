@@ -1,0 +1,138 @@
+/* =====================================================
+   ДЕМО «Mix»: сайт /next/ + атмосфера «Касети» (старий телевізор, VHS).
+   Шари: ../style.css → ../next/next.css → mix.css
+   ===================================================== */
+body[data-accent] {
+  --bg: #140b07; --card: #1c110b; --line: #3a2216; --text: #f3e6d6; --muted: #b0907b;
+  --accent: #f2c45a; --accent-2: #3346d6; --red: #e0462f; --amber: #e8925a;
+  --neon: #e8925a66; --neon-soft: #e8925a22;
+  --head: "Inter Tight", "Manrope", system-ui, sans-serif; --osd: "Pixelify Sans", "Courier New", monospace;
+}
+.themes { display: none !important; }
+
+/* ── кінескоп поверх усього ── */
+.mx-crt { position: fixed; inset: 0; pointer-events: none; z-index: 8000; }
+.mx-crt::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, rgba(0,0,0,.15) 0 1px, transparent 1px 3px); mix-blend-mode: multiply; }
+.mx-crt::after { content: ""; position: absolute; inset: 0; background: radial-gradient(125% 95% at 50% 50%, transparent 55%, rgba(0,0,0,.5)); }
+#mxGrain { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 8001; opacity: .06; mix-blend-mode: screen; }
+html.mx-calm .mx-crt, html.mx-calm #mxGrain { display: none; }
+
+.osd { font: 400 clamp(13px, 1.3vw, 18px)/1.15 var(--osd); text-transform: uppercase; letter-spacing: .04em; color: #f4b183;
+  text-shadow: 0 0 6px #e8925a88, 1.5px 0 0 #e0462f55, -1.5px 0 0 #3346d655; }
+html.mx-calm .osd { text-shadow: none; }
+
+/* ── заголовки: великі білі слова з кольоровим розшаруванням ── */
+.hero h1, .sec-head h2, .contact h2, .demo-text h2, .faq h2, .pp h1, .pp h2 {
+  font-family: var(--head); font-weight: 900; text-transform: uppercase; letter-spacing: -.045em; color: #fff4ea;
+  text-shadow: -2px 0 0 rgba(224,70,47,.65), 2px 0 0 rgba(51,70,214,.6);
+}
+html.mx-calm .hero h1, html.mx-calm .sec-head h2, html.mx-calm .contact h2, html.mx-calm .demo-text h2 { text-shadow: none; }
+.hero h1 { font-size: clamp(38px, 5.4vw, 88px); line-height: .96; }
+.sec-head h2 { font-size: clamp(36px, 5.6vw, 84px); line-height: .92; }
+.contact h2 { font-size: clamp(40px, 7.4vw, 120px); line-height: .9; }
+.project h3, .stat .n { font-family: var(--head); font-weight: 800; }
+/* акцентне слово: кремова «пластинка» замість жовтого штриха */
+.hero h1 .w:last-child { filter: none; }
+.hero h1 .w:last-child > span, .contact h2 .em {
+  background: #f3e6d6; color: #1a0e08 !important; text-shadow: none !important; clip-path: none;
+  box-shadow: 4px 4px 0 var(--red), 8px 8px 0 var(--accent-2); padding: 0 .12em;
+}
+.contact h2 .em { filter: none; }
+.sec-head h2 .em, .demo-text h2 .em, .faq-title .em {
+  background: none; color: #f4b183 !important; text-shadow: inherit; padding: 0;
+}
+
+/* ── перший екран: теплий кінескоп + «рядки коду» ── */
+.hero { background: radial-gradient(80% 75% at 55% 45%, #6e2d14 0%, #3a160a 55%, #140b07 100%); }
+.hero .grid-bg, .hero .orb, .hero .spot { display: none !important; }
+#mxBars { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.hero > .wrap { position: relative; z-index: 2; }
+.hero p.intro { color: #e7cdb9; text-shadow: 0 1px 10px #000; }
+.badge { background: #1c110bcc !important; border-color: #e8925a55 !important; color: #f4b183 !important; font-family: var(--osd); text-transform: uppercase; letter-spacing: .04em; }
+/* екранні написи по кутах першого екрана */
+.mx-osd { position: absolute; z-index: 3; pointer-events: none; }
+.mx-osd.tl { left: max(22px, calc((100vw - 1180px) / 2)); top: 96px; }
+.mx-osd.tr { right: max(22px, calc((100vw - 1180px) / 2)); top: 96px; text-align: right; }
+.mx-osd.bl { left: max(22px, calc((100vw - 1180px) / 2)); bottom: 24px; }
+.mx-osd.br { right: max(22px, calc((100vw - 1180px) / 2)); bottom: 24px; text-align: right; }
+.mx-rec::before { content: "●"; color: var(--red); margin-right: 6px; animation: mxBlink 1.4s steps(1) infinite; }
+@keyframes mxBlink { 50% { opacity: 0; } }
+.mx-fx { pointer-events: auto; background: #140b07aa; border: 1px solid #e8925a66; color: #f4b183; font: inherit; padding: 6px 12px; cursor: pointer; margin-top: 8px; min-height: 36px; }
+.mx-fx:hover { background: #e8925a22; }
+.mx-fx:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── кнопки: кремові «клавіші» з тінню червоне+синє ── */
+.btn { clip-path: none !important; border-radius: 0 !important; font-family: var(--osd); text-transform: uppercase; letter-spacing: .05em; font-weight: 400; }
+.btn.primary { background: #f3e6d6 !important; color: #1a0e08 !important; border: 2px solid #f3e6d6 !important; }
+.btn:not(.primary) { background: transparent !important; color: #f3e6d6 !important; border: 2px solid #f3e6d6 !important; }
+.btn:hover { transform: translate(-3px, -3px); box-shadow: 3px 3px 0 var(--red), 6px 6px 0 var(--accent-2) !important; }
+.btn:focus-visible { outline: 3px solid var(--accent) !important; outline-offset: 3px !important; }
+.tags span, .skills span { clip-path: none !important; border-radius: 0 !important; font-family: var(--osd); text-transform: uppercase; letter-spacing: .04em; }
+.label b { clip-path: none; background: #f3e6d6; color: #1a0e08; font-family: var(--osd); }
+.label { color: #f4b183; font-family: var(--osd); }
+
+/* ── конструктор = вікно старої системи ── */
+.studio.mini { border: 2px solid #f3e6d6; border-radius: 0; clip-path: none; box-shadow: 8px 8px 0 #000, 8px 8px 0 1px #e8925a44; background: #0f0806; }
+.studio.mini .stb { background: #f3e6d6; border-bottom: 2px solid #f3e6d6; }
+.studio.mini .stb .cap { color: #1a0e08; font-family: var(--osd); font-size: 15px; text-transform: uppercase; }
+.studio.mini .stb .dots { display: none; }
+.studio.mini .seg { background: #1a0e08; }
+.studio.mini .seg button { font-family: var(--osd); text-transform: uppercase; color: #b0907b; }
+.studio.mini .seg button.on { background: #f3e6d6; color: #1a0e08; clip-path: none; }
+.studio.mini .code { background: #0f0806; border-color: #3a2216; }
+.studio.mini .code .t { color: #f4b183; } .studio.mini .code .at { color: #f2c45a; } .studio.mini .code .s { color: #e8925a; } .studio.mini .code .c { color: #a8876f; }
+.studio.mini .code .cur { background: #f4b183; }
+.studio.mini .prev { background: #0a0504; }
+.studio.mini .sfoot { background: #140b07; border-color: #3a2216; color: #b0907b; }
+.done { background: #f3e6d6 !important; color: #1a0e08 !important; clip-path: none !important; font-family: var(--osd); text-transform: uppercase; box-shadow: 3px 3px 0 var(--red), 6px 6px 0 var(--accent-2); }
+
+/* ── стрічка ── */
+.marquee { background: #1c110b !important; box-shadow: inset 0 2px 0 #f3e6d6, inset 0 -2px 0 #f3e6d6, 0 30px 60px -30px #000 !important; }
+.marquee span, .marquee a { font-family: var(--osd) !important; text-transform: uppercase; font-weight: 400 !important; letter-spacing: .03em !important; color: #f4b183 !important; }
+.marquee i { color: #f3e6d6 !important; }
+
+/* ── картки проєктів: кремова рамка, скріни «без сигналу» до наведення ── */
+.project { clip-path: none !important; border-radius: 0 !important; border: 2px solid #f3e6d6 !important; background: #0f0806 !important; box-shadow: 8px 8px 0 #000; }
+.project::before { display: none !important; }
+.project .visual img, .project .mock img { filter: sepia(1) saturate(2.3) hue-rotate(-16deg) contrast(1.12) brightness(.8); transition: filter .6s; }
+.project:hover .visual img, .project:hover .mock img, .project.mx-tuned .visual img, .project.mx-tuned .mock img { filter: none; }
+.project .visual { position: relative; }
+.project .visual::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5; background: repeating-linear-gradient(0deg, rgba(0,0,0,.26) 0 2px, transparent 2px 4px); transition: opacity .6s; }
+.project:hover .visual::after, .project.mx-tuned .visual::after { opacity: .2; }
+html.mx-calm .project .visual img, html.mx-calm .project .mock img { filter: none; }
+html.mx-calm .project .visual::after { display: none; }
+.project .badge { font-size: 13px; }
+
+/* цифри */
+.stat .n, .stat .n em { color: #fff4ea !important; }
+
+/* ── піксельне лого ── */
+.mx-pix { position: relative; background: #0d0d10; overflow: hidden; margin: 110px auto 0; border: 2px solid #2a2a33; }
+#mxPix { display: block; width: 100%; height: clamp(260px, 38vw, 520px); cursor: crosshair; touch-action: pan-y; }
+.mx-pix .cap { position: absolute; left: 26px; right: 26px; bottom: 22px; display: flex; justify-content: space-between; align-items: end; gap: 20px; pointer-events: none; }
+.mx-pix .cap p { color: #b9b4ad; max-width: 30ch; font-size: 15px; }
+
+/* ── глобус ── */
+.mx-globe { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; padding-top: 120px; }
+#mxGlobe { width: 100%; max-width: 480px; aspect-ratio: 1; justify-self: center; display: block; }
+.mx-globe h2 { font: 900 clamp(36px, 5.4vw, 80px)/.92 var(--head); letter-spacing: -.045em; text-transform: uppercase; color: #fff4ea; text-shadow: -2px 0 0 rgba(224,70,47,.6), 2px 0 0 rgba(51,70,214,.55); }
+.mx-globe p { color: var(--muted); margin-top: 18px; max-width: 36ch; }
+.mx-globe .osd { display: block; margin-bottom: 16px; }
+
+/* плашка демо */
+.nx-note { background: #f3e6d6 !important; color: #1a0e08 !important; clip-path: none !important; font-family: var(--osd) !important; text-transform: uppercase; box-shadow: 3px 3px 0 var(--red), 6px 6px 0 var(--accent-2); }
+.nx-note a { color: #1a0e08 !important; }
+
+@media (max-width: 860px) {
+  .mx-osd.tl, .mx-osd.tr { top: 84px; }
+  .mx-osd .hide-s { display: none; }
+  .mx-globe { grid-template-columns: 1fr; padding-top: 90px; }
+  #mxGlobe { max-width: 340px; }
+}
+@media (max-width: 640px) {
+  .mx-pix .cap { position: static; flex-direction: column; align-items: flex-start; gap: 6px; padding: 4px 20px 22px; }
+  #mxPix { height: 230px; }
+  .mx-osd.bl, .mx-osd.br { display: none; }
+  .hero .badge { margin-top: 48px; }
+}
+@media (prefers-reduced-motion: reduce) { .mx-rec::before { animation: none; } }
