@@ -136,3 +136,57 @@ html.mx-calm .project .visual::after { display: none; }
   .hero .badge { margin-top: 48px; }
 }
 @media (prefers-reduced-motion: reduce) { .mx-rec::before { animation: none; } }
+
+/* =====================================================
+   Раунд 2: спокійніше («не такий виразний») + правки за оглядом
+   ===================================================== */
+
+/* спокійніші заголовки: звичайний регістр, менший розмір, ледь помітне розшарування */
+.hero h1, .sec-head h2, .contact h2, .demo-text h2, .faq h2, .pp h1, .pp h2, .mx-globe h2 {
+  text-transform: none; font-weight: 800; letter-spacing: -.035em;
+  text-shadow: -1px 0 0 rgba(224,70,47,.35), 1px 0 0 rgba(51,70,214,.35);
+}
+.hero h1 { font-size: clamp(36px, 4.6vw, 72px); line-height: 1.02; }
+.sec-head h2 { font-size: clamp(32px, 4.2vw, 58px); line-height: 1.04; }
+.contact h2 { font-size: clamp(36px, 6vw, 92px); line-height: 1.02; }
+.mx-globe h2 { font-size: clamp(30px, 4.2vw, 58px); line-height: 1.04; }
+.hero h1 .w:last-child > span, .contact h2 .em { box-shadow: 3px 3px 0 rgba(224,70,47,.7); }
+.sec-head h2 .em, .demo-text h2 .em, .faq-title .em { color: inherit !important; }
+
+/* екранні написи — тихіші */
+.osd { text-shadow: none; opacity: .72; font-size: clamp(12px, 1.05vw, 15px); }
+.mx-fx { opacity: 1; }
+
+/* фон першого екрана — м'якший */
+.hero { background: radial-gradient(80% 75% at 55% 45%, rgba(90,40,20,.55) 0%, rgba(50,22,12,.4) 55%, transparent 100%); }
+#mxBars { opacity: .45; }
+#mxGrain { opacity: .05; }
+
+/* 5. лінії кінескопа без «змішування» — легше для слабких телефонів */
+.mx-crt::before { mix-blend-mode: normal; background: repeating-linear-gradient(90deg, rgba(0,0,0,.12) 0 1px, transparent 1px 3px); }
+#mxGrain { mix-blend-mode: normal; }
+
+/* кнопки й рамки — без кольорових подвійних тіней */
+.btn:hover { transform: translateY(-2px); box-shadow: 3px 3px 0 rgba(224,70,47,.6) !important; }
+.project { box-shadow: 6px 6px 0 rgba(0,0,0,.6); border-color: rgba(243,230,214,.55) !important; }
+.studio.mini { box-shadow: 6px 6px 0 rgba(0,0,0,.6); }
+.done, .nx-note { box-shadow: 3px 3px 0 rgba(224,70,47,.6) !important; }
+.marquee { transform: rotate(-1deg); }
+
+/* 3. скріни видно одразу — лише теплий відтінок; повний колір при наведенні */
+.project .visual img, .project .mock img { filter: sepia(.4) saturate(1.15) brightness(.95); }
+.project .visual::after { background: repeating-linear-gradient(0deg, rgba(0,0,0,.12) 0 2px, transparent 2px 4px); }
+
+/* 4. мітки статусу й кнопки бота — у тому ж квадратному стилі */
+.pill { border-radius: 0 !important; font-family: var(--osd); font-weight: 400; text-transform: uppercase; letter-spacing: .04em; box-shadow: none !important; text-shadow: none !important; }
+.pill.live { color: #f3e6d6 !important; border-color: rgba(243,230,214,.5) !important; }
+.dp-btns button { border-radius: 0; border-color: rgba(243,230,214,.6); color: #f3e6d6; font-family: var(--osd); font-weight: 400; text-transform: uppercase; letter-spacing: .03em; font-size: 13px; }
+.dp-btns button:hover { background: #f3e6d6; color: #1a0e08; }
+.dp-top i { border-radius: 0; background: #f3e6d6; color: #1a0e08; }
+.dp-top small { color: #f4b183; }
+.demo-phone { box-shadow: 6px 6px 0 rgba(0,0,0,.6) !important; border: 2px solid rgba(243,230,214,.5); }
+
+/* 2. планшет: скрін заповнює всю висоту картки, без чорної діри */
+@media (min-width: 600px) and (max-width: 1100px) {
+  .project .visual > .mock.duo { height: 100%; display: flex; align-items: center; justify-content: center; }
+}

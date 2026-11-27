@@ -107,6 +107,9 @@
   /* на телефоні скрін «налаштовується», коли картка посередині екрана */
   if (matchMedia("(hover:none)").matches) { const tio = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle("mx-tuned", e.isIntersecting)), { rootMargin: "-35% 0px -35% 0px" }); document.querySelectorAll(".project").forEach(p => tio.observe(p)) }
 
+  /* 6. пробіл між рядками заголовка, щоб програми читання не зливали слова */
+  document.querySelectorAll("h1 br, h2 br").forEach(br => { const n = br.previousSibling; if (!n || n.nodeType !== 3 || !/\s$/.test(n.textContent)) br.before(" ") });
+
   /* плашка демо */
   const note = document.querySelector(".nx-note");
   if (note) { const a = note.querySelector("a"); note.firstChild.textContent = TX[4] + " "; if (a) { const b = a.cloneNode(); b.href = "../demo5/"; b.textContent = "VHS"; b.style.marginRight = "10px"; note.insertBefore(b, a) } }
