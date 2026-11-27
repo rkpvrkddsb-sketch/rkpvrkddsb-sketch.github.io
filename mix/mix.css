@@ -10,11 +10,11 @@ body[data-accent] {
 }
 .themes { display: none !important; }
 
-/* ── кінескоп поверх усього ── */
-.mx-crt { position: fixed; inset: 0; pointer-events: none; z-index: 8000; }
+/* ── шум і лінії кінескопа — тільки на задньому фоні, під текстом і картками ── */
+.mx-crt { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
 .mx-crt::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(90deg, rgba(0,0,0,.15) 0 1px, transparent 1px 3px); mix-blend-mode: multiply; }
 .mx-crt::after { content: ""; position: absolute; inset: 0; background: radial-gradient(125% 95% at 50% 50%, transparent 55%, rgba(0,0,0,.5)); }
-#mxGrain { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 8001; opacity: .06; mix-blend-mode: screen; }
+#mxGrain { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: .09; mix-blend-mode: screen; }
 html.mx-calm .mx-crt, html.mx-calm #mxGrain { display: none; }
 
 .osd { font: 400 clamp(13px, 1.3vw, 18px)/1.15 var(--osd); text-transform: uppercase; letter-spacing: .04em; color: #f4b183;
@@ -43,7 +43,7 @@ html.mx-calm .hero h1, html.mx-calm .sec-head h2, html.mx-calm .contact h2, html
 }
 
 /* ── перший екран: теплий кінескоп + «рядки коду» ── */
-.hero { background: radial-gradient(80% 75% at 55% 45%, #6e2d14 0%, #3a160a 55%, #140b07 100%); }
+.hero { background: radial-gradient(80% 75% at 55% 45%, rgba(110,45,20,.82) 0%, rgba(58,22,10,.7) 55%, transparent 100%); }
 .hero .grid-bg, .hero .orb, .hero .spot { display: none !important; }
 #mxBars { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 .hero > .wrap { position: relative; z-index: 2; }
