@@ -73,17 +73,11 @@ body[data-accent="glow"] { --neon: color-mix(in srgb, var(--accent) 40%, transpa
 .marquee i { color: #121316 !important; }
 .marquee .track:hover > span, .marquee .track:hover > a { opacity: .55; }
 
-/* 7. Номери розділів: «01 /» скошеною міткою */
-main, #home { counter-reset: sec; }
-.sec-head { counter-increment: sec; position: relative; }
-.sec-head h2::before {
-  content: "0" counter(sec) " /"; display: block; width: max-content; margin-bottom: 18px;
-  font: 600 12px/1 ui-monospace, Menlo, monospace; letter-spacing: .14em; color: var(--accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); padding: 7px 14px;
-  clip-path: polygon(7px 0, 100% 0, calc(100% - 7px) 100%, 0 100%);
-}
-.label { color: var(--accent); font-family: ui-monospace, Menlo, monospace; font-size: 12px; }
-.label::before { content: "// "; opacity: .6; }
+/* 7. Номери розділів: однакова мітка «01 — Назва» над кожним розділом */
+.label { color: var(--accent); font-family: ui-monospace, Menlo, monospace; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 10px; }
+.label b { font-weight: 600; color: #121316; background: var(--accent); padding: 4px 10px; letter-spacing: .06em;
+  clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%); }
+.label.nx-made { margin-bottom: 18px; }
 
 /* цифри — жовті */
 .stat .n em { color: var(--accent) !important; }
@@ -175,3 +169,74 @@ body[data-accent="glow"] .project::after { background: radial-gradient(circle at
 .themes [data-v="glow"] { background: #121316; box-shadow: inset 0 0 0 5px #121316, inset 0 0 0 11px #f2e15a; }
 .term .tc, .term-ps { color: #f2e15a; text-shadow: none; }
 .term-line input { caret-color: #f2e15a; }
+
+/* ================== Правки за оглядом (раунд 2) ================== */
+
+/* 5. Менше жовтого: суцільний штрих — лише на першому екрані й у контактах.
+      В інших заголовках — тонке жовте підкреслення */
+.sec-head h2 .em, .demo-text h2 .em, .faq-title .em, .studio-h h2 .em {
+  background: linear-gradient(var(--accent), var(--accent)) 0 92% / 100% .09em no-repeat;
+  color: inherit !important; clip-path: none; padding: 0 0 .06em; margin: 0; filter: none;
+}
+/* стрічка — темна, жовті лише зірочки й тонкі краї */
+.marquee { background: var(--card) !important; color: var(--text) !important; box-shadow: inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent), 0 30px 60px -30px #000; }
+.marquee span, .marquee a { color: var(--text) !important; }
+.marquee i { color: var(--accent) !important; }
+.marquee::after { display: none; }
+
+/* 7. «Досвід» повторював проєкти — прибрано */
+#experience { display: none !important; }
+
+/* 8. Коментарі в коді читаються (контраст ≈ 5:1) */
+.code .c { color: #8c92a2; }
+
+/* 3. Фокус з клавіатури видно і на скошених кнопках: рамка всередині */
+.btn:focus-visible, .seg button:focus-visible, .sw button:focus-visible { outline: 2px solid currentColor; outline-offset: -6px; }
+.btn.primary:focus-visible { outline-color: #121316; }
+.sw button:focus-visible { outline-color: #fff; outline-offset: 2px; }
+
+/* 2. Перший екран: текст ліворуч, живий конструктор праворуч */
+.hero .nx-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 56px; align-items: center; }
+.hero h1 { font-size: clamp(36px, 4.4vw, 66px); }
+.hero p.intro { font-size: 18.5px; max-width: 34ch; margin-top: 22px; }
+.hero .studio.mini { position: relative; z-index: 2; }
+.studio.mini .sbody { grid-template-columns: 1fr; min-height: 0; }
+.studio.mini .code { height: 136px; border-right: 0; border-bottom: 1px solid var(--line); padding: 12px 0; font-size: 12.5px; }
+.studio.mini .prev { min-height: 330px; padding: 18px; }
+.studio.mini .site { max-height: 300px; }
+.studio.mini .stb .cap { font: 600 12px ui-monospace, Menlo, monospace; color: var(--accent); display: flex; align-items: center; gap: 7px; letter-spacing: .04em; }
+.studio.mini .stb .cap::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #ff5a5a; box-shadow: 0 0 0 4px #ff5a5a22; animation: nxRec 1.6s ease-in-out infinite; }
+@keyframes nxRec { 50% { opacity: .35; } }
+.studio.mini .seg { margin-right: 30px; }
+.studio.mini .sfoot { padding: 10px 16px; }
+
+@media (max-width: 1099px) {
+  .hero .nx-cols { grid-template-columns: 1fr; gap: 40px; }
+  .hero { min-height: auto; }
+}
+
+/* 4. Кнопки на телефоні — зона натискання не менше 44px */
+@media (pointer: coarse), (max-width: 760px) {
+  .lang button, .themes button, .sw button, .term-hint, .lb-x, .term-x, .seg button { position: relative; }
+  .lang button::after, .themes button::after, .sw button::after, .term-hint::after, .lb-x::after, .term-x::after, .seg button::after {
+    content: ""; position: absolute; left: 50%; top: 50%; width: max(100%, 44px); height: max(100%, 44px); transform: translate(-50%, -50%);
+  }
+  .sw { gap: 14px; }
+  .sw button { width: 26px; height: 26px; }
+}
+
+/* 9. На телефоні кнопки першого екрана — в один ряд, компактні */
+@media (max-width: 760px) {
+  .hero .meta { flex-direction: row; flex-wrap: nowrap; gap: 10px; margin-top: 28px; }
+  .hero .meta .btn { width: auto; flex: 1 1 0; min-width: 0; padding: 15px 18px; justify-content: center; text-align: center; }
+  .hero p.intro { font-size: 16.5px; }
+  .studio.mini .code { height: 118px; font-size: 11.5px; }
+  .studio.mini .prev { min-height: 300px; padding: 12px; }
+  .studio.mini .stb { gap: 8px; padding: 10px 12px; }
+  .studio.mini .stb .dots { display: none; }
+  .studio.mini .seg { margin-right: 22px; }
+}
+@media (max-width: 760px) { .logo { min-height: 44px; display: inline-flex; align-items: center; } }
+.sec-head { flex-wrap: wrap; }
+.sec-head > .nx-made { flex: 0 0 100%; margin-bottom: 0; }
+.btn:focus-visible { border-radius: 0 !important; }
